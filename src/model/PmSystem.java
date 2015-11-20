@@ -8,14 +8,14 @@ import java.io.Serializable;
  * Version-History:
  * @date 14.11.2015 by Tobias: Initialisierung + Anlegen von Grundmethoden
  */
-public class System implements Serializable {
+public class PmSystem implements Serializable {
     private FotoContainer fotos;
     private AlbenContainer alben;
     
     /**
      * Standart Konstruktor.
      */
-    public System() {
+    public PmSystem() {
         this.fotos = new FotoContainer();
         this.alben = new AlbenContainer();
     }
@@ -24,24 +24,18 @@ public class System implements Serializable {
      * Diese Methode loescht alle Fotos aus dem FotoContainer.
      */
     public void alleFotosLoeschen() {
+        
     }
     
     /**
      * Diese Methode loescht alle Alben aus dem AlbenContainer.
+     * 
+     * Version-History:
+     * @date 20.11.2015 by Danilo: Initialisierung
      */
     public void alleAlbenLoeschen() {
-    }
-    
-    /**
-     * Diese Methode speichert das gesamte System.
-     */
-    public void systemSpeichern() {
-    }
-    
-    /**
-     * Diese Methode laed das System aus einer bestehenden Datei.
-     */
-    public void systemLaden() {
+        fotos = new FotoContainer();
+        alben = new AlbenContainer();
     }
 
     /**
