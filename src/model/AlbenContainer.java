@@ -44,4 +44,26 @@ public class AlbenContainer implements Serializable {
     public void setAlbenListe(List<Album> albenListe) {
         this.albenListe = albenListe;
     }
+    
+    /**
+    * Diese Methode fügt dem Container ein Album hinzu.
+    * 
+    * Version-History:
+    * @param album
+    * @date 21.11.2015 by Danilo: Initialisierung
+    */
+    public void add(Album album) {
+        this.albenListe.add(album);
+    }
+    
+    /**
+    * Diese Methode löscht aus dem Container ein Album.
+    * 
+    * Version-History:
+    * @param album
+    * @date 21.11.2015 by Danilo: Initialisierung
+    */
+    public void delete(Album album) {
+        this.albenListe.remove(album);
+    }
 }

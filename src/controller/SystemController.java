@@ -196,4 +196,26 @@ public class SystemController {
         }
 	return n;
     }
+    
+    /**
+     * Dieser Getter holt den Albencontainer.
+     * 
+     * Version-History:
+     * @return 
+     * @date 21.11.2015 by Danilo: Initialisierung
+     */
+    public static AlbenContainer getAlbumContainer(){
+        return pmSystem.getAlben();
+    }
+    
+    /**
+     * Dieser Getter holt den Fotocontainer.
+     * 
+     * Version-History:
+     * @return 
+     * @date 21.11.2015 by Danilo: Initialisierung
+     */
+    public static FotoContainer getFotoContainer(){
+        return pmSystem.getFotos();
+    }
 }
