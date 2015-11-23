@@ -8,6 +8,8 @@ import model.Album;
  * 
  * Version-History:
  * @date 14.11.2015 by Tobias: Initialisierung
+ * @date 21.11.2015 by Danilo: Erstellen von Methoden von UserStory Album anlegen
+ * @date 23.11.2015 by Tobias: Ändern der Methode systemSpeichern
  */
 public class AlbenController {
     
