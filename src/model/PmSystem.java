@@ -31,11 +31,17 @@ public class PmSystem implements Serializable {
      * Diese Methode loescht alle Alben aus dem AlbenContainer.
      * 
      * Version-History:
+     * @return Fehlercode zur Auswertung <br> 0 = Alle Albem wurden gelöscht <br> 1 = Fehler
      * @date 20.11.2015 by Danilo: Initialisierung
+     * @date 23.11.2015 by Danilo: Methode geändert und Kommentare ergänzt
      */
-    public void alleAlbenLoeschen() {
+    public int alleAlbenLoeschen() {
         fotos = new FotoContainer();
         alben = new AlbenContainer();
+        
+        if (alben.anzahlAlben()==0&&fotos.anzahlFotos()==0) return 0;
+        
+        return 1;
     }
 
     /**
