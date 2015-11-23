@@ -16,6 +16,7 @@ import view.GuiSelectPresentation;
  * 
  * Version-History:
  * @date 20.11.2015 by Danilo: Initialisierung
+ * @date 23.11.2015 by Danilo: Kommentare ergänzt
  */
 public class GuiController{
     
@@ -117,8 +118,9 @@ public class GuiController{
      * Methode realisiert die Anzeige der GUIs für den Benutzer.
      * 
      * Version-History:
-     * @param window
+     * @param window Nummer der GUI die angezeigt werden soll
      * @date 20.11.2015 by Danilo: Initialisierung
+     * @date 23.11.2015 by Danilo: Kommentar angepasst
      */
     public static void setWindowVisible(int window){
         guiMain.setVisible(false);

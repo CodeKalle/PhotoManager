@@ -17,6 +17,7 @@ import model.PmSystem;
  * 
  * Version-History:
  * @date 20.11.2015 by Danilo: Initialisierung
+ * @date 23.11.2015 by Danilo: Kommentare ergänzt
  */
 public class SystemController {
     
@@ -64,13 +65,12 @@ public class SystemController {
     }
     
     /**
-     * Prüft Zugriff auf Datei.
-     * mode:    0   Beim Systemstart
-     *          1   Im laufenden Betrieb
+     * Prüft Zugriff auf Datei und speichert das System.
      * 
      * Version-History:
-     * @param mode
+     * @param mode 0 = Beim Systemstart,<br> 1 = Im laufenden Betrieb
      * @date 20.11.2015 by Danilo: Initialisierung
+     * @date 23.11.2015 by Danilo: Kommentar angepasst
      */
     public static void checkAccess(int mode){
 
@@ -125,9 +125,10 @@ public class SystemController {
      * Diese Methode speichert das gesamte System.
      * 
      * Version-History:
-     * @return 
+     * @return Fehlercode zur Auswertung
      * @date 20.11.2015 by Danilo: Initialisierung
      * @date 23.11.2015 by Tobias: Setzten der Methode auf private
+     * @date 23.11.2015 by Danilo: Kommentar angepasst
      */
     private static int systemSpeichern() {
         int out = 0;
@@ -157,8 +158,9 @@ public class SystemController {
      * Diese Methode laed das System aus einer bestehenden Datei.
      * 
      * Version-History:
-     * @return 
+     * @return Fehlercode zur Auswertung
      * @date 20.11.2015 by Danilo: Initialisierung
+     * @date 23.11.2015 by Danilo: Kommentar angepasst
      */
     private static int systemLaden() {
         int n = 0;
@@ -202,8 +204,9 @@ public class SystemController {
      * Dieser Getter holt den Albencontainer.
      * 
      * Version-History:
-     * @return 
+     * @return Rückgabe der gesamten Albenliste des Systems
      * @date 21.11.2015 by Danilo: Initialisierung
+     * @date 23.11.2015 by Danilo: Kommentar angepasst
      */
     public static AlbenContainer getAlbumContainer(){
         return pmSystem.getAlben();
@@ -213,8 +216,9 @@ public class SystemController {
      * Dieser Getter holt den Fotocontainer.
      * 
      * Version-History:
-     * @return 
+     * @return Rückgabe der gesamten Fotoliste des Systems
      * @date 21.11.2015 by Danilo: Initialisierung
+     * @date 23.11.2015 by Danilo: Kommentar angepasst
      */
     public static FotoContainer getFotoContainer(){
         return pmSystem.getFotos();
