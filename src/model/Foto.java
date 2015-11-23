@@ -1,6 +1,7 @@
 package model;
 
 import java.io.Serializable;
+import java.util.Objects;
 
 /**
  * Ein Foto im FotoManager besteht aus vier Komponenten.
@@ -17,12 +18,14 @@ import java.io.Serializable;
  * 
  * Version-History:
  * @date 14.11.2015 by Tobias: Initialisierung + Anlegen von Grundmethoden
+ * @date 23.11.2015 by Tobias: Anlegen der Hash-Funktionen, hinzufügen des Counters,
  */
 public class Foto implements Serializable {
     private String name;
     private String pfad;
     private int groesse;
     private Metadaten metadata;
+    private int counter;
 
     /**
      * Standart Konstruktor
@@ -38,6 +41,7 @@ public class Foto implements Serializable {
     public Foto(String name, String pfad) {
         this.name = name;
         this.pfad = pfad;
+        counter = 1;
     }
 
     /**
@@ -79,6 +83,60 @@ public class Foto implements Serializable {
     public void setMetadata(Metadaten metadata) {
         this.metadata = metadata;
     }
+
+    /**
+     * Getter fuer counter
+     * @return Wert von counter
+     */
+    public int getCounter() {
+        return counter;
+    }
+
+    /**
+     * Setter fuer counter
+     * @param counter Wert um den counter geändert werden soll
+     */
+    public void setCounter(int counter) {
+        this.counter += counter;
+    }
+
+    
+    /**
+     * Generiert einen Hashwert für ein Foto aus den Attributen Pfad und Größe.
+     * @return HashCode von einem Foto
+     */
+    @Override
+    public int hashCode() {
+        int hash = 3;
+        hash = 97 * hash + Objects.hashCode(this.pfad);
+        hash = 97 * hash + this.groesse;
+        return hash;
+    }
+
+    /**
+     * Vergleicht den Hashwert des Fotos mit dem eines anderen, um zu prüfen, es sich
+     * um das gleiche Foto handelt.
+     * @param obj Foto, bei dem geprüft werden soll, ob es gleich ist.
+     * @return true wenn gleich, false wenn nicht
+     */
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Foto other = (Foto) obj;
+        if (!Objects.equals(this.pfad, other.pfad)) {
+            return false;
+        }
+        if (this.groesse != other.groesse) {
+            return false;
+        }
+        return true;
+    }
+    
     
     
 }
