@@ -15,8 +15,8 @@ public class AlbenController {
     * Diese Methode erstellt im AlbumContainer ein Album
     * 
     * Version-History:
-    * @param title
-    * @return 
+    * @param title Titel vom Album
+    * @return Fehlercode
     * @date 21.11.2015 by Danilo: Initialisierung
     */
     public int createAlbum(String title){

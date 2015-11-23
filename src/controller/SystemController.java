@@ -127,8 +127,9 @@ public class SystemController {
      * Version-History:
      * @return 
      * @date 20.11.2015 by Danilo: Initialisierung
+     * @date 23.11.2015 by Tobias: Setzten der Methode auf private
      */
-    public static int systemSpeichern() {
+    private static int systemSpeichern() {
         int out = 0;
         ObjectOutputStream oos = null;
         FileOutputStream fos = null;
