@@ -31,21 +31,17 @@ public class ErrorController {
      *      3=Question
      * 
      * Version-History:
-     * @param code
+     * @param errorcode Eingabe des Fehlercodes
+     * @return Rückgabe des gedrückten Buttons der Fehlermeldung als Integer
      * @date 20.11.2015 by Danilo: Initialisierung
+     * @date 24.11.2015 by Danilo: Änderung lokaler Variablen, Änderung der Kommentierung
      */
-    public static int changeErrorCode(int code){
+    public static int changeErrorCode(int errorcode){
         String title;
         String text;
         List<String> buttonlist = new ArrayList<>();
         int opt;
-        switch (code){
-            case 0:
-                title = "";
-                text = "";
-                opt = 0;
-                buttonlist.add("OK");
-                break;
+        switch (errorcode){
             case 800:
                 title = "Datenbankfehler";
                 text = "Datenbank ist schreibgeschützt!";

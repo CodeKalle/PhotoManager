@@ -36,7 +36,7 @@ public class Album implements Serializable {
         this.erstellungdatum = Date.from(Instant.EPOCH);
         this.fotoListe = new LinkedList();
     }
-
+    
     /**
      * Getter fuer titel
      * @return Inhalt von titel
@@ -108,6 +108,4 @@ public class Album implements Serializable {
     public void setFotoListe(List fotoListe) {
         this.fotoListe = fotoListe;
     }
-    
-    
 }

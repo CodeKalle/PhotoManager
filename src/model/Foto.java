@@ -1,6 +1,7 @@
 package model;
 
 import java.io.Serializable;
+import java.nio.file.Path;
 import java.util.Objects;
 
 /**
@@ -19,10 +20,11 @@ import java.util.Objects;
  * Version-History:
  * @date 14.11.2015 by Tobias: Initialisierung + Anlegen von Grundmethoden
  * @date 23.11.2015 by Tobias: Anlegen der Hash-Funktionen, hinzufügen des Counters,
+ * @date 24.11.2015 by Danilo: Ändern des pfad in den Datentyp Path
  */
 public class Foto implements Serializable {
     private String name;
-    private String pfad;
+    private Path pfad;
     private int groesse;
     private Metadaten metadata;
     private int counter;
@@ -37,8 +39,10 @@ public class Foto implements Serializable {
      * Konstruktor mit zwei Werten
      * @param name Name des Bildes (letzter Teil des Pfades)
      * @param pfad Kompetter Pfad
+     * Version-History:
+     * @date 24.11.2015 by Danilo: Ändern des pfad in den Datentyp Path
      */
-    public Foto(String name, String pfad) {
+    public Foto(String name, Path pfad) {
         this.name = name;
         this.pfad = pfad;
         counter = 1;
@@ -54,9 +58,11 @@ public class Foto implements Serializable {
 
     /**
      * Getter fuer pfad
+     * Version-History:
      * @return aktueller Inhalt von pfad
+     * @date 24.11.2015 by Danilo: Ändern des pfad in den Datentyp Path
      */
-    public String getPfad() {
+    public Path getPfad() {
         return pfad;
     }
 
@@ -114,7 +120,7 @@ public class Foto implements Serializable {
     }
 
     /**
-     * Vergleicht den Hashwert des Fotos mit dem eines anderen, um zu prüfen, es sich
+     * Vergleicht den Hashwert des Fotos mit dem eines anderen, um zu prüfen, ob es sich
      * um das gleiche Foto handelt.
      * @param obj Foto, bei dem geprüft werden soll, ob es gleich ist.
      * @return true wenn gleich, false wenn nicht
