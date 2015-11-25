@@ -1,5 +1,6 @@
 package model;
 
+import java.io.File;
 import java.io.Serializable;
 import java.nio.file.Path;
 import java.util.Objects;
@@ -21,11 +22,12 @@ import java.util.Objects;
  * @date 14.11.2015 by Tobias: Initialisierung + Anlegen von Grundmethoden
  * @date 23.11.2015 by Tobias: Anlegen der Hash-Funktionen, hinzufügen des Counters,
  * @date 24.11.2015 by Danilo: Ändern des pfad in den Datentyp Path
+ * @date 25.11.2015 by Danilo: Erstellen einer Methode zum setzen der Größe und nutzen im Konstruktor
  */
 public class Foto implements Serializable {
     private String name;
     private Path pfad;
-    private int groesse;
+    private int groesse;       //in Byte
     private Metadaten metadata;
     private int counter;
 
@@ -46,8 +48,24 @@ public class Foto implements Serializable {
         this.name = name;
         this.pfad = pfad;
         counter = 1;
+        generateFotosize(pfad);
     }
 
+    /**
+     * Diese Methode setzt die Größe des Fotos auf die der Bilddatei (als Integer)
+     * 
+     * @param pathOfFoto Bilddateipfad eines Fotos
+     * @date 25.11.2015 by Danilo: Initialisierung
+     */
+    private void generateFotosize(Path fotoPath) {
+        File file = new File(fotoPath.toString());
+        long filesize = file.length();
+        
+        int reduced = (int) Math.max(Math.min(Integer.MAX_VALUE, filesize), Integer.MIN_VALUE);
+        
+        this.groesse = reduced;
+    }
+    
     /**
      * Getter fuer name;
      * @return aktueller Inhalt von name
@@ -70,7 +88,7 @@ public class Foto implements Serializable {
      * Getter fuer groesse
      * @return aktueller Wert von groesse
      */
-    public int getGroesse() {
+    public long getGroesse() {
         return groesse;
     }
 
