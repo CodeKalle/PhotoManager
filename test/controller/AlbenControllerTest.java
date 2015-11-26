@@ -44,9 +44,9 @@ public class AlbenControllerTest {
     @Test
     public void testCreateNewAlbum() {
         System.out.println("createNewAlbum");
-        String title = "";
-        String beschreibung = "";
-        String sortierkennzeichen = "";
+        String title = "titel";
+        String beschreibung = "beschr";
+        String sortierkennzeichen = "kennz";
         Album expResult = null;
         Album result = AlbenController.createNewAlbum(title, beschreibung, sortierkennzeichen);
         assertEquals(expResult, result);
