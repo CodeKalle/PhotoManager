@@ -6,6 +6,9 @@
 package controller;
 
 import model.Album;
+import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.sameInstance;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -44,14 +47,31 @@ public class AlbenControllerTest {
     @Test
     public void testCreateNewAlbum() {
         System.out.println("createNewAlbum");
-        String title = "titel";
+        String title = "title";
         String beschreibung = "beschr";
         String sortierkennzeichen = "kennz";
-        Album expResult = null;
+        
+        Album expResult = new Album(title);
+        expResult.setBeschreibung(beschreibung);
+        expResult.setSortierkennzeichen(sortierkennzeichen);
+        System.out.println(expResult);
+        System.out.println(expResult.getTitel());
+        System.out.println(expResult.getBeschreibung());
+        System.out.println(expResult.getSortierkennzeichen());
+        System.out.println(expResult.getErstellungdatum());
+        System.out.println(expResult.getFotoListe());
+        
         Album result = AlbenController.createNewAlbum(title, beschreibung, sortierkennzeichen);
+        System.out.println(result);
+        System.out.println(result.getTitel());
+        System.out.println(result.getBeschreibung());
+        System.out.println(result.getSortierkennzeichen());
+        System.out.println(result.getErstellungdatum());
+        System.out.println(result.getFotoListe());
+        
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        //assertThat(expResult, is(result));
+        //fail("testCreateNewAlbum() failed.");
     }
 
     /**
