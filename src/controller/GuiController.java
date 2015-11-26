@@ -1,5 +1,5 @@
 package controller;
-
+/*
 import view.GuiMain;
 
 import view.GuiAddAlbum;
@@ -25,7 +25,7 @@ public class GuiController{
      * 
      * Version-History:
      * @date 20.11.2015 by Danilo: Initialisierung
-     */
+     *//*
     // GUI die als erstes geladen werden muss
     private static GuiMain guiMain;
     // GUIs die als Threads relisiert werden
@@ -43,7 +43,7 @@ public class GuiController{
      * 
      * Version-History:
      * @date 20.11.2015 by Danilo: Initialisierung
-     */
+     *//*
     public static void run() {    
         guiMain = new GuiMain();
         
@@ -121,7 +121,7 @@ public class GuiController{
      * @param window Nummer der GUI die angezeigt werden soll
      * @date 20.11.2015 by Danilo: Initialisierung
      * @date 23.11.2015 by Danilo: Kommentar angepasst
-     */
+     *//*
     public static void setWindowVisible(int window){
         guiMain.setVisible(false);
         guiAddAlbum.setVisible(false);
