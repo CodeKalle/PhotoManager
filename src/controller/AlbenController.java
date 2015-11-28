@@ -16,6 +16,7 @@ import model.Album;
  * @date 23.11.2015 by Danilo: Kommentare ergänzt
  * @date 24.11.2015 by Danilo: Methoden createNewAlbum und editAlbum ergänzt
  * @date 25.11.2015 by Danilo: Methoden getAlbumList und deleteListOfAlbum ergänzt
+ * @date 28.11.2015 by Tobias: Methode editAlbumTitle ergänzt
  */
 public class AlbenController {
  
@@ -175,13 +176,18 @@ public class AlbenController {
     * Version-History:
     * @param title Titel des Albums welches geändert werden soll
     * @param newTitle Neuer Titel des Albums
-    * @return Fehlercode zur Auswertung <br> 0 = Albumtitel wurde geändert <br> 1 = Album nicht vorhanden
+    * @return Fehlercode zur Auswertung <br> 0 = Albumtitel wurde geändert <br> 1 = Album nicht vorhanden <br> 2 = neuer Albumtitel schon vorhanden
     * @date 21.11.2015 by Danilo: Initialisierung
     * @date 23.11.2015 by Danilo: Kommentar angepasst
     * @date 24.11.2015 by Danilo: Methode auf static gesetzt
+    * @date 28.11.2015 by Tobias: Prüfung von newTitel hinzugefügt
     */
     private static int editAlbumTitle(String title, String newTitle) {
         for (Album tmpAlbum : SystemController.getAlbumContainer().getAlbenListe()) {
+            //Prüfen ob neuer Titel schon vergeben ist
+            if (tmpAlbum.getTitel().equals(newTitle)) {
+                return 2;
+            }
             if (tmpAlbum.getTitel().equals(title)) { 
                 tmpAlbum.setTitel(newTitle);
                 return 0;
