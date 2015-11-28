@@ -31,7 +31,7 @@
                            <children>
                               <Pane>
                                  <children>
-                                    <ImageView id="ImgAddAlbum1" fitHeight="136.0" fitWidth="90.0" pickOnBounds="true" preserveRatio="true">
+                                    <ImageView id="ImgAddAlbum1" fx:id="img1" fitHeight="136.0" fitWidth="90.0" pickOnBounds="true" preserveRatio="true">
                                        <image>
                                           <Image url="dummy1.jpg" />
                                        </image>
@@ -41,7 +41,7 @@
                               </Pane>
                               <Pane layoutX="10.0" layoutY="10.0">
                                  <children>
-                                    <ImageView id="ImgAddAlbum2" fitHeight="136.0" fitWidth="90.0" pickOnBounds="true" preserveRatio="true">
+                                    <ImageView id="ImgAddAlbum2" fx:id="img1" fitHeight="136.0" fitWidth="90.0" pickOnBounds="true" preserveRatio="true">
                                        <image>
                                           <Image url="dummy1.jpg" />
                                        </image>
@@ -51,7 +51,7 @@
                               </Pane>
                               <Pane layoutX="160.0" layoutY="10.0">
                                  <children>
-                                    <ImageView id="ImgAddAlbum3" fitHeight="136.0" fitWidth="90.0" pickOnBounds="true" preserveRatio="true">
+                                    <ImageView id="ImgAddAlbum3" fx:id="img1" fitHeight="136.0" fitWidth="90.0" pickOnBounds="true" preserveRatio="true">
                                        <image>
                                           <Image url="dummy1.jpg" />
                                        </image>
@@ -61,7 +61,7 @@
                               </Pane>
                               <Pane layoutX="310.0" layoutY="10.0">
                                  <children>
-                                    <ImageView id="ImgAddAlbum4" fitHeight="136.0" fitWidth="90.0" pickOnBounds="true" preserveRatio="true">
+                                    <ImageView id="ImgAddAlbum4" fx:id="img1" fitHeight="136.0" fitWidth="90.0" pickOnBounds="true" preserveRatio="true">
                                        <image>
                                           <Image url="dummy1.jpg" />
                                        </image>
@@ -71,132 +71,12 @@
                               </Pane>
                               <Pane layoutX="460.0" layoutY="10.0">
                                  <children>
-                                    <ImageView id="ImgAddAlbum5" fitHeight="136.0" fitWidth="90.0" pickOnBounds="true" preserveRatio="true">
+                                    <ImageView id="ImgAddAlbum5" fx:id="img1" fitHeight="136.0" fitWidth="90.0" pickOnBounds="true" preserveRatio="true">
                                        <image>
                                           <Image url="dummy1.jpg" />
                                        </image>
                                     </ImageView>
                                     <CheckBox id="CheckBoxAddAlbumImg5" layoutX="69.0" layoutY="94.0" mnemonicParsing="false" />
-                                 </children>
-                              </Pane>
-                              <Pane layoutX="610.0" layoutY="10.0">
-                                 <children>
-                                    <ImageView id="ImgAddAlbum6" fitHeight="136.0" fitWidth="90.0" pickOnBounds="true" preserveRatio="true">
-                                       <image>
-                                          <Image url="dummy1.jpg" />
-                                       </image>
-                                    </ImageView>
-                                    <CheckBox id="CheckBoxAddAlbumImg6" layoutX="69.0" layoutY="94.0" mnemonicParsing="false" />
-                                 </children>
-                              </Pane>
-                              <Pane layoutX="10.0" layoutY="171.0">
-                                 <children>
-                                    <ImageView id="ImgAddAlbum1" fitHeight="136.0" fitWidth="90.0" pickOnBounds="true" preserveRatio="true">
-                                       <image>
-                                          <Image url="dummy7.jpg" />
-                                       </image>
-                                    </ImageView>
-                                    <CheckBox id="CheckBoxAddAlbumImg7" layoutX="69.0" layoutY="94.0" mnemonicParsing="false" />
-                                 </children>
-                              </Pane>
-                              <Pane layoutX="160.0" layoutY="171.0">
-                                 <children>
-                                    <ImageView id="ImgAddAlbum8" fitHeight="136.0" fitWidth="90.0" pickOnBounds="true" preserveRatio="true">
-                                       <image>
-                                          <Image url="dummy1.jpg" />
-                                       </image>
-                                    </ImageView>
-                                    <CheckBox id="CheckBoxAddAlbumImg8" layoutX="69.0" layoutY="94.0" mnemonicParsing="false" />
-                                 </children>
-                              </Pane>
-                              <Pane layoutX="160.0" layoutY="171.0">
-                                 <children>
-                                    <ImageView id="ImgAddAlbum9" fitHeight="136.0" fitWidth="90.0" pickOnBounds="true" preserveRatio="true">
-                                       <image>
-                                          <Image url="dummy1.jpg" />
-                                       </image>
-                                    </ImageView>
-                                    <CheckBox id="CheckBoxAddAlbumImg9" layoutX="69.0" layoutY="94.0" mnemonicParsing="false" />
-                                 </children>
-                              </Pane>
-                              <Pane layoutX="310.0" layoutY="171.0">
-                                 <children>
-                                    <ImageView id="ImgAddAlbum10" fitHeight="136.0" fitWidth="90.0" pickOnBounds="true" preserveRatio="true">
-                                       <image>
-                                          <Image url="dummy1.jpg" />
-                                       </image>
-                                    </ImageView>
-                                    <CheckBox id="CheckBoxAddAlbumImg10" layoutX="69.0" layoutY="94.0" mnemonicParsing="false" />
-                                 </children>
-                              </Pane>
-                              <Pane layoutX="610.0" layoutY="171.0">
-                                 <children>
-                                    <ImageView id="ImgAddAlbum11" fitHeight="136.0" fitWidth="90.0" pickOnBounds="true" preserveRatio="true">
-                                       <image>
-                                          <Image url="dummy1.jpg" />
-                                       </image>
-                                    </ImageView>
-                                    <CheckBox id="CheckBoxAddAlbumImg11" layoutX="69.0" layoutY="94.0" mnemonicParsing="false" />
-                                 </children>
-                              </Pane>
-                              <Pane layoutX="10.0" layoutY="332.0">
-                                 <children>
-                                    <ImageView id="ImgAddAlbum12" fitHeight="136.0" fitWidth="90.0" pickOnBounds="true" preserveRatio="true">
-                                       <image>
-                                          <Image url="dummy1.jpg" />
-                                       </image>
-                                    </ImageView>
-                                    <CheckBox id="CheckBoxAddAlbumImg122" layoutX="69.0" layoutY="94.0" mnemonicParsing="false" />
-                                 </children>
-                              </Pane>
-                              <Pane layoutX="160.0" layoutY="332.0">
-                                 <children>
-                                    <ImageView id="ImgAddAlbum13" fitHeight="136.0" fitWidth="90.0" pickOnBounds="true" preserveRatio="true">
-                                       <image>
-                                          <Image url="dummy1.jpg" />
-                                       </image>
-                                    </ImageView>
-                                    <CheckBox id="CheckBoxAddAlbumImg13" layoutX="69.0" layoutY="94.0" mnemonicParsing="false" />
-                                 </children>
-                              </Pane>
-                              <Pane layoutX="310.0" layoutY="332.0">
-                                 <children>
-                                    <ImageView id="ImgAddAlbum14" fitHeight="136.0" fitWidth="90.0" pickOnBounds="true" preserveRatio="true">
-                                       <image>
-                                          <Image url="dummy1.jpg" />
-                                       </image>
-                                    </ImageView>
-                                    <CheckBox id="CheckBoxAddAlbumImg14" layoutX="69.0" layoutY="94.0" mnemonicParsing="false" />
-                                 </children>
-                              </Pane>
-                              <Pane layoutX="460.0" layoutY="332.0">
-                                 <children>
-                                    <ImageView id="ImgAddAlbum15" fitHeight="136.0" fitWidth="90.0" pickOnBounds="true" preserveRatio="true">
-                                       <image>
-                                          <Image url="dummy1.jpg" />
-                                       </image>
-                                    </ImageView>
-                                    <CheckBox id="CheckBoxAddAlbumImg15" layoutX="69.0" layoutY="94.0" mnemonicParsing="false" />
-                                 </children>
-                              </Pane>
-                              <Pane layoutX="10.0" layoutY="332.0">
-                                 <children>
-                                    <ImageView id="ImgAddAlbum16" fitHeight="136.0" fitWidth="90.0" pickOnBounds="true" preserveRatio="true">
-                                       <image>
-                                          <Image url="dummy1.jpg" />
-                                       </image>
-                                    </ImageView>
-                                    <CheckBox id="CheckBoxAddAlbumImg16" layoutX="69.0" layoutY="94.0" mnemonicParsing="false" />
-                                 </children>
-                              </Pane>
-                              <Pane layoutX="610.0" layoutY="171.0">
-                                 <children>
-                                    <ImageView id="ImgAddAlbum17" fitHeight="136.0" fitWidth="90.0" pickOnBounds="true" preserveRatio="true">
-                                       <image>
-                                          <Image url="dummy1.jpg" />
-                                       </image>
-                                    </ImageView>
-                                    <CheckBox id="CheckBoxAddAlbumImg17" layoutX="69.0" layoutY="94.0" mnemonicParsing="false" />
                                  </children>
                               </Pane>
                            </children>
@@ -205,7 +85,7 @@
                   </AnchorPane>
               </content>
             </ScrollPane>
-            <TilePane id="TilePaneAddAlbum" alignment="CENTER" hgap="150.0" prefColumns="3" prefRows="2" tileAlignment="TOP_LEFT" vgap="20.0" GridPane.rowIndex="1">
+            <TilePane id="TilePaneAddAlbum" fx:id="tp" alignment="CENTER" hgap="150.0" prefColumns="3" prefRows="2" tileAlignment="TOP_LEFT" vgap="20.0" GridPane.rowIndex="1">
                <children>
                   <Button id="ButtonAlbumBearbeiten" mnemonicParsing="false" text="Album bearbeiten" textAlignment="CENTER" />
                   <Button id="ButtonAlbumLoeschen" mnemonicParsing="false" text="Album löschen" />
