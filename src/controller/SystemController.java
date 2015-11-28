@@ -56,7 +56,7 @@ public class SystemController {
                 try {
                     file.createNewFile();
                     initializePmSystem();
-                    if (systemSpeichern()!=0) changeErrorCode(810);
+                    if (systemSave()!=0) changeErrorCode(810);
                 } catch (IOException e) {
                     //e.printStackTrace();
                 }
@@ -80,7 +80,7 @@ public class SystemController {
                 if (file.canRead() == false) {
                     changeErrorCode(801);
                 } else {
-                    if (systemLaden() != 0) {
+                    if (systemLoad() != 0) {
                         if(changeErrorCode(803)==0) {
                             try {
                                 file.createNewFile();
@@ -99,7 +99,7 @@ public class SystemController {
                 if (file.canWrite() == false) {
                     changeErrorCode(800);
                 } else {
-                    if (systemSpeichern()!=0) changeErrorCode(810);
+                    if (systemSave()!=0) changeErrorCode(810);
                 }
                 break;
             default:
@@ -129,9 +129,10 @@ public class SystemController {
      * @date 20.11.2015 by Danilo: Initialisierung
      * @date 23.11.2015 by Tobias: Setzten der Methode auf private
      * @date 23.11.2015 by Danilo: Kommentar angepasst
+     * @date 24.11.2015 by Danilo: Methodenname geändert und lokale Variablen
      */
-    private static int systemSpeichern() {
-        int out = 0;
+    private static int systemSave() {
+        int errorcode = 0;
         ObjectOutputStream oos = null;
         FileOutputStream fos = null;
         try {
@@ -141,17 +142,17 @@ public class SystemController {
             oos.writeObject(pmSystem);
         }
         catch (IOException e) {
-            out = 1;
+            errorcode = 1;
         }
         finally {
             if (oos != null) try { oos.close(); } catch (IOException e) {
-                out = 1;
+                errorcode = 2;
             }
             if (fos != null) try { fos.close(); } catch (IOException e) {
-                out = 1;
+                errorcode = 3;
             }
         }
-        return out;
+        return errorcode;
     }
     
     /**
@@ -161,9 +162,10 @@ public class SystemController {
      * @return Fehlercode zur Auswertung
      * @date 20.11.2015 by Danilo: Initialisierung
      * @date 23.11.2015 by Danilo: Kommentar angepasst
+     * @date 24.11.2015 by Danilo: Methodenname geändert und lokale Variablen
      */
-    private static int systemLaden() {
-        int n = 0;
+    private static int systemLoad() {
+        int errorcode = 0;
         ObjectInputStream ois = null;
         FileInputStream fis = null;
         try {
@@ -175,29 +177,29 @@ public class SystemController {
                     PmSystem tmpDB = (PmSystem) ois.readObject();
                     pmSystem = tmpDB;
                 } catch (ClassNotFoundException e) {
-                    n = 1;
+                    errorcode = 1;
                 }
             } catch (StreamCorruptedException e) {
-                n = 2;
+                errorcode = 2;
             }
             finally {
                 if (ois != null) try { ois.close(); } catch (IOException e) {
-                    n = 3;
+                    errorcode = 3;
                 }
             }
         }
         catch (IOException e) {
-                n = 4;
+                errorcode = 4;
         }
         finally {
             if (ois != null) try { ois.close(); } catch (IOException e) {
-                n = 5;
+                errorcode = 5;
             }
             if (fis != null) try { fis.close(); } catch (IOException e) {
-                n = 6; 
+                errorcode = 6; 
             }
         }
-	return n;
+	return errorcode;
     }
     
     /**
