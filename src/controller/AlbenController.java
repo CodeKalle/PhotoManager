@@ -1,5 +1,8 @@
 package controller;
 
+import static controller.ErrorController.changeErrorCode;
+import java.util.LinkedList;
+import java.util.List;
 import model.Album;
 
 /**
@@ -12,8 +15,25 @@ import model.Album;
  * @date 23.11.2015 by Tobias: Ändern der Methode systemSpeichern
  * @date 23.11.2015 by Danilo: Kommentare ergänzt
  * @date 24.11.2015 by Danilo: Methoden createNewAlbum und editAlbum ergänzt
+ * @date 25.11.2015 by Danilo: Methoden getAlbumList und deleteListOfAlbum ergänzt
  */
 public class AlbenController {
+ 
+    /**
+    * GUI-Methode
+    * Diese Methode erstellt eine Stringliste aller Alben im System
+    * 
+    * Version-History:
+    * @return Liste aller Alben
+    * @date 25.11.2015 by Danilo: Initialisierung
+    */
+    public static List<String> getAlbumList() {
+        List<String> albumlist = new LinkedList();
+        for (Album tmpAlbum : SystemController.getAlbumContainer().getAlbenListe()) {
+            albumlist.add(tmpAlbum.getTitel());
+        }
+        return albumlist;
+    }
     
     /**
     * GUI-Methode
@@ -23,13 +43,22 @@ public class AlbenController {
     * @param title Titel des Albums welches erstellt werden soll
     * @param beschreibung Beschreibung des Albums welches erstellt werden soll
     * @param sortierkennzeichen Sortierkennzeichen des Albums welches erstellt werden soll
-    * @return Album welches erstellt wurde
+    * @return Album welches erstellt wurde [+Fehlermeldung!!!]
     * @date 24.11.2015 by Danilo: Initialisierung
+    * @date 25.11.2015 by Danilo: Initialisierung Stringprüfung und Fehlerbehandlung
     */
-    public static Album createNewAlbum(String title, String beschreibung, String sortierkennzeichen){
-        createAlbum(title);
-        editAlbumBeschreibung(title, beschreibung);
-        editAlbumSortierkennzeichen(title, sortierkennzeichen);
+    public static Album createNewAlbum(String title, String beschreibung, String sortierkennzeichen) {
+        // Prüfen der Eingabe
+        if (title.length() > 20) title = title.substring(0,20);
+        if (beschreibung.length() > 200) beschreibung = beschreibung.substring(0,200);
+        if (sortierkennzeichen.length() > 20) sortierkennzeichen = sortierkennzeichen.substring(0,20);
+        
+        int errorcode = createAlbum(title);
+        errorcode += editAlbumBeschreibung(title, beschreibung);
+        errorcode += editAlbumSortierkennzeichen(title, sortierkennzeichen);
+        if (errorcode!=0) {
+            changeErrorCode(0);
+        }
         return getAlbum(title);
     }
     
@@ -42,26 +71,75 @@ public class AlbenController {
     * @param newTitle Neuer Titel des Albums
     * @param beschreibung Neue Beschreibung des Albums
     * @param sortierkennzeichen Neues Sortierkennzeichen des Albums
-    * @return Album welches geändert wurde
+    * @return Album welches geändert wurde [+Fehlermeldung!!!]
     * @date 24.11.2015 by Danilo: Initialisierung
+    * @date 25.11.2015 by Danilo: Initialisierung Stringprüfung und Fehlerbehandlung
     */
-    public static Album editAlbum(String title, String newTitle, String beschreibung, String sortierkennzeichen){
-        editAlbumTitle(title, newTitle);
-        editAlbumBeschreibung(newTitle, beschreibung);
-        editAlbumSortierkennzeichen(newTitle, sortierkennzeichen);
+    public static Album editAlbum(String title, String newTitle, String beschreibung, String sortierkennzeichen) {
+        // Prüfen der Eingabe
+        if (title.length() > 20) title = title.substring(0,20);
+        if (newTitle.length() > 20) newTitle = newTitle.substring(0,20);
+        if (beschreibung.length() > 200) beschreibung = beschreibung.substring(0,200);
+        if (sortierkennzeichen.length() > 20) sortierkennzeichen = sortierkennzeichen.substring(0,20);
+        
+        int errorcode = editAlbumTitle(title, newTitle);
+        errorcode += editAlbumBeschreibung(newTitle, beschreibung);
+        errorcode += editAlbumSortierkennzeichen(newTitle, sortierkennzeichen);
+        if (errorcode!=0) {
+            changeErrorCode(0);
+        }
         return getAlbum(newTitle);
     }
     
     /**
+    * GUI-Methode
+    * Diese Methode löscht eine Liste von Alben
+    * 
+    * Version-History:
+    * @param titlelist Liste der Albentitel die gelöscht werden sollen
+    * @return Rückgabe der Anzahl der nicht vorhandenen Alben
+    * @date 25.11.2015 by Danilo: Initialisierung
+    */
+    public static int deleteListOfAlbum(List<String> titlelist) {
+        int errorcode = 0;
+        for (String title : titlelist) {
+            errorcode += deleteAlbum(title);
+        }
+        return errorcode;
+    }
+    
+    /**
+    * Diese Methode löscht im AlbumContainer ein Album
+    * 
+    * Version-History:
+    * @param title Titel des Albums welches gelöscht werden soll
+    * @return Fehlercode zur Auswertung <br> 0 = Album wurde gelöscht <br> 1 = Album nicht vorhanden
+    * @date 21.11.2015 by Danilo: Initialisierung
+    * @date 23.11.2015 by Danilo: Rückgabewert geändert und Kommentar angepasst
+    * @date 24.11.2015 by Danilo: Methode auf static gesetzt
+    * @date 25.11.2015 by Danilo: Methode auf private gesetzt
+    */
+    private static int deleteAlbum(String title) {
+        for (Album tmpAlbum : SystemController.getAlbumContainer().getAlbenListe()) {
+            if (tmpAlbum.getTitel().equals(title)) {
+                FotoController.deleteAllFotosInAlbum(tmpAlbum);
+                SystemController.getAlbumContainer().delete(tmpAlbum);
+                return 0;
+            }
+        }
+        return 1;
+    }
+    
+    /**
     * Methode sucht nach einem Album und gibt dieses zurück
-    * INFO: Protected da FotoContainer in Alben schauen muss
+    * INFO: Protected da FotoContainer diese nutzen muss
     * 
     * Version-History:
     * @param title Übergabe des gesuchten Albumtitels
     * @return Rückgabe des Albums, wenn keins gefunden dann null
     * @date 24.11.2015 by Danilo: Initialisierung
     */
-    protected static Album getAlbum(String title){
+    protected static Album getAlbum(String title) {
         for (Album tmpAlbum : SystemController.getAlbumContainer().getAlbenListe()) {
             if (tmpAlbum.getTitel().equals(title)) {  
                 return tmpAlbum;
@@ -92,27 +170,6 @@ public class AlbenController {
     }
     
     /**
-    * GUI-Methode
-    * Diese Methode löscht im AlbumContainer ein Album
-    * 
-    * Version-History:
-    * @param title Titel des Albums welches gelöscht werden soll
-    * @return Fehlercode zur Auswertung <br> 0 = Album wurde gelöscht <br> 1 = Album nicht vorhanden
-    * @date 21.11.2015 by Danilo: Initialisierung
-    * @date 23.11.2015 by Danilo: Rückgabewert geändert und Kommentar angepasst
-    * @date 24.11.2015 by Danilo: Methode auf static gesetzt
-    */
-    public static int deleteAlbum(String title){
-        for (Album tmpAlbum : SystemController.getAlbumContainer().getAlbenListe()) {
-            if (tmpAlbum.getTitel().equals(title)) {
-                SystemController.getAlbumContainer().delete(tmpAlbum);
-                return 0;
-            }
-        }
-        return 1;
-    }
-    
-    /**
     * Diese Methode ändert im AlbumContainer den Namen eines Albums
     * 
     * Version-History:
@@ -123,7 +180,7 @@ public class AlbenController {
     * @date 23.11.2015 by Danilo: Kommentar angepasst
     * @date 24.11.2015 by Danilo: Methode auf static gesetzt
     */
-    private static int editAlbumTitle(String title, String newTitle){
+    private static int editAlbumTitle(String title, String newTitle) {
         for (Album tmpAlbum : SystemController.getAlbumContainer().getAlbenListe()) {
             if (tmpAlbum.getTitel().equals(title)) { 
                 tmpAlbum.setTitel(newTitle);
@@ -144,7 +201,7 @@ public class AlbenController {
     * @date 23.11.2015 by Danilo: Kommentar angepasst
     * @date 24.11.2015 by Danilo: Methode auf static gesetzt
     */
-    private static int editAlbumBeschreibung(String title, String beschreibung){
+    private static int editAlbumBeschreibung(String title, String beschreibung) {
         for (Album tmpAlbum : SystemController.getAlbumContainer().getAlbenListe()) {
             if (tmpAlbum.getTitel().equals(title)) { 
                 tmpAlbum.setBeschreibung(beschreibung);
@@ -165,7 +222,7 @@ public class AlbenController {
     * @date 23.11.2015 by Danilo: Kommentar angepasst
     * @date 24.11.2015 by Danilo: Methode auf static gesetzt
     */
-    private static int editAlbumSortierkennzeichen(String title, String sortierkennzeichen){
+    private static int editAlbumSortierkennzeichen(String title, String sortierkennzeichen) {
         for (Album tmpAlbum : SystemController.getAlbumContainer().getAlbenListe()) {
             if (tmpAlbum.getTitel().equals(title)) { 
                 tmpAlbum.setSortierkennzeichen(sortierkennzeichen);
