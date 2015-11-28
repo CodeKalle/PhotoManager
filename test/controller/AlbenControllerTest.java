@@ -5,6 +5,9 @@
  */
 package controller;
 
+import java.util.Collections;
+import java.util.LinkedList;
+import java.util.List;
 import model.Album;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
@@ -42,7 +45,31 @@ public class AlbenControllerTest {
     }
 
     /**
-     * Test of createNewAlbum method, of class AlbenController.
+     * Gibt alle Attribute eines Albums aus.
+     * 
+     * @param result auszugebendes Album
+     */
+    private void printResult(Album result) {
+        System.out.println(result);
+        System.out.println("Titel: " + result.getTitel());
+        System.out.println("Beschreibung: " + result.getBeschreibung());
+        System.out.println("Sortierkennzeichen: " + result.getSortierkennzeichen());
+        System.out.println("Erstellungdatum: " + result.getErstellungdatum());
+        System.out.println("FotoListe: " + result.getFotoListe());
+    }
+    
+    /**
+     * Leert den Albencontainer.
+     */
+    private void cleanAlbumContainer() {
+        for (Album tmpAlbum : SystemController.getAlbumContainer().getAlbenListe()) {
+            SystemController.getAlbumContainer().getAlbenListe().remove(tmpAlbum);
+        }
+    }
+    
+    /**
+     * Testet die Methode createNewAlbum der Klasse AlbenController.
+     * Ein Album wird angelegt, falls es noch nicht im AlbenContainer existiert.
      */
     @Test
     public void testCreateNewAlbum() {
@@ -51,27 +78,44 @@ public class AlbenControllerTest {
         String beschreibung = "beschr";
         String sortierkennzeichen = "kennz";
         
+        for (Album tmpAlbum : SystemController.getAlbumContainer().getAlbenListe()) {
+            if (tmpAlbum.getTitel().equals(title)) {
+                fail("Album existiert bereits");
+            }
+        }
+        Album result = AlbenController.createNewAlbum(title, beschreibung, sortierkennzeichen);
+        for (Album tmpAlbum : SystemController.getAlbumContainer().getAlbenListe()) {
+            if (tmpAlbum.getTitel().equals(result.getTitel())) {
+                assertEquals(title, result.getTitel());
+            } else {
+                fail("Album wurde nicht angelegt");
+            }
+        }
+        cleanAlbumContainer();
+    }
+        
+    /**
+     * Testet die Methode createNewAlbum der Klasse AlbenController.
+     * Testet, ob die Attribute des angelgten Albums mit einem, durch direkten Aufruf erstellten Album übereinstimmen.
+     */
+    @Test
+    public void testCreateNewAlbumIsExpectedAlbum() {
+        System.out.println("createNewAlbumIsExpectedAlbum");
+        String title = "title";
+        String beschreibung = "beschr";
+        String sortierkennzeichen = "kennz";
+        
         Album expResult = new Album(title);
         expResult.setBeschreibung(beschreibung);
         expResult.setSortierkennzeichen(sortierkennzeichen);
-        System.out.println(expResult);
-        System.out.println(expResult.getTitel());
-        System.out.println(expResult.getBeschreibung());
-        System.out.println(expResult.getSortierkennzeichen());
-        System.out.println(expResult.getErstellungdatum());
-        System.out.println(expResult.getFotoListe());
-        
         Album result = AlbenController.createNewAlbum(title, beschreibung, sortierkennzeichen);
-        System.out.println(result);
-        System.out.println(result.getTitel());
-        System.out.println(result.getBeschreibung());
-        System.out.println(result.getSortierkennzeichen());
-        System.out.println(result.getErstellungdatum());
-        System.out.println(result.getFotoListe());
         
-        assertEquals(expResult, result);
-        //assertThat(expResult, is(result));
-        //fail("testCreateNewAlbum() failed.");
+        assertEquals(expResult.getTitel(), result.getTitel());
+        assertEquals(expResult.getBeschreibung(), result.getBeschreibung());
+        assertEquals(expResult.getSortierkennzeichen(), result.getSortierkennzeichen());
+        assertEquals(expResult.getErstellungdatum(), result.getErstellungdatum());
+        assertEquals(expResult.getFotoListe(), result.getFotoListe());
+        cleanAlbumContainer();
     }
 
     /**
@@ -80,10 +124,12 @@ public class AlbenControllerTest {
     @Test
     public void testEditAlbum() {
         System.out.println("editAlbum");
-        String title = "";
-        String newTitle = "";
-        String beschreibung = "";
-        String sortierkennzeichen = "";
+        String title = "alter title";
+        String newTitle = "neuer titel";
+        String beschreibung = "beschr";
+        String sortierkennzeichen = "kennz";
+        cleanAlbumContainer();
+        
         Album expResult = null;
         Album result = AlbenController.editAlbum(title, newTitle, beschreibung, sortierkennzeichen);
         assertEquals(expResult, result);
@@ -109,11 +155,12 @@ public class AlbenControllerTest {
      * Test of deleteAlbum method, of class AlbenController.
      */
     @Test
-    public void testDeleteAlbum() {
+    public void testDeleteListOfAlbum() {
         System.out.println("deleteAlbum");
         String title = "";
+        List<String> titlelist = new LinkedList<>();
         int expResult = 0;
-        int result = AlbenController.deleteAlbum(title);
+        int result = AlbenController.deleteListOfAlbum(titlelist);
         assertEquals(expResult, result);
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
