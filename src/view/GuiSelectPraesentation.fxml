@@ -13,7 +13,7 @@
 
 <!-- manuell, combo box fail -->
 
-<AnchorPane id="AnchorPane" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" styleClass="mainFxmlClass" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.GuiController">
+<AnchorPane id="AnchorPane" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" styleClass="mainFxmlClass" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.GuiSelectPraesentationController">
     <stylesheets>
         <URL value="@GuiStyle.css" />
     </stylesheets>
@@ -34,27 +34,18 @@
                         <Text layoutX="131.0" layoutY="230.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Hier befinden sich die Alben, die man markieren und dadurch für die Präsentation auswählen kann." />
                         <TilePane hgap="60.0" prefHeight="200.0" prefWidth="200.0" vgap="50.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
                            <children>
-                              <Pane>
-                                 <children>
-                                    <ImageView id="ImgAddFoto1" fitHeight="136.0" fitWidth="90.0" pickOnBounds="true" preserveRatio="true">
-                                       <image>
-                                          <Image url="C:\Users\targhed\Desktop\icon\dummy1.jpg" />
-                                       </image>
-                                    </ImageView>
-                                    <CheckBox id="CheckBoxAddFotoImg1" layoutX="69.0" layoutY="94.0" mnemonicParsing="false" />
-                                 </children>
-                              </Pane>
+                              <Pane />
                            </children></TilePane>
                      </children></AnchorPane>
               </content>
             </ScrollPane>
             <Pane fx:id="ButtonStartePraes" prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="1">
                <children>
-                  <Button fx:id="ButtonStartePraes" layoutX="25.0" layoutY="99.0" mnemonicParsing="false" onAction="#handleButtonActionMain" text="Start" />
-                  <Button fx:id="ButtonZurueckHauptmenue" layoutX="629.0" layoutY="99.0" mnemonicParsing="false" onAction="#handleButtonActionMain" text="Zurück zum Hauptmenü" />
-                  <CheckBox layoutX="296.0" layoutY="24.0" mnemonicParsing="false" text="Vollbild" />
-                  <CheckBox layoutX="379.0" layoutY="24.0" mnemonicParsing="false" text="Endlosschleife" />
-                  <ComboBox fx:id="guiSelectPresentationComboBox" layoutX="200.0" layoutY="20.0" prefHeight="25.0" prefWidth="71.0" promptText="Format">
+                  <Button fx:id="guiSelectPresentationStart" layoutX="25.0" layoutY="99.0" mnemonicParsing="false" onAction="#handleButtonAction" text="Start" />
+                  <Button fx:id="guiSelectPresentationHauptmenue" layoutX="629.0" layoutY="99.0" mnemonicParsing="false" onAction="#handleButtonAction" text="Zurück zum Hauptmenü" />
+                  <CheckBox fx:id="guiSelectPresentationVollbild" layoutX="296.0" layoutY="24.0" mnemonicParsing="false" text="Vollbild" />
+                  <CheckBox fx:id="guiSelectPresentationSchleife" layoutX="379.0" layoutY="24.0" mnemonicParsing="false" text="Endlosschleife" />
+                  <ComboBox fx:id="guiSelectPresentationFormat" layoutX="200.0" layoutY="20.0" prefHeight="25.0" prefWidth="71.0" promptText="Format">
                       <items>
                         <FXCollections fx:factory="observableArrayList">
                             <String fx:value="Format1" />
@@ -64,7 +55,7 @@
                   </ComboBox>
                   <Text layoutX="25.0" layoutY="37.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Bitte wählen sie ihr Format aus:" />
                   <Text layoutX="25.0" layoutY="74.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Wählen sie einen Titel (optional):" />
-                  <TextField layoutX="208.0" layoutY="57.0" />
+                  <TextField fx:id="guiSelectPresentationTitel" layoutX="208.0" layoutY="57.0" />
                </children>
             </Pane>
          </children>

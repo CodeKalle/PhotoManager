@@ -5,13 +5,9 @@ import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.application.Application;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
 
@@ -34,8 +30,7 @@ public class Main extends Application {
             primaryStage.setMinHeight(600.00);
             primaryStage.setMinWidth(800.00);
             
-            GuiController guiController = loader.getController();       //Verbindung zum Controller
-            guiController.setMain(this);                                // weil in Main
+            GuiMainController guiMainController = loader.getController();               //Verbindung zum Controller
             
             Scene scene = new Scene(AnchorPaneGuiMain);
             primaryStage.setScene(scene);
