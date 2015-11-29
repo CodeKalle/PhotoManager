@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.image.*?>
 <?import javafx.scene.text.*?>
 <?import javafx.geometry.*?>
 <?import java.lang.*?>
@@ -31,7 +32,19 @@
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="452.0" prefWidth="784.0">
                      <children>
                         <Text layoutX="131.0" layoutY="230.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Hier befinden sich die Alben, die man markieren und dadurch für die Präsentation auswählen kann." />
-                        <TilePane prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                        <TilePane hgap="60.0" prefHeight="200.0" prefWidth="200.0" vgap="50.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
+                           <children>
+                              <Pane>
+                                 <children>
+                                    <ImageView id="ImgAddFoto1" fitHeight="136.0" fitWidth="90.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="C:\Users\targhed\Desktop\icon\dummy1.jpg" />
+                                       </image>
+                                    </ImageView>
+                                    <CheckBox id="CheckBoxAddFotoImg1" layoutX="69.0" layoutY="94.0" mnemonicParsing="false" />
+                                 </children>
+                              </Pane>
+                           </children></TilePane>
                      </children></AnchorPane>
               </content>
             </ScrollPane>

@@ -32,46 +32,6 @@
                                     <CheckBox id="CheckBoxAddFotoImg1" layoutX="69.0" layoutY="94.0" mnemonicParsing="false" />
                                  </children>
                               </Pane>
-                              <Pane layoutX="10.0" layoutY="171.0">
-                                 <children>
-                                    <ImageView id="ImgAddFoto1" fitHeight="136.0" fitWidth="90.0" pickOnBounds="true" preserveRatio="true">
-                                       <image>
-                                          <Image url="dummy7.jpg" />
-                                       </image>
-                                    </ImageView>
-                                    <CheckBox id="CheckBoxAddFotoImg7" layoutX="69.0" layoutY="94.0" mnemonicParsing="false" />
-                                 </children>
-                              </Pane>
-                              <Pane layoutX="460.0" layoutY="332.0">
-                                 <children>
-                                    <ImageView id="ImgAddFoto15" fitHeight="136.0" fitWidth="90.0" pickOnBounds="true" preserveRatio="true">
-                                       <image>
-                                          <Image url="C:\Users\targhed\Desktop\icon\dummy1.jpg" />
-                                       </image>
-                                    </ImageView>
-                                    <CheckBox id="CheckBoxAddFotoImg15" layoutX="69.0" layoutY="94.0" mnemonicParsing="false" />
-                                 </children>
-                              </Pane>
-                              <Pane layoutX="10.0" layoutY="332.0">
-                                 <children>
-                                    <ImageView id="ImgAddFoto16" fitHeight="136.0" fitWidth="90.0" pickOnBounds="true" preserveRatio="true">
-                                       <image>
-                                          <Image url="C:\Users\targhed\Desktop\icon\dummy1.jpg" />
-                                       </image>
-                                    </ImageView>
-                                    <CheckBox id="CheckBoxAddFotoImg16" layoutX="69.0" layoutY="94.0" mnemonicParsing="false" />
-                                 </children>
-                              </Pane>
-                              <Pane layoutX="610.0" layoutY="171.0">
-                                 <children>
-                                    <ImageView id="ImgAddFoto17" fitHeight="136.0" fitWidth="90.0" pickOnBounds="true" preserveRatio="true">
-                                       <image>
-                                          <Image url="C:\Users\targhed\Desktop\icon\dummy1.jpg" />
-                                       </image>
-                                    </ImageView>
-                                    <CheckBox id="CheckBoxAddFotoImg17" layoutX="69.0" layoutY="94.0" mnemonicParsing="false" />
-                                 </children>
-                              </Pane>
                            </children>
                         </TilePane>
                      </children>
