@@ -20,7 +20,7 @@ public class Start {
      * @date 23.11.2015 by Danilo: Kommentar angepasst
      */
     
-    public static void main() {
+    public static void main(String[] args) {
         SystemController.run();
         javafx.application.Application.launch(Main.class);
     }

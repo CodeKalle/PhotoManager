@@ -32,6 +32,9 @@ public class GuiAlbumOverviewController {
             root = FXMLLoader.load(getClass().getResource("GuiAlbumBearbeiten.fxml"));
         }
         else if(event.getSource()==guiAlbumOverviewAlbumWechseln) {                       
+            //Markiertes Album auswählen
+            //Fehlerabfrage, 0 oder mehrere markiert
+            //sonst Abbruch
             stage=(Stage) guiAlbumOverviewAlbumWechseln.getScene().getWindow();
             root = FXMLLoader.load(getClass().getResource("GuiSelectedAlbum.fxml"));
         }
