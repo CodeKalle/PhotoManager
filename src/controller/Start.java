@@ -1,5 +1,7 @@
 package controller;
 
+import view.Main;
+
 /**
  * Start kümmert sich um die Initialisierung der Software und die Aufteilung in Threats.
  * 
@@ -7,7 +9,7 @@ package controller;
  * @date 20.11.2015 by Danilo: Initialisierung
  * @date 23.11.2015 by Danilo: Kommentare ergänzt
  */
-//public class Start {
+public class Start {
     
     /**
      * Einsprungpunkt der Software und starten aller benötigten Komponenten.
@@ -18,11 +20,9 @@ package controller;
      * @date 23.11.2015 by Danilo: Kommentar angepasst
      */
     
-   /* 
-    public static void main(String[] args) {
+    public static void main() {
         SystemController.run();
-        GuiController.run();
+        javafx.application.Application.launch(Main.class);
     }
     
 }
-*/

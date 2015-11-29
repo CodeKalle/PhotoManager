@@ -5,23 +5,40 @@
  */
 package view;
 
-import java.net.URL;
-import java.util.ResourceBundle;
-import javafx.fxml.Initializable;
+import java.io.IOException;
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.stage.Stage;
 
 /**
  * FXML Controller class
  *
  * @author Tobias
  */
-public class GuiSelectedAlbumController implements Initializable {
+public class GuiSelectedAlbumController{ 
+     @FXML
+    Button guiAlbumOverviewAlbumBearbeiten, guiAlbumOverviewAlbumWechseln, guiAlbumOverviewAlbumLoeschen, guiAlbumOverviewHauptmenue, guiAlbumOverviewFotoHinzufuegen;
 
-    /**
-     * Initializes the controller class.
-     */
-    @Override
-    public void initialize(URL url, ResourceBundle rb) {
-        // TODO
-    }    
     
+    @FXML
+    public void handleButtonAction(ActionEvent event) throws IOException{
+        Stage stage;
+        Parent root;        
+        if(event.getSource()==guiAlbumOverviewAlbumBearbeiten){
+            stage=(Stage) guiAlbumOverviewAlbumBearbeiten.getScene().getWindow();
+            root = FXMLLoader.load(getClass().getResource("GuiAlbumBearbeiten.fxml"));
+        }
+        else {
+            stage=(Stage) guiAlbumOverviewHauptmenue.getScene().getWindow();
+            root = FXMLLoader.load(getClass().getResource("GuiMain.fxml"));
+            
+        }
+        Scene scene = new Scene(root);
+        stage.setScene(scene);
+        stage.show();
+    }
 }
