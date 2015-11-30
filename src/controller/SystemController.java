@@ -1,6 +1,5 @@
 package controller;
 
-import static controller.ErrorController.changeErrorCode;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -35,76 +34,70 @@ public class SystemController {
      * Methode realisiert die Generierung der benötigten Komponenten in Threads.
      * 
      * Version-History:
+     * @return Rückgabe zur Fehlerauswertung
      * @date 20.11.2015 by Danilo: Initialisierung
+     * @date 30.11.2015 by Danilo: Anpassung an GUI
      */
-    public static void run() {
+    public static int run() {
         File file = new File(filename);
         if (file.exists()) {
             if (file.canRead() == true) {
                 checkAccess(0);
                 if (file.canWrite() == false) {
-                    changeErrorCode(800);
+                    return 800;
                 }
             } else {
-                changeErrorCode(801);
-                System.exit(0);
+                initializePmSystem();
+                return 801;
             }
         } else {
-            if (changeErrorCode(802)!=0) {
-                System.exit(0);
-            } else {
                 try {
                     file.createNewFile();
                     initializePmSystem();
-                    if (systemSave()!=0) changeErrorCode(810);
-                } catch (IOException e) {
-                    //e.printStackTrace();
-                }
-            }
+                    if (systemSave()!=0) return 806;
+                } catch (IOException e) { }
         }
+        return 0;
     }
     
     /**
      * Prüft Zugriff auf Datei und speichert das System.
      * 
      * Version-History:
-     * @param mode 0 = Beim Systemstart,<br> 1 = Im laufenden Betrieb
+     * @param mode 0 = Zum Laden,<br> 1 = Zum Speichern
+     * @return Rückgabe zur Fehlerauswertung
      * @date 20.11.2015 by Danilo: Initialisierung
      * @date 23.11.2015 by Danilo: Kommentar angepasst
+     * @date 30.11.2015 by Danilo: Anpassung an GUI
      */
-    public static void checkAccess(int mode){
+    public static int checkAccess(int mode){
 
         File file = new File(filename);
         switch (mode) {			
             case 0:
                 if (file.canRead() == false) {
-                    changeErrorCode(801);
+                    return 801;
                 } else {
                     if (systemLoad() != 0) {
-                        if(changeErrorCode(803)==0) {
-                            try {
-                                file.createNewFile();
-                                initializePmSystem();
-                            } catch (IOException e) {
-                                //e.printStackTrace();
-                            }
-                        } else {
-                            changeErrorCode(811);
-                            System.exit(0);
-                        }
-                    }			
+                        try {
+                            file.createNewFile();
+                            initializePmSystem();
+                        } catch (IOException e) {}
+                        return 806;
+                    }
                 }
                 break;
             case 1:
                 if (file.canWrite() == false) {
-                    changeErrorCode(800);
+                    return 800;
                 } else {
-                    if (systemSave()!=0) changeErrorCode(810);
+                    if (systemSave()!=0) return 806;
                 }
                 break;
             default:
                 break;
         }
+        return 0;
     }
     
     /**
@@ -113,12 +106,15 @@ public class SystemController {
      * laden findet.
      * 
      * Version-History:
+     * @return Rückgabe zur Fehlerauswertung
      * @date 20.11.2015 by Danilo: Initialisierung
+     * @date 30.11.2015 by Danilo: Anpassung an GUI
      */
-    private static void initializePmSystem() {
+    private static int initializePmSystem() {
         pmSystem.setAlben(new AlbenContainer());
         pmSystem.setFotos(new FotoContainer());
-        if (pmSystem.getAlben()==null || pmSystem.getFotos()==null) changeErrorCode(815);
+        if (pmSystem.getAlben()==null || pmSystem.getFotos()==null) return 810;
+        return 0;
     }
     
     /**
@@ -130,6 +126,7 @@ public class SystemController {
      * @date 23.11.2015 by Tobias: Setzten der Methode auf private
      * @date 23.11.2015 by Danilo: Kommentar angepasst
      * @date 24.11.2015 by Danilo: Methodenname geändert und lokale Variablen
+     * @date 30.11.2015 by Danilo: Anpassen der Fehlercodes
      */
     private static int systemSave() {
         int errorcode = 0;
@@ -142,14 +139,14 @@ public class SystemController {
             oos.writeObject(pmSystem);
         }
         catch (IOException e) {
-            errorcode = 1;
+            errorcode = 820;
         }
         finally {
             if (oos != null) try { oos.close(); } catch (IOException e) {
-                errorcode = 2;
+                errorcode = 821;
             }
             if (fos != null) try { fos.close(); } catch (IOException e) {
-                errorcode = 3;
+                errorcode = 822;
             }
         }
         return errorcode;
@@ -163,6 +160,7 @@ public class SystemController {
      * @date 20.11.2015 by Danilo: Initialisierung
      * @date 23.11.2015 by Danilo: Kommentar angepasst
      * @date 24.11.2015 by Danilo: Methodenname geändert und lokale Variablen
+     * @date 30.11.2015 by Danilo: Anpassen der Fehlercodes
      */
     private static int systemLoad() {
         int errorcode = 0;
@@ -177,26 +175,26 @@ public class SystemController {
                     PmSystem tmpDB = (PmSystem) ois.readObject();
                     pmSystem = tmpDB;
                 } catch (ClassNotFoundException e) {
-                    errorcode = 1;
+                    errorcode = 825;
                 }
             } catch (StreamCorruptedException e) {
-                errorcode = 2;
+                errorcode = 826;
             }
             finally {
                 if (ois != null) try { ois.close(); } catch (IOException e) {
-                    errorcode = 3;
+                    errorcode = 827;
                 }
             }
         }
         catch (IOException e) {
-                errorcode = 4;
+                errorcode = 828;
         }
         finally {
             if (ois != null) try { ois.close(); } catch (IOException e) {
-                errorcode = 5;
+                errorcode = 829;
             }
             if (fis != null) try { fis.close(); } catch (IOException e) {
-                errorcode = 6; 
+                errorcode = 830; 
             }
         }
 	return errorcode;

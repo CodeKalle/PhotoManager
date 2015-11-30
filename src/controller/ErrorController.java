@@ -35,6 +35,7 @@ public class ErrorController {
      * @return Rückgabe des gedrückten Buttons der Fehlermeldung als Integer
      * @date 20.11.2015 by Danilo: Initialisierung
      * @date 24.11.2015 by Danilo: Änderung lokaler Variablen, Änderung der Kommentierung
+     * @date 30.11.2015 by Danilo: Anpassung an SystemController
      */
     public static int changeErrorCode(int errorcode){
         String title;
@@ -54,33 +55,19 @@ public class ErrorController {
                 opt = 0;
                 buttonlist.add("Abbrechen");
                 break;
-            case 802:
-                title = "Datenbankfehler";
-                text = "Wollen sie eine neue Datenbank anlegen?";
-                opt = 0;
-                buttonlist.add("Anlegen");
-                buttonlist.add("Abbrechen");
-                break;
-            case 803:
-                title = "Datenbankfehler";
-                text = "Datenbank ist defekt!" + "\n" + "Wollen sie eine neue Datenbank anlegen?";
-                opt = 0;
-                buttonlist.add("Anlegen");
-                buttonlist.add("Schließen");
-                break;
-            case 810:
+            case 805:
                 title = "Datenbank-Speicherfehler";
                 text = "Datenbanksystem konnte nicht ordnungsgemäß gespeichert werden.";
                 opt = 0;
                 buttonlist.add("Abbrechen");
                 break;
-            case 811:
+            case 806:
                 title = "Datenbank-Ladefehler";
                 text = "Datenbanksystem konnte nicht ordnungsgemäß geladen werden.";
                 opt = 0;
                 buttonlist.add("OK");
                 break;
-            case 815:
+            case 810:
                 title = "Systeminitialisierung";
                 text = "Das System konnte nicht richtig initialisiert werden.";
                 opt = 0;

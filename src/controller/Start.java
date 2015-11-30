@@ -1,11 +1,14 @@
 package controller;
 
+//import view.Main;
+
 /**
  * Start kümmert sich um die Initialisierung der Software und die Aufteilung in Threats.
  * 
  * Version-History:
  * @date 20.11.2015 by Danilo: Initialisierung
  * @date 23.11.2015 by Danilo: Kommentare ergänzt
+ * @date 30.11.2015 by Danilo: Anpassung an aktuellen Stand der GUI
  */
 public class Start {
     
@@ -16,10 +19,12 @@ public class Start {
      * @param args Paramtere die zum Programmstart an die Anwendung zur Auswertung gegeben werden
      * @date 20.11.2015 by Danilo: Initialisierung
      * @date 23.11.2015 by Danilo: Kommentar angepasst
+     * @date 30.11.2015 by Danilo: Anpassung an aktuellen Stand der GUI
      */
+    
     public static void main(String[] args) {
         SystemController.run();
-        GuiController.run();
+        //javafx.application.Application.launch(Main.class);
     }
     
 }
