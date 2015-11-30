@@ -30,7 +30,7 @@ public class GuiAddFotoController {
         if(event.getSource()==guiAddFotoBilderHinzufuegen){
             //Fotos zu Ablum hinzufügen, Methdenaufruf FotoController
             stage=(Stage) guiAddFotoBilderHinzufuegen.getScene().getWindow();
-            root = FXMLLoader.load(getClass().getResource("GuiSelectedAlbum.fxml"));
+            root = FXMLLoader.load(getClass().getResource("GuiFotoEdit.fxml"));
         }
         else {
             stage=(Stage) guiAddFotoAbbrechen.getScene().getWindow();
