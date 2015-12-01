@@ -18,10 +18,14 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
+import org.junit.Ignore;
 
 /**
- *
+ * Der AlbenControllerTest testet alle Methoden der Klasse AlbenController.
+ * 
  * @author Daniel
+ * 
+ * @date 01.12.2015 by Daniel: Ignores für nicht-bearbeitete Tests gesetzt.
  */
 public class AlbenControllerTest {
     
@@ -42,6 +46,7 @@ public class AlbenControllerTest {
     
     @After
     public void tearDown() {
+        cleanAlbumContainer();
     }
 
     /**
@@ -69,7 +74,7 @@ public class AlbenControllerTest {
     
     /**
      * Testet die Methode createNewAlbum der Klasse AlbenController.
-     * Ein Album wird angelegt, falls es noch nicht im AlbenContainer existiert.
+     * Testet, ob ein Album angelegt wird.
      */
     @Test
     public void testCreateNewAlbum() {
@@ -88,8 +93,7 @@ public class AlbenControllerTest {
             if (!tmpAlbum.getTitel().equals(result.getTitel()))
                 fail("Album wurde nicht angelegt");
             assertEquals(title, result.getTitel());
-        }
-        cleanAlbumContainer();
+        } 
     }
         
     /**
@@ -113,20 +117,19 @@ public class AlbenControllerTest {
         assertEquals(expResult.getSortierkennzeichen(), result.getSortierkennzeichen());
         assertEquals(expResult.getErstellungdatum(), result.getErstellungdatum());
         assertEquals(expResult.getFotoListe(), result.getFotoListe());
-        cleanAlbumContainer();
     }
 
     /**
      * Test of editAlbum method, of class AlbenController.
      */
     @Test
+    @Ignore
     public void testEditAlbum() {
         System.out.println("editAlbum");
         String title = "alter title";
         String newTitle = "neuer titel";
         String beschreibung = "beschr";
         String sortierkennzeichen = "kennz";
-        cleanAlbumContainer();
         
         Album expResult = null;
         Album result = AlbenController.editAlbum(title, newTitle, beschreibung, sortierkennzeichen);
@@ -139,6 +142,7 @@ public class AlbenControllerTest {
      * Test of getAlbum method, of class AlbenController.
      */
     @Test
+    @Ignore
     public void testGetAlbum() {
         System.out.println("getAlbum");
         String title = "";
@@ -153,6 +157,7 @@ public class AlbenControllerTest {
      * Test of deleteAlbum method, of class AlbenController.
      */
     @Test
+    @Ignore
     public void testDeleteListOfAlbum() {
         System.out.println("deleteAlbum");
         String title = "";
