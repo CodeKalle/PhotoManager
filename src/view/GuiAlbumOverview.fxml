@@ -27,16 +27,11 @@
               <content>
                 <AnchorPane id="AnachorPaneScrollAddAlbum" prefHeight="480.0" prefWidth="785.0">
                      <children>
-                        <TilePane hgap="60.0" vgap="50.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
+                        <TilePane fx:id="guiAlbumOverviewTilePane" hgap="60.0" vgap="50.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
                            <children>
-                              <Pane prefHeight="80.0" prefWidth="80.0">
+                              <Pane prefHeight="100.0" prefWidth="80.0">
                                  <children>
-                                    <ImageView fitHeight="80.0" fitWidth="80.0" pickOnBounds="true" preserveRatio="true">
-                                       <image>
-                                          <Image url="@../src/dummy1.jpg" />
-                                       </image>
-                                    </ImageView>
-                                    <CheckBox layoutX="56.0" layoutY="58.0" mnemonicParsing="false" />
+                                    <Button fx:id="guiAlbumOverviewNeuesAlbum" mnemonicParsing="false" onAction="#handleButtonAction" prefHeight="80.0" prefWidth="80.0" text="Neues Album" />
                                  </children>
                               </Pane>
                            </children></TilePane>

@@ -15,6 +15,7 @@ public class Main extends Application {
     
     private static Stage primaryStage;
     
+    protected static String speicher;
     
     @Override
     public void start(Stage primaryStage) {
