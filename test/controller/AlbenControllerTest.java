@@ -85,11 +85,9 @@ public class AlbenControllerTest {
         }
         Album result = AlbenController.createNewAlbum(title, beschreibung, sortierkennzeichen);
         for (Album tmpAlbum : SystemController.getAlbumContainer().getAlbenListe()) {
-            if (tmpAlbum.getTitel().equals(result.getTitel())) {
-                assertEquals(title, result.getTitel());
-            } else {
+            if (!tmpAlbum.getTitel().equals(result.getTitel()))
                 fail("Album wurde nicht angelegt");
-            }
+            assertEquals(title, result.getTitel());
         }
         cleanAlbumContainer();
     }
