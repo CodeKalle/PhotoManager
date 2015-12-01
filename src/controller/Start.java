@@ -1,6 +1,6 @@
 package controller;
 
-//import view.Main;
+import view.Main;
 
 /**
  * Start kümmert sich um die Initialisierung der Software und die Aufteilung in Threats.
@@ -24,7 +24,7 @@ public class Start {
     
     public static void main(String[] args) {
         SystemController.run();
-        //javafx.application.Application.launch(Main.class);
+        javafx.application.Application.launch(Main.class);
     }
     
 }
