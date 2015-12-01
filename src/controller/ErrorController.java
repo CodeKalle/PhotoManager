@@ -43,9 +43,7 @@ public class ErrorController {
         String text;
         List<String> buttonlist = new ArrayList<>();
         int opt;
-        switch (errorcode) {
-            case
-            
+        switch (errorcode) {            
             case 800:
                 title = "Datenbankfehler";
                 text = "Datenbank ist schreibgeschützt!";
