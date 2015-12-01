@@ -91,7 +91,7 @@ public class SystemController {
                 if (file.canWrite() == false) {
                     return 800;
                 } else {
-                    if (systemSave()!=0) return 806;
+                    if (systemSave()!=0) return 805;
                 }
                 break;
             default:
@@ -161,6 +161,7 @@ public class SystemController {
      * @date 23.11.2015 by Danilo: Kommentar angepasst
      * @date 24.11.2015 by Danilo: Methodenname geändert und lokale Variablen
      * @date 30.11.2015 by Danilo: Anpassen der Fehlercodes
+     * @date 01.12.2015 by Danilo: Fehlerkorrektur
      */
     private static int systemLoad() {
         int errorcode = 0;
@@ -175,26 +176,26 @@ public class SystemController {
                     PmSystem tmpDB = (PmSystem) ois.readObject();
                     pmSystem = tmpDB;
                 } catch (ClassNotFoundException e) {
-                    errorcode = 825;
+                    errorcode = 830;
                 }
             } catch (StreamCorruptedException e) {
-                errorcode = 826;
+                errorcode = 831;
             }
             finally {
                 if (ois != null) try { ois.close(); } catch (IOException e) {
-                    errorcode = 827;
+                    errorcode = 832;
                 }
             }
         }
         catch (IOException e) {
-                errorcode = 828;
+                errorcode = 833;
         }
         finally {
             if (ois != null) try { ois.close(); } catch (IOException e) {
-                errorcode = 829;
+                errorcode = 834;
             }
             if (fis != null) try { fis.close(); } catch (IOException e) {
-                errorcode = 830; 
+                errorcode = 835; 
             }
         }
 	return errorcode;
