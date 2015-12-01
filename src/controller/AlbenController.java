@@ -11,6 +11,7 @@ import model.Album;
  * @date 21.11.2015 by Danilo: Erstellen von Methoden von UserStory Album anlegen
  * @date 23.11.2015 by Tobias: Ändern der Methode systemSpeichern
  * @date 23.11.2015 by Danilo: Kommentare ergänzt
+ * @date 01.12.2015 by Tobias: Methoden auf static gesetzt
  */
 public class AlbenController {
     
@@ -22,8 +23,9 @@ public class AlbenController {
     * @return Fehlercode zur Auswertung
     * @date 21.11.2015 by Danilo: Initialisierung
     * @date 23.11.2015 by Danilo: Kommentar angepasst
+    * @date 01.12.2015 by Tobias: Methode auf static gesetzt
     */
-    public int createAlbum(String title){
+    public static int createAlbum(String title){
         for (Album tmpAlbum : SystemController.getAlbumContainer().getAlbenListe()) {
             if (tmpAlbum.getTitel().equals(title)) {  
                 return 1;
@@ -42,8 +44,9 @@ public class AlbenController {
     * @return Fehlercode zur Auswertung <br> 0 = Album wurde gelöscht <br> 1 = Album nicht vorhanden
     * @date 21.11.2015 by Danilo: Initialisierung
     * @date 23.11.2015 by Danilo: Rückgabewert geändert und Kommentar angepasst
+    * @date 01.12.2015 by Tobias: Methode auf static gesetzt
     */
-    public int deleteAlbum(String title){
+    public static int deleteAlbum(String title){
         for (Album tmpAlbum : SystemController.getAlbumContainer().getAlbenListe()) {
             if (tmpAlbum.getTitel().equals(title)) {
                 SystemController.getAlbumContainer().delete(tmpAlbum);
@@ -62,8 +65,9 @@ public class AlbenController {
     * @return Fehlercode zur Auswertung <br> 0 = Albumtitel wurde geändert <br> 1 = Album nicht vorhanden
     * @date 21.11.2015 by Danilo: Initialisierung
     * @date 23.11.2015 by Danilo: Kommentar angepasst
+    * @date 01.12.2015 by Tobias: Methode auf static gesetzt
     */
-    public int editAlbumTitle(String title, String newTitle){
+    public static  int editAlbumTitle(String title, String newTitle){
         for (Album tmpAlbum : SystemController.getAlbumContainer().getAlbenListe()) {
             if (tmpAlbum.getTitel().equals(title)) { 
                 tmpAlbum.setTitel(newTitle);
@@ -82,8 +86,9 @@ public class AlbenController {
     * @return Fehlercode zur Auswertung <br> 0 = Albumbeschreibung wurde geändert <br> 1 = Album nicht vorhanden
     * @date 21.11.2015 by Danilo: Initialisierung
     * @date 23.11.2015 by Danilo: Kommentar angepasst
+    * @date 01.12.2015 by Tobias: Methode auf static gesetzt
     */
-    public int editAlbumBeschreibung(String title, String beschreibung){
+    public static int editAlbumBeschreibung(String title, String beschreibung){
         for (Album tmpAlbum : SystemController.getAlbumContainer().getAlbenListe()) {
             if (tmpAlbum.getTitel().equals(title)) { 
                 tmpAlbum.setBeschreibung(beschreibung);

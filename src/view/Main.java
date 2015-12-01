@@ -13,12 +13,12 @@ import javafx.stage.Stage;
 
 public class Main extends Application {
     
-    private Stage primaryStage;
+    private static Stage primaryStage;
     
     
     @Override
     public void start(Stage primaryStage) {
-        this.primaryStage = primaryStage;              
+        this.primaryStage = primaryStage;    
         mainWindow();
     }
     
@@ -39,8 +39,12 @@ public class Main extends Application {
             
         } catch (IOException ex) {
             Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        
-        
-    }   
+        }  
+    } 
+
+    public static Stage getPrimaryStage() {
+        return primaryStage;
+    }
+    
+    
 }

@@ -6,9 +6,12 @@
 package view;
 
 import java.io.IOException;
+import java.net.URL;
+import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -18,7 +21,7 @@ import javafx.stage.Stage;
  *
  * @author Tobias
  */
-public class GuiAlbumOverviewController {
+public class GuiAlbumOverviewController implements Initializable{
     @FXML
     Button guiAlbumOverviewAlbumBearbeiten, guiAlbumOverviewAlbumWechseln, guiAlbumOverviewAlbumLoeschen, guiAlbumOverviewHauptmenue, guiAlbumOverviewFotoHinzufuegen;
 
@@ -54,5 +57,10 @@ public class GuiAlbumOverviewController {
         Scene scene = new Scene(root);
         stage.setScene(scene);
         stage.show();
+    }
+
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        Main.getPrimaryStage().setTitle("Photomanager - Alben");
     }
 }
