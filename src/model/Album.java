@@ -13,13 +13,14 @@ import java.util.List;
  * Fotos werden im FotoContainer verwaltet.
  * Version-History:
  * @date 14.11.2015 by Tobias: Initialisierung + Anlegen von Grundmethoden
+ * @date 25.11.2015 by Danilo: Änderung der Liste zu Diamantoperator Foto da nur Referenzen gespeichert werden
  */
 public class Album implements Serializable {
     private String titel;
     private String beschreibung;
     private Date erstellungdatum;
     private String sortierkennzeichen;
-    private List fotoListe;
+    private List<Foto> fotoListe;
     
     /**
      * Standart Konstruktor
@@ -36,7 +37,7 @@ public class Album implements Serializable {
         this.erstellungdatum = Date.from(Instant.EPOCH);
         this.fotoListe = new LinkedList();
     }
-
+    
     /**
      * Getter fuer titel
      * @return Inhalt von titel
@@ -96,18 +97,18 @@ public class Album implements Serializable {
     /**
      * Getter fuer fotoListe
      * @return Liste mit Hashwerten von Bildpfaden
+     * @date 25.11.2015 by Danilo: Diamantoperator Foto da nur Referenzen gespeichert werden
      */
-    public List getFotoListe() {
+    public List<Foto> getFotoListe() {
         return fotoListe;
     }
 
     /**
      * Setter fuer fotoListe
      * @param fotoListe neue Liste
+     * @date 25.11.2015 by Danilo: Diamantoperator Foto da nur Referenzen gespeichert werden
      */
-    public void setFotoListe(List fotoListe) {
+    public void setFotoListe(List<Foto> fotoListe) {
         this.fotoListe = fotoListe;
     }
-    
-    
 }

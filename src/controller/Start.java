@@ -8,6 +8,7 @@ import view.Main;
  * Version-History:
  * @date 20.11.2015 by Danilo: Initialisierung
  * @date 23.11.2015 by Danilo: Kommentare ergänzt
+ * @date 30.11.2015 by Danilo: Anpassung an aktuellen Stand der GUI
  */
 public class Start {
     
@@ -18,6 +19,7 @@ public class Start {
      * @param args Paramtere die zum Programmstart an die Anwendung zur Auswertung gegeben werden
      * @date 20.11.2015 by Danilo: Initialisierung
      * @date 23.11.2015 by Danilo: Kommentar angepasst
+     * @date 30.11.2015 by Danilo: Anpassung an aktuellen Stand der GUI
      */
     
     public static void main(String[] args) {
