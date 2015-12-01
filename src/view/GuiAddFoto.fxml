@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.image.*?>
+<?import javafx.scene.media.*?>
+<?import java.lang.*?>
+<?import java.net.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane id="AnchorPaneAddFoto" prefHeight="600.0" prefWidth="800.0" styleClass="mainFxmlClass" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.GuiAddFotoController">
+    <stylesheets>
+        <URL value="@GuiStyle.css" />
+    </stylesheets>
+   <children>
+      <GridPane id="GridPaneAddFoto" alignment="CENTER" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <ScrollPane id="ScrollPaneAddFoto" vbarPolicy="ALWAYS" GridPane.columnIndex="1">
+               <content>
+                  <AnchorPane id="AnachorPaneScrollAddFoto" prefHeight="480.0" prefWidth="600.0">
+                     <children>
+                        <TilePane id="TilePaneAddFoto" hgap="60.0" prefHeight="460.0" prefWidth="590.0" vgap="50.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0" />
+                     </children>
+                  </AnchorPane>
+               </content>
+            </ScrollPane>
+            <TilePane id="TilePaneAddAlbum" alignment="CENTER" hgap="150.0" prefColumns="3" prefRows="2" tileAlignment="TOP_LEFT" vgap="20.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
+               <children>
+                  <Button id="guiAddFotoBilderHinzufuegen" fx:id="guiAddFotoBilderHinzufuegen" mnemonicParsing="false" onAction="#handleButtonAction" text="Bilder hinzufügen" />
+                  <Button id="guiAddFotoAbbrechen" fx:id="guiAddFotoAbbrechen" mnemonicParsing="false" onAction="#handleButtonAction" text="Abbrechen" />
+               </children>
+            </TilePane>
+            <TreeView />
+         </children>
+         <columnConstraints>
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="395.0" minWidth="10.0" prefWidth="187.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="692.0" minWidth="10.0" prefWidth="613.0" />
+         </columnConstraints>
+         <rowConstraints>
+            <RowConstraints minHeight="10.0" percentHeight="80.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+         </rowConstraints>
+      </GridPane>
+   </children>
+</AnchorPane>

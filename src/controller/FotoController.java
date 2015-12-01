@@ -17,6 +17,7 @@ import model.Metadaten;
  * @date 14.11.2015 by Tobias: Initialisierung
  * @date 24.11.2015 by Danilo: Erstellen der Methoden zum hinzufügen einer Fotoliste zum Album
  * @date 25.11.2015 by Danilo: Erstellen der Methode getMetaFromFoto und deleteAllFotosInAlbum, sowie setzen der Diamantoperanten
+ * @date 29.11.2015 by Danilo: Methode setMetaInFoto ergänzt
  */
 public class FotoController {
     /**
@@ -25,11 +26,17 @@ public class FotoController {
      * 
      * @param pathOfFoto Bilddateipfad eines Fotos
      * @param meta Metadaten eines Fotos
+     * @return Fehlercode zur Auswertung
      * @date 25.11.2015 by Danilo: Initialisierung
+     * @date 29.11.2015 by Danilo: Fehlerkorrektur in Methode
      */
-    public static void setMetaInFoto(Path pathOfFoto, Metadaten meta) {
+    public static int setMetaInFoto(Path pathOfFoto, Metadaten meta) {
         Foto searchFoto = generateFotoFromPath(pathOfFoto);
         searchFoto.setMetadata(meta);
+        if(searchFoto.getMetadata()!=meta) {
+            return 1;
+        }
+        return 0;
     }
     
     /**
@@ -39,10 +46,15 @@ public class FotoController {
      * @param pathOfFoto Bilddateipfad eines Fotos
      * @return Metadaten des Fotos oder null
      * @date 25.11.2015 by Danilo: Initialisierung
+     * @date 29.11.2015 by Danilo: Ändern der Rückgabe der Methode
      */
     public static Metadaten getMetaFromFoto(Path pathOfFoto) {
         Foto searchFoto = generateFotoFromPath(pathOfFoto);
-        return searchFoto.getMetadata();
+        Metadaten tmpMeta = searchFoto.getMetadata();
+        if (tmpMeta==null) {
+            tmpMeta = new Metadaten();
+        }
+        return tmpMeta;
     }
     
     /**
@@ -70,8 +82,9 @@ public class FotoController {
      * @param title Titel des Albums, dem die Fotos hinzugefügt werden
      * @param listOfPathes Liste der Bilddateipfade die dem Album als Foto hinzugefügt werden
      * @date 24.11.2015 by Danilo: Initialisierung
+     * @date 29.11.2015 by Danilo: Ändern der Rückgabe der Methode
      */
-    public static void addListOfFotosToAlbum(String title, List<Path> listOfPathes) {
+    public static int addListOfFotosToAlbum(String title, List<Path> listOfPathes) {
         Album tmpAlbum = AlbenController.getAlbum(title);
         if(tmpAlbum!=null) {
             listOfPathes = cleanErrorInListOfFotos(listOfPathes);
@@ -82,12 +95,16 @@ public class FotoController {
                 int addSize = addNewFotolistToExistingFotolist(tmpAlbum, newFotoListe);
                 if (addSize != newFotoListe.size()) {
                     changeErrorCode(0);
+                    return 1;
                 }
+                return 0;
             } else {
                 changeErrorCode(0);
+                return 2;
             }
         } else {
             changeErrorCode(0);
+            return 3;
         }
     }
     
