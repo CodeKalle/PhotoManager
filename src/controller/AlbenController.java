@@ -17,6 +17,7 @@ import model.Album;
  * @date 24.11.2015 by Danilo: Methoden createNewAlbum und editAlbum ergänzt
  * @date 25.11.2015 by Danilo: Methoden getAlbumList und deleteListOfAlbum ergänzt
  * @date 28.11.2015 by Tobias: Methode editAlbumTitle ergänzt
+ * @date 29.11.2015 by Danilo: Methode createNewAlbum und editAlbum ergänzt
  */
 public class AlbenController {
  
@@ -47,6 +48,7 @@ public class AlbenController {
     * @return Album welches erstellt wurde [+Fehlermeldung!!!]
     * @date 24.11.2015 by Danilo: Initialisierung
     * @date 25.11.2015 by Danilo: Initialisierung Stringprüfung und Fehlerbehandlung
+    * @date 29.11.2015 by Danilo: Fehlerkorrektur bei Fehler´haftenversuch ein Album anzulegen
     */
     public static Album createNewAlbum(String title, String beschreibung, String sortierkennzeichen) {
         // Prüfen der Eingabe
@@ -55,6 +57,10 @@ public class AlbenController {
         if (sortierkennzeichen.length() > 20) sortierkennzeichen = sortierkennzeichen.substring(0,20);
         
         int errorcode = createAlbum(title);
+        if(errorcode!=0) {
+            changeErrorCode(0);
+            return null;
+        }
         errorcode += editAlbumBeschreibung(title, beschreibung);
         errorcode += editAlbumSortierkennzeichen(title, sortierkennzeichen);
         if (errorcode!=0) {
@@ -75,6 +81,7 @@ public class AlbenController {
     * @return Album welches geändert wurde [+Fehlermeldung!!!]
     * @date 24.11.2015 by Danilo: Initialisierung
     * @date 25.11.2015 by Danilo: Initialisierung Stringprüfung und Fehlerbehandlung
+    * @date 29.11.2015 by Danilo: Fehlerkorrektur bei Fehler´haftenversuch ein Album anzulegen
     */
     public static Album editAlbum(String title, String newTitle, String beschreibung, String sortierkennzeichen) {
         // Prüfen der Eingabe
@@ -84,6 +91,10 @@ public class AlbenController {
         if (sortierkennzeichen.length() > 20) sortierkennzeichen = sortierkennzeichen.substring(0,20);
         
         int errorcode = editAlbumTitle(title, newTitle);
+        if(errorcode!=0) {
+            changeErrorCode(0);
+            return null;
+        }
         errorcode += editAlbumBeschreibung(newTitle, beschreibung);
         errorcode += editAlbumSortierkennzeichen(newTitle, sortierkennzeichen);
         if (errorcode!=0) {
