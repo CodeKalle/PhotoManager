@@ -53,7 +53,7 @@ public class GuiAlbumOverviewController implements Initializable{
             titel = getMarkiertesAlbum();
             if(titel == null) return;   //Wenn kein oder mehrere Alben markiert sind, bleibe in der aktuellen Übersicht.
             Main.speicher = titel;      //Titel zwischenspeichern, damit er im nächsten Fenster weiter verwendet werden kann.
-            Main.letztesFenster = "GuiAlbumOverview.fxml";
+            Main.letztesFensterVorCreateAlbum = "GuiAlbumOverview.fxml";
             stage=(Stage) guiAlbumOverviewAlbumBearbeiten.getScene().getWindow();
             root = FXMLLoader.load(getClass().getResource("GuiCreateAlbum.fxml"));
         }
@@ -83,7 +83,7 @@ public class GuiAlbumOverviewController implements Initializable{
         }
         else if(event.getSource()==guiAlbumOverviewNeuesAlbum) {
             Main.speicher = "";
-            Main.letztesFenster = "GuiAlbumOverview.fxml";
+            Main.letztesFensterVorCreateAlbum = "GuiAlbumOverview.fxml";
             stage=(Stage) guiAlbumOverviewNeuesAlbum.getScene().getWindow();
             root = FXMLLoader.load(getClass().getResource("GuiCreateAlbum.fxml"));
         }

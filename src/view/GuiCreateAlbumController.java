@@ -61,11 +61,11 @@ public class GuiCreateAlbumController implements Initializable {
             // get value guiCreateAlbumName, guiCreateAlbumBeschreibung, guiCreateAlbumComboBox; create Album(); wechsel zu --- albenübersicht oder in das neue album
             if(AlbumErstellen() == null) return;
             stage=(Stage) guiCreateAlbumOk.getScene().getWindow();
-            root = FXMLLoader.load(getClass().getResource(Main.letztesFenster));
+            root = FXMLLoader.load(getClass().getResource(Main.letztesFensterVorCreateAlbum));
         }
         else {
             stage=(Stage) guiCreateAlbumAbbrechen.getScene().getWindow();
-            root = FXMLLoader.load(getClass().getResource(Main.letztesFenster));
+            root = FXMLLoader.load(getClass().getResource(Main.letztesFensterVorCreateAlbum));
             
         }
         Scene scene = new Scene(root);
@@ -102,8 +102,18 @@ public class GuiCreateAlbumController implements Initializable {
         
         if(!bearbeitungsmodus)
             return AlbenController.createNewAlbum(titel, beschreibung, Integer.toString(sortierkennzeichen));
-        else
-            return AlbenController.editAlbum(origTitel, titel, beschreibung, beschreibung);
+        else {
+            //Wenn Album erfolgreich editiert, speicher den Titel des Albums in die globale Variable.
+            Album album = AlbenController.editAlbum(origTitel, titel, beschreibung, beschreibung);
+
+            if(album == null){
+                return null;
+            }
+            else {
+                Main.speicher = album.getTitel();
+                return album;
+            }  
+        }
     }
     
 }

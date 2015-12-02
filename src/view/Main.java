@@ -16,6 +16,7 @@ public class Main extends Application {
     private static Stage primaryStage;
     
     protected static String speicher;
+    protected static String letztesFensterVorCreateAlbum;
     protected static String letztesFenster;
     
     @Override

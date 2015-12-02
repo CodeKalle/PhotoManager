@@ -49,5 +49,9 @@ public class GuiAddFotoController implements Initializable{
     public void initialize(URL location, ResourceBundle resources) {       
         // Titel setzten
         Main.getPrimaryStage().setTitle("Photomanager - AddFoto.fxml");
+        
+        
+        //Treeview füllen:
+        
     }
 }

@@ -50,12 +50,11 @@ public class GuiSelectAlbumController implements Initializable{
             Main.speicher = titel;      //Titel zwischenspeichern, damit er im nächsten Fenster weiter verwendet werden kann.
             Main.letztesFenster = "GuiSelectAlbum.fxml";
             stage=(Stage) guiSelectAlbumAlbumWechseln.getScene().getWindow();
-            root = FXMLLoader.load(getClass().getResource("GuiAddFoto.fxml"));
+            root = FXMLLoader.load(getClass().getResource("GuiSelectedAlbum.fxml"));
         }
-
         else if(event.getSource()==guiSelectAlbumNeuesAlbum) {
             Main.speicher = "";
-            Main.letztesFenster = "GuiSelectAlbum.fxml";
+            Main.letztesFensterVorCreateAlbum = "GuiSelectAlbum.fxml";
             stage=(Stage) guiSelectAlbumNeuesAlbum.getScene().getWindow();
             root = FXMLLoader.load(getClass().getResource("GuiCreateAlbum.fxml"));
         }
@@ -79,7 +78,7 @@ public class GuiSelectAlbumController implements Initializable{
     @Override
     public void initialize(URL location, ResourceBundle resources) {       
         // Titel setzten
-        Main.getPrimaryStage().setTitle("Photomanager - Albenauswahl");
+        Main.getPrimaryStage().setTitle("Photomanager - GuiSelectAlbum.fxml");
         
         //Alben laden
         for(int i = 0; i < AlbenController.getAlbumList().size(); i++) {
