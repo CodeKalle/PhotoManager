@@ -59,7 +59,7 @@ public class GuiCreateAlbumController implements Initializable {
         }
         else if(event.getSource()==guiCreateAlbumOk) {      
             // get value guiCreateAlbumName, guiCreateAlbumBeschreibung, guiCreateAlbumComboBox; create Album(); wechsel zu --- albenübersicht oder in das neue album
-            if(AlbumErstellen() == null) return;
+            if(AlbumErstellen() != 0) return;
             stage=(Stage) guiCreateAlbumOk.getScene().getWindow();
             root = FXMLLoader.load(getClass().getResource(Main.letztesFensterVorCreateAlbum));
         }
@@ -94,7 +94,7 @@ public class GuiCreateAlbumController implements Initializable {
         }
     }    
 
-    private Album AlbumErstellen() {
+    private int AlbumErstellen() {
         String titel = guiCreateAlbumName.getText();
         String beschreibung = guiCreateAlbumBeschreibung.getText();
         int sortierkennzeichen = guiCreateAlbumComboBox.getSelectionModel().getSelectedIndex();
@@ -104,14 +104,14 @@ public class GuiCreateAlbumController implements Initializable {
             return AlbenController.createNewAlbum(titel, beschreibung, Integer.toString(sortierkennzeichen));
         else {
             //Wenn Album erfolgreich editiert, speicher den Titel des Albums in die globale Variable.
-            Album album = AlbenController.editAlbum(origTitel, titel, beschreibung, beschreibung);
+            int err = AlbenController.editAlbum(origTitel, titel, beschreibung, Integer.toString(sortierkennzeichen));
 
-            if(album == null){
-                return null;
+            if(err != 0){
+                return 0;
             }
             else {
-                Main.speicher = album.getTitel();
-                return album;
+                Main.speicher = titel;
+                return err;
             }  
         }
     }

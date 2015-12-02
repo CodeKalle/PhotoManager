@@ -1,6 +1,5 @@
 package controller;
 
-import static controller.ErrorController.changeErrorCode;
 import java.util.LinkedList;
 import java.util.List;
 import model.Album;
@@ -18,6 +17,7 @@ import model.Album;
  * @date 25.11.2015 by Danilo: Methoden getAlbumList und deleteListOfAlbum ergänzt
  * @date 28.11.2015 by Tobias: Methode editAlbumTitle ergänzt
  * @date 29.11.2015 by Danilo: Methode createNewAlbum und editAlbum ergänzt
+ * @date 01.12.2015 by Danilo: Fehlerkorrektur
  * @date 02.12.2015 by Tobias: Methode getAlbum auf public gesetzt
  * @date 02.12.2015 by Tobias: Methode editAlbumTitle ergänzt
  */
@@ -47,28 +47,22 @@ public class AlbenController {
     * @param title Titel des Albums welches erstellt werden soll
     * @param beschreibung Beschreibung des Albums welches erstellt werden soll
     * @param sortierkennzeichen Sortierkennzeichen des Albums welches erstellt werden soll
-    * @return Album welches erstellt wurde [+Fehlermeldung!!!]
+    * @return Fehlercode zur Auswertung
     * @date 24.11.2015 by Danilo: Initialisierung
     * @date 25.11.2015 by Danilo: Initialisierung Stringprüfung und Fehlerbehandlung
     * @date 29.11.2015 by Danilo: Fehlerkorrektur bei Fehler´haftenversuch ein Album anzulegen
+    * @date 01.12.2015 by Danilo: Fehlerkorrektur
     */
-    public static Album createNewAlbum(String title, String beschreibung, String sortierkennzeichen) {
+    public static int createNewAlbum(String title, String beschreibung, String sortierkennzeichen) {
         // Prüfen der Eingabe
         if (title.length() > 20) title = title.substring(0,20);
         if (beschreibung.length() > 200) beschreibung = beschreibung.substring(0,200);
         if (sortierkennzeichen.length() > 20) sortierkennzeichen = sortierkennzeichen.substring(0,20);
         
-        int errorcode = createAlbum(title);
-        if(errorcode!=0) {
-            changeErrorCode(0);
-            return null;
-        }
-        errorcode += editAlbumBeschreibung(title, beschreibung);
-        errorcode += editAlbumSortierkennzeichen(title, sortierkennzeichen);
-        if (errorcode!=0) {
-            changeErrorCode(0);
-        }
-        return getAlbum(title);
+        if (createAlbum(title)!=0) return 110;
+        if (editAlbumBeschreibung(title, beschreibung)!=0) return 120;
+        if (editAlbumSortierkennzeichen(title, sortierkennzeichen)!=0) return 130;
+        return 0;
     }
     
     /**
@@ -80,29 +74,23 @@ public class AlbenController {
     * @param newTitle Neuer Titel des Albums
     * @param beschreibung Neue Beschreibung des Albums
     * @param sortierkennzeichen Neues Sortierkennzeichen des Albums
-    * @return Album welches geändert wurde [+Fehlermeldung!!!]
+    * @return Fehlercode zur Auswertung
     * @date 24.11.2015 by Danilo: Initialisierung
     * @date 25.11.2015 by Danilo: Initialisierung Stringprüfung und Fehlerbehandlung
     * @date 29.11.2015 by Danilo: Fehlerkorrektur bei Fehler´haftenversuch ein Album anzulegen
+    * @date 01.12.2015 by Danilo: Fehlerkorrektur
     */
-    public static Album editAlbum(String title, String newTitle, String beschreibung, String sortierkennzeichen) {
+    public static int editAlbum(String title, String newTitle, String beschreibung, String sortierkennzeichen) {
         // Prüfen der Eingabe
         if (title.length() > 20) title = title.substring(0,20);
         if (newTitle.length() > 20) newTitle = newTitle.substring(0,20);
         if (beschreibung.length() > 200) beschreibung = beschreibung.substring(0,200);
         if (sortierkennzeichen.length() > 20) sortierkennzeichen = sortierkennzeichen.substring(0,20);
         
-        int errorcode = editAlbumTitle(title, newTitle);
-        if(errorcode!=0) {
-            changeErrorCode(0);
-            return null;
-        }
-        errorcode += editAlbumBeschreibung(newTitle, beschreibung);
-        errorcode += editAlbumSortierkennzeichen(newTitle, sortierkennzeichen);
-        if (errorcode!=0) {
-            changeErrorCode(0);
-        }
-        return getAlbum(newTitle);
+        if (editAlbumTitle(title, newTitle)!=0) return 150;
+        if (editAlbumBeschreibung(newTitle, beschreibung)!=0) return 160;
+        if (editAlbumSortierkennzeichen(newTitle, sortierkennzeichen)!=0) return 170;
+        return 0;
     }
     
     /**
@@ -132,6 +120,7 @@ public class AlbenController {
     * @date 23.11.2015 by Danilo: Rückgabewert geändert und Kommentar angepasst
     * @date 24.11.2015 by Danilo: Methode auf static gesetzt
     * @date 25.11.2015 by Danilo: Methode auf private gesetzt
+    * @date 01.12.2015 by Danilo: Fehlerkorrektur
     */
     private static int deleteAlbum(String title) {
         for (Album tmpAlbum : SystemController.getAlbumContainer().getAlbenListe()) {
@@ -141,7 +130,7 @@ public class AlbenController {
                 return 0;
             }
         }
-        return 1;
+        return 310;
     }
     
     /**
@@ -171,11 +160,12 @@ public class AlbenController {
     * @date 21.11.2015 by Danilo: Initialisierung
     * @date 23.11.2015 by Danilo: Kommentar angepasst
     * @date 24.11.2015 by Danilo: Methode auf static gesetzt
+    * @date 01.12.2015 by Danilo: Fehlerkorrektur
     */
     private static int createAlbum(String title){
         for (Album tmpAlbum : SystemController.getAlbumContainer().getAlbenListe()) {
             if (tmpAlbum.getTitel().equals(title)) {  
-                return 1;
+                return 320;
             }
         }
         Album newAlbum = new Album(title);
@@ -194,6 +184,7 @@ public class AlbenController {
     * @date 23.11.2015 by Danilo: Kommentar angepasst
     * @date 24.11.2015 by Danilo: Methode auf static gesetzt
     * @date 28.11.2015 by Tobias: Prüfung von newTitel hinzugefügt
+    * @date 01.12.2015 by Danilo: Fehlerkorrektur
     * @date 02.12.2015 by Tobias: Prüfen ob die Titel gleich sind
     */
     private static int editAlbumTitle(String title, String newTitle) {
@@ -206,7 +197,7 @@ public class AlbenController {
             else {
                 //Prüfen ob neuer Titel schon vergeben ist
                 if (tmpAlbum.getTitel().equals(newTitle)) {
-                    return 2;
+                    return 331;
                 }
                 if (tmpAlbum.getTitel().equals(title)) { 
                     tmpAlbum.setTitel(newTitle);
@@ -214,7 +205,7 @@ public class AlbenController {
                 }
             }
         }
-        return 1;
+        return 330;
     }
     
     /**
@@ -227,6 +218,7 @@ public class AlbenController {
     * @date 21.11.2015 by Danilo: Initialisierung
     * @date 23.11.2015 by Danilo: Kommentar angepasst
     * @date 24.11.2015 by Danilo: Methode auf static gesetzt
+    * @date 01.12.2015 by Danilo: Fehlerkorrektur
     */
     private static int editAlbumBeschreibung(String title, String beschreibung) {
         for (Album tmpAlbum : SystemController.getAlbumContainer().getAlbenListe()) {
@@ -235,7 +227,7 @@ public class AlbenController {
                 return 0;
             }
         }
-        return 1;
+        return 340;
     }
     
     /**
@@ -248,6 +240,7 @@ public class AlbenController {
     * @date 21.11.2015 by Danilo: Initialisierung
     * @date 23.11.2015 by Danilo: Kommentar angepasst
     * @date 24.11.2015 by Danilo: Methode auf static gesetzt
+    * @date 01.12.2015 by Danilo: Fehlerkorrektur
     */
     private static int editAlbumSortierkennzeichen(String title, String sortierkennzeichen) {
         for (Album tmpAlbum : SystemController.getAlbumContainer().getAlbenListe()) {
@@ -256,6 +249,6 @@ public class AlbenController {
                 return 0;
             }
         }
-        return 1;
+        return 350;
     }
 }
