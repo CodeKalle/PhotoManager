@@ -30,14 +30,9 @@ import javafx.stage.Stage;
  *
  * @author Tobias
  */
-public class GuiAlbumOverviewController implements Initializable{
-    @FXML
-    Button guiAlbumOverviewAlbumBearbeiten, 
-            guiAlbumOverviewAlbumWechseln, 
-            guiAlbumOverviewAlbumLoeschen, 
-            guiAlbumOverviewHauptmenue, 
-            guiAlbumOverviewFotoHinzufuegen,
-            guiAlbumOverviewNeuesAlbum;
+public class GuiSelectAlbumController implements Initializable{
+  @FXML
+    Button guiSelectAlbumNeuesAlbum, guiSelectAlbumAlbumWechseln, guiSelectAlbumHauptmenue;
     @FXML
     TilePane guiAlbumOverviewTilePane;
     
@@ -48,47 +43,23 @@ public class GuiAlbumOverviewController implements Initializable{
         Stage stage;
         Parent root; 
         String titel;
-        if(event.getSource()==guiAlbumOverviewAlbumBearbeiten){
+        if(event.getSource()==guiSelectAlbumAlbumWechseln) {                       
             //Methodenaufruf getMarkiertesAlbum
             titel = getMarkiertesAlbum();
             if(titel == null) return;   //Wenn kein oder mehrere Alben markiert sind, bleibe in der aktuellen Übersicht.
             Main.speicher = titel;      //Titel zwischenspeichern, damit er im nächsten Fenster weiter verwendet werden kann.
-            Main.letztesFensterVorCreateAlbum = "GuiAlbumOverview.fxml";
-            stage=(Stage) guiAlbumOverviewAlbumBearbeiten.getScene().getWindow();
-            root = FXMLLoader.load(getClass().getResource("GuiCreateAlbum.fxml"));
-        }
-        else if(event.getSource()==guiAlbumOverviewAlbumWechseln) {                       
-            //Methodenaufruf getMarkiertesAlbum
-            titel = getMarkiertesAlbum();
-            if(titel == null) return;   //Wenn kein oder mehrere Alben markiert sind, bleibe in der aktuellen Übersicht.
-            Main.speicher = titel;      //Titel zwischenspeichern, damit er im nächsten Fenster weiter verwendet werden kann.
-            Main.letztesFenster = "GuiAlbumOverview.fxml";
-            stage=(Stage) guiAlbumOverviewAlbumWechseln.getScene().getWindow();
+            Main.letztesFenster = "GuiSelectAlbum.fxml";
+            stage=(Stage) guiSelectAlbumAlbumWechseln.getScene().getWindow();
             root = FXMLLoader.load(getClass().getResource("GuiSelectedAlbum.fxml"));
         }
-        else if(event.getSource()==guiAlbumOverviewAlbumLoeschen) {
-            //Methodenaufruf Alben löschen
-            if(albenLoeschen() == 1) return;    //Wenn nicht geändert wurde, braucht die GUI nicht neu zu laden
-            stage=(Stage) guiAlbumOverviewFotoHinzufuegen.getScene().getWindow();
-            root = FXMLLoader.load(getClass().getResource("GuiAlbumOverview.fxml"));
-        }
-        else if(event.getSource()==guiAlbumOverviewFotoHinzufuegen) {       
-            //Methodenaufruf getMarkiertesAlbum
-            titel = getMarkiertesAlbum();
-            if(titel == null) return;   //Wenn kein oder mehrere Alben markiert sind, bleibe in der aktuellen Übersicht.
-            Main.speicher = titel;      //Titel zwischenspeichern, damit er im nächsten Fenster weiter verwendet werden kann.
-            Main.letztesFenster = "GuiAlbumOverview.fxml";
-            stage=(Stage) guiAlbumOverviewFotoHinzufuegen.getScene().getWindow();
-            root = FXMLLoader.load(getClass().getResource("GuiAddFoto.fxml"));
-        }
-        else if(event.getSource()==guiAlbumOverviewNeuesAlbum) {
+        else if(event.getSource()==guiSelectAlbumNeuesAlbum) {
             Main.speicher = "";
-            Main.letztesFensterVorCreateAlbum = "GuiAlbumOverview.fxml";
-            stage=(Stage) guiAlbumOverviewNeuesAlbum.getScene().getWindow();
+            Main.letztesFensterVorCreateAlbum = "GuiSelectAlbum.fxml";
+            stage=(Stage) guiSelectAlbumNeuesAlbum.getScene().getWindow();
             root = FXMLLoader.load(getClass().getResource("GuiCreateAlbum.fxml"));
         }
         else {
-            stage=(Stage) guiAlbumOverviewHauptmenue.getScene().getWindow();
+            stage=(Stage) guiSelectAlbumHauptmenue.getScene().getWindow();
             root = FXMLLoader.load(getClass().getResource("GuiMain.fxml"));
             
         }
@@ -107,7 +78,7 @@ public class GuiAlbumOverviewController implements Initializable{
     @Override
     public void initialize(URL location, ResourceBundle resources) {       
         // Titel setzten
-        Main.getPrimaryStage().setTitle("Photomanager - Alben");
+        Main.getPrimaryStage().setTitle("Photomanager - GuiSelectAlbum.fxml");
         
         //Alben laden
         for(int i = 0; i < AlbenController.getAlbumList().size(); i++) {
@@ -145,36 +116,8 @@ public class GuiAlbumOverviewController implements Initializable{
             //Fertiges Konstrukt in Pane anzeigen
             guiAlbumOverviewTilePane.getChildren().add(i + 1, lpane);
         }
-    }
-
-    /**
-     * Diese Methode ruft die Löschen Methode des AlbenControllers auf und löscht die markierten Alben.
-     * @return 0 wenn erfolgreich, 1 wenn keine Alben ausgewählt waren
-     * 
-     * Version-History:
-     * @date 01.12.2015 by Manuel Zeidler and Tobias Dahm: Initialisierung
-     */
-    private int albenLoeschen() {
-        List<String> alben = new LinkedList();
-        
-        for(int i = 1; i < guiAlbumOverviewTilePane.getChildren().size(); i++){
-            Pane pane = (Pane) guiAlbumOverviewTilePane.getChildren().get(i);
-            CheckBox checkBox = (CheckBox) pane.getChildren().get(1);
-            Label label = (Label) pane.getChildren().get(2);
-            
-            if(checkBox.isSelected())
-                alben.add(label.getText());
-        }
-
-        if(alben.isEmpty()) {
-            return 1;
-        }
-        else {
-            AlbenController.deleteListOfAlbum(alben);
-            return 0;
-        }
-    }
-
+    } 
+    
     
     /**
      * Diese Methode gibt den Titel eines markierten Album zurück.
