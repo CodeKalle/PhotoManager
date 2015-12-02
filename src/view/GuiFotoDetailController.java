@@ -18,25 +18,24 @@ import javafx.scene.control.Button;
 import javafx.stage.Stage;
 
 /**
- * FXML Controller class
  *
- * @author Tobias
+ * @author targhed
  */
-public class GuiSelectedAlbumController implements Initializable { 
-     @FXML
-    Button guiAlbumOverviewAlbumBearbeiten, guiAlbumOverviewAlbumWechseln, guiAlbumOverviewAlbumLoeschen, guiAlbumOverviewHauptmenue, guiAlbumOverviewFotoHinzufuegen;
-
+public class GuiFotoDetailController implements Initializable{
+    
+    @FXML
+    Button guiFotoDetailAbbrechen, guiFotoDetailBearbeiten;
     
     @FXML
     public void handleButtonAction(ActionEvent event) throws IOException{
         Stage stage;
         Parent root;        
-        if(event.getSource()==guiAlbumOverviewAlbumBearbeiten){
-            stage=(Stage) guiAlbumOverviewAlbumBearbeiten.getScene().getWindow();
+        if(event.getSource()==guiFotoDetailBearbeiten){
+            stage=(Stage) guiFotoDetailBearbeiten.getScene().getWindow();
             root = FXMLLoader.load(getClass().getResource("GuiAlbumBearbeiten.fxml"));
         }
         else {
-            stage=(Stage) guiAlbumOverviewHauptmenue.getScene().getWindow();
+            stage=(Stage) guiFotoDetailAbbrechen.getScene().getWindow();
             root = FXMLLoader.load(getClass().getResource("GuiMain.fxml"));
             
         }
@@ -44,9 +43,11 @@ public class GuiSelectedAlbumController implements Initializable {
         stage.setScene(scene);
         stage.show();
     }
+   
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        Main.getPrimaryStage().setTitle("Photomanager - SelectedAlbum");
+        Main.getPrimaryStage().setTitle("Photomanager - FotoDetail.fxml");
     }
+    
 }

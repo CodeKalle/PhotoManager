@@ -15,6 +15,9 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
 /**
@@ -27,20 +30,38 @@ public class GuiAlbumBearbeitenController implements Initializable{
     String sortierkennzeichen;
     
     @FXML
-    Button DummyButton;
+    Button guiAlbumBearbeitenHinzufuegen,guiAlbumBearbeitenLoeschen,guiAlbumBearbeitenOk,guiAlbumBearbeitenAbbrechen;
+    @FXML
+    private TextArea guiAlbumBearbeitenBeschreibung;
+    @FXML
+    private TextField guiAlbumBearbeitenAlbumtitel;
+    @FXML
+    private ComboBox guiAlbumBearbeiten;
 
     
     @FXML
     public void handleButtonAction(ActionEvent event) throws IOException{
         Stage stage;
         Parent root;        
-        if(event.getSource()==DummyButton){
-            stage=(Stage) DummyButton.getScene().getWindow();
+        if(event.getSource()==guiAlbumBearbeitenOk){
+            // set value titel beschreibung sortierkennzeichen, wechsel zu alben overview wenn erfolgreich
+            stage=(Stage) guiAlbumBearbeitenOk.getScene().getWindow();
+            root = FXMLLoader.load(getClass().getResource("GuiAlbumOverview.fxml"));
+        }
+        else if(event.getSource()==guiAlbumBearbeitenLoeschen){
+            // Sortierkennzeichen entfernen, gui reload wenn erfolgreich
+            stage=(Stage) guiAlbumBearbeitenLoeschen.getScene().getWindow();
+            root = FXMLLoader.load(getClass().getResource("GuiAlbumBearbeiten.fxml"));
+        }
+        else if(event.getSource()==guiAlbumBearbeitenHinzufuegen){
+            // Sortierkennzeichen Hinzufügen, gui reload wenn erfolgreich
+            stage=(Stage) guiAlbumBearbeitenHinzufuegen.getScene().getWindow();
             root = FXMLLoader.load(getClass().getResource("GuiAlbumBearbeiten.fxml"));
         }
         else {
-            stage=(Stage) DummyButton.getScene().getWindow();
-            root = FXMLLoader.load(getClass().getResource("GuiMain.fxml"));
+            // abbruch zurück zu alben overview
+            stage=(Stage) guiAlbumBearbeitenAbbrechen.getScene().getWindow();
+            root = FXMLLoader.load(getClass().getResource("GuiAlbumOverview.fxml"));
             
         }
         Scene scene = new Scene(root);
@@ -56,5 +77,6 @@ public class GuiAlbumBearbeitenController implements Initializable{
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         this.titel = Main.speicher;
+        Main.getPrimaryStage().setTitle("Photomanager - AlbumBearbeiten.fxml");
     }
 }

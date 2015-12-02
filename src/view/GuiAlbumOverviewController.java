@@ -80,7 +80,7 @@ public class GuiAlbumOverviewController implements Initializable{
         }
         else if(event.getSource()==guiAlbumOverviewNeuesAlbum) {                       
             stage=(Stage) guiAlbumOverviewNeuesAlbum.getScene().getWindow();
-            root = FXMLLoader.load(getClass().getResource("GuiAlbumBearbeiten.fxml"));
+            root = FXMLLoader.load(getClass().getResource("GuiCreateAlbum.fxml"));
         }
         else {
             stage=(Stage) guiAlbumOverviewHauptmenue.getScene().getWindow();

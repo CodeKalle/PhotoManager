@@ -7,8 +7,20 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane id="AnchorPane" prefHeight="600.0" prefWidth="800.0" styleClass="mainFxmlClass" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8" fx:controller="view.GuiAlbumBearbeitenController">
+<AnchorPane id="AnchorPane" prefHeight="600.0" prefWidth="800.0" styleClass="mainFxmlClass" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.GuiAlbumBearbeitenController">
     <stylesheets>
         <URL value="@GuiStyle.css" />
     </stylesheets>
+   <children>
+      <Label layoutX="96.0" layoutY="82.0" text="Albumtitel:" />
+      <Label layoutX="96.0" layoutY="160.0" text="Beschreibung" />
+      <Label layoutX="82.0" layoutY="380.0" text="Sortierkennzeichen" />
+      <TextField fx:id="guiAlbumBearbeitenAlbumtitel" layoutX="212.0" layoutY="78.0" prefHeight="25.0" prefWidth="538.0" />
+      <TextArea id="guiAlbumBearbeitenBeschreibung" fx:id="guiAlbumBearbeitenBeschreibung" layoutX="212.0" layoutY="160.0" prefHeight="167.0" prefWidth="538.0" />
+      <ComboBox fx:id="guiAlbumBearbeitenSortierkennzeichen" layoutX="325.0" layoutY="375.0" prefWidth="150.0" />
+      <Button fx:id="guiAlbumBearbeitenHinzufuegen" layoutX="543.0" layoutY="363.0" mnemonicParsing="false" onAction="#handleButtonAction" text="Hinzufügen" />
+      <Button fx:id="guiAlbumBearbeitenLoeschen" layoutX="543.0" layoutY="411.0" mnemonicParsing="false" onAction="#handleButtonAction" text="Löschen" />
+      <Button fx:id="guiAlbumBearbeitenOk" layoutX="543.0" layoutY="535.0" mnemonicParsing="false" onAction="#handleButtonAction" text="Ok" />
+      <Button fx:id="guiAlbumBearbeitenAbbrechen" layoutX="659.0" layoutY="535.0" mnemonicParsing="false" onAction="#handleButtonAction" text="Abbrechen" />
+   </children>
 </AnchorPane>
