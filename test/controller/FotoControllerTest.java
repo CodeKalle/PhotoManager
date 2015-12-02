@@ -35,24 +35,29 @@ import org.junit.Ignore;
  * @author Daniel
  * 
  * @date 01.12.2015 by Daniel: Neustrukturierung für Kompatibilität mit zukünftigem TestRunner; testAddListOfFotosToAlbum bearbeitet; testDeleteAllFotosInAlbum hinzugefügt
- * @date 02.12.2015 by Daniel: testdaten, testGetFotosFromAlbum hinzugefügt
+ * @date 02.12.2015 by Daniel: testdaten, testGetFotosFromAlbum hinzugefügt; tearDown löscht container, metadaten funktioniert nicht (Kurztitel=null)
  */
 public class FotoControllerTest {
     
     private Album testAlbum;
     private Foto testFoto;
     private Path pathOfFoto;
+    private Metadaten meta;
     private List<Path> listOfPathes;
     private String title = "title";
     private String beschreibung = "beschr";
     private String sortierkennzeichen = "kennz";
+    private String fototitel = "Fototitel";
+    private String kurztitel = "Kurztitel";
         
     public FotoControllerTest() {
         testAlbum = AlbenController.createNewAlbum(title, beschreibung, sortierkennzeichen);
         pathOfFoto = Paths.get("test/testdaten/Testbild43.jpeg");
-        testFoto = new Foto("Fototitel", pathOfFoto);
+        testFoto = new Foto(fototitel, pathOfFoto);
         listOfPathes = new LinkedList<>();
         listOfPathes.add(pathOfFoto);
+        meta = new Metadaten();
+        meta.setzeWert(kurztitel, kurztitel);
     }
     
     @BeforeClass
@@ -61,6 +66,7 @@ public class FotoControllerTest {
     
     @AfterClass
     public static void tearDownClass() {
+        SystemController.getAlbumContainer().getAlbenListe().clear();
         SystemController.getFotoContainer().getFotoMap().clear();
     }
     
@@ -82,15 +88,8 @@ public class FotoControllerTest {
         System.out.println("Name: " + result.getName());
         System.out.println("Pfad: " + result.getPfad());
         System.out.println("Groesse: " + result.getGroesse());
-        System.out.println("Metadata: " + result.getMetadata());
+        System.out.println("Metadata: " + result.getMetadata().getDaten());
         System.out.println("Counter: " + result.getCounter());
-    }
-    
-    /**
-     * Leert den Fotocontainer.
-     */
-    private void cleanFotoContainer() {
-        SystemController.getFotoContainer().getFotoMap().clear();
     }
     
     /**
@@ -111,31 +110,35 @@ public class FotoControllerTest {
     }
     
     /**
-     * Test of setMetaInFoto method, of class FotoController.
+     * Testet die Methode testSetMetaInFoto der Klasse FotoController.
+     * Testet, ob die gesetzten Metadaten des Fotos mit der lokal erstellten Metadaten übereinstimmen.
      */
     @Test
     @Ignore
     public void testSetMetaInFoto() {
         System.out.println("setMetaInFoto");
-      /*  Metadaten expResult = meta;
+        System.out.println(pathOfFoto + " : " + meta.getDaten());
         
         FotoController.setMetaInFoto(pathOfFoto, meta);
-        Metadaten result = FotoController.getMetaFromFoto(pathOfFoto);
+        Map<String, Object> expResult = meta.getDaten();
+        System.out.println(expResult);
+        
+        Map<String, Object> result = FotoController.getMetaFromFoto(pathOfFoto).getDaten();
+        System.out.println(result);
         assertEquals(expResult, result);
-        cleanFotoContainer();*/
     }
 
     /**
-     * Test of getMetaFromFoto method, of class FotoController.
+     * Testet die Methode testGetFotosFromAlbum der Klasse FotoController.
+     * Testet, ob die geholten Metadaten des Fotos mit den lokal erstellten Metadaten übereinstimmen.
      */
     @Test
     @Ignore
     public void testGetMetaFromFoto() {
         System.out.println("getMetaFromFoto");
-     //   Metadaten expResult = meta;
+        Metadaten expResult = meta;
         Metadaten result = FotoController.getMetaFromFoto(pathOfFoto);
-     //   assertEquals(expResult, result);
-        cleanFotoContainer();
+        assertEquals(expResult, result);
     }
 
     /**

@@ -26,6 +26,7 @@ import org.junit.Ignore;
  * @author Daniel
  * 
  * @date 01.12.2015 by Daniel: Ignores für nicht-bearbeitete Tests gesetzt.
+ * @date 01.12.2015 by Daniel: tearDown löscht container
  */
 public class AlbenControllerTest {
     
@@ -46,7 +47,8 @@ public class AlbenControllerTest {
     
     @After
     public void tearDown() {
-        cleanAlbumContainer();
+        SystemController.getAlbumContainer().getAlbenListe().clear();
+        SystemController.getFotoContainer().getFotoMap().clear();
     }
 
     /**
@@ -62,16 +64,7 @@ public class AlbenControllerTest {
         System.out.println("Erstellungdatum: " + result.getErstellungdatum());
         System.out.println("FotoListe: " + result.getFotoListe());
     }
-    
-    /**
-     * Leert den Albencontainer.
-     */
-    private void cleanAlbumContainer() {
-        for (Album tmpAlbum : SystemController.getAlbumContainer().getAlbenListe()) {
-            SystemController.getAlbumContainer().getAlbenListe().remove(tmpAlbum);
-        }
-    }
-    
+
     /**
      * Testet die Methode createNewAlbum der Klasse AlbenController.
      * Testet, ob ein Album angelegt wird.
