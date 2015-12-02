@@ -48,7 +48,7 @@ public class FotoControllerTest {
         
     public FotoControllerTest() {
         testAlbum = AlbenController.createNewAlbum(title, beschreibung, sortierkennzeichen);
-        pathOfFoto = Paths.get("Testbild43.jpeg");
+        pathOfFoto = Paths.get("test/testdaten/Testbild43.jpeg");
         testFoto = new Foto("Fototitel", pathOfFoto);
         listOfPathes = new LinkedList<>();
         listOfPathes.add(pathOfFoto);
@@ -180,5 +180,4 @@ public class FotoControllerTest {
         List<Foto> result = AlbenController.getAlbum(title).getFotoListe();
         assertEquals(expResult, result);
     }
-    
 }
