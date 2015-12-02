@@ -39,6 +39,8 @@ public class GuiCreateAlbumController implements Initializable {
     private TextArea guiCreateAlbumBeschreibung;
 
     
+    String titel, beschreibung;
+    
     @FXML
     public void handleButtonAction(ActionEvent event) throws IOException{
         Stage stage;
@@ -77,6 +79,16 @@ public class GuiCreateAlbumController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         Main.getPrimaryStage().setTitle("Photomanager - CreateAlbum.fxml");
         // TODO
+        
+        this.titel = Main.speicher;
+        
+        if(!this.titel.isEmpty()) {
+            Album album = AlbenController.getAlbum(titel);
+            
+            guiCreateAlbumName.setText(album.getTitel());
+            guiCreateAlbumBeschreibung.setText(album.getBeschreibung());
+            guiCreateAlbumComboBox.getSelectionModel().select(0);
+        }
     }    
 
     private Album AlbumErstellen() {
