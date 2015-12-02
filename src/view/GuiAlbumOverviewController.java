@@ -54,7 +54,7 @@ public class GuiAlbumOverviewController implements Initializable{
             if(titel == null) return;   //Wenn kein oder mehrere Alben markiert sind, bleibe in der aktuellen Übersicht.
             Main.speicher = titel;      //Titel zwischenspeichern, damit er im nächsten Fenster weiter verwendet werden kann.
             stage=(Stage) guiAlbumOverviewAlbumBearbeiten.getScene().getWindow();
-            root = FXMLLoader.load(getClass().getResource("GuiAlbumBearbeiten.fxml"));
+            root = FXMLLoader.load(getClass().getResource("GuiCreateAlbum.fxml"));
         }
         else if(event.getSource()==guiAlbumOverviewAlbumWechseln) {                       
             //Methodenaufruf getMarkiertesAlbum
@@ -78,7 +78,8 @@ public class GuiAlbumOverviewController implements Initializable{
             stage=(Stage) guiAlbumOverviewFotoHinzufuegen.getScene().getWindow();
             root = FXMLLoader.load(getClass().getResource("GuiAddFoto.fxml"));
         }
-        else if(event.getSource()==guiAlbumOverviewNeuesAlbum) {                       
+        else if(event.getSource()==guiAlbumOverviewNeuesAlbum) {
+            Main.speicher = "";
             stage=(Stage) guiAlbumOverviewNeuesAlbum.getScene().getWindow();
             root = FXMLLoader.load(getClass().getResource("GuiCreateAlbum.fxml"));
         }
