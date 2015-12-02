@@ -104,13 +104,8 @@ public class GuiAlbumOverviewController implements Initializable{
         // Titel setzten
         Main.getPrimaryStage().setTitle("Photomanager - Alben");
         
-        liste.add("Album A");
-        liste.add("Album B");
-        liste.add("Album C");
-        
         //Alben laden
-        //for(int i = 0; i < AlbenController.getAlbumList().size(); i++) {
-        for(int i = 0; i < liste.size(); i++) {
+        for(int i = 0; i < AlbenController.getAlbumList().size(); i++) {
             //Für jedes Bild Konstrukt zusammensetzen
             Pane lpane = new Pane();            
             lpane.setPrefSize(80, 100);
@@ -134,7 +129,7 @@ public class GuiAlbumOverviewController implements Initializable{
             label.setLayoutY(80.0);
             label.setPrefHeight(20);
             label.setPrefWidth(80);
-            label.setText(liste.get(i));
+            label.setText(AlbenController.getAlbumList().get(i));
             
             
             lpane.getChildren().add(imageView); //ID 0
