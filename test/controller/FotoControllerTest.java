@@ -35,6 +35,7 @@ import org.junit.Ignore;
  * @author Daniel
  * 
  * @date 01.12.2015 by Daniel: Neustrukturierung für Kompatibilität mit zukünftigem TestRunner; testAddListOfFotosToAlbum bearbeitet; testDeleteAllFotosInAlbum hinzugefügt
+ * @date 02.12.2015 by Daniel: testdaten, testGetFotosFromAlbum hinzugefügt
  */
 public class FotoControllerTest {
     
@@ -138,18 +139,16 @@ public class FotoControllerTest {
     }
 
     /**
-     * Test of getFotosFromAlbum method, of class FotoController.
+     * Testet die Methode testGetFotosFromAlbum der Klasse FotoController.
+     * Testet, ob die Fotoliste des Albums mit der lokal erstellten Liste übereinstimmt.
      */
     @Test
-    @Ignore
     public void testGetFotosFromAlbum() {
         System.out.println("getFotosFromAlbum");
-        String title = "";
-        List<Path> expResult = null;
-        List<Path> result = FotoController.getFotosFromAlbum(title);
+        FotoController.addListOfFotosToAlbum(title, listOfPathes);
+        List expResult = listOfPathes;
+        List result = FotoController.getFotosFromAlbum(title);
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
 
     /**
