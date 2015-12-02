@@ -19,6 +19,7 @@ import model.Album;
  * @date 28.11.2015 by Tobias: Methode editAlbumTitle ergänzt
  * @date 29.11.2015 by Danilo: Methode createNewAlbum und editAlbum ergänzt
  * @date 02.12.2015 by Tobias: Methode getAlbum auf public gesetzt
+ * @date 02.12.2015 by Tobias: Methode editAlbumTitle ergänzt
  */
 public class AlbenController {
  
@@ -193,16 +194,24 @@ public class AlbenController {
     * @date 23.11.2015 by Danilo: Kommentar angepasst
     * @date 24.11.2015 by Danilo: Methode auf static gesetzt
     * @date 28.11.2015 by Tobias: Prüfung von newTitel hinzugefügt
+    * @date 02.12.2015 by Tobias: Prüfen ob die Titel gleich sind
     */
     private static int editAlbumTitle(String title, String newTitle) {
         for (Album tmpAlbum : SystemController.getAlbumContainer().getAlbenListe()) {
-            //Prüfen ob neuer Titel schon vergeben ist
-            if (tmpAlbum.getTitel().equals(newTitle)) {
-                return 2;
-            }
-            if (tmpAlbum.getTitel().equals(title)) { 
-                tmpAlbum.setTitel(newTitle);
+            //Wenn die Titel gleich sind, muss nichts geändert werden
+            if(title.equals(newTitle)) {
                 return 0;
+            }
+            //Wenn die Titel unterschiedlich sind:
+            else {
+                //Prüfen ob neuer Titel schon vergeben ist
+                if (tmpAlbum.getTitel().equals(newTitle)) {
+                    return 2;
+                }
+                if (tmpAlbum.getTitel().equals(title)) { 
+                    tmpAlbum.setTitel(newTitle);
+                   return 0;
+                }
             }
         }
         return 1;

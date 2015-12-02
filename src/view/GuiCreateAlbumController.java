@@ -39,7 +39,9 @@ public class GuiCreateAlbumController implements Initializable {
     private TextArea guiCreateAlbumBeschreibung;
 
     
-    String titel, beschreibung;
+    String origTitel, titel, beschreibung;
+    Boolean bearbeitungsmodus = false;
+    
     
     @FXML
     public void handleButtonAction(ActionEvent event) throws IOException{
@@ -59,11 +61,11 @@ public class GuiCreateAlbumController implements Initializable {
             // get value guiCreateAlbumName, guiCreateAlbumBeschreibung, guiCreateAlbumComboBox; create Album(); wechsel zu --- albenübersicht oder in das neue album
             if(AlbumErstellen() == null) return;
             stage=(Stage) guiCreateAlbumOk.getScene().getWindow();
-            root = FXMLLoader.load(getClass().getResource("GuiAlbumOverview.fxml"));
+            root = FXMLLoader.load(getClass().getResource(Main.letztesFenster));
         }
         else {
             stage=(Stage) guiCreateAlbumAbbrechen.getScene().getWindow();
-            root = FXMLLoader.load(getClass().getResource("GuiAlbumOverview.fxml"));
+            root = FXMLLoader.load(getClass().getResource(Main.letztesFenster));
             
         }
         Scene scene = new Scene(root);
@@ -80,10 +82,11 @@ public class GuiCreateAlbumController implements Initializable {
         Main.getPrimaryStage().setTitle("Photomanager - CreateAlbum.fxml");
         // TODO
         
-        this.titel = Main.speicher;
+        this.origTitel = Main.speicher;
         
-        if(!this.titel.isEmpty()) {
-            Album album = AlbenController.getAlbum(titel);
+        if(!this.origTitel.isEmpty()) {
+            this.bearbeitungsmodus = true;
+            Album album = AlbenController.getAlbum(origTitel);
             
             guiCreateAlbumName.setText(album.getTitel());
             guiCreateAlbumBeschreibung.setText(album.getBeschreibung());
@@ -97,7 +100,10 @@ public class GuiCreateAlbumController implements Initializable {
         int sortierkennzeichen = guiCreateAlbumComboBox.getSelectionModel().getSelectedIndex();
         
         
-        return AlbenController.createNewAlbum(titel, beschreibung, Integer.toString(sortierkennzeichen));
+        if(!bearbeitungsmodus)
+            return AlbenController.createNewAlbum(titel, beschreibung, Integer.toString(sortierkennzeichen));
+        else
+            return AlbenController.editAlbum(origTitel, titel, beschreibung, beschreibung);
     }
     
 }

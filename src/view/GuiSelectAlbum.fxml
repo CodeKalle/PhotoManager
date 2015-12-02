@@ -9,7 +9,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane id="AnchorPane" prefHeight="600.0" prefWidth="800.0" styleClass="mainFxmlClass" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.GuiAlbumOverviewController">
+<AnchorPane id="AnchorPane" prefHeight="600.0" prefWidth="800.0" styleClass="mainFxmlClass" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.GuiSelectAlbumController">
     <stylesheets>
         <URL value="@GuiStyle.css" />
     </stylesheets>
@@ -31,7 +31,7 @@
                            <children>
                               <Pane prefHeight="100.0" prefWidth="80.0">
                                  <children>
-                                    <Button fx:id="guiAlbumOverviewNeuesAlbum" mnemonicParsing="false" onAction="#handleButtonAction" prefHeight="80.0" prefWidth="80.0" text="Neues Album" textAlignment="CENTER" wrapText="true" />
+                                    <Button fx:id="guiSelectAlbumNeuesAlbum" mnemonicParsing="false" onAction="#handleButtonAction" prefHeight="80.0" prefWidth="80.0" text="Neues Album" textAlignment="CENTER" wrapText="true" />
                                  </children>
                               </Pane>
                            </children></TilePane>
@@ -42,8 +42,8 @@
             <TilePane id="TilePaneAddAlbum" fx:id="tp" alignment="CENTER" hgap="150.0" prefColumns="3" prefRows="2" tileAlignment="TOP_LEFT" vgap="20.0" GridPane.rowIndex="1">
                <children>
                   <Label text="Bitte wählen Sie ein Album aus." />
-                  <Button id="guiAlbumOverviewAlbumWechseln" fx:id="guiAlbumOverviewAlbumWechseln" mnemonicParsing="false" onAction="#handleButtonAction" text="In Album wechseln" />
-                  <Button id="guiAlbumOverviewHauptmenue" fx:id="guiAlbumOverviewHauptmenue" mnemonicParsing="false" onAction="#handleButtonAction" text="Zurück zum Hauptmenü" />
+                  <Button id="guiAlbumOverviewAlbumWechseln" fx:id="guiSelectAlbumAlbumWechseln" mnemonicParsing="false" onAction="#handleButtonAction" text="In Album wechseln" />
+                  <Button id="guiAlbumOverviewHauptmenue" fx:id="guiSelectAlbumHauptmenue" mnemonicParsing="false" onAction="#handleButtonAction" text="Zurück zum Hauptmenü" />
                </children>
             </TilePane>
          </children>

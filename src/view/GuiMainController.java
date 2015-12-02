@@ -41,7 +41,7 @@ public class GuiMainController implements Initializable{
         }
         else {
             stage=(Stage) guiMainButtonFoto.getScene().getWindow();
-            root = FXMLLoader.load(getClass().getResource("GuiAddFoto.fxml"));
+            root = FXMLLoader.load(getClass().getResource("GuiSelectAlbum.fxml"));
             
         }
         Scene scene = new Scene(root);
