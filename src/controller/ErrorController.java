@@ -43,24 +43,125 @@ public class ErrorController {
         String text;
         List<String> buttonlist = new ArrayList<>();
         int opt;
-        switch (errorcode) {            
+        switch (errorcode) {  case 110:
+                title = "Albumanlege-Fehler";
+                text = "";
+                opt = 0;
+                buttonlist.add("OK");
+                break;
+            case 120:
+                title = "Albumanlege-Fehler";
+                text = "";
+                opt = 0;
+                buttonlist.add("OK");
+                break;
+            case 130:
+                title = "Albumanlege-Fehler";
+                text = "";
+                opt = 0;
+                buttonlist.add("OK");
+                break;
+            case 150:
+                title = "Albumänderungs-Fehler";
+                text = "";
+                opt = 0;
+                buttonlist.add("OK");
+                break;
+            case 160:
+                title = "Albumänderungs-Fehler";
+                text = "";
+                opt = 0;
+                buttonlist.add("OK");
+                break;
+            case 170:
+                title = "Albumänderungs-Fehler";
+                text = "";
+                opt = 0;
+                buttonlist.add("OK");
+                break;
+            case 310:
+                title = "Albumlösch-Fehler";
+                text = "";
+                opt = 0;
+                buttonlist.add("OK");
+                break;
+            case 320:
+                title = "Albumerstellen-Fehler";
+                text = "";
+                opt = 0;
+                buttonlist.add("OK");
+                break;
+            case 330:
+                title = "Albumtiteländerungs-Fehler";
+                text = "";
+                opt = 0;
+                buttonlist.add("OK");
+                break;
+            case 331:
+                title = "Albumtiteländerungs-Fehler";
+                text = "";
+                opt = 0;
+                buttonlist.add("OK");
+                break;
+            case 340:
+                title = "Albumbeschreibungänderungs-Fehler";
+                text = "";
+                opt = 0;
+                buttonlist.add("OK");
+                break;
+            case 350:
+                title = "Albumsortierkennzeichenänderungs-Fehler";
+                text = "";
+                opt = 0;
+                buttonlist.add("OK");
+                break;
+            case 410:
+                title = "Fotospeicher-Fehler";
+                text = "";
+                opt = 0;
+                buttonlist.add("OK");
+                break;
+            case 420:
+                title = "Fotospeicher-Fehler";
+                text = "";
+                opt = 0;
+                buttonlist.add("OK");
+                break;
+            case 430:
+                title = "Fotospeicher-Fehler";
+                text = "";
+                opt = 0;
+                buttonlist.add("OK");
+                break;
+            case 450:
+                title = "Fotolösch-Fehler";
+                text = "";
+                opt = 0;
+                buttonlist.add("OK");
+                break;
+            case 510:
+                title = "Metadatenfehler";
+                text = "";
+                opt = 0;
+                buttonlist.add("OK");
+                break;          
             case 800:
                 title = "Datenbankfehler";
                 text = "Datenbank ist schreibgeschützt!";
                 opt = 1;
-                buttonlist.add("Abbrechen");
+                buttonlist.add("OK");
                 break;
             case 801:
                 title = "Datenbankfehler";
                 text = "Zugriff auf Datenbank nicht möglich!";
                 opt = 0;
-                buttonlist.add("Abbrechen");
+                buttonlist.add("OK");
                 break;
             case 805:
                 title = "Datenbank-Speicherfehler";
                 text = "Datenbanksystem konnte nicht ordnungsgemäß gespeichert werden.";
                 opt = 0;
-                buttonlist.add("Abbrechen");
+                buttonlist.add("OK");
                 break;
             case 806:
                 title = "Datenbank-Ladefehler";
