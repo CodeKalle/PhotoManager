@@ -16,9 +16,9 @@ import static org.junit.Assert.*;
  *
  * @author Daniel
  */
-public class UseCase_Album_anlegen {
+public class UserStory_Album_anlegen {
     
-    public UseCase_Album_anlegen() {
+    public UserStory_Album_anlegen() {
     }
     
     @BeforeClass
