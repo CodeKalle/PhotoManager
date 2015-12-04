@@ -17,6 +17,7 @@ import model.PmSystem;
  * Version-History:
  * @date 20.11.2015 by Danilo: Initialisierung
  * @date 23.11.2015 by Danilo: Kommentare ergänzt
+ * @date 04.12.2015 by Benni: "Datenbankverzeichnis" sollte ausgelessen werden können 
  */
 public class SystemController {
     
