@@ -5,25 +5,20 @@
  */
 package controller;
 
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 import model.Album;
-import static org.hamcrest.CoreMatchers.equalTo;
-import static org.hamcrest.CoreMatchers.hasItem;
-import static org.hamcrest.CoreMatchers.hasItems;
 import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.CoreMatchers.notNullValue;
-import static org.hamcrest.CoreMatchers.sameInstance;
+import static org.hamcrest.CoreMatchers.not;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
-import org.junit.Ignore;
+import org.apache.commons.lang.RandomStringUtils;
+import org.apache.commons.lang.math.RandomUtils;
+import static org.hamcrest.CoreMatchers.nullValue;
 
 /**
  * Der AlbenControllerTest testet alle Methoden der Klasse AlbenController.
@@ -33,175 +28,614 @@ import org.junit.Ignore;
  * @date 01.12.2015 by Daniel: Ignores für nicht-bearbeitete Tests gesetzt.
  * @date 02.12.2015 by Daniel: tearDown löscht container
  * @date 03.12.2015 by Daniel: editAlbum, createNewAlbumIsExpectedAlbum, deleteAlbum, deleteListOfAlbums, createNewAlbum hinzugefügt
+ * @date 04.12.2015 by Danilo: Anpassung an geänderten AlbenController
  */
 public class AlbenControllerTest {
     
-    private String title = "titel";
-    private String newTitle = "neuer titel";
-    private String beschreibung = "beschr";
-    private String newBeschreibung = "neue beschr";
-    private String sortierkennzeichen = "kennz";
-    private String newSortierkennzeichen = "neues kennz";
+    /**
+     * Klassenvariablen
+     * 
+     * Version-History:
+     * @date 01.12.2015 by Daniel: Initialisierung
+     * @date 04.12.2015 by Danilo: Anpassung an geänderten AlbenController
+     */
+    private static List<Album> listOfAlbum;
+    private static long timeUsing;
+    private static long timeGeneral;
+    // Fixe Testdaten
+    private static String title;
+    private static String beschreibung;
+    private static String sortierkennzeichen;
+    // Neue fixe Testdaten
+    private static String newTitle;
+    private static String newBeschreibung;
+    private static String newSortierkennzeichen;
+    // Zufällige Testdaten
+    private String randomTitel;
+    private String randomBeschreibung;
+    private String randomSortierkennzeichen;
+    // Weitere Testdaten
+    private final static String EMPTYSTRING = "";
+    private final static String NULLSTRING = null; 
     
     public AlbenControllerTest() {
     }
     
+    /**
+     * Initialisierung der Fixen Testdaten für Alben zum Klassenstart
+     * 
+     * Version-History:
+     * @date 04.12.2015 by Danilo: Initialisierung
+     */
     @BeforeClass
-    public static void setUpClass() {
+    public static void prepareResourcesToTest(){
+        SystemController.initializePmSystem();
+        listOfAlbum = SystemController.getAlbumContainer().getAlbenListe();
+        // Fixe Testdaten
+        title = "Testtitel";
+        beschreibung = "Testbeschreibung";
+        sortierkennzeichen = "Testkennzeichen";
+        // Neue fixe Testdaten
+        newTitle = "Neuer Testtitel";
+        newBeschreibung = "Neue Testbeschreibung";
+        newSortierkennzeichen = "Neue Kennzeichen";
     }
     
+    /**
+     * Methode startet zu Begin der Klasse
+     * 
+     * Version-History:
+     * @date 01.12.2015 by Daniel: Initialisierung
+     * @date 04.12.2015 by Danilo: Setzen der Kommentare
+     */
+    @BeforeClass
+    public static void setUpClass() {  
+    }
+    
+    /**
+     * Methode startet zum Ende der Klasse
+     * 
+     * Version-History:
+     * @date 01.12.2015 by Daniel: Initialisierung
+     * @date 04.12.2015 by Danilo: Setzen der Kommentare
+     */
     @AfterClass
     public static void tearDownClass() {
+        System.out.println("\n=== AlbenControllerTest ===\nZeit zum Testen der Klasse: " + (timeGeneral/1000000) + " ms [" + (timeGeneral/1000) + " us]\n");
     }
     
+    /**
+     * Leeren der Datenbank und Initialisierung der zufälligen Testdaten für das prüfen der Testmethoden
+     * 
+     * Version-History:
+     * @date 01.12.2015 by Daniel: Initialisierung
+     * @date 04.12.2015 by Danilo: Anpassung an geänderten AlbenController
+     */
     @Before
     public void setUp() {
+        listOfAlbum.clear();
+        SystemController.initializePmSystem();
+        generateRandomData();
+        timeUsing = System.nanoTime();
     }
     
+    /**
+     * Anzeigen der benötigten Zeit der getesteten Methode
+     * 
+     * Version-History:
+     * @date 01.12.2015 by Daniel: Initialisierung
+     * @date 04.12.2015 by Danilo: Anpassung an geänderten AlbenController
+     */
     @After
     public void tearDown() {
-        SystemController.getAlbumContainer().getAlbenListe().clear();
-        SystemController.getFotoContainer().getFotoMap().clear();
+        long time = System.nanoTime();
+        timeGeneral += (time - timeUsing);
+        System.out.println("Benötigte Testzeit: " + ((time - timeUsing)/1000000) + " ms [" + ((time - timeUsing)/1000) + " us]\n");
     }
 
     /**
-     * Gibt alle Attribute eines Albums aus.
+     * Generiert neue Zufällige Daten.
      * 
-     * @param result auszugebendes Album
+     * Version-History:
+     * @date 04.12.2015 by Danilo: Initialisierung
      */
-    private void printResult(Album result) {
-        System.out.println(result);
-        System.out.println("Titel: " + result.getTitel());
-        System.out.println("Beschreibung: " + result.getBeschreibung());
-        System.out.println("Sortierkennzeichen: " + result.getSortierkennzeichen());
-        System.out.println("Erstellungdatum: " + result.getErstellungdatum());
-        System.out.println("FotoListe: " + result.getFotoListe());
+    private void generateRandomData() {
+        do{
+            randomTitel = RandomStringUtils.randomAlphanumeric(RandomUtils.nextInt(17) + 4);
+        } while (title.equals(randomTitel));
+        do{
+            randomBeschreibung = RandomStringUtils.randomAlphanumeric(RandomUtils.nextInt(201));
+        } while (beschreibung.equals(randomBeschreibung));
+        do{
+            randomSortierkennzeichen = RandomStringUtils.randomAlphanumeric(RandomUtils.nextInt(21));
+        } while (sortierkennzeichen.equals(randomSortierkennzeichen));
+    }
+    
+    /**
+     * Legt ein zufälliges Album im AlbenContainer an und gibt den Titel zurück.
+     * 
+     * Version-History:
+     * @return result Ausgabe des Albumtitels
+     * @date 04.12.2015 by Danilo: Initialisierung
+     */
+    private String generateRandomAlbum() {
+        // Neue Werte für Album generieren falls vorher schon genutzt
+        generateRandomData();
+        
+        // Prüft das Album nicht existiert
+        Album expectAlbum = AlbenController.getAlbum(randomTitel);
+        assertThat(expectAlbum, is(nullValue()));
+        
+        // Album anlegen mit fixen Daten
+        int errorcode = AlbenController.createNewAlbum(randomTitel, randomBeschreibung, randomSortierkennzeichen);
+        if (errorcode != 0) {
+            fail(ErrorController.changeErrorCode(errorcode)[1]);
+        }
+        
+        // Prüft das Album mit fixen Daten angelegt wurde
+        expectAlbum = AlbenController.getAlbum(randomTitel);
+        assertEquals(randomTitel, expectAlbum.getTitel());
+        assertEquals(randomBeschreibung, expectAlbum.getBeschreibung());
+        assertEquals(randomSortierkennzeichen, expectAlbum.getSortierkennzeichen());
+        
+        return randomTitel;
     }
 
     /**
      * Testet die Methode createNewAlbum der Klasse AlbenController.
      * Testet, ob ein Album angelegt wird.
+     * 
+     * Version-History:
+     * @date 01.12.2015 by Daniel: Initialisierung
+     * @date 04.12.2015 by Danilo: Anpassung auf neue Version des AlbenControllers
      */
     @Test
-    public void testCreateNewAlbum() {
-        System.out.println("createNewAlbum");
+    public void testCreateNewAlbumSuccess() {
+        System.out.println("testCreateNewAlbumSuccess");
         
-        for (Album tmpAlbum : SystemController.getAlbumContainer().getAlbenListe()) {
-            if (tmpAlbum.getTitel().equals(title)) {
-                fail("Album existiert bereits");
-            }
+        // Prüft das Datenbank leer ist
+        assertThat(SystemController.getAlbumContainer().anzahlAlben(), is(0));
+        
+        // Prüft das Album nicht existiert
+        Album expectAlbum = AlbenController.getAlbum(title);
+        assertThat(expectAlbum, is(nullValue()));
+        
+        // Album anlegen mit fixen Daten
+        int errorcode = AlbenController.createNewAlbum(title, beschreibung, sortierkennzeichen);
+        if (errorcode != 0) {
+            fail(ErrorController.changeErrorCode(errorcode)[1]);
         }
-        Album result = AlbenController.createNewAlbum(title, beschreibung, sortierkennzeichen);
-        for (Album tmpAlbum : SystemController.getAlbumContainer().getAlbenListe()) {
-            if (!tmpAlbum.getTitel().equals(result.getTitel()))
-                fail("Album wurde nicht angelegt");
-            assertEquals(title, result.getTitel());
-        } 
-    }
         
+        // Prüft das Album mit fixen Daten angelegt wurde
+        expectAlbum = AlbenController.getAlbum(title);
+        assertEquals(title, expectAlbum.getTitel());
+        assertEquals(beschreibung, expectAlbum.getBeschreibung());
+        assertEquals(sortierkennzeichen, expectAlbum.getSortierkennzeichen());
+        assertThat(SystemController.getAlbumContainer().anzahlAlben(), is(1));
+    }
+    
     /**
      * Testet die Methode createNewAlbum der Klasse AlbenController.
-     * Testet, ob die Attribute des angelgten Albums mit einem, durch direkten Aufruf erstellten Album übereinstimmen.
+     * Testet, ob ein zufälliges Album angelegt wird.
+     * 
+     * Version-History:
+     * @date 04.12.2015 by Danilo: Initialisierung
      */
     @Test
-    public void testCreateNewAlbumIsExpectedAlbum() {
-        System.out.println("createNewAlbumIsExpectedAlbum");
+    public void testCreateRandomAlbumSuccess() {
+        System.out.println("testCreateRandomAlbumSuccess");
         
-        Album expResult = new Album(title);
-        expResult.setBeschreibung(beschreibung);
-        expResult.setSortierkennzeichen(sortierkennzeichen);
-        Album result = AlbenController.createNewAlbum(title, beschreibung, sortierkennzeichen);
+        // Prüft das Datenbank leer ist
+        assertThat(SystemController.getAlbumContainer().anzahlAlben(), is(0));
         
-        assertEquals(expResult.getTitel(), result.getTitel());
-        assertEquals(expResult.getBeschreibung(), result.getBeschreibung());
-        assertEquals(expResult.getSortierkennzeichen(), result.getSortierkennzeichen());
-        assertEquals(expResult.getErstellungdatum(), result.getErstellungdatum());
-        assertEquals(expResult.getFotoListe(), result.getFotoListe());
+        // Prüft das Album nicht existiert
+        Album expectAlbum = AlbenController.getAlbum(randomTitel);
+        assertThat(expectAlbum, is(nullValue()));
+        
+        // Album anlegen mit zufälligen Daten
+        int errorcode = AlbenController.createNewAlbum(randomTitel, randomBeschreibung, randomSortierkennzeichen);
+        if (errorcode != 0) {
+            fail(ErrorController.changeErrorCode(errorcode)[1]);
+        }
+        
+        // Prüft das Album mit zufälligen Daten angelegt wurde
+        expectAlbum = AlbenController.getAlbum(randomTitel);
+        assertEquals(randomTitel, expectAlbum.getTitel());
+        assertEquals(randomBeschreibung, expectAlbum.getBeschreibung());
+        assertEquals(randomSortierkennzeichen, expectAlbum.getSortierkennzeichen());
+        assertThat(SystemController.getAlbumContainer().anzahlAlben(), is(1));
     }
-
+    
     /**
-     * Testet die Methode testEditAlbum der Klasse AlbenController.
-     * Testet, ob das editierte Album die neuen Attribute übernommen hab.
+     * Testet die Methode createNewAlbum der Klasse AlbenController.
+     * Testet, ob ein Album mit leerem String angelegt wird.
+     * 
+     * Version-History:
+     * @date 04.12.2015 by Danilo: Initialisierung
      */
     @Test
-    public void testEditAlbum() {
-        System.out.println("editAlbum");
-        Album preAlbum = AlbenController.createNewAlbum(title, beschreibung, sortierkennzeichen);
-        assertEquals(preAlbum.getTitel(), preAlbum.getTitel());
+    public void testCreateNewAlbumEmptyTitle() {
+        System.out.println("testCreateNewAlbumEmptyTitle");
         
-        Album expResult = new Album(newTitle);
-        expResult.setBeschreibung(newBeschreibung);
-        expResult.setSortierkennzeichen(newSortierkennzeichen);
-        Album result = AlbenController.editAlbum(title, newTitle, newBeschreibung, newSortierkennzeichen);
-        assertEquals(expResult.getTitel(), result.getTitel());
-        assertEquals(expResult.getBeschreibung(), result.getBeschreibung());
-        assertEquals(expResult.getSortierkennzeichen(), result.getSortierkennzeichen());
-        assertEquals(expResult.getErstellungdatum(), result.getErstellungdatum());
-        assertEquals(expResult.getFotoListe(), result.getFotoListe());
+        // Prüft das Album mit leerem Titel nicht existiert
+        Album expectAlbum = AlbenController.getAlbum(EMPTYSTRING);
+        assertThat(expectAlbum, is(nullValue()));
+        
+        // Album anlegen mit leerem Titel
+        int errorcode = AlbenController.createNewAlbum(EMPTYSTRING, beschreibung, sortierkennzeichen);
+        if (errorcode == 0) {
+            fail(ErrorController.changeErrorCode(errorcode)[1]);
+        }
+        
+        // Prüft das Album mit leerem Titel nicht angelegt wurde
+        expectAlbum = AlbenController.getAlbum(EMPTYSTRING);
+        assertThat(expectAlbum, is(nullValue()));
     }
-
+    
     /**
-     * Testet die Methode testGetAlbum der Klasse AlbenController.
-     * Testet, ob das übergebene Album mit dem erstellten Album übereinstimt.
+     * Testet die Methode createNewAlbum der Klasse AlbenController.
+     * Testet, ob ein Album mit null String angelegt wird.
+     * 
+     * Version-History:
+     * @date 04.12.2015 by Danilo: Initialisierung
+     */
+    @Test
+    public void testCreateNewAlbumNullTitle() {
+        System.out.println("testCreateNewAlbumNullTitle");
+        
+        // Prüft das Album mit null Titel nicht existiert
+        Album expectAlbum = AlbenController.getAlbum(NULLSTRING);
+        assertThat(expectAlbum, is(nullValue()));
+        
+        // Album anlegen mit null Titel
+        int errorcode = AlbenController.createNewAlbum(NULLSTRING, beschreibung, sortierkennzeichen);
+        if (errorcode == 0) {
+            fail(ErrorController.changeErrorCode(errorcode)[1]);
+        }
+        
+        // Prüft das Album mit null Titel nicht angelegt wurde
+        expectAlbum = AlbenController.getAlbum(NULLSTRING);
+        assertThat(expectAlbum, is(nullValue()));
+    }
+    
+    /**
+     * Testet die Methode editAlbum der Klasse AlbenController.
+     * Testet, ob das editierte Album die neuen Attribute übernommen hat.
+     * 
+     * Version-History:
+     * @date 01.12.2015 by Daniel: Initialisierung
+     * @date 04.12.2015 by Danilo: Anpassung auf neue Version des AlbenControllers
+     */
+    @Test
+    public void testEditAlbumSuccess() {
+        System.out.println("testEditAlbumSuccess");
+        
+        // Generierung eines Zufälligen Albums und merken der gesetzten Werte
+        String oldTitel = generateRandomAlbum();
+        Album oldAlbum = AlbenController.getAlbum(oldTitel);
+        String oldBeschreibung = oldAlbum.getBeschreibung();
+        String oldSortierkennzeichen = oldAlbum.getSortierkennzeichen();
+        
+        // Album ändern mit neuen Werten
+        int errorcode = AlbenController.editAlbum(oldTitel, newTitle, newBeschreibung, newSortierkennzeichen);
+        if (errorcode != 0) {
+            fail(ErrorController.changeErrorCode(errorcode)[1]);
+        }
+        
+        // Holt Album aus der Datenbank
+        Album result = AlbenController.getAlbum(newTitle);
+        
+        // Prüft das alte werte durch neue Werte ersetzt wurden
+        assertThat(result.getTitel(), is(not(oldTitel)));
+        assertThat(result.getBeschreibung(), is(not(oldBeschreibung)));
+        assertThat(result.getSortierkennzeichen(), is(not(oldSortierkennzeichen)));
+        
+        // Da nun oldAlbum und result gleiche Referenz, müssen diese gleich sein
+        assertThat(oldAlbum.getTitel(), is(result.getTitel()));
+        assertThat(oldAlbum.getBeschreibung(), is(result.getBeschreibung()));
+        assertThat(oldAlbum.getSortierkennzeichen(), is(result.getSortierkennzeichen()));
+        
+        // Prüft das neuer Titel, Beschreibung und Sortierkennzeichen richtig gestzt
+        assertThat(result.getTitel(), is(newTitle));
+        assertThat(result.getBeschreibung(), is(newBeschreibung));
+        assertThat(result.getSortierkennzeichen(), is(newSortierkennzeichen));
+    }
+    
+    /**
+     * Testet die Methode editAlbum der Klasse AlbenController.
+     * Testet, ob das editierte Album leere Attribute übernommen hat, außer Titel.
+     * 
+     * Version-History:
+     * @date 04.12.2015 by Danilo: Initialisierung
+     */
+    @Test
+    public void testEditAlbumEmptyValue() {
+        System.out.println("testEditAlbumEmptyValue");
+        
+        // Generierung eines Zufälligen Albums und merken des Titels
+        String oldTitel = generateRandomAlbum();
+        
+        // Holen des Albums welches generiert wurde
+        Album result = AlbenController.getAlbum(oldTitel);
+        
+        // Album ändern mit leerem Titel und neuen Werten
+        int errorcode = AlbenController.editAlbum(oldTitel, EMPTYSTRING, newBeschreibung, newSortierkennzeichen);
+        if (errorcode == 0) {
+            fail(ErrorController.changeErrorCode(errorcode)[1]);
+        }
+        
+        // Prüft das Album nicht geändert wurde
+        assertThat(result.getTitel(), is(oldTitel));
+        
+        // Prüft das kein Album mit leerem Textstring existiert
+        Album expectAlbum = AlbenController.getAlbum(EMPTYSTRING);
+        assertThat(expectAlbum, is(nullValue()));
+        
+        // Album ändern mit leerer Beschreibung und neuem Sortierkennzeichen
+        errorcode = AlbenController.editAlbum(oldTitel, oldTitel, EMPTYSTRING, newSortierkennzeichen);
+        if (errorcode != 0) {
+            fail(ErrorController.changeErrorCode(errorcode)[1]);
+        }
+        
+        // Prüft das Album geändert wurde und Beschreibung leer ist
+        expectAlbum = AlbenController.getAlbum(oldTitel);
+        assertThat(expectAlbum.getBeschreibung().isEmpty(), is(true));
+        
+        // Album ändern mit leerem Titel und neuen Werten
+        errorcode = AlbenController.editAlbum(oldTitel, oldTitel, newBeschreibung, EMPTYSTRING);
+        if (errorcode != 0) {
+            fail(ErrorController.changeErrorCode(errorcode)[1]);
+        }
+        
+        // Prüft das Album geändert wurde und Sortierkennzeichen leer ist
+        expectAlbum = AlbenController.getAlbum(oldTitel);
+        assertThat(expectAlbum.getSortierkennzeichen().isEmpty(), is(true));
+    }
+    
+    /**
+     * Testet die Methode editAlbum der Klasse AlbenController.
+     * Testet, ob das editierte Album die null Attribute nicht übernommen hat.
+     * 
+     * Version-History:
+     * @date 01.12.2015 by Daniel: Initialisierung
+     * @date 04.12.2015 by Danilo: Anpassung auf neue Version des AlbenControllers
+     */
+    @Test
+    public void testEditAlbumNullValue() {
+        System.out.println("testEditAlbumNullValue");
+        
+        // Generierung eines Zufälligen Albums und merken des Titels
+        String oldTitel = generateRandomAlbum();
+        
+        // Holen des Albums welches generiert wurde
+        Album result = AlbenController.getAlbum(oldTitel);
+        
+        // Merken der werte
+        String oldBeschreibung = result.getBeschreibung();
+        String oldSortierkennzeichen = result.getSortierkennzeichen();
+        
+        // Album ändern mit leerem Titel und neuen Werten
+        int errorcode = AlbenController.editAlbum(oldTitel, NULLSTRING, newBeschreibung, newSortierkennzeichen);
+        if (errorcode == 0) {
+            fail(ErrorController.changeErrorCode(errorcode)[1]);
+        }
+        
+        // Prüft das Album nicht geändert wurde
+        assertThat(result.getTitel(), is(oldTitel));
+        
+        // Prüft das kein Album mit null Textstring existiert
+        Album expectAlbum = AlbenController.getAlbum(NULLSTRING);
+        assertThat(expectAlbum, is(nullValue()));
+        
+        // Album ändern mit null Beschreibung und neuem Sortierkennzeichen
+        errorcode = AlbenController.editAlbum(oldTitel, oldTitel, NULLSTRING, newSortierkennzeichen);
+        if (errorcode == 0) {
+            fail(ErrorController.changeErrorCode(errorcode)[1]);
+        }
+        
+        // Prüft das Album nicht geändert wurde
+        expectAlbum = AlbenController.getAlbum(oldTitel);
+        assertThat(expectAlbum.getBeschreibung(), is(oldBeschreibung));
+        
+        // Album ändern mit neuer Beschreibung und null Sortierkennzeichen
+        errorcode = AlbenController.editAlbum(oldTitel, oldTitel, newBeschreibung, NULLSTRING);
+        if (errorcode == 0) {
+            fail(ErrorController.changeErrorCode(errorcode)[1]);
+        }
+        
+        // Prüft das Album nicht geändert wurde
+        expectAlbum = AlbenController.getAlbum(oldTitel);
+        assertThat(expectAlbum.getSortierkennzeichen(), is(oldSortierkennzeichen));
+    }
+    
+    /**
+     * Testet die Methode getAlbum der Klasse AlbenController.
+     * Testet, ob ein Album aus der Datenbank gelesen werden kann.
+     * 
+     * Version-History:
+     * @date 01.12.2015 by Daniel: Initialisierung
+     * @date 04.12.2015 by Danilo: Anpassung auf neue Version des AlbenControllers
      */
     @Test
     public void testGetAlbum() {
-        System.out.println("getAlbum");
-        Album expResult = AlbenController.createNewAlbum(title, beschreibung, sortierkennzeichen);
-        assertEquals(expResult.getTitel(), expResult.getTitel());
+        System.out.println("testGetAlbum");
         
-        Album result = AlbenController.getAlbum(title);
-        assertEquals(expResult.getTitel(), result.getTitel());
-        assertEquals(expResult.getBeschreibung(), result.getBeschreibung());
-        assertEquals(expResult.getSortierkennzeichen(), result.getSortierkennzeichen());
-        assertEquals(expResult.getErstellungdatum(), result.getErstellungdatum());
-        assertEquals(expResult.getFotoListe(), result.getFotoListe());
-    }
-
-    /**
-     * Testet die Methode testDeleteListOfAlbum der Klasse AlbenController.
-     * Testet, ob das Album gelöscht wurde.
-     */
-    @Test
-    public void testDeleteAnAlbum() {
-        System.out.println("deleteAlbum");
-        Album tmpAlbum = AlbenController.createNewAlbum(title, beschreibung, sortierkennzeichen);
-        assertEquals(tmpAlbum.getTitel(), tmpAlbum.getTitel());
+        // Prüft das Datenbank leer ist
+        assertThat(SystemController.getAlbumContainer().anzahlAlben(), is(0));
         
-        List<String> titlelist = new LinkedList<>();
-        titlelist.add(title);
-        assertThat(titlelist, hasItem(title));
+        // Prüft das Album nicht existiert
+        Album expectAlbum = AlbenController.getAlbum(title);
+        assertThat(expectAlbum, is(nullValue()));
         
-        AlbenController.deleteListOfAlbum(titlelist);
-        Album expResult = null;
-        Album result = AlbenController.getAlbum(title);
-        assertEquals(expResult, result);
+        // Album anlegen mit fixen Daten
+        int errorcode = AlbenController.createNewAlbum(title, beschreibung, sortierkennzeichen);
+        if (errorcode != 0) {
+            fail(ErrorController.changeErrorCode(errorcode)[1]);
+        }
+        
+        // Prüft das holen des Albums mit getAlbum
+        assertEquals(title, AlbenController.getAlbum(title).getTitel());
+        assertEquals(beschreibung, AlbenController.getAlbum(title).getBeschreibung());
+        assertEquals(sortierkennzeichen, AlbenController.getAlbum(title).getSortierkennzeichen());
     }
     
     /**
-     * Testet die Methode testDeleteListOfAlbum der Klasse AlbenController.
-     * Testet, ob alle Alben gelöscht wurden.
+     * Testet die Methode getAlbum der Klasse AlbenController.
+     * Testet, Zeitverzögerung des lesens der Datenbank bei garantierten Alben [500].
+     * 
+     * Version-History:
+     * @date 04.12.2015 by Danilo: Initialisierung
      */
     @Test
-    public void testDeleteListOfAlbum() {
-        System.out.println("deleteListOfAlbums");
-        Album tmpAlbum1 = AlbenController.createNewAlbum(title + 1, beschreibung, sortierkennzeichen);
-        assertEquals(tmpAlbum1.getTitel(), tmpAlbum1.getTitel());
-        Album tmpAlbum2 = AlbenController.createNewAlbum(title + 2, beschreibung, sortierkennzeichen);
-        assertEquals(tmpAlbum2.getTitel(), tmpAlbum2.getTitel());
-        Album tmpAlbum3 = AlbenController.createNewAlbum(title + 3, beschreibung, sortierkennzeichen);
-        assertEquals(tmpAlbum3.getTitel(), tmpAlbum3.getTitel());
+    public void testGetAlbumGuaranteedStability() {
+        System.out.println("testGetAlbumGuaranteedStability");
         
-        List<String> titlelist = new LinkedList<>();
-        titlelist.add(title + 1);
-        titlelist.add(title + 2);
-        titlelist.add(title + 3);
-        assertThat(titlelist, hasItems(title + 1, title + 2, title + 3));
+        // Prüft das Datenbank keine Alben enthält
+        assertThat(SystemController.getAlbumContainer().anzahlAlben(), is(0));
         
-        AlbenController.deleteListOfAlbum(titlelist);
-        Album expResult = null;
-        Album result = AlbenController.getAlbum(title);
-        assertEquals(expResult, result);
+        String lastAlbumTitel = "";
+        
+        // Anlegen von 500 Alben
+        for (int i = 0; i< 500; i++) {
+            lastAlbumTitel = generateRandomAlbum();
+        }
+        
+        // Prüft das Datenbank garantierte Alben enthält
+        assertThat(SystemController.getAlbumContainer().anzahlAlben(), is(500));
+        
+        long time = System.nanoTime();
+        Album result = AlbenController.getAlbum(lastAlbumTitel);
+        if (result==null) {
+            fail("Album nicht gefunden");
+        }
+        time = System.nanoTime() - time;
+        System.out.println("GuaranteedStability Time: " + ((time)/1000000) + " ms [" + ((time)/1000) + " us]");
+        
+        assertThat((time < 1000000000), is(true));
     }
     
+    /**
+     * Testet die Methode deleteListOfAlbum der Klasse AlbenController.
+     * Testet, ob die übergebene Albenliste aus dem AlbenContainer glöscht wird.
+     * 
+     * Version-History:
+     * @date 01.12.2015 by Daniel: Initialisierung
+     * @date 04.12.2015 by Danilo: Anpassung auf neue Version des AlbenControllers
+     */
+    @Test
+    public void testDeleteListOfAlbumSuccess() {
+        System.out.println("testDeleteListOfAlbumSuccess");
+        
+        List<String> tmpAlbenList = new LinkedList();
+        List<String> deleteList = new LinkedList();
+        
+        // min. 5 bis max. 20 Alben
+        int randomAlbenCount = (int)(Math.random()*21)+5;
+        
+        // Anlegen von min. 5 bis max. 20 Alben
+        for (int i = 0; i< randomAlbenCount; i++) {
+            tmpAlbenList.add(generateRandomAlbum());
+            
+            // Alle geraden Alben zum löschen merken
+            if (i%2==0) deleteList.add(tmpAlbenList.get(i));
+        }
+        
+        // Prüft das Datenbank die zufällige Anzahl an Alben hält
+        assertThat(SystemController.getAlbumContainer().anzahlAlben(), is(randomAlbenCount));
+        
+        // Löschen der Alben aus dem AlbenContainer
+        int errorcode = AlbenController.deleteListOfAlbum(deleteList);
+        if (errorcode != 0) {
+            fail(ErrorController.changeErrorCode(errorcode)[1]);
+        }
+        
+        // Prüft das Datenbank die zufällige Anzahl an Alben minus der aus der Löschliste hält
+        assertThat(SystemController.getAlbumContainer().anzahlAlben(), is(randomAlbenCount - deleteList.size()));
+    }
+    
+    /**
+     * Testet die Methode deleteListOfAlbum der Klasse AlbenController.
+     * Testet, ob die übergebene Albenliste aus dem AlbenContainer glöscht wird.
+     * 
+     * Version-History:
+     * @date 04.12.2015 by Danilo: Initialisierung
+     */
+    @Test
+    public void testDeleteListOfAlbumMissingAlbum() {
+        System.out.println("testDeleteListOfAlbumMissingAlbum");
+        
+        List<String> tmpAlbenList = new LinkedList();
+        List<String> deleteList = new LinkedList();
+        
+        // min. 5 bis max. 20 Alben
+        int randomAlbenCount = (int)(Math.random()*21)+5;
+        
+        // Anlegen von min. 5 bis max. 20 Alben
+        for (int i = 0; i< randomAlbenCount; i++) {
+            tmpAlbenList.add(generateRandomAlbum());
+            
+            // Alle geraden Alben zum löschen merken
+            if (i%2==0) deleteList.add(tmpAlbenList.get(i));
+        }
+        
+        // min. 3 bis max. 10 Nicht vorhanden Albentitel
+        int randomStringCount = (int)(Math.random()*11)+3;
+        
+        // Anlegen von min. 3 bis max. 10 Strings die kein Albentitel sind
+        for (int i = 0; i<randomStringCount; i++) {
+            do {
+                randomTitel = RandomStringUtils.randomAlphanumeric(RandomUtils.nextInt(17) + 4);
+            } while(AlbenController.getAlbum(randomTitel)!=null);
+            deleteList.add(randomTitel);
+        }
+        
+        // Prüft das Datenbank die zufällige Anzahl an Alben hält
+        assertThat(SystemController.getAlbumContainer().anzahlAlben(), is(randomAlbenCount));
+        
+        // Löschen der Alben aus dem AlbenContainer
+        int errorcode = AlbenController.deleteListOfAlbum(deleteList);
+        if (errorcode == 0) {
+            fail(ErrorController.changeErrorCode(errorcode)[1]);
+        }
+        
+        assertThat(errorcode, is(310*randomStringCount));
+        
+        // Prüft das Datenbank die zufällige Anzahl an Alben minus der aus der Löschliste hält
+        assertThat(SystemController.getAlbumContainer().anzahlAlben(), is(not(randomAlbenCount - deleteList.size())));
+        assertThat(SystemController.getAlbumContainer().anzahlAlben(), is(randomAlbenCount - (deleteList.size()-randomStringCount)));
+    }
+    
+    /**
+     * Testet die Methode getAlbumList der Klasse AlbenController.
+     * Testet, ob die Liste der Alben korrekt abgerufen wird.
+     * 
+     * Version-History:
+     * @date 04.12.2015 by Danilo: Initialisierung
+     */
+    @Test
+    public void testGetAlbumList() {
+        System.out.println("testGetAlbumList");
+        
+        // Holen der Albenliste aus dem AlbenContainer
+        List<String> tmpList = AlbenController.getAlbumList();
+        
+        // Prüfen das Alpenliste leer ist
+        assertThat(tmpList.isEmpty(), is(true));
+        assertThat(tmpList.size(), is(0));
+        
+        // min. 5 bis max. 20 Alben
+        int randomAlbenCount = (int)(Math.random()*21)+5;
+        
+        // Anlegen von min. 5 bis max. 20 Alben
+        for (int i = 0; i< randomAlbenCount; i++) {
+            generateRandomAlbum();
+        }
+        
+        // Holen der Albenliste aus dem AlbenContainer
+        tmpList = AlbenController.getAlbumList();
+        
+        // Prüfen das Alpenliste nicht leer ist
+        assertThat(tmpList.isEmpty(), is(false));
+        assertThat(tmpList.size(), is(randomAlbenCount));
+    }
 }
