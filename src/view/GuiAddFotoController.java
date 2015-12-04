@@ -6,15 +6,26 @@
 package view;
 
 import java.io.IOException;
+import java.net.InetAddress;
 import java.net.URL;
+import java.net.UnknownHostException;
+import java.nio.file.FileSystems;
+import java.nio.file.Path;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.geometry.Insets;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.SelectionMode;
+import javafx.scene.control.TreeItem;
+import javafx.scene.control.TreeView;
+import javafx.scene.layout.Priority;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 /**
@@ -24,6 +35,9 @@ import javafx.stage.Stage;
 public class GuiAddFotoController implements Initializable{
     @FXML
     Button guiAddFotoAbbrechen, guiAddFotoBilderHinzufuegen;
+    
+    @FXML
+    TreeView<String> treeView;
 
     
     @FXML
@@ -45,13 +59,38 @@ public class GuiAddFotoController implements Initializable{
         stage.show();
     }
     
+    
+    @FXML
+    public void handleMouseAction(ActionEvent event) throws IOException{
+        System.out.println("click");
+    }    
+    
     @Override
     public void initialize(URL location, ResourceBundle resources) {       
         // Titel setzten
         Main.getPrimaryStage().setTitle("Photomanager - AddFoto.fxml");
         
-        
         //Treeview füllen:
-        
+        //create tree pane
+        VBox treeBox=new VBox();
+        treeBox.setPadding(new Insets(10,10,10,10));
+        treeBox.setSpacing(10);
+        //setup the file browser root
+    
+        String hostName="computer";
+        try{hostName=InetAddress.getLocalHost().getHostName();}catch(UnknownHostException x){}
+            FilePathTreeItem rootNode=new FilePathTreeItem(hostName);//,new ImageView(new Image(ClassLoader.getSystemResourceAsStream("/src/dummy1.jpg"))));
+            
+            Iterable<Path> rootDirectories=FileSystems.getDefault().getRootDirectories();
+            for(Path name:rootDirectories){
+                FilePathTreeItem treeNode=new FilePathTreeItem(name);
+                if(treeNode.isDirectory())
+                    treeNode.getChildren().add(null);
+                rootNode.getChildren().add(treeNode);
+            }
+            
+            rootNode.setExpanded(false);
+            //create the tree view
+            treeView.setRoot(rootNode);
     }
 }
