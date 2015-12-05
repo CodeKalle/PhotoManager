@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package controller;
 
 import java.util.LinkedList;
@@ -29,6 +24,7 @@ import static org.hamcrest.CoreMatchers.nullValue;
  * @date 02.12.2015 by Daniel: tearDown löscht container
  * @date 03.12.2015 by Daniel: editAlbum, createNewAlbumIsExpectedAlbum, deleteAlbum, deleteListOfAlbums, createNewAlbum hinzugefügt
  * @date 04.12.2015 by Danilo: Anpassung an geänderten AlbenController
+ * @date 05.12.2015 by Danilo: Anpassung der Zeitausgabe bei garantierte Albumanzahl
  */
 public class AlbenControllerTest {
     
@@ -38,6 +34,7 @@ public class AlbenControllerTest {
      * Version-History:
      * @date 01.12.2015 by Daniel: Initialisierung
      * @date 04.12.2015 by Danilo: Anpassung an geänderten AlbenController
+     * @date 05.12.2015 by Danilo: Anpassung der Zeitausgabe bei garantierte Albumanzahl
      */
     private static List<Album> listOfAlbum;
     private static long timeUsing;
@@ -57,7 +54,14 @@ public class AlbenControllerTest {
     // Weitere Testdaten
     private final static String EMPTYSTRING = "";
     private final static String NULLSTRING = null; 
-    
+    private final static int garanteedAlbumCount = 500;
+            
+    /**
+     * Standard Konstruktor der Klasse
+     * 
+     * Version-History:
+     * @date 01.12.2015 by Daniel: Initialisierung
+     */
     public AlbenControllerTest() {
     }
     
@@ -101,7 +105,7 @@ public class AlbenControllerTest {
      */
     @AfterClass
     public static void tearDownClass() {
-        System.out.println("\n=== AlbenControllerTest ===\nZeit zum Testen der Klasse: " + (timeGeneral/1000000) + " ms [" + (timeGeneral/1000) + " us]\n");
+        System.out.println("\n=== AlbenControllerTest ===\nTestzeit der Klasse: " + (timeGeneral/1000000) + " ms [" + (timeGeneral/1000) + " us]\n");
     }
     
     /**
@@ -130,7 +134,7 @@ public class AlbenControllerTest {
     public void tearDown() {
         long time = System.nanoTime();
         timeGeneral += (time - timeUsing);
-        System.out.println("Benötigte Testzeit: " + ((time - timeUsing)/1000000) + " ms [" + ((time - timeUsing)/1000) + " us]\n");
+        System.out.println("Testzeit der Methode: " + ((time - timeUsing)/1000000) + " ms [" + ((time - timeUsing)/1000) + " us]\n");
     }
 
     /**
@@ -481,10 +485,11 @@ public class AlbenControllerTest {
     
     /**
      * Testet die Methode getAlbum der Klasse AlbenController.
-     * Testet, Zeitverzögerung des lesens der Datenbank bei garantierten Alben [500].
+     * Testet, Zeitverzögerung des lesens der Datenbank bei garantierter Albenanzahl.
      * 
      * Version-History:
      * @date 04.12.2015 by Danilo: Initialisierung
+     * @date 05.12.2015 by Danilo: Anpassung an Positionen in Liste
      */
     @Test
     public void testGetAlbumGuaranteedStability() {
@@ -493,30 +498,43 @@ public class AlbenControllerTest {
         // Prüft das Datenbank keine Alben enthält
         assertThat(SystemController.getAlbumContainer().anzahlAlben(), is(0));
         
-        String lastAlbumTitel = "";
+        // Albumtitel in der Linkedliste
+        String[] albumTitel = new String[garanteedAlbumCount];
         
         // Anlegen von 500 Alben
-        for (int i = 0; i< 500; i++) {
-            lastAlbumTitel = generateRandomAlbum();
+        for (int i = 0; i< garanteedAlbumCount; i++) {
+                albumTitel[i] = generateRandomAlbum();
         }
         
         // Prüft das Datenbank garantierte Alben enthält
         assertThat(SystemController.getAlbumContainer().anzahlAlben(), is(500));
         
-        long time = System.nanoTime();
-        Album result = AlbenController.getAlbum(lastAlbumTitel);
-        if (result==null) {
-            fail("Album nicht gefunden");
+        // Bestimmen und prüfen definierter Albennummern
+        int[] checkAlbumNumber = {1, garanteedAlbumCount/2, garanteedAlbumCount};
+        for (int i = 0; i < checkAlbumNumber.length; i++) {
+            // Zeitmessung starten
+            long time = System.nanoTime();
+            
+            // Album aus LinkedList holen
+            Album result = AlbenController.getAlbum(albumTitel[checkAlbumNumber[i]-1]);
+            if (result==null) {
+                fail("Album nicht gefunden");
+            }
+            
+            // Zeitmessung beenden
+            time = System.nanoTime() - time;
+            
+            // Generierung der visuellen Ausgabe
+            System.out.println("Zeit für " + (checkAlbumNumber[i]) + ". Album in Liste: " + ((time)/1000000) + " ms [" + ((time)/1000) + " us]");
+
+            // Prüfen das Zeit unter einer Sekunde liegt
+            assertThat((time < 1000000000), is(true));
         }
-        time = System.nanoTime() - time;
-        System.out.println("GuaranteedStability Time: " + ((time)/1000000) + " ms [" + ((time)/1000) + " us]");
-        
-        assertThat((time < 1000000000), is(true));
     }
     
     /**
      * Testet die Methode deleteListOfAlbum der Klasse AlbenController.
-     * Testet, ob die übergebene Albenliste aus dem AlbenContainer glöscht wird.
+     * Testet, ob die übergebene Albenliste aus dem AlbenContainer gelöscht wird.
      * 
      * Version-History:
      * @date 01.12.2015 by Daniel: Initialisierung
@@ -551,6 +569,50 @@ public class AlbenControllerTest {
         
         // Prüft das Datenbank die zufällige Anzahl an Alben minus der aus der Löschliste hält
         assertThat(SystemController.getAlbumContainer().anzahlAlben(), is(randomAlbenCount - deleteList.size()));
+    }
+    
+    /**
+     * Testet die Methode deleteListOfAlbum der Klasse AlbenController.
+     * Testet, ob die übergebene Albenliste aus dem AlbenContainer mit garantierter Albenanzahl gelöscht wird.
+     * 
+     * Version-History:
+     * @date 05.12.2015 by Danilo: Initialisierung
+     */
+    @Test
+    public void testDeleteListOfAlbumGuaranteedStability() {
+        System.out.println("testDeleteListOfAlbumGuaranteedStability");
+        
+        List<String> tmpAlbenList = new LinkedList();
+        List<String> deleteList = new LinkedList();
+        
+        // Anlegen von garantierten Alben
+        for (int i = 0; i< garanteedAlbumCount; i++) {
+            tmpAlbenList.add(generateRandomAlbum());
+            
+            // Alle ungeraden Alben zum löschen merken
+            if (i%2==1) deleteList.add(tmpAlbenList.get(i));
+        }
+        
+        // Prüft das Datenbank die zufällige Anzahl an Alben hält
+        assertThat(SystemController.getAlbumContainer().anzahlAlben(), is(garanteedAlbumCount));
+        
+        // Zeitmessung starten
+        long time = System.nanoTime();
+            
+        // Löschen der Alben aus dem AlbenContainer
+        int errorcode = AlbenController.deleteListOfAlbum(deleteList);
+        if (errorcode != 0) {
+            fail(ErrorController.changeErrorCode(errorcode)[1]);
+        }
+        
+        // Zeitmessung beenden
+        time = System.nanoTime() - time;
+            
+        // Generierung der visuellen Ausgabe
+        System.out.println("Zeit für löschen aller ungeraden Alben in Liste: " + ((time)/1000000) + " ms [" + ((time)/1000) + " us]");
+        
+        // Prüft das Datenbank die zufällige Anzahl an Alben minus der aus der Löschliste hält
+        assertThat(SystemController.getAlbumContainer().anzahlAlben(), is(garanteedAlbumCount - deleteList.size()));
     }
     
     /**
@@ -611,6 +673,7 @@ public class AlbenControllerTest {
      * 
      * Version-History:
      * @date 04.12.2015 by Danilo: Initialisierung
+     * @date 05.12.2015 by Danilo: Ausgabe im Fehlerfall der Albenerstellung
      */
     @Test
     public void testGetAlbumList() {
@@ -633,9 +696,55 @@ public class AlbenControllerTest {
         
         // Holen der Albenliste aus dem AlbenContainer
         tmpList = AlbenController.getAlbumList();
+        if (tmpList == null) {
+            fail("Es wurden keine Alben erstellt.");
+        }
         
         // Prüfen das Alpenliste nicht leer ist
         assertThat(tmpList.isEmpty(), is(false));
         assertThat(tmpList.size(), is(randomAlbenCount));
+    }
+    
+    /**
+     * Testet die Methode getAlbumList der Klasse AlbenController.
+     * Testet, ob die Liste der Alben bei garantierter Albananzahl korrekt abgerufen wird.
+     * 
+     * Version-History:
+     * @date 05.12.2015 by Danilo: Initialisierung
+     */
+    @Test
+    public void testGetAlbumListGuaranteedStability() {
+        System.out.println("testGetAlbumListGuaranteedStability");
+        
+        // Holen der Albenliste aus dem AlbenContainer
+        List<String> tmpList = AlbenController.getAlbumList();
+        
+        // Prüfen das Alpenliste leer ist
+        assertThat(tmpList.isEmpty(), is(true));
+        assertThat(tmpList.size(), is(0));
+        
+        // Anlegen von garantierten Alben
+        for (int i = 0; i< garanteedAlbumCount; i++) {
+            generateRandomAlbum();
+        }
+        
+        // Zeitmessung starten
+        long time = System.nanoTime();
+        
+        // Holen der Albenliste aus dem AlbenContainer
+        tmpList = AlbenController.getAlbumList();
+        if (tmpList == null) {
+            fail("Es wurden keine Alben erstellt.");
+        }
+        
+        // Zeitmessung beenden
+        time = System.nanoTime() - time;
+            
+        // Generierung der visuellen Ausgabe
+        System.out.println("Zeit für das Erhalten der Albenliste: " + ((time)/1000000) + " ms [" + ((time)/1000) + " us]");
+        
+        // Prüfen das Alpenliste nicht leer ist
+        assertThat(tmpList.isEmpty(), is(false));
+        assertThat(tmpList.size(), is(garanteedAlbumCount));
     }
 }
