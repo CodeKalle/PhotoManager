@@ -20,6 +20,7 @@ import model.Album;
  * @date 01.12.2015 by Danilo: Fehlerkorrektur
  * @date 02.12.2015 by Tobias: Methode getAlbum auf public gesetzt
  * @date 02.12.2015 by Tobias: Methode editAlbumTitle ergänzt
+ * @date 04.12.2015 by Danilo: Fehlerkorrektur bei zu kurzen Albentiteln, Beschreibung und Sortierkennzeichen
  */
 public class AlbenController {
  
@@ -52,8 +53,14 @@ public class AlbenController {
     * @date 25.11.2015 by Danilo: Initialisierung Stringprüfung und Fehlerbehandlung
     * @date 29.11.2015 by Danilo: Fehlerkorrektur bei Fehler´haftenversuch ein Album anzulegen
     * @date 01.12.2015 by Danilo: Fehlerkorrektur
+    * @date 04.12.2015 by Danilo: Fehlerkorrektur bei zu kurzen Albentiteln
     */
     public static int createNewAlbum(String title, String beschreibung, String sortierkennzeichen) {
+        // Prüft zu kruze Albentitel
+        if (title == null || title.length() <= 3) return 115;
+        if (beschreibung == null) return 116;
+        if (sortierkennzeichen == null) return 117;
+        
         // Prüfen der Eingabe
         if (title.length() > 20) title = title.substring(0,20);
         if (beschreibung.length() > 200) beschreibung = beschreibung.substring(0,200);
@@ -79,8 +86,14 @@ public class AlbenController {
     * @date 25.11.2015 by Danilo: Initialisierung Stringprüfung und Fehlerbehandlung
     * @date 29.11.2015 by Danilo: Fehlerkorrektur bei Fehler´haftenversuch ein Album anzulegen
     * @date 01.12.2015 by Danilo: Fehlerkorrektur
+    * @date 04.12.2015 by Danilo: Fehlerkorrektur bei zu kurzen Albentiteln
     */
     public static int editAlbum(String title, String newTitle, String beschreibung, String sortierkennzeichen) {
+        // Prüft zu kruze Albentitel
+        if (newTitle == null || newTitle.length() <= 3) return 155;
+        if (beschreibung == null) return 156;
+        if (sortierkennzeichen == null) return 157;
+        
         // Prüfen der Eingabe
         if (title.length() > 20) title = title.substring(0,20);
         if (newTitle.length() > 20) newTitle = newTitle.substring(0,20);
@@ -141,8 +154,12 @@ public class AlbenController {
     * @return Rückgabe des Albums, wenn keins gefunden dann null
     * @date 24.11.2015 by Danilo: Initialisierung
     * @date 02.12.2015 by Tobias: Setzten auf public
+    * @date 04.12.2015 by Danilo: Fehlerkorrektur bei zu kurzen Albentiteln
     */
     public static Album getAlbum(String title) {
+        // Prüft zu kruze Albentitel
+        if (title == null || title.length() <= 3) return null;
+        
         for (Album tmpAlbum : SystemController.getAlbumContainer().getAlbenListe()) {
             if (tmpAlbum.getTitel().equals(title)) {  
                 return tmpAlbum;

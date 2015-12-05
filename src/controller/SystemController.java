@@ -109,8 +109,9 @@ public class SystemController {
      * @return Rückgabe zur Fehlerauswertung
      * @date 20.11.2015 by Danilo: Initialisierung
      * @date 30.11.2015 by Danilo: Anpassung an GUI
+     * @date 04.12.2015 by Danilo: Public da Methode vom Test gebraucht wird
      */
-    private static int initializePmSystem() {
+    public static int initializePmSystem() {
         pmSystem.setAlben(new AlbenContainer());
         pmSystem.setFotos(new FotoContainer());
         if (pmSystem.getAlben()==null || pmSystem.getFotos()==null) return 810;

@@ -7,6 +7,7 @@ package controller;
  * Version-History:
  * @date 20.11.2015 by Danilo: Initialisierung
  * @date 01.12.2015 by Danilo: Klasse dient nur zur Umsetzung Fehlercode zu String
+ * @date 04.12.2015 by Danilo: Fehlerkorrektur bei zu kurzen Albentiteln, Beschreibung und Sortierkennzeichen
  */
 public class ErrorController {
     
@@ -24,6 +25,7 @@ public class ErrorController {
      * @date 24.11.2015 by Danilo: Änderung lokaler Variablen, Änderung der Kommentierung
      * @date 30.11.2015 by Danilo: Anpassung an SystemController
      * @date 01.12.2015 by Danilo: Fehlerkorrektur
+     * @date 04.12.2015 by Danilo: Fehlerkorrektur bei zu kurzen Albentiteln, Beschreibung und Sortierkennzeichen
      */
     public static String[] changeErrorCode(int errorcode){
         String title;
@@ -32,6 +34,18 @@ public class ErrorController {
             case 110:
                 title = "Albumanlege-Fehler";
                 text = "";
+                break;
+            case 115:
+                title = "Albumanlege-Fehler";
+                text = "Albumtitel zu kurz.";
+                break;
+            case 116:
+                title = "Albumanlege-Fehler";
+                text = "Albumbeschreibung nicht initialisiert.";
+                break;
+            case 117:
+                title = "Albumanlege-Fehler";
+                text = "Albumsortierkennzeichen nicht initialisiert.";
                 break;
             case 120:
                 title = "Albumanlege-Fehler";
@@ -44,6 +58,18 @@ public class ErrorController {
             case 150:
                 title = "Albumänderungs-Fehler";
                 text = "";
+                break;
+            case 155:
+                title = "Albumänderungs-Fehler";
+                text = "Albumtitel zu kurz.";
+                break;
+            case 156:
+                title = "Albumänderungs-Fehler";
+                text = "Albumbeschreibung nicht initialisiert.";
+                break;
+            case 157:
+                title = "Albumänderungs-Fehler";
+                text = "Albumsortierkennzeichen nicht initialisiert.";
                 break;
             case 160:
                 title = "Albumänderungs-Fehler";
