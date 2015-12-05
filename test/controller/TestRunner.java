@@ -46,6 +46,7 @@ public class TestRunner {
     
     @Before
     public void setUp() throws IOException{
+        
         //Sicherung der aktueller "Datenbank"
         SystemControllerTest.setUp();
         

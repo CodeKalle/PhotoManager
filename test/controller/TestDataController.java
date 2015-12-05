@@ -85,4 +85,12 @@ public class TestDataController {
             albumList.add("Album" + String.valueOf(i));
         }
     }
+    
+    public void backupDatabase(String path) throws IOException{
+        
+    }
+    
+    public void restoreDatabase(String path) throws IOException{
+    
+    }
 }
