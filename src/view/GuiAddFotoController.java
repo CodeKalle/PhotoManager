@@ -20,11 +20,7 @@ import javafx.geometry.Insets;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.SelectionMode;
-import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
-import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
@@ -58,17 +54,15 @@ public class GuiAddFotoController implements Initializable{
         stage.setScene(scene);
         stage.show();
     }
-    
-    
-    @FXML
-    public void handleMouseAction(ActionEvent event) throws IOException{
-        System.out.println("click");
-    }    
+
     
     @Override
     public void initialize(URL location, ResourceBundle resources) {       
         // Titel setzten
         Main.getPrimaryStage().setTitle("Photomanager - AddFoto.fxml");
+        
+        
+        
         
         //Treeview füllen:
         //create tree pane
@@ -80,6 +74,7 @@ public class GuiAddFotoController implements Initializable{
         String hostName="computer";
         try{hostName=InetAddress.getLocalHost().getHostName();}catch(UnknownHostException x){}
             FilePathTreeItem rootNode=new FilePathTreeItem(hostName);//,new ImageView(new Image(ClassLoader.getSystemResourceAsStream("/src/dummy1.jpg"))));
+            treeView.setRoot(rootNode);
             
             Iterable<Path> rootDirectories=FileSystems.getDefault().getRootDirectories();
             for(Path name:rootDirectories){
@@ -91,6 +86,6 @@ public class GuiAddFotoController implements Initializable{
             
             rootNode.setExpanded(false);
             //create the tree view
-            treeView.setRoot(rootNode);
+            
     }
 }
