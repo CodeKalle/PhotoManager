@@ -18,6 +18,7 @@ import model.Metadaten;
  * @date 24.11.2015 by Danilo: Erstellen der Methoden zum hinzufügen einer Fotoliste zum Album
  * @date 25.11.2015 by Danilo: Erstellen der Methode getMetaFromFoto und deleteAllFotosInAlbum, sowie setzen der Diamantoperanten
  * @date 29.11.2015 by Danilo: Methode setMetaInFoto ergänzt
+ * @date 01.12.2015 by Danilo: Fehlerkorrektur
  */
 public class FotoController {
     /**
@@ -29,12 +30,13 @@ public class FotoController {
      * @return Fehlercode zur Auswertung
      * @date 25.11.2015 by Danilo: Initialisierung
      * @date 29.11.2015 by Danilo: Fehlerkorrektur in Methode
+     * @date 01.12.2015 by Danilo: Fehlerkorrektur
      */
     public static int setMetaInFoto(Path pathOfFoto, Metadaten meta) {
         Foto searchFoto = generateFotoFromPath(pathOfFoto);
         searchFoto.setMetadata(meta);
         if(searchFoto.getMetadata()!=meta) {
-            return 1;
+            return 510;
         }
         return 0;
     }
@@ -81,8 +83,10 @@ public class FotoController {
      * 
      * @param title Titel des Albums, dem die Fotos hinzugefügt werden
      * @param listOfPathes Liste der Bilddateipfade die dem Album als Foto hinzugefügt werden
+     * @return Fehlercode zur Auswertung
      * @date 24.11.2015 by Danilo: Initialisierung
      * @date 29.11.2015 by Danilo: Ändern der Rückgabe der Methode
+     * @date 01.12.2015 by Danilo: Fehlerkorrektur
      */
     public static int addListOfFotosToAlbum(String title, List<Path> listOfPathes) {
         Album tmpAlbum = AlbenController.getAlbum(title);
@@ -94,17 +98,14 @@ public class FotoController {
 
                 int addSize = addNewFotolistToExistingFotolist(tmpAlbum, newFotoListe);
                 if (addSize != newFotoListe.size()) {
-                    changeErrorCode(0);
-                    return 1;
+                    return 410;
                 }
                 return 0;
             } else {
-                changeErrorCode(0);
-                return 2;
+                return 420;
             }
         } else {
-            changeErrorCode(0);
-            return 3;
+            return 430;
         }
     }
     
@@ -200,6 +201,7 @@ public class FotoController {
      * @param album Album aus welchem Fotos gelöscht werden sollen 
      * @return Fehlercode zum Auswerten
      * @date 25.11.2015 by Danilo: Initialisierung
+     * @date 01.12.2015 by Danilo: Fehlerkorrektur
      */
     protected static int deleteAllFotosInAlbum(Album album){
         List <Foto> tmpFotolist = album.getFotoListe();
@@ -214,6 +216,8 @@ public class FotoController {
         }
         // Alle Fotos aus Album löschen
         tmpFotolist.clear();
+        if (!tmpFotolist.isEmpty()) return 450;
+        
         return 0;
     }
 }

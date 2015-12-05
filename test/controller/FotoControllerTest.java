@@ -54,7 +54,9 @@ public class FotoControllerTest {
     private String kurztitel = "Kurztitel";
         
     public FotoControllerTest() {
-        testAlbum = AlbenController.createNewAlbum(title, beschreibung, sortierkennzeichen);
+        //testAlbum = AlbenController.createNewAlbum(title, beschreibung, sortierkennzeichen);
+        AlbenController.createNewAlbum(title, beschreibung, sortierkennzeichen);
+        testAlbum = AlbenController.getAlbum(title);
         localAlbum = new Album(title);
         pathOfFoto = Paths.get("test/testdaten/Testbild43.jpeg");
         listOfPathes = new LinkedList<>();
