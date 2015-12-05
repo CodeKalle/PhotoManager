@@ -47,14 +47,18 @@ public class TestRunner {
     @Before
     public void setUp() throws IOException{
         //Sicherung der aktueller "Datenbank"
-         
+        SystemControllerTest.setUp();
+        
         //Generiung Testdaten
         TestDataCtrl = new TestDataController("Pfad");
+        
     }
     
     @After
-    public void tearDown() {
+    public void tearDown() throws IOException{
         //Wiederherstellung alter Daten vor Test
+        SystemControllerTest.tearDownClass();
+        
     }
 
     // TODO add test methods here.

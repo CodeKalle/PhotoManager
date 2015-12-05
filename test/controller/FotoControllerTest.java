@@ -36,15 +36,18 @@ import org.junit.Ignore;
  * 
  * @date 01.12.2015 by Daniel: Neustrukturierung für Kompatibilität mit zukünftigem TestRunner; testAddListOfFotosToAlbum bearbeitet; testDeleteAllFotosInAlbum hinzugefügt
  * @date 02.12.2015 by Daniel: testdaten, testGetFotosFromAlbum hinzugefügt; tearDown löscht container, metadaten funktioniert nicht (Kurztitel=null)
+ * @date 03.12.2015 by Daniel: keine Verbesserung nach dem hinzufügen von foto zum container 
  */
 public class FotoControllerTest {
     
     private Album testAlbum;
+    private Album localAlbum;
     private Foto testFoto;
     private Path pathOfFoto;
     private Metadaten meta;
     private List<Path> listOfPathes;
-    private String title = "title";
+    
+    private String title = "titel";
     private String beschreibung = "beschr";
     private String sortierkennzeichen = "kennz";
     private String fototitel = "Fototitel";
@@ -52,10 +55,12 @@ public class FotoControllerTest {
         
     public FotoControllerTest() {
         testAlbum = AlbenController.createNewAlbum(title, beschreibung, sortierkennzeichen);
+        localAlbum = new Album(title);
         pathOfFoto = Paths.get("test/testdaten/Testbild43.jpeg");
-        testFoto = new Foto(fototitel, pathOfFoto);
         listOfPathes = new LinkedList<>();
         listOfPathes.add(pathOfFoto);
+        testFoto = new Foto(fototitel, pathOfFoto);
+                
         meta = new Metadaten();
         meta.setzeWert(kurztitel, kurztitel);
     }
@@ -72,10 +77,12 @@ public class FotoControllerTest {
     
     @Before
     public void setUp() {
+        //AlbenController.createNewAlbum(title, beschreibung, sortierkennzeichen);
     }
     
     @After
     public void tearDown() {
+        //SystemController.getFotoContainer().getFotoMap().clear();
     }
 
     /**
@@ -119,6 +126,7 @@ public class FotoControllerTest {
         System.out.println("setMetaInFoto");
         System.out.println(pathOfFoto + " : " + meta.getDaten());
         
+        FotoController.addListOfFotosToAlbum(title, listOfPathes);
         FotoController.setMetaInFoto(pathOfFoto, meta);
         Map<String, Object> expResult = meta.getDaten();
         System.out.println(expResult);
@@ -136,6 +144,7 @@ public class FotoControllerTest {
     @Ignore
     public void testGetMetaFromFoto() {
         System.out.println("getMetaFromFoto");
+        FotoController.addListOfFotosToAlbum(title, listOfPathes);
         Metadaten expResult = meta;
         Metadaten result = FotoController.getMetaFromFoto(pathOfFoto);
         assertEquals(expResult, result);

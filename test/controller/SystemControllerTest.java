@@ -44,11 +44,10 @@ public class SystemControllerTest {
                 Files.copy(databasecopy, database, StandardCopyOption.REPLACE_EXISTING);
             }   
         }
-        
     }
     
     @Before
-    public void setUp() throws IOException {
+    public static void setUp() throws IOException {
         // Sichern der "Datenbank"
         Path database = Paths.get(filename);
         Path databasecopy = Paths.get(bakfilename);
@@ -56,8 +55,7 @@ public class SystemControllerTest {
         if (Files.exists(database))
         {
             if(Files.isReadable(database) && Files.notExists(databasecopy) || !Files.isSameFile(database, databasecopy)){
-                Files.deleteIfExists(databasecopy);
-                Files.copy(database, databasecopy);
+                Files.copy(database, databasecopy, StandardCopyOption.REPLACE_EXISTING);
             }   
         }
     }
