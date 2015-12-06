@@ -27,9 +27,15 @@ public class TestDocumizer {
     public static void logging(int errorcode, String advancedDescription, boolean consoleLog, boolean fileLog){
         String logString = "";
         if (errorcode !=0){
-            
+            logString = advancedDescription + "\n";
         }else{
-            
+            logString = "errorcode: " + String.valueOf(errorcode) +  " ";
+            String[] tmpErrorMessage;
+            tmpErrorMessage = ErrorController.changeErrorCode(errorcode);
+            for (String tmp : tmpErrorMessage){
+                logString = logString + tmp + " | ";
+            }
+            logString = logString + advancedDescription;
         }
         
         if(consoleLog == true){
