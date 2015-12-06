@@ -148,10 +148,11 @@ public class FotoController {
      * @param pathOfFoto Pfad zur Bilddatei
      * @return Foto welches erstellt oder gefunden wurde
      * @date 24.11.2015 by Danilo: Initialisierung
+     * @date 06.12.2015 by Danilo: Ändern des Datentyp pfad zu String da Path nicht serialisierbar
      */
     private static Foto generateFotoFromPath(Path pathOfFoto) {
         String nameOfFoto = pathOfFoto.getFileName().toString();
-        Foto newFoto = new Foto(nameOfFoto, pathOfFoto);
+        Foto newFoto = new Foto(nameOfFoto, pathOfFoto.toString());
         
         newFoto = checkIfFotoExist(newFoto);
         
@@ -164,13 +165,16 @@ public class FotoController {
      * @param foto Foto das gesucht werden soll.
      * @return Foto welches erstellt wurde oder existiert
      * @date 24.11.2015 by Danilo: Initialisierung
+     * @date 06.12.2015 by Danilo: Fotolink zum Fotocontainer hinzufügen falls es neu generiert wurde
      */
     private static Foto checkIfFotoExist(Foto foto) {
         Foto tmpFoto = SystemController.getFotoContainer().getFotoMap().get(foto.hashCode());
-        if (tmpFoto != null)
-        {
+        if (tmpFoto != null) {
             foto = tmpFoto;
+        } else {
+            SystemController.getFotoContainer().getFotoMap().put(foto.hashCode(), foto);
         }
+        
         return foto;
     }
     
@@ -181,13 +185,12 @@ public class FotoController {
      * @param newFotoListe Liste der Fotos die hinzugefügt werden sollen
      * @return Anzahl der Fotos die hinzugefügt wurden
      * @date 24.11.2015 by Danilo: Initialisierung
-     * @date 06.12.2015 by Danilo: Fotolink zum Fotocontainer hinzufügen falls es neu generiert wurde
+     * @date 06.12.2015 by Danilo: Verschoben in checkIfFotoExist
      */
     private static int addNewFotolistToExistingFotolist(Album album, List<Foto> newFotoListe) { 
         List<Foto> albumFotolist = album.getFotoListe();
         int oldSize = albumFotolist.size();
         for (Foto tmpFoto : newFotoListe) {
-            if(tmpFoto.getCounter()==0) SystemController.getFotoContainer().getFotoMap().put(tmpFoto.hashCode(), tmpFoto);
             albumFotolist.add(tmpFoto);
             tmpFoto.setCounter(1);
         }
