@@ -187,7 +187,7 @@ public class FotoControllerTest {
      */
     @Test
     public void testSetMetaInFoto() {
-        System.out.println("setMetaInFoto");
+        System.out.println("testSetMetaInFoto");
         // Album wurde angelegt
         assertThat(AlbenController.getAlbum(title), is(notNullValue()));
         System.out.println(pathOfFoto + " : " + meta.getDaten());
@@ -217,7 +217,7 @@ public class FotoControllerTest {
      */
     @Test
     public void testGetMetaFromFoto() {
-        System.out.println("getMetaFromFoto");
+        System.out.println("testGetMetaFromFoto");
         // Album wurde angelegt
         assertThat(AlbenController.getAlbum(title), is(notNullValue()));
         
@@ -238,7 +238,7 @@ public class FotoControllerTest {
      */
     @Test
     public void testGetFotosFromAlbum() {
-        System.out.println("getFotosFromAlbum");
+        System.out.println("testGetFotosFromAlbum");
         // Album wurde angelegt
         assertThat(AlbenController.getAlbum(title), is(notNullValue()));
         FotoController.addListOfFotosToAlbum(title, listOfPathes);
@@ -261,7 +261,7 @@ public class FotoControllerTest {
      */
     @Test
     public void testAddListOfFotosToAlbum() {
-        System.out.println("addListOfFotosToAlbum");
+        System.out.println("testAddListOfFotosToAlbum");
         // Album wurde angelegt
         assertThat(AlbenController.getAlbum(title), is(notNullValue()));
         
@@ -295,7 +295,7 @@ public class FotoControllerTest {
      */
     @Test
     public void testDeleteAllFotosInAlbum() {
-        System.out.println("deleteAllFotosInAlbum");
+        System.out.println("testDeleteAllFotosInAlbum");
         // Album wurde angelegt
         assertThat(AlbenController.getAlbum(title), is(notNullValue()));
         

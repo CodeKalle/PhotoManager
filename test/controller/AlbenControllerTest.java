@@ -48,6 +48,8 @@ public class AlbenControllerTest {
     private static String newTitle;
     private static String newBeschreibung;
     private static String newSortierkennzeichen;
+    private static String shortTitle;
+    private static String longTitle;
     // Zufällige Testdaten
     private String randomTitel;
     private String randomBeschreibung;
@@ -84,6 +86,8 @@ public class AlbenControllerTest {
         newTitle = "Neuer Testtitel";
         newBeschreibung = "Neue Testbeschreibung";
         newSortierkennzeichen = "Neue Kennzeichen";
+        shortTitle = "T";
+        longTitle = "Ein so langer Titel, ist hoffentlich zu lang";
     }
     
     /**
@@ -301,6 +305,68 @@ public class AlbenControllerTest {
         // Prüft das Album mit null Titel nicht angelegt wurde
         expectAlbum = AlbenController.getAlbum(NULLSTRING);
         assertThat(expectAlbum, is(nullValue()));
+    }
+    
+    /**
+     * Testet die Methode createNewAlbum der Klasse AlbenController.
+     * Testet, ob ein Album mit zu langem Namen angelegt wird.
+     * 
+     * Version-History:
+     * @date 06.12.2015 by Daniel: Initialisierung
+     */
+    @Test
+    public void testCreateNewAlbumShortTitle() {
+        System.out.println("testCreateNewAlbumLongTitle");
+        
+        // Prüft das Datenbank leer ist
+        assertThat(SystemController.getAlbumContainer().anzahlAlben(), is(0));
+        
+        // Prüft das Album mit longTitle Titel nicht existiert
+        Album expectAlbum = AlbenController.getAlbum(shortTitle);
+        assertThat(expectAlbum, is(nullValue()));
+        
+        // Album anlegen mit longTitle Titel
+        int errorcode = AlbenController.createNewAlbum(shortTitle, beschreibung, sortierkennzeichen);
+        if (errorcode != 115) {
+            fail(ErrorController.changeErrorCode(errorcode)[115]);
+        }
+
+        // Prüft das Album mit zu kurzem Titel nicht angelegt wurde
+        expectAlbum = AlbenController.getAlbum(shortTitle);
+        assertThat(expectAlbum, is(nullValue()));
+    }
+    
+    /**
+     * Testet die Methode createNewAlbum der Klasse AlbenController.
+     * Testet, ob ein Album mit zu langem Namen angelegt wird.
+     * 
+     * Version-History:
+     * @date 06.12.2015 by Daniel: Initialisierung
+     */
+    @Test
+    public void testCreateNewAlbumLongTitle() {
+        System.out.println("testCreateNewAlbumLongTitle");
+        
+        // Prüft das Datenbank leer ist
+        assertThat(SystemController.getAlbumContainer().anzahlAlben(), is(0));
+        
+        // Prüft das Album mit longTitle Titel nicht existiert
+        Album expectAlbum = AlbenController.getAlbum(longTitle);
+        assertThat(expectAlbum, is(nullValue()));
+        
+        // Album anlegen mit longTitle Titel
+        int errorcode = AlbenController.createNewAlbum(longTitle, beschreibung, sortierkennzeichen);
+        if (errorcode != 0) {
+            fail(ErrorController.changeErrorCode(errorcode)[1]);
+        }
+
+        // Prüft das Album mit dem auf 20 Stellen gekürzten Titel nicht angelegt wurde
+        String gekuerzterTitel = longTitle.substring(0,20);
+        expectAlbum = AlbenController.getAlbum(gekuerzterTitel);
+        assertEquals(gekuerzterTitel, expectAlbum.getTitel());
+        assertEquals(beschreibung, expectAlbum.getBeschreibung());
+        assertEquals(sortierkennzeichen, expectAlbum.getSortierkennzeichen());
+        assertThat(SystemController.getAlbumContainer().anzahlAlben(), is(1));
     }
     
     /**
