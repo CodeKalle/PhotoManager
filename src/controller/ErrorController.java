@@ -43,7 +43,8 @@ public class ErrorController {
         String text;
         List<String> buttonlist = new ArrayList<>();
         int opt;
-        switch (errorcode) {  case 110:
+        switch (errorcode) {
+            case 110:
                 title = "Albumanlege-Fehler";
                 text = "";
                 opt = 0;
@@ -144,7 +145,7 @@ public class ErrorController {
                 text = "";
                 opt = 0;
                 buttonlist.add("OK");
-                break;          
+                break;
             case 800:
                 title = "Datenbankfehler";
                 text = "Datenbank ist schreibgeschützt!";
@@ -213,6 +214,36 @@ public class ErrorController {
             case 830:
                 title = "Datenbank laden";
                 text = "Das System konnte den Lesestream zur Albendatenbank nicht schließen.";
+                opt = 0;
+                buttonlist.add("OK");
+                break;
+            case 831:
+                title = "System-Ladefehler";
+                text = "";
+                opt = 0;
+                buttonlist.add("OK");
+                break;
+            case 832:
+                title = "System-Ladefehler";
+                text = "";
+                opt = 0;
+                buttonlist.add("OK");
+                break;
+            case 833:
+                title = "System-Ladefehler";
+                text = "";
+                opt = 0;
+                buttonlist.add("OK");
+                break;
+            case 834:
+                title = "System-Ladefehler";
+                text = "";
+                opt = 0;
+                buttonlist.add("OK");
+                break;
+            case 835:
+                title = "System-Ladefehler";
+                text = "";
                 opt = 0;
                 buttonlist.add("OK");
                 break;
