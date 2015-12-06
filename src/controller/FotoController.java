@@ -1,6 +1,5 @@
 package controller;
 
-import static controller.ErrorController.changeErrorCode;
 import java.io.File;
 import java.nio.file.Path;
 import java.util.LinkedList;
@@ -182,13 +181,14 @@ public class FotoController {
      * @param newFotoListe Liste der Fotos die hinzugefügt werden sollen
      * @return Anzahl der Fotos die hinzugefügt wurden
      * @date 24.11.2015 by Danilo: Initialisierung
+     * @date 06.12.2015 by Danilo: Fotolink zum Fotocontainer hinzufügen falls es neu generiert wurde
      */
     private static int addNewFotolistToExistingFotolist(Album album, List<Foto> newFotoListe) { 
         List<Foto> albumFotolist = album.getFotoListe();
         int oldSize = albumFotolist.size();
         for (Foto tmpFoto : newFotoListe) {
+            if(tmpFoto.getCounter()==0) SystemController.getFotoContainer().getFotoMap().put(tmpFoto.hashCode(), tmpFoto);
             albumFotolist.add(tmpFoto);
-            // Fotocounter hochzählen da das Foto ins Album verlinkt wurde
             tmpFoto.setCounter(1);
         }
         return albumFotolist.size()-oldSize;

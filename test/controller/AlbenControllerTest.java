@@ -3,17 +3,11 @@ package controller;
 import java.util.LinkedList;
 import java.util.List;
 import model.Album;
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.CoreMatchers.not;
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.*;
 import static org.junit.Assert.*;
 import org.apache.commons.lang.RandomStringUtils;
 import org.apache.commons.lang.math.RandomUtils;
-import static org.hamcrest.CoreMatchers.nullValue;
+import static org.hamcrest.CoreMatchers.*;
 
 /**
  * Der AlbenControllerTest testet alle Methoden der Klasse AlbenController.
@@ -66,13 +60,15 @@ public class AlbenControllerTest {
     }
     
     /**
-     * Initialisierung der Fixen Testdaten für Alben zum Klassenstart
+     * Methode startet zu Begin der Klasse
      * 
      * Version-History:
-     * @date 04.12.2015 by Danilo: Initialisierung
+     * @date 01.12.2015 by Daniel: Initialisierung
+     * @date 04.12.2015 by Danilo: Setzen der Kommentare
+     * @date 06.12.2015 by Danilo: prepareResourcesToTest in setUpClass umwandeln
      */
     @BeforeClass
-    public static void prepareResourcesToTest(){
+    public static void setUpClass() {
         SystemController.initializePmSystem();
         listOfAlbum = SystemController.getAlbumContainer().getAlbenListe();
         // Fixe Testdaten
@@ -83,17 +79,6 @@ public class AlbenControllerTest {
         newTitle = "Neuer Testtitel";
         newBeschreibung = "Neue Testbeschreibung";
         newSortierkennzeichen = "Neue Kennzeichen";
-    }
-    
-    /**
-     * Methode startet zu Begin der Klasse
-     * 
-     * Version-History:
-     * @date 01.12.2015 by Daniel: Initialisierung
-     * @date 04.12.2015 by Danilo: Setzen der Kommentare
-     */
-    @BeforeClass
-    public static void setUpClass() {  
     }
     
     /**
@@ -138,7 +123,7 @@ public class AlbenControllerTest {
     }
 
     /**
-     * Generiert neue Zufällige Daten.
+     * Generiert neue Zufällige Daten
      * 
      * Version-History:
      * @date 04.12.2015 by Danilo: Initialisierung

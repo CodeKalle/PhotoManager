@@ -26,6 +26,7 @@ public class ErrorController {
      * @date 30.11.2015 by Danilo: Anpassung an SystemController
      * @date 01.12.2015 by Danilo: Fehlerkorrektur
      * @date 04.12.2015 by Danilo: Fehlerkorrektur bei zu kurzen Albentiteln, Beschreibung und Sortierkennzeichen
+     * @date 06.12.2015 by Danilo: Fehlerkorrektur bei falschen Dateinamen
      */
     public static String[] changeErrorCode(int errorcode){
         String title;
@@ -177,6 +178,10 @@ public class ErrorController {
                 break;
             case 835:
                 title = "System-Ladefehler";
+                text = "";
+                break;
+            case 850:
+                title = "Dateifehler";
                 text = "";
                 break;
             default:
