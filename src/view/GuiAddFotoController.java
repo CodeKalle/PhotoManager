@@ -110,7 +110,14 @@ public class GuiAddFotoController implements Initializable{
     }
     
     
-    
+    /**
+     * Die Methode soll die Fotos im rechten TilePane der GuiAddFoto anzeigen, die sich im ausgewählten Ordner befinden.
+     * 
+     * @param fotos Liste mit Pfaden von Fotos, die sich im Ordner befinden.
+     * 
+     * Version-History:
+     * @date 06.12.2015 by Tobias: Initialisierung
+     */
     public static void bilderAnzeigen(List<Path> fotos){
         //Fotos aus Album laden
         for(int i = 0; i < fotos.size(); i++) {
@@ -152,10 +159,7 @@ public class GuiAddFotoController implements Initializable{
             
             
             //Fertiges Konstrukt in Pane anzeigen
-            guiAddFotoTilePane.getChildren();
+            guiAddFotoTilePane.getChildren().add(i, lpane);
         }
     }
-
-    
-    
 }
