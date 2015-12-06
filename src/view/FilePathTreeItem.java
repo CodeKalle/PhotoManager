@@ -16,14 +16,20 @@ import java.nio.file.LinkOption;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.attribute.BasicFileAttributes;
+import java.util.LinkedList;
+import java.util.List;
 import javafx.event.Event;
 import javafx.event.EventHandler;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.control.TreeItem;
 import javafx.scene.image.ImageView;
 
 /**
  *
  * @author Tobias
+ * 
+ * Version History:
+ * @date 06.12.2015 by Tobias: branchExpandedEvent() Erweitert und Boolean für isJPEG hinzugefügt
  */
 public class FilePathTreeItem extends TreeItem<String>{
     //public static Image folderCollapseImage=new Image(ClassLoader.getSystemResourceAsStream("com/huguesjohnson/javafxfilebrowsedemo/folder.png"));
@@ -39,6 +45,7 @@ public class FilePathTreeItem extends TreeItem<String>{
     
     private boolean isJPEG;
     public boolean isJPEG(){return(this.isJPEG);}
+    
     
     public FilePathTreeItem(Path file) throws IOException{
         super(file.toString());
@@ -71,10 +78,11 @@ public class FilePathTreeItem extends TreeItem<String>{
                 this.setValue(value);
             }
         }
-    
+
         this.addEventHandler(TreeItem.branchExpandedEvent(),new EventHandler(){
             @Override
             public void handle(Event e){
+                List<Path> fotos = new LinkedList();
                 FilePathTreeItem source=(FilePathTreeItem)e.getSource();
                     if(source.isDirectory()&&source.isExpanded()){
                         ImageView iv=(ImageView)source.getGraphic();
@@ -95,13 +103,17 @@ public class FilePathTreeItem extends TreeItem<String>{
                             }
                             //Wenn .jpg anzeigen
                             else if(treeNode.isJPEG()){
+                                fotos.add(file);
                                 source.getChildren().add(treeNode);
+                                //Für jedes Bild aufruf in GuiAddFotoController, um Bild rechts anzuzeigen
                             }
                         }
                     }
+                    
                 }catch(IOException x){
                     x.printStackTrace();
                 }
+                GuiAddFotoController.bilderAnzeigen(fotos);
             }
         });
      
