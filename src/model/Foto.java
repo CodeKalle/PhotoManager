@@ -43,11 +43,12 @@ public class Foto implements Serializable {
      * @param pfad Kompetter Pfad
      * Version-History:
      * @date 24.11.2015 by Danilo: Ändern des pfad in den Datentyp Path
+     * @date 06.12.2015 by Danilo: Änderung am Counter da 0 anzeigt das dieses neu erstellt wurde
      */
     public Foto(String name, Path pfad) {
         this.name = name;
         this.pfad = pfad;
-        counter = 1;
+        counter = 0;
         generateFotosize(pfad);
     }
 
@@ -159,8 +160,5 @@ public class Foto implements Serializable {
             return false;
         }
         return true;
-    }
-    
-    
-    
+    } 
 }

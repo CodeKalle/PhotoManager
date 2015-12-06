@@ -26,6 +26,7 @@ public class ErrorController {
      * @date 30.11.2015 by Danilo: Anpassung an SystemController
      * @date 01.12.2015 by Danilo: Fehlerkorrektur
      * @date 04.12.2015 by Danilo: Fehlerkorrektur bei zu kurzen Albentiteln, Beschreibung und Sortierkennzeichen
+     * @date 06.12.2015 by Danilo: Fehlerkorrektur bei falschen Dateinamen
      */
     private static int generateMessageBox(String title, String text, String[] buttons, int opt) {
         return JOptionPane.showOptionDialog(null, title, text, JOptionPane.DEFAULT_OPTION, opt, null, buttons, buttons[0]);
@@ -275,7 +276,10 @@ public class ErrorController {
                 opt = 0;
                 buttonlist.add("OK");
                 break;
-
+            case 850:
+                title = "Dateifehler";
+                text = "";
+                break;
             default:
                 title = "Fehler!";
                 text = "Fehlercode ist nicht verfügbar!";

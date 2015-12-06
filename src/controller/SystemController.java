@@ -25,10 +25,37 @@ public class SystemController {
      * 
      * Version-History:
      * @date 20.11.2015 by Danilo: Initialisierung
+     * @date 06.12.2015 by Danilo: Änderung des fileattributes
      */
     // Derzeit speichert das System die Datenbank da wo die ausführbare JAVA-Datei liegt 
-    private static final String filename = "pm.jdb";
+    private static String filename = "pm.jdb";
     private static PmSystem pmSystem = new PmSystem();
+    
+    /**
+     * Methode startet das System mit standard Dateiinformation
+     * 
+     * Version-History:
+     * @return Rückgabe zur Fehlerauswertung
+     * @date 06.12.2015 by Danilo: Initialisierung
+     */
+    public static int run() {
+        return startSystem();
+    }
+    
+    /**
+     * Methode startet das System mit Dateiinformation
+     * 
+     * Version-History:
+     * @param filename Dateiname zum Speichern
+     * @return Rückgabe zur Fehlerauswertung
+     * @date 06.12.2015 by Danilo: Initialisierung
+     */
+    public static int run(String filename) {
+        if (filename == null || filename.length() < 3) return 850;
+        if (filename.length() > 20) filename = filename.substring(0,20);
+        setFilename(filename);
+        return startSystem();
+    }
     
     /**
      * Methode realisiert die Generierung der benötigten Komponenten in Threads.
@@ -37,8 +64,9 @@ public class SystemController {
      * @return Rückgabe zur Fehlerauswertung
      * @date 20.11.2015 by Danilo: Initialisierung
      * @date 30.11.2015 by Danilo: Anpassung an GUI
+     * @date 06.12.2015 by Danilo: Umbennenung,Anpassung an Test und setzen auf private
      */
-    public static int run() {
+    private static int startSystem() {
         File file = new File(filename);
         if (file.exists()) {
             if (file.canRead() == true) {
@@ -88,12 +116,13 @@ public class SystemController {
                 }
                 break;
             case 1:
-                if (file.canWrite() == false) {
+                return systemSave();
+                /*if (file.canWrite() == false) {
                     return 800;
                 } else {
                     if (systemSave()!=0) return 805;
                 }
-                break;
+                //break;*/
             default:
                 break;
         }
@@ -203,14 +232,37 @@ public class SystemController {
     }
     
     /**
+     * Dieser Setter setzt den Dateipfad.
+     * 
+     * Version-History:
+     * @param filename Dateipfad
+     * @date 06.12.2015 by Danilo: Initialisierung
+     */
+    public static void setFilename(String filename) {
+        SystemController.filename = filename;
+    }
+
+    /**
+     * Dieser Getter holt den Dateipfad.
+     * 
+     * Version-History:
+     * @return Rückgabe des Dateipfades
+     * @date 06.12.2015 by Danilo: Initialisierung
+     */
+    public static String getFilename() {
+        return filename;
+    }
+    
+    /**
      * Dieser Getter holt den Albencontainer.
      * 
      * Version-History:
      * @return Rückgabe der gesamten Albenliste des Systems
      * @date 21.11.2015 by Danilo: Initialisierung
      * @date 23.11.2015 by Danilo: Kommentar angepasst
+     * @date 06.12.2015 by Danilo: Status auf protected
      */
-    public static AlbenContainer getAlbumContainer(){
+    protected static AlbenContainer getAlbumContainer(){
         return pmSystem.getAlben();
     }
     
@@ -221,8 +273,9 @@ public class SystemController {
      * @return Rückgabe der gesamten Fotoliste des Systems
      * @date 21.11.2015 by Danilo: Initialisierung
      * @date 23.11.2015 by Danilo: Kommentar angepasst
+     * @date 06.12.2015 by Danilo: Status auf protected
      */
-    public static FotoContainer getFotoContainer(){
+    protected static FotoContainer getFotoContainer(){
         return pmSystem.getFotos();
     }
 }
