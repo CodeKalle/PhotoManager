@@ -17,6 +17,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import controller.SystemController;
+import org.junit.Ignore;
 
 /**
  * @author Benni
@@ -28,45 +29,41 @@ import controller.SystemController;
 public class IntegrationTests {
     private TestDataController TestDataCtrl;
     private Path PmDatabasePath;
+    private final String testBilderPfad = "Pfad";
 
     /**
      *
      */
-    public IntegrationTests() {
-    }
+    public IntegrationTests() {}
     
     @BeforeClass
-    public static void setUpClass() {
-        
-    }
+    public static void setUpClass() {}
     
     @AfterClass
-    public static void tearDownClass() {
-    }
+    public static void tearDownClass() {}
     
     @Before
     public void setUp() throws IOException{
+        //Generiung Testdaten
+        TestDataCtrl = new TestDataController(testBilderPfad,"");
+
+        //Initialisierung System
+        SystemController.run();
         
         //Sicherung der aktueller "Datenbank"
-        SystemControllerTest.setUp();
-        
-        //Generiung Testdaten
-        TestDataCtrl = new TestDataController("Pfad");
-        
+        TestDataCtrl.backupRestoreDatabase(true);        
     }
     
     @After
     public void tearDown() throws IOException{
         //Wiederherstellung alter Daten vor Test
-        SystemControllerTest.tearDownClass();
+        TestDataCtrl.backupRestoreDatabase(false);
         
     }
-
-    // TODO add test methods here.
-    // The methods must be annotated with annotation @Test. For example:
-    //
-    // @Test
-    // public void hello() {}
+    
+    /*
+    * 
+    */
     @Test
     public void startTests()
     {
@@ -74,8 +71,20 @@ public class IntegrationTests {
     }
     
     /*
-    Testet den UseCase Album anlegen und danach editieren
+     * Testet den UseCase Album anlegen und danach editieren
+     * 01. Startbildschirm: laden und Auswahl "Alben anlegen und pflegen"
+     * 02. Albenmaske: Auswahl "neues Album"
+     * 03. Neues Album Maske: Ausfüllen der Felder "Albumnamen", "Beschreibung" (optional) Sortierkennzeichen wählen und hinzufügen
+     * 04. Bestätigen oder Abbrechen
+     * 05. Bei Bestätigung --> Meldung "Album angelegt"
+     * 06. Albenmaske: Auswahl "neu erstelltes Album"
+     * 07. Albuminformationen anzeigen --> Abgleich Ergebnisse
+     * 08. Albuminformationen bearbeiten
+     * 09. Albenmaske: Auswahl "neu erstelletes Album" --> "bearbeitete Album"?!
+     * 10. Albuminformationen anzeigen --> Abgleich Ergebnisse
     */
+    @Test
+    @Ignore
     private void createAndEditAlbum()
     {
         
@@ -84,6 +93,8 @@ public class IntegrationTests {
     /*
     Testet den UseCase Foto(s) hinzufügen und danach editieren
     */
+    @Test
+    @Ignore
     private void addAndEditFoto()
     {
         
@@ -92,6 +103,8 @@ public class IntegrationTests {
     /*
     Testet den UseCase Bildschirmpräsentation bearbeiten und starten
     */
+    @Test
+    @Ignore
     private void startAndEditPresentation()
     {
         
