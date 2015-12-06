@@ -10,12 +10,14 @@ import java.nio.file.Paths;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import static java.util.Optional.empty;
 import model.Album;
 import model.Foto;
 import model.Metadaten;
 import org.apache.commons.lang.RandomStringUtils;
 import org.apache.commons.lang.math.RandomUtils;
 import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.not;
 import static org.hamcrest.CoreMatchers.notNullValue;
 import org.junit.After;
 import org.junit.AfterClass;
@@ -44,7 +46,9 @@ public class FotoControllerTest {
      * @date 01.12.2015 by Daniel: Initialisierung
      * @date 01.12.2015 by Daniel: Anlegen neuer Klassenvariablen
      */
+    private static List<Album> listOfAlbum;
     private static Map<Integer, Foto> mapOfFotos;
+    private static Foto testFoto;
     private static long timeUsing;
     private static long timeGeneral;
     // Daten des Testalbums
@@ -80,30 +84,28 @@ public class FotoControllerTest {
      * Initialisierung der Fixen Testdaten für Fotos zum Klassenstart
      * 
      * Version-History:
-     * @date 04.12.2015 by Daniel: Initialisierung
+     * @date 05.12.2015 by Daniel: Initialisierung
+     * @date 06.12.2015 by Daniel: Album 
      */
     @BeforeClass
     public static void prepareResourcesToTest(){
         SystemController.initializePmSystem();
         mapOfFotos = SystemController.getFotoContainer().getFotoMap();
-        //Testalbum anlegen
+        listOfAlbum = SystemController.getAlbumContainer().getAlbenListe();
+        // Testalbum anlegen
         title = "Testtitel";
         beschreibung = "Testbeschreibung";
         sortierkennzeichen = "Testkennzeichen";
-        AlbenController.createNewAlbum(title, beschreibung, sortierkennzeichen);
         // Fixe Testdaten
         name = "Name";
         pathOfFoto = Paths.get("test/testdaten/Testbild43.jpeg");
+        testFoto = new Foto(name, pathOfFoto);
         listOfPathes = new LinkedList<>();
         listOfPathes.add(pathOfFoto);
-        // Testfoto anlegen und zum Album hinzufügen
-       /* Foto testFoto = new Foto(name, pathOfFoto);
         listOfFotos = new LinkedList<>();
         listOfFotos.add(testFoto);
-        AlbenController.getAlbum(title).setFotoListe(listOfFotos);*/
-        // Metadaten anlegen und zum Foto hinzufügen
-        //meta = new Metadaten();
-        //meta.setzeWert(kurztitel, kurztitel);
+        meta = new Metadaten();
+        meta.setzeWert(kurztitel, kurztitel);
         // Neue fixe Testdaten
         newName = "Neuer Name";
     }
@@ -128,7 +130,6 @@ public class FotoControllerTest {
      */
     @AfterClass
     public static void tearDownClass() {
-        AlbenController.getAlbumList().clear();
         System.out.println("\n=== FotoControllerTest ===\nTestzeit der Klasse: " + (timeGeneral/1000000) + " ms [" + (timeGeneral/1000) + " us]\n");
     }
     
@@ -137,12 +138,14 @@ public class FotoControllerTest {
      * 
      * Version-History:
      * @date 01.12.2015 by Daniel: Initialisierung
-     * @date 04.12.2015 by Danilo: Anpassung an geänderten AlbenController
+     * @date 06.12.2015 by Daniel: Anpassung an geänderten FotoController
      */
     @Before
     public void setUp() {
         mapOfFotos.clear();
+        listOfAlbum.clear();
         SystemController.initializePmSystem();
+        AlbenController.createNewAlbum(title, beschreibung, sortierkennzeichen);
         generateRandomData();
         timeUsing = System.nanoTime();
     }
@@ -158,7 +161,8 @@ public class FotoControllerTest {
     public void tearDown() {
         long time = System.nanoTime();
         timeGeneral += (time - timeUsing);
-        System.out.println("Testzeit der Methode: " + ((time - timeUsing)/1000000) + " ms [" + ((time - timeUsing)/1000) + " us]\n");
+        System.out.println("Testzeit der Methode: " + ((time - timeUsing)/1000000) + " ms [" + ((time - timeUsing)/1000) + " us]\n"); 
+        AlbenController.getAlbumList().clear();
     }
 
     /**
@@ -174,66 +178,33 @@ public class FotoControllerTest {
     }
     
     /**
-     * Methode sucht nach einem Album und gibt dieses zurück
-     * INFO: Protected da FotoContainer diese nutzen muss
-     * 
-     * Version-History:
-     * @param title Übergabe des gesuchten Albumtitels
-     * @return Rückgabe des Albums, wenn keins gefunden dann null
-     *  
-     * Version-History:
-     * @date 01.12.2015 by Daniel: Initialisierung
-     */
-    private Album getAlbum(String title) {
-        for (Album tmpAlbum : SystemController.getAlbumContainer().getAlbenListe()) {
-            if (tmpAlbum.getTitel().equals(title)) {  
-                return tmpAlbum;
-            }
-        }
-        return null;
-    }
-    
-    /**
-     * Methode sucht nach einem Foto und gibt dieses zurück
-     * INFO: Protected da FotoContainer diese nutzen muss
-     * 
-     * Version-History:
-     * @param title Übergabe des gesuchten Albumtitels
-     * @return Rückgabe des Albums, wenn keins gefunden dann null
-     * 
-     * Version-History:
-     * @date 05.12.2015 by Daniel: Initialisierung
-     */
-    private Foto getFoto(String title) {
-        for (Foto tmpFoto : SystemController.getFotoContainer().getFotoMap().values()) {
-            if (tmpFoto.getName().equals(name)) {  
-                return tmpFoto;
-            }
-        }
-        return null;
-    }
-    
-    /**
      * Testet die Methode testSetMetaInFoto der Klasse FotoController.
      * Testet, ob die gesetzten Metadaten des Fotos mit der lokal erstellten Metadaten übereinstimmen.
      * 
      * Version-History:
      * @date 01.12.2015 by Daniel: Initialisierung
+     * @date 06.12.2015 by Daniel: Album konnte Angelegt werden, errorcode, Kommentare, übergebene Metadaten: null=null
      */
     @Test
-    @Ignore
     public void testSetMetaInFoto() {
         System.out.println("setMetaInFoto");
+        // Album wurde angelegt
+        assertThat(AlbenController.getAlbum(title), is(notNullValue()));
         System.out.println(pathOfFoto + " : " + meta.getDaten());
+        System.out.println(listOfPathes);
+        System.out.println(listOfFotos);
         
-        FotoController.addListOfFotosToAlbum(title, listOfPathes);
-        FotoController.setMetaInFoto(pathOfFoto, meta);
-        Map<String, Object> expResult = meta.getDaten();
-        System.out.println(expResult);
+        int errorcode = FotoController.setMetaInFoto(pathOfFoto, meta);
+        if (errorcode != 0) {
+            fail(ErrorController.changeErrorCode(errorcode)[1]);
+        }
+        Map<String, Object> expectMeta = meta.getDaten();
+        System.out.println(expectMeta);
         
-        Map<String, Object> result = FotoController.getMetaFromFoto(pathOfFoto).getDaten();
-        System.out.println(result);
-        assertEquals(expResult, result);
+        Map<String, Object> resultMeta = FotoController.getMetaFromFoto(pathOfFoto).getDaten();
+        System.out.println(resultMeta);
+        // Maps der lokalen Metadaten und übergebenen Metadaten stimmen überein
+        assertEquals(expectMeta, resultMeta);
     }
 
     /**
@@ -242,15 +213,19 @@ public class FotoControllerTest {
      * 
      * Version-History:
      * @date 01.12.2015 by Daniel: Initialisierung
+     * @date 06.12.2015 by Daniel: Album konnte Angelegt werden, Kommentare, übergebene Metadaten: null=null
      */
     @Test
-    @Ignore
     public void testGetMetaFromFoto() {
         System.out.println("getMetaFromFoto");
-        FotoController.addListOfFotosToAlbum(title, listOfPathes);
-        Metadaten expResult = meta;
-        Metadaten result = FotoController.getMetaFromFoto(pathOfFoto);
-        assertEquals(expResult, result);
+        // Album wurde angelegt
+        assertThat(AlbenController.getAlbum(title), is(notNullValue()));
+        
+
+        Map<String, Object> expectMeta = meta.getDaten();
+        Map<String, Object> resultMeta = FotoController.getMetaFromFoto(pathOfFoto).getDaten();
+        // Maps der lokalen Metadaten und übergebenen Metadaten stimmen überein
+        assertEquals(expectMeta, resultMeta);
     }
 
     /**
@@ -259,16 +234,20 @@ public class FotoControllerTest {
      * 
      * Version-History:
      * @date 01.12.2015 by Daniel: Initialisierung
+     * @date 06.12.2015 by Daniel: Album konnte Angelegt werden, Kommentare
      */
     @Test
     public void testGetFotosFromAlbum() {
         System.out.println("getFotosFromAlbum");
+        // Album wurde angelegt
+        assertThat(AlbenController.getAlbum(title), is(notNullValue()));
         FotoController.addListOfFotosToAlbum(title, listOfPathes);
-        assertThat(getAlbum(title), is(notNullValue()));
+        // Fotoliste ist nicht leer?
+        assertThat(AlbenController.getAlbum(title).getFotoListe(), not(empty()));
         
         List expectList = listOfPathes;
-        //System.out.println(listOfFotos.get(0));
         List resultList = FotoController.getFotosFromAlbum(title);
+        // Listen der lokalen Pfade und übergebenen Pfade stimmen überein
         assertEquals(expectList, resultList);
     }
 
@@ -278,14 +257,31 @@ public class FotoControllerTest {
      * 
      * Version-History:
      * @date 01.12.2015 by Daniel: Initialisierung
+     * @date 06.12.2015 by Daniel: Album konnte Angelegt werden, errorcode, Kommentare
      */
     @Test
-    @Ignore
     public void testAddListOfFotosToAlbum() {
         System.out.println("addListOfFotosToAlbum");
-        FotoController.addListOfFotosToAlbum(title, listOfPathes);
-        List expectList = listOfPathes;
-        List resultList = getAlbum(title).getFotoListe();
+        // Album wurde angelegt
+        assertThat(AlbenController.getAlbum(title), is(notNullValue()));
+        
+        // Testweise in der Methode angelegt um Foto sicher zu erstellen, kann danach wieder weg
+        listOfPathes = new LinkedList<>();
+        listOfPathes.add(pathOfFoto);
+        testFoto = new Foto(name, pathOfFoto);
+        listOfFotos = new LinkedList<>();
+        listOfFotos.add(testFoto);
+        
+        // addListOfFotosToAlbum geprüft, gibt 0 zurück, wenn kein Fehler entstand, errorcode != 0: AssertiationFailedError
+        int errorcode = FotoController.addListOfFotosToAlbum(title, listOfPathes);
+        if (errorcode != 0) {
+            fail(ErrorController.changeErrorCode(errorcode)[1]);
+        }
+        
+        List expectList = listOfFotos;
+        List resultList = AlbenController.getAlbum(title).getFotoListe();
+        System.out.println(listOfFotos.get(0));
+        // Listen der lokalen Fotos und übergebenen Fotos stimmen überein
         assertEquals(expectList, resultList);
     }
 
@@ -295,15 +291,19 @@ public class FotoControllerTest {
      * 
      * Version-History:
      * @date 01.12.2015 by Daniel: Initialisierung
+     * @date 06.12.2015 by Daniel: Album konnte Angelegt werden, Kommentare
      */
     @Test
-    @Ignore
     public void testDeleteAllFotosInAlbum() {
-        System.out.println("deleteAllFotosInAlbum"); 
-        FotoController.addListOfFotosToAlbum(title, listOfPathes);
-        assertThat(getAlbum(title).getFotoListe(), is(notNullValue()));
+        System.out.println("deleteAllFotosInAlbum");
+        // Album wurde angelegt
+        assertThat(AlbenController.getAlbum(title), is(notNullValue()));
         
-        FotoController.deleteAllFotosInAlbum(getAlbum(title));
+        FotoController.addListOfFotosToAlbum(title, listOfPathes);
+        // Liste von Fotos, die gelöschtw erden sollen, wurde hinzugefügt
+        assertThat(AlbenController.getAlbum(title).getFotoListe(), not(empty()));
+        
+        FotoController.deleteAllFotosInAlbum(AlbenController.getAlbum(title));
         List<Foto> expectList = new LinkedList<>();
         List<Foto> resultList = AlbenController.getAlbum(title).getFotoListe();
         assertEquals(expectList, resultList);
