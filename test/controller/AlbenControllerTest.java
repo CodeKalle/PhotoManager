@@ -87,17 +87,6 @@ public class AlbenControllerTest {
     }
     
     /**
-     * Methode startet zu Begin der Klasse
-     * 
-     * Version-History:
-     * @date 01.12.2015 by Daniel: Initialisierung
-     * @date 04.12.2015 by Danilo: Setzen der Kommentare
-     */
-    @BeforeClass
-    public static void setUpClass() {  
-    }
-    
-    /**
      * Methode startet zum Ende der Klasse
      * 
      * Version-History:

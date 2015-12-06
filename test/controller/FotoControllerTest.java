@@ -99,7 +99,7 @@ public class FotoControllerTest {
         // Fixe Testdaten
         name = "Name";
         pathOfFoto = Paths.get("test/testdaten/Testbild43.jpeg");
-        testFoto = new Foto(name, pathOfFoto);
+        testFoto = new Foto(name, pathOfFoto.toString());
         listOfPathes = new LinkedList<>();
         listOfPathes.add(pathOfFoto);
         listOfFotos = new LinkedList<>();
@@ -268,7 +268,7 @@ public class FotoControllerTest {
         // Testweise in der Methode angelegt um Foto sicher zu erstellen, kann danach wieder weg
         listOfPathes = new LinkedList<>();
         listOfPathes.add(pathOfFoto);
-        testFoto = new Foto(name, pathOfFoto);
+        testFoto = new Foto(name, pathOfFoto.toString());
         listOfFotos = new LinkedList<>();
         listOfFotos.add(testFoto);
         

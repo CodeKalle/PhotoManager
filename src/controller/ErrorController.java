@@ -1,17 +1,16 @@
 package controller;
 
 /**
- * Der ErrorController realisiert die Fehlerbehandlung und Umsetzung zur
- * Eindeutigen Beschreibung für den Benutzer
- *
+ * Der ErrorController realisiert die Fehlerbehandlung und Umsetzung zur Eindeutigen
+ * Beschreibung für den Benutzer
+ * 
  * Version-History:
- *
  * @date 20.11.2015 by Danilo: Initialisierung
  * @date 01.12.2015 by Danilo: Klasse dient nur zur Umsetzung Fehlercode zu String
  * @date 04.12.2015 by Danilo: Fehlerkorrektur bei zu kurzen Albentiteln, Beschreibung und Sortierkennzeichen
  */
 public class ErrorController {
-
+    
     /**
      * Methode wandelt Code in Text um und generiert zum Fehlercodes die
      * Nachrichtenbox. opt: 0=Error 1=Info 2=Warning 3=Question
@@ -142,7 +141,6 @@ public class ErrorController {
                 title = "Systeminitialisierung";
                 text = "Das System konnte nicht richtig initialisiert werden.";
                 break;
-
             case 820:
                 title = "System-Speicherfehler";
                 text = "";

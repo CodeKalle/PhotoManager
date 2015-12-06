@@ -373,8 +373,7 @@ public class SystemControllerTest {
         System.out.println("testCheckAccessLoadAndSaveSuccessGuaranteedStability");
         
         // Setzen des Testfilenames um bestehende Daten während des Tests nicht zu verändern
-        //SystemController.setFilename(filename);
-SystemController.setFilename("jTest.jdb");
+        SystemController.setFilename(filename);
         
         // Initialisierung der Datenbank
         int errorcode = SystemController.initializePmSystem();
@@ -388,13 +387,13 @@ SystemController.setFilename("jTest.jdb");
         folderFile.mkdir();
         
         // Anlegen von garantierten Alben
-        for (int i = 0; i< 10/*garanteedAlbumCount*/; i++) {
+        for (int i = 0; i< garanteedAlbumCount; i++) {
             String albumTitel = generateRandomAlbumInContainer();
             
             List<Path> fotoPathList = new LinkedList();
             
             // Anlegen garantierter Fotos
-            for (int j = 0; j < 20/*garanteedFotoCount*//10/*garanteedAlbumCount*/; j++)
+            for (int j = 0; j < garanteedFotoCount/garanteedAlbumCount; j++)
             {
                 // Fotodatei anlegen
                 File fotoFile = new File("test-fotos" + File.separator + "foto-a" + i + "-" + j + ".jpg");
@@ -406,7 +405,7 @@ SystemController.setFilename("jTest.jdb");
                     }
                 }
                 
-                Foto tmpFoto = new Foto(fotoFile.getName(), Paths.get(fotoFile.getAbsolutePath()));
+                Foto tmpFoto = new Foto(fotoFile.getName(), Paths.get(fotoFile.getAbsolutePath()).toString());
                 
                 // Metadaten des Bildes setzen
                 Metadaten meta = new Metadaten();
@@ -439,10 +438,10 @@ SystemController.setFilename("jTest.jdb");
         }
         
         // Prüfen das Anzahl garantierter Alben vorhanden sind
-        assertThat(SystemController.getAlbumContainer().anzahlAlben(), is(10/*garanteedAlbumCount*/));
+        assertThat(SystemController.getAlbumContainer().anzahlAlben(), is(garanteedAlbumCount));
         
         // Prüfen das Anzahl garantierter Fotos vorhanden sind
-        assertThat(SystemController.getFotoContainer().anzahlFotos(), is(20/*garanteedFotoCount*/));
+        assertThat(SystemController.getFotoContainer().anzahlFotos(), is(garanteedFotoCount));
         
         // Starten der Zeitmessung
         long time = System.nanoTime();
@@ -451,20 +450,21 @@ SystemController.setFilename("jTest.jdb");
         errorcode = SystemController.checkAccess(1);
         
         // Ende der Zeitmessung in us
-        time = (System.nanoTime() - time)/1000;
+        time = (System.nanoTime() - time)/1000000;
         
         // Prüfen das Speichern korrekt verlief
         if (errorcode!=0) {
-// Fehlerkorrektur hier wird ein Fehlerausgelöst da die Datenbank nicht serialisiert werden kann
-// wer Ideen hat bitte beim Teamchef melden
-            //fail(ErrorController.changeErrorCode(errorcode)[1] + Integer.toString(errorcode));
+            fail(ErrorController.changeErrorCode(errorcode)[1] + Integer.toString(errorcode));
         }
         
         // Ausgabe für benutzer
-        System.out.println("Zeit für " + garanteedFotoCount/garanteedAlbumCount + " Fotos [mit Metadaten] in jeweils " + garanteedAlbumCount + " Alben: " + ((time)/1000) + " ms [" + time + " us]");
+        System.out.println("Zeit für " + garanteedFotoCount/garanteedAlbumCount + " Fotos [mit Metadaten] in jeweils " + garanteedAlbumCount + " Alben: " + ((time)/1000) + " s [" + time + " ms]");
         
-        // Prüfen das garantierte Zeit erreicht wurde
-        assertThat(time < 1000000, is(true));
+        // Vorbereiten der Zeit
+        time = time / 1000;
+        
+        // Prüfen das garantierte Zeit erreicht wurde [20 Sekunden]
+        assertThat(time < 20, is(true));
         
         // Testfotoordner mit allen darin enthaltenen Daten löschen
         if (folderFile.exists()) {
