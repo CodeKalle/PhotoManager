@@ -31,7 +31,7 @@ import javafx.stage.Stage;
  */
 public class GuiSelectedAlbumController implements Initializable { 
     @FXML
-    Button guiSelectedAlbumFotosHinzufuegen, guiSelectedAlbumAlbumBearbeiten, guiSelectedAlbumFotosLoeschen, guiSelectedAlbumFotosBearbeiten, guiSelectedAlbumZurueckzuAlben;
+    Button guiSelectedAlbumFotosHinzufuegen, guiSelectedAlbumFotosHinzufuegen2, guiSelectedAlbumAlbumBearbeiten, guiSelectedAlbumFotosLoeschen, guiSelectedAlbumFotosBearbeiten, guiSelectedAlbumZurueckzuAlben;
     @FXML
     private TilePane guiSelectedAlbumTilePane;
     
@@ -50,8 +50,9 @@ public class GuiSelectedAlbumController implements Initializable {
             stage=(Stage) guiSelectedAlbumFotosBearbeiten.getScene().getWindow();
             root = FXMLLoader.load(getClass().getResource("GuiFotoEdit.fxml"));
         }
-        else if(event.getSource()==guiSelectedAlbumFotosHinzufuegen){
+        else if(event.getSource()==guiSelectedAlbumFotosHinzufuegen || event.getSource()==guiSelectedAlbumFotosHinzufuegen2){
             // fotos zu diesem album hinzufügen
+            Main.letztesFensterVorCreateAlbum = "GuiSelectedAlbum.fxml";
             stage=(Stage) guiSelectedAlbumFotosHinzufuegen.getScene().getWindow();
             root = FXMLLoader.load(getClass().getResource("GuiAddFoto.fxml"));
         }

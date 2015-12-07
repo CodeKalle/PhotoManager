@@ -6,7 +6,6 @@
 package view;
 
 import controller.AlbenController;
-import controller.SystemController;
 import java.io.IOException;
 import java.net.URL;
 import java.util.LinkedList;
@@ -42,8 +41,6 @@ public class GuiAlbumOverviewController implements Initializable{
     @FXML
     TilePane guiAlbumOverviewTilePane;
     
-    private List<String> liste = new LinkedList();
-    
     @FXML
     public void handleButtonAction(ActionEvent event) throws IOException{
         Stage stage;
@@ -78,7 +75,7 @@ public class GuiAlbumOverviewController implements Initializable{
             titel = getMarkiertesAlbum();
             if(titel == null) return;   //Wenn kein oder mehrere Alben markiert sind, bleibe in der aktuellen Übersicht.
             Main.speicher = titel;      //Titel zwischenspeichern, damit er im nächsten Fenster weiter verwendet werden kann.
-            Main.letztesFenster = "GuiAlbumOverview.fxml";
+            Main.letztesFensterVorCreateAlbum = "GuiAlbumOverview.fxml";
             stage=(Stage) guiAlbumOverviewFotoHinzufuegen.getScene().getWindow();
             root = FXMLLoader.load(getClass().getResource("GuiAddFoto.fxml"));
         }
