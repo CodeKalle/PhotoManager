@@ -6,8 +6,11 @@ package controller;
  * 
  * Version-History:
  * @date 20.11.2015 by Danilo: Initialisierung
- * @date 01.12.2015 by Danilo: Klasse dient nur zur Umsetzung Fehlercode zu String
- * @date 04.12.2015 by Danilo: Fehlerkorrektur bei zu kurzen Albentiteln, Beschreibung und Sortierkennzeichen
+ * @date 01.12.2015 by Danilo: Klasse dient nur zur Umsetzung Fehlercode zu
+ * String
+ * @date 04.12.2015 by Danilo: Fehlerkorrektur bei zu kurzen Albentiteln,
+ * Beschreibung und Sortierkennzeichen
+ * @date 06.12.2015 by Andrea: Fehlende Fehlerbeschreibung komplett hinzugefügt
  */
 public class ErrorController {
     
@@ -25,13 +28,13 @@ public class ErrorController {
      * @date 30.11.2015 by Danilo: Anpassung an SystemController
      * @date 06.12.2015 by Tobias: Merge verkackt, manuelles zurücksetzten
      */
-    public static String[] changeErrorCode(int errorcode){
+    public static String[] changeErrorCode(int errorcode) {
         String title;
         String text;
         switch (errorcode) {
             case 110:
                 title = "Albumanlege-Fehler";
-                text = "";
+                text = "Albumtitel wurde bereitsfür ein Album verwendet.";
                 break;
             case 115:
                 title = "Albumanlege-Fehler";
@@ -47,15 +50,16 @@ public class ErrorController {
                 break;
             case 120:
                 title = "Albumanlege-Fehler";
-                text = "";
+                text = "Albumbeschreibung konnte nach Anlegen nicht gesetzt werden.";
                 break;
             case 130:
                 title = "Albumanlege-Fehler";
-                text = "";
+                text = "Sortierkennzeichen konnte nach Anlegen nicht gesetzt werden.";
                 break;
             case 150:
                 title = "Albumänderungs-Fehler";
-                text = "";
+                text = "Albumtitel wurde entweder schon für ein weiteres Album gesetzt\n "
+                        + "oder Album wurde nicht gefunden.";
                 break;
             case 155:
                 title = "Albumänderungs-Fehler";
@@ -71,55 +75,55 @@ public class ErrorController {
                 break;
             case 160:
                 title = "Albumänderungs-Fehler";
-                text = "";
+                text = "Albumbeschreibung konnte bei Änderung nicht gesetzt werden.";
                 break;
             case 170:
                 title = "Albumänderungs-Fehler";
-                text = "";
+                text = "Sortierkennzeichen konnte bei Änderung nicht gesetzt werden.";
                 break;
             case 310:
                 title = "Albumlösch-Fehler";
-                text = "";
+                text = "Album wurde nicht gefunden.";
                 break;
             case 320:
                 title = "Albumerstellen-Fehler";
-                text = "";
+                text = "Albumtitel wurde bereitsfür ein Album verwendet.";
                 break;
             case 330:
                 title = "Albumtiteländerungs-Fehler";
-                text = "";
+                text = "Album wurde nicht gefunden.";
                 break;
             case 331:
                 title = "Albumtiteländerungs-Fehler";
-                text = "";
+                text = "Albumtitel wurde schon für ein weiteres Album gesetzt.";
                 break;
             case 340:
                 title = "Albumbeschreibungänderungs-Fehler";
-                text = "";
+                text = "Albumbeschreibung konnte nicht gesetzt werden.";
                 break;
             case 350:
                 title = "Albumsortierkennzeichenänderungs-Fehler";
-                text = "";
+                text = "Sortierkennzeichen konnte nicht gesetzt werden.";
                 break;
             case 410:
                 title = "Fotospeicher-Fehler";
-                text = "";
+                text = "Fotos konnten nicht korrekt dem Album hinzugefügt werden.";
                 break;
             case 420:
                 title = "Fotospeicher-Fehler";
-                text = "";
+                text = "Die Liste der zuzufügenden Albenpfade ist Leer.";
                 break;
             case 430:
                 title = "Fotospeicher-Fehler";
-                text = "";
+                text = "Album zum zugehörigen Titel konnte nicht gefunden werden.";
                 break;
             case 450:
                 title = "Fotolösch-Fehler";
-                text = "";
+                text = "Nicht alle Fotos konnten aus dem Album entfernt werden.";
                 break;
             case 510:
                 title = "Metadatenfehler";
-                text = "";
+                text = "Metadaten konnten nicht gesetzt werden.";
                 break;
             case 800:
                 title = "Datenbankfehler";
@@ -129,10 +133,11 @@ public class ErrorController {
                 title = "Datenbankfehler";
                 text = "Zugriff auf Datenbank nicht möglich!";
                 break;
-            case 805:
-                title = "Datenbank-Speicherfehler";
-                text = "Datenbanksystem konnte nicht ordnungsgemäß gespeichert werden.";
-                break;
+            /* ins SystemController zu Errorcode 820,821,822 geändert
+             case 805:
+             title = "Datenbank-Speicherfehler";
+             text = "Datenbanksystem konnte nicht ordnungsgemäß gespeichert werden.";
+             break;*/
             case 806:
                 title = "Datenbank-Ladefehler";
                 text = "Datenbanksystem konnte nicht ordnungsgemäß geladen werden.";
@@ -143,43 +148,43 @@ public class ErrorController {
                 break;
             case 820:
                 title = "System-Speicherfehler";
-                text = "";
+                text = "Die Dateien zum Speichern der Datenbank konnten nichtgeöffnet werden.";
                 break;
             case 821:
-                title = "System-Speicherfehler";		
-                text = "";		
+                title = "System-Speicherfehler";
+                text = "Das System konnte die Ausgabestreams zur Albendatenbank nicht schließen.";
                 break;
             case 822:
                 title = "System-Speicherfehler";
-                text = "";
+                text = "Das System konnte die Ausgabestreams zur Albendatenbank nicht schließen.";
                 break;
             case 830:
                 title = "System-Ladefehler";
-                text = "";
+                text = "Das System konnte Objekt der Albendatenbank nicht finden.";
                 break;
             case 831:
                 title = "System-Ladefehler";
-                text = "";
+                text = "Das System konnte die Albendatenbankdatei nicht in das Albendatenbankobjekt lesen.";
                 break;
             case 832:
                 title = "System-Ladefehler";
-                text = "";
+                text = "Das System konnte den Lesestream zur Albendatenbank nicht schließen.";
                 break;
             case 833:
                 title = "System-Ladefehler";
-                text = "";
+                text = "Das System konnte den Lesestream zur Albendatenbank nicht öffnen.";
                 break;
             case 834:
                 title = "System-Ladefehler";
-                text = "";
+                text = "Das System konnte den Lesestream zur Albendatenbank nicht schließen.";
                 break;
             case 835:
                 title = "System-Ladefehler";
-                text = "";
+                text = "Das System konnte den Lesestream zur Albendatenbank nicht schließen.";
                 break;
             case 850:
                 title = "Dateifehler";
-                text = "";
+                text = "Datei/Pfadname zu kurz.";
                 break;
             default:
                 title = "Fehler!";
