@@ -47,7 +47,7 @@ public class GuiAddFotoController implements Initializable{
     TreeView<String> treeView;
     
     @FXML
-    static TilePane guiAddFotoTilePane;
+    TilePane guiAddFotoTilePane;
 
     
     @FXML
@@ -57,11 +57,11 @@ public class GuiAddFotoController implements Initializable{
         if(event.getSource()==guiAddFotoBilderHinzufuegen){
             //Fotos zu Ablum hinzufügen, Methdenaufruf FotoController
             stage=(Stage) guiAddFotoBilderHinzufuegen.getScene().getWindow();
-            root = FXMLLoader.load(getClass().getResource("GuiFotoEdit.fxml"));
+            root = FXMLLoader.load(getClass().getResource(Main.letztesFensterVorCreateAlbum));
         }
         else {
             stage=(Stage) guiAddFotoAbbrechen.getScene().getWindow();
-            root = FXMLLoader.load(getClass().getResource("GuiMain.fxml"));
+            root = FXMLLoader.load(getClass().getResource(Main.letztesFensterVorCreateAlbum));
             
         }
         Scene scene = new Scene(root);
@@ -74,8 +74,6 @@ public class GuiAddFotoController implements Initializable{
     public void initialize(URL location, ResourceBundle resources) {       
         // Titel setzten
         Main.getPrimaryStage().setTitle("Photomanager - AddFoto.fxml");
-        
-        
         
         
         //Treeview füllen    
@@ -118,7 +116,7 @@ public class GuiAddFotoController implements Initializable{
      * Version-History:
      * @date 06.12.2015 by Tobias: Initialisierung
      */
-    public static void bilderAnzeigen(List<Path> fotos){
+    public void bilderAnzeigen(List<Path> fotos){
         //Fotos aus Album laden
         for(int i = 0; i < fotos.size(); i++) {
             //Für jedes Bild Konstrukt zusammensetzen

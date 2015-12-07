@@ -5,10 +5,7 @@
  */
 package view;
 
-import java.io.BufferedInputStream;
-import java.io.DataInputStream;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
@@ -20,7 +17,6 @@ import java.util.LinkedList;
 import java.util.List;
 import javafx.event.Event;
 import javafx.event.EventHandler;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.control.TreeItem;
 import javafx.scene.image.ImageView;
 
@@ -113,7 +109,6 @@ public class FilePathTreeItem extends TreeItem<String>{
                 }catch(IOException x){
                     x.printStackTrace();
                 }
-                GuiAddFotoController.bilderAnzeigen(fotos);
             }
         });
      
