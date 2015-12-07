@@ -5,28 +5,42 @@
  */
 package controller;
 
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.nio.file.Paths;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.charset.Charset;
+import java.nio.file.OpenOption;
+import static java.nio.file.StandardOpenOption.APPEND;
+import static java.nio.file.StandardOpenOption.CREATE;
+
 /**
  *
  * @author Benni
  */
+
 public class TestDocumizer {
+    //Einstellung des Timer 
     private static long timeUsing;
     private static long timeGeneral;
-    private static final String LogPath = "/test/TestLog.txt";
+    //Einstellung des Logging
+    private static final String strLogPath = "TestLog.txt";
+    private static final Charset charset = Charset.forName("UTF-8");
     
     public static void startTimer(){
         timeUsing = System.nanoTime();
     }
     
-    public static void stopTimer(){
+    public static long stopTimer(){
         long time = System.nanoTime();
         timeGeneral += (time - timeUsing);
-        System.out.println("Testzeit der Methode: " + ((time - timeUsing)/1000000) + " ms [" + ((time - timeUsing)/1000) + " us]\n");
+        return timeGeneral;
     }
     
-    public static void logging(int errorcode, String advancedDescription, boolean consoleLog, boolean fileLog){
+    public static void logging(int errorcode, String advancedDescription, boolean consoleLog, boolean fileLog) throws IOException{
         String logString = "";
-        if (errorcode !=0){
+        if (errorcode <= 0){
             logString = advancedDescription + "\n";
         }else{
             logString = "errorcode: " + String.valueOf(errorcode) +  " ";
@@ -35,7 +49,7 @@ public class TestDocumizer {
             for (String tmp : tmpErrorMessage){
                 logString = logString + tmp + " | ";
             }
-            logString = logString + advancedDescription;
+            logString = logString + advancedDescription + "\n";
         }
         
         if(consoleLog == true){
@@ -48,10 +62,14 @@ public class TestDocumizer {
     }
     
     private static void consoleLogging(String logText){
-        
+        System.out.println(logText);
     }
     
-    private static void fileLogging(String logText){
+    private static void fileLogging(String logText) throws IOException{
+        Path logPath = Paths.get(strLogPath);
         
+        BufferedWriter writeBuf;
+        writeBuf = Files.newBufferedWriter(logPath, charset, CREATE, APPEND);
+        writeBuf.write(logText);
     }
 }

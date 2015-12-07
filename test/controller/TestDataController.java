@@ -13,8 +13,6 @@ import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.List;
-import model.AlbenContainer;
-import model.Album;
 import org.apache.commons.lang.RandomStringUtils;
 import org.apache.commons.lang.math.RandomUtils;
 
@@ -54,12 +52,8 @@ public class TestDataController {
     * @date 03.12.2015 by Benni: Initialisierung
     */
     public TestDataController(String testPicturePath, String databasePath) throws IOException{
-        try{
             setDatabasePaths(databasePath);
             generateTestData(testPicturePath);
-        }catch(Exception e){
-            TestDocumizer.logging(0, e.getMessage(),true,true);
-        }
     }
     
     /**
@@ -67,16 +61,13 @@ public class TestDataController {
     * @param path Pfad für Testbilder
     * @param databasePath Pfad der Datenbank
     * @param count Anzahl anzulegener Alben
+    * @throws java.io.IOException
     * @date 03.12.2015 by Benni: Initialisierung
     */
-    public TestDataController (String path, String databasePath, int count){
-        try{
+    public TestDataController (String path, String databasePath, int count)throws IOException{
             albumCount = count;
             setDatabasePaths(databasePath);
             generateTestData(path);
-        }catch(Exception e){
-            TestDocumizer.logging(0, e.getMessage(),true,true);
-        }
     }
     
     /**
@@ -93,51 +84,40 @@ public class TestDataController {
         }
     }
 
-     /**
+    /**
     * Diese Methode generiert die Testdaten und wird vor den Tests ausgeführt
     * @param path Pfad für Testbilder
     * @param count Anzahl anzulegener Alben
     * @date 03.12.2015 by Benni: Initialisierung
     */   
-    private static void generateTestData(String path)
+    private static void generateTestData(String path) throws IOException
     {     
-        try{
-            //Lösche vorhandene Daten
-            for(String tmpAlbumTitle : AlbenController.getAlbumList()){
-                FotoController.deleteAllFotosInAlbum(AlbenController.getAlbum(tmpAlbumTitle));
-            }
-            AlbenController.deleteListOfAlbum(AlbenController.getAlbumList());
-            //Generierung Testdaten
-            generateTestFotoContainer(path);
-            generateTestAlbenContainer(); 
-        }catch(IOException io){
-            TestDocumizer.logging(0, io.getMessage(), true, true);
-            
-        }catch(Exception e){
-            TestDocumizer.logging(0, e.getMessage(), true, true);
-        }  
+        //Lösche vorhandene Daten
+        for(String tmpAlbumTitle : AlbenController.getAlbumList()){
+            FotoController.deleteAllFotosInAlbum(AlbenController.getAlbum(tmpAlbumTitle));
+        }
+        AlbenController.deleteListOfAlbum(AlbenController.getAlbumList());
+        //Generierung Testdaten
+        generateTestFotoContainer(path);
+        generateTestAlbenContainer(); 
     }
     
     /**
      * Generiert einen neuen AlbenContainer mit Testdaten
      */
-    private static void generateTestAlbenContainer(){
+    private static void generateTestAlbenContainer() throws IOException{
         int errorcode  = 0;
         
         //Generierung TestAlbennamen
         for (int i=0; i<=albumCount; i++)
         {
-            try{
-                 String[] tmpAlbum = generateAlbumTestDaten();
+            String[] tmpAlbum = generateAlbumTestDaten();
                 
-                if( AlbenController.getAlbum(tmpAlbum[0]) == null){
-                    errorcode = AlbenController.createNewAlbum(tmpAlbum[0],tmpAlbum[1], tmpAlbum[2]);
-                    TestDocumizer.logging(errorcode, "Albumanlage: " + tmpAlbum[0] + " erfolgreich", false, true);
-                }else{
-                    TestDocumizer.logging(errorcode, "Albumanlage: " + tmpAlbum[0] + " schon vorhanden, wurde nicht angelegt", false, true);
-                }
-            }catch(Exception e){
-                TestDocumizer.logging(errorcode, e.getMessage(), true, true);
+            if( AlbenController.getAlbum(tmpAlbum[0]) == null){
+                errorcode = AlbenController.createNewAlbum(tmpAlbum[0],tmpAlbum[1], tmpAlbum[2]);
+                TestDocumizer.logging(errorcode, "Albumanlage: " + tmpAlbum[0] + " erfolgreich", false, true);
+            }else{
+                TestDocumizer.logging(errorcode, "Albumanlage: " + tmpAlbum[0] + " schon vorhanden, wurde nicht angelegt", false, true);
             }
         }
     }
@@ -148,21 +128,26 @@ public class TestDataController {
      * @throws IOException 
      */
     private static void generateTestFotoContainer(String path) throws IOException{
-        //Einlesen Testbilder aus Testverzeichnis  
+        //Einlesen Testbilder aus Testverzeichnis
+        fotoList = new ArrayList<String>();
         testPicturePath = Paths.get(path);
         testPictureDirectory = Files.newDirectoryStream(testPicturePath, fotoFilter);
         for (Path cur : testPictureDirectory)
         {
-            fotoList.add(cur.getFileName().toAbsolutePath().toString());
+            fotoList.add(cur.toString());
         }
     }
     
+    /**
+     * Generiert ein Testalbum
+     * @return 
+     */
     public static String[] generateAlbumTestDaten(){
         String[] albumInfos = new String[3];
         String randomTitle;
         String randomDescription;
         String randomClassIndicator;
-        
+        /*
         do{
             randomTitle = RandomStringUtils.randomAlphanumeric(RandomUtils.nextInt(17) + 4);
         } while (randomTitle.equals(randomTitle));
@@ -172,6 +157,11 @@ public class TestDataController {
         do{
             randomClassIndicator = RandomStringUtils.randomAlphanumeric(RandomUtils.nextInt(21));
         } while (randomClassIndicator.equals(randomClassIndicator));
+        */
+        
+        randomTitle = RandomStringUtils.randomAlphanumeric(RandomUtils.nextInt(17) + 4);
+        randomDescription = RandomStringUtils.randomAlphanumeric(RandomUtils.nextInt(201));
+        randomClassIndicator = RandomStringUtils.randomAlphanumeric(RandomUtils.nextInt(21));
         
         albumInfos[0] = randomTitle;
         albumInfos[1] = randomDescription;
@@ -197,7 +187,8 @@ public class TestDataController {
         }else{
             if (Files.exists(sourceDB)&& Files.exists(backupDB))
             {
-                if(!Files.isSameFile(sourceDB, backupDB) && Files.isWritable(sourceDB)){
+                if(!Files.isSameFile(sourceDB, backupDB) && Files.isWritable(sourceDB))
+                {
                     Files.copy(backupDB, sourceDB, StandardCopyOption.REPLACE_EXISTING);
                 }   
             }
