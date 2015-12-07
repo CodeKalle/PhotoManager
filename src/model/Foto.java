@@ -3,6 +3,7 @@ package model;
 import java.io.File;
 import java.io.Serializable;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Objects;
 
 /**
@@ -23,10 +24,11 @@ import java.util.Objects;
  * @date 23.11.2015 by Tobias: Anlegen der Hash-Funktionen, hinzufügen des Counters,
  * @date 24.11.2015 by Danilo: Ändern des pfad in den Datentyp Path
  * @date 25.11.2015 by Danilo: Erstellen einer Methode zum setzen der Größe und nutzen im Konstruktor
+ * @date 06.12.2015 by Danilo: Ändern des Datentyp pfad zu String da Path nicht serialisierbar
  */
 public class Foto implements Serializable {
     private String name;
-    private Path pfad;
+    private String pfad;
     private int groesse;       //in Byte
     private Metadaten metadata;
     private int counter;
@@ -43,13 +45,13 @@ public class Foto implements Serializable {
      * @param pfad Kompetter Pfad
      * Version-History:
      * @date 24.11.2015 by Danilo: Ändern des pfad in den Datentyp Path
-     * @date 06.12.2015 by Danilo: Änderung am Counter da 0 anzeigt das dieses neu erstellt wurde
+     * @date 06.12.2015 by Danilo: Änderung am Counter da 0 anzeigt das dieses neu erstellt wurde und ändern des Datentyp pfad zu String da Path nicht serialisierbar
      */
-    public Foto(String name, Path pfad) {
+    public Foto(String name, String pfad) {
         this.name = name;
         this.pfad = pfad;
         counter = 0;
-        generateFotosize(pfad);
+        generateFotosize(Paths.get(pfad));
     }
 
     /**
@@ -82,7 +84,7 @@ public class Foto implements Serializable {
      * @date 24.11.2015 by Danilo: Ändern des pfad in den Datentyp Path
      */
     public Path getPfad() {
-        return pfad;
+        return Paths.get(pfad);
     }
 
     /**
