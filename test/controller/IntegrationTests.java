@@ -67,19 +67,18 @@ public class IntegrationTests {
     
     /*
     * 
-    */
     @Test
     public void startTests()
     {
         //logging(0,"Testzeit des Abschnitts: " + ((time - timeUsing)/1000000) + " ms [" + ((time - timeUsing)/1000) + " us]\n",true,true);
         createAndEditAlbum();
     }
+    */
     
     /**
      * Testet den UseCase Album anlegen und danach editieren
     */
     @Test
-    @Ignore
     public void createAndEditAlbum()
     {   
         int errorcode;
@@ -117,7 +116,7 @@ public class IntegrationTests {
             modifyAlbumInfo = TestDataController.generateAlbumTestDaten();
             //08a Sortierkennzeichen
             AlbenController.getAlbum(createdAlbum.getTitel()).setSortierkennzeichen(modifyAlbumInfo[2]);
-            assertNotSame(createdAlbum.getSortierkennzeichen(), AlbenController.getAlbum(createdAlbum.getTitel()).getSortierkennzeichen());
+            assertEquals(AlbenController.getAlbum(createdAlbum.getTitel()).getSortierkennzeichen(), modifyAlbumInfo[2]);
             if(createdAlbum.getSortierkennzeichen().equals(modifyAlbumInfo[2])){
                 TestDocumizer.logging(0, "Testmethode 'createAndEditAlbum': Sortierkennzeichen erfolgreich geändert", true, true);
             }else{
@@ -125,7 +124,7 @@ public class IntegrationTests {
             }
             //08b Beschreibung
             AlbenController.getAlbum(createdAlbum.getTitel()).setBeschreibung(modifyAlbumInfo[1]);
-            assertNotSame(createdAlbum.getBeschreibung(), AlbenController.getAlbum(createdAlbum.getTitel()).getBeschreibung());
+            assertEquals(AlbenController.getAlbum(createdAlbum.getTitel()).getBeschreibung(), modifyAlbumInfo[1]);
             if(AlbenController.getAlbum(createdAlbum.getTitel()).getBeschreibung().equals(modifyAlbumInfo[1])){
                 TestDocumizer.logging(0, "Testmethode 'createAndEditAlbum': Beschreibung erfolgreich geändert", true, true);
             }else{
@@ -133,8 +132,8 @@ public class IntegrationTests {
             }
             //08b Beschreibung
             AlbenController.getAlbum(createdAlbum.getTitel()).setTitel(modifyAlbumInfo[0]);
-            assertNotSame(createdAlbum.getTitel(), AlbenController.getAlbum(createdAlbum.getTitel()).getTitel());
-            if(AlbenController.getAlbum(createdAlbum.getTitel()).getTitel().equals(modifyAlbumInfo[0])){
+            assertNotNull(AlbenController.getAlbum(modifyAlbumInfo[0]));
+            if(AlbenController.getAlbum(modifyAlbumInfo[0]) != null){
                 TestDocumizer.logging(0, "Testmethode 'createAndEditAlbum': Titel erfolgreich geändert", true, true);
             }else{
                 TestDocumizer.logging(0, "Testmethode 'createAndEditAlbum': Titel nicht geändert", true, true);

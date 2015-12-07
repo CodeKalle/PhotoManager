@@ -24,7 +24,7 @@ public class TestDocumizer {
     private static long timeUsing;
     private static long timeGeneral;
     //Einstellung des Logging
-    private static final String strLogPath = "/test/TestLog.txt";
+    private static final String strLogPath = "TestLog.txt";
     private static final Charset charset = Charset.forName("UTF-8");
     
     public static void startTimer(){
@@ -68,6 +68,6 @@ public class TestDocumizer {
         Path logPath = Paths.get(strLogPath);
         
         BufferedWriter writeBuf = Files.newBufferedWriter(logPath, charset, CREATE, APPEND);
-        writeBuf.write(logText, 0, logText.length());
+        writeBuf.write(logText);
     }
 }

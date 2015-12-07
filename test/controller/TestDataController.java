@@ -11,6 +11,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.util.ArrayList;
 import java.util.List;
 import org.apache.commons.lang.RandomStringUtils;
 import org.apache.commons.lang.math.RandomUtils;
@@ -127,12 +128,13 @@ public class TestDataController {
      * @throws IOException 
      */
     private static void generateTestFotoContainer(String path) throws IOException{
-        //Einlesen Testbilder aus Testverzeichnis  
+        //Einlesen Testbilder aus Testverzeichnis
+        fotoList = new ArrayList<String>();
         testPicturePath = Paths.get(path);
         testPictureDirectory = Files.newDirectoryStream(testPicturePath, fotoFilter);
         for (Path cur : testPictureDirectory)
         {
-            fotoList.add(cur.getFileName().toAbsolutePath().toString());
+            fotoList.add(cur.toString());
         }
     }
     
@@ -145,7 +147,7 @@ public class TestDataController {
         String randomTitle;
         String randomDescription;
         String randomClassIndicator;
-        
+        /*
         do{
             randomTitle = RandomStringUtils.randomAlphanumeric(RandomUtils.nextInt(17) + 4);
         } while (randomTitle.equals(randomTitle));
@@ -155,6 +157,11 @@ public class TestDataController {
         do{
             randomClassIndicator = RandomStringUtils.randomAlphanumeric(RandomUtils.nextInt(21));
         } while (randomClassIndicator.equals(randomClassIndicator));
+        */
+        
+        randomTitle = RandomStringUtils.randomAlphanumeric(RandomUtils.nextInt(17) + 4);
+        randomDescription = RandomStringUtils.randomAlphanumeric(RandomUtils.nextInt(201));
+        randomClassIndicator = RandomStringUtils.randomAlphanumeric(RandomUtils.nextInt(21));
         
         albumInfos[0] = randomTitle;
         albumInfos[1] = randomDescription;
