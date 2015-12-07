@@ -7,6 +7,7 @@ package controller;
 
 import java.io.IOException;
 import java.nio.file.Path;
+import javax.sound.midi.Patch;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -26,7 +27,7 @@ import model.Album;
 public class IntegrationTests {
     private TestDataController TestDataCtrl;
     private Path PmDatabasePath;
-    private final String testBilderPfad = "D:\\05_Development\\GIT\\workspace\\PhotoManager\\test\\testdaten";
+    private final String testBilderPfad = "C:\\03_Development\\workspace\\GIT\\PhotoManager\\test\\testdaten";
 
     /**
      *
@@ -42,6 +43,9 @@ public class IntegrationTests {
     @Before
     public void setUp(){
         try{
+            //Start Timer der Initialisierung
+            TestDocumizer.startTimer();
+            
             //Initialisierung System
             SystemController.run();
             
@@ -50,6 +54,9 @@ public class IntegrationTests {
         
             //Sicherung der aktueller "Datenbank"
             TestDataCtrl.backupRestoreDatabase(true);        
+            
+            //Beendigung Timmer
+            TestDocumizer.logging(0, "IntegrationTest init benötigte: " + String.valueOf(TestDocumizer.stopTimer()) + " ns", true, false);
         }catch (IOException io){
             System.err.format("IOException: %s%n", io);
             System.out.println("Dateifehler bei Testdatengenerierung: " + io.getMessage());
@@ -65,16 +72,6 @@ public class IntegrationTests {
         TestDataCtrl.backupRestoreDatabase(false);
     }
     
-    /*
-    * 
-    @Test
-    public void startTests()
-    {
-        //logging(0,"Testzeit des Abschnitts: " + ((time - timeUsing)/1000000) + " ms [" + ((time - timeUsing)/1000) + " us]\n",true,true);
-        createAndEditAlbum();
-    }
-    */
-    
     /**
      * Testet den UseCase Album anlegen und danach editieren
     */
@@ -87,6 +84,7 @@ public class IntegrationTests {
         String[] modifyAlbumInfo;
         
         try{
+            TestDocumizer.startTimer();
             //01. Startbildschirm: laden und Auswahl "Alben anlegen und pflegen"
         
             //02. Albenmaske: Auswahl "neues Album"
@@ -141,6 +139,9 @@ public class IntegrationTests {
             //09. Albenmaske: Auswahl "neu erstelletes Album" --> "bearbeitete Album"?!
         
             //10. Albuminformationen anzeigen --> Abgleich Ergebnisse
+            
+            //Beendigung Timer für Testdurchlauf
+            TestDocumizer.logging(0, "createAndEditAlbum benötigte: " + String.valueOf(TestDocumizer.stopTimer()) + " ns", true, false);
         }catch(IOException io){
             System.err.format("IOException: %s%n", io);
             System.out.println("Dateifehler bei Testmethode 'createAndEditAlbum': " + io.getMessage());

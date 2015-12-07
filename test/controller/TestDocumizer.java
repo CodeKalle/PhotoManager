@@ -11,6 +11,7 @@ import java.nio.file.Paths;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.charset.Charset;
+import java.nio.file.OpenOption;
 import static java.nio.file.StandardOpenOption.APPEND;
 import static java.nio.file.StandardOpenOption.CREATE;
 
@@ -67,7 +68,8 @@ public class TestDocumizer {
     private static void fileLogging(String logText) throws IOException{
         Path logPath = Paths.get(strLogPath);
         
-        BufferedWriter writeBuf = Files.newBufferedWriter(logPath, charset, CREATE, APPEND);
+        BufferedWriter writeBuf;
+        writeBuf = Files.newBufferedWriter(logPath, charset, CREATE, APPEND);
         writeBuf.write(logText);
     }
 }
