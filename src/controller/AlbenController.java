@@ -21,6 +21,7 @@ import model.Album;
  * @date 02.12.2015 by Tobias: Methode getAlbum auf public gesetzt
  * @date 02.12.2015 by Tobias: Methode editAlbumTitle ergänzt
  * @date 04.12.2015 by Danilo: Fehlerkorrektur bei zu kurzen Albentiteln, Beschreibung und Sortierkennzeichen
+ * @date 07.12.2015 by Danilo: Sortierkennzeichen Datentyp zu int
  */
 public class AlbenController {
  
@@ -28,8 +29,9 @@ public class AlbenController {
     * GUI-Methode
     * Diese Methode erstellt eine Stringliste aller Alben im System
     * 
-    * Version-History:
     * @return Liste aller Alben
+    * 
+    * Version-History:
     * @date 25.11.2015 by Danilo: Initialisierung
     */
     public static List<String> getAlbumList() {
@@ -44,91 +46,101 @@ public class AlbenController {
     * GUI-Methode
     * Diese Methode erstellt im AlbumContainer ein Album mit Titel, Beschreibung und Sortierkennzeichen
     * 
-    * Version-History:
     * @param title Titel des Albums welches erstellt werden soll
     * @param beschreibung Beschreibung des Albums welches erstellt werden soll
     * @param sortierkennzeichen Sortierkennzeichen des Albums welches erstellt werden soll
     * @return Fehlercode zur Auswertung
+    * 
+    * Version-History:
     * @date 24.11.2015 by Danilo: Initialisierung
     * @date 25.11.2015 by Danilo: Initialisierung Stringprüfung und Fehlerbehandlung
     * @date 29.11.2015 by Danilo: Fehlerkorrektur bei Fehler´haftenversuch ein Album anzulegen
     * @date 01.12.2015 by Danilo: Fehlerkorrektur
     * @date 04.12.2015 by Danilo: Fehlerkorrektur bei zu kurzen Albentiteln
+    * @date 07.12.2015 by Danilo: Sortierkennzeichen Datentyp zu int und transparente Speicherung
     */
-    public static int createNewAlbum(String title, String beschreibung, String sortierkennzeichen) {
+    public static int createNewAlbum(String title, String beschreibung, int sortierkennzeichen) {
         // Prüft zu kruze Albentitel
         if (title == null || title.length() <= 3) return 115;
         if (beschreibung == null) return 116;
-        if (sortierkennzeichen == null) return 117;
         
         // Prüfen der Eingabe
         if (title.length() > 20) title = title.substring(0,20);
         if (beschreibung.length() > 200) beschreibung = beschreibung.substring(0,200);
-        if (sortierkennzeichen.length() > 20) sortierkennzeichen = sortierkennzeichen.substring(0,20);
+        if (sortierkennzeichen < 0 || sortierkennzeichen > 2) sortierkennzeichen = 0;
         
         if (createAlbum(title)!=0) return 110;
         if (editAlbumBeschreibung(title, beschreibung)!=0) return 120;
         if (editAlbumSortierkennzeichen(title, sortierkennzeichen)!=0) return 130;
-        return 0;
+        
+        // Speichern des Systemes
+        return SystemController.loadOrSave(false);
     }
     
     /**
     * GUI-Methode
     * Diese Methode verändert im AlbumContainer ein bestehendes Album in Form von Titel, Beschreibung und Sortierkennzeichen
     * 
-    * Version-History:
     * @param title Titel des Albums welches geändert werden soll
     * @param newTitle Neuer Titel des Albums
     * @param beschreibung Neue Beschreibung des Albums
     * @param sortierkennzeichen Neues Sortierkennzeichen des Albums
+    * 
+    * Version-History:
     * @return Fehlercode zur Auswertung
     * @date 24.11.2015 by Danilo: Initialisierung
     * @date 25.11.2015 by Danilo: Initialisierung Stringprüfung und Fehlerbehandlung
     * @date 29.11.2015 by Danilo: Fehlerkorrektur bei Fehler´haftenversuch ein Album anzulegen
     * @date 01.12.2015 by Danilo: Fehlerkorrektur
     * @date 04.12.2015 by Danilo: Fehlerkorrektur bei zu kurzen Albentiteln
+    * @date 07.12.2015 by Danilo: Sortierkennzeichen Datentyp zu int und transparente Speicherung
     */
-    public static int editAlbum(String title, String newTitle, String beschreibung, String sortierkennzeichen) {
+    public static int editAlbum(String title, String newTitle, String beschreibung, int sortierkennzeichen) {
         // Prüft zu kruze Albentitel
         if (newTitle == null || newTitle.length() <= 3) return 155;
         if (beschreibung == null) return 156;
-        if (sortierkennzeichen == null) return 157;
         
         // Prüfen der Eingabe
         if (title.length() > 20) title = title.substring(0,20);
         if (newTitle.length() > 20) newTitle = newTitle.substring(0,20);
         if (beschreibung.length() > 200) beschreibung = beschreibung.substring(0,200);
-        if (sortierkennzeichen.length() > 20) sortierkennzeichen = sortierkennzeichen.substring(0,20);
+        if (sortierkennzeichen < 0 || sortierkennzeichen > 2) sortierkennzeichen = 0;
         
         if (editAlbumTitle(title, newTitle)!=0) return 150;
         if (editAlbumBeschreibung(newTitle, beschreibung)!=0) return 160;
         if (editAlbumSortierkennzeichen(newTitle, sortierkennzeichen)!=0) return 170;
-        return 0;
+        
+        // Speichern des Systems
+        return SystemController.loadOrSave(false);
     }
     
     /**
     * GUI-Methode
     * Diese Methode löscht eine Liste von Alben
     * 
-    * Version-History:
     * @param titlelist Liste der Albentitel die gelöscht werden sollen
     * @return Rückgabe der Anzahl der nicht vorhandenen Alben
+    * 
+    * Version-History:
     * @date 25.11.2015 by Danilo: Initialisierung
+    * @date 07.12.2015 by Danilo: Transparente Speicherung
     */
     public static int deleteListOfAlbum(List<String> titlelist) {
         int errorcode = 0;
         for (String title : titlelist) {
             errorcode += deleteAlbum(title);
         }
+        if (errorcode==0) return SystemController.loadOrSave(false);
         return errorcode;
     }
     
     /**
     * Diese Methode löscht im AlbumContainer ein Album
     * 
-    * Version-History:
     * @param title Titel des Albums welches gelöscht werden soll
     * @return Fehlercode zur Auswertung <br> 0 = Album wurde gelöscht <br> 1 = Album nicht vorhanden
+    * 
+    * Version-History:
     * @date 21.11.2015 by Danilo: Initialisierung
     * @date 23.11.2015 by Danilo: Rückgabewert geändert und Kommentar angepasst
     * @date 24.11.2015 by Danilo: Methode auf static gesetzt
@@ -149,9 +161,10 @@ public class AlbenController {
     /**
     * Methode sucht nach einem Album und gibt dieses zurück
     * 
-    * Version-History:
     * @param title Übergabe des gesuchten Albumtitels
     * @return Rückgabe des Albums, wenn keins gefunden dann null
+    * 
+    * Version-History:
     * @date 24.11.2015 by Danilo: Initialisierung
     * @date 02.12.2015 by Tobias: Setzten auf public
     * @date 04.12.2015 by Danilo: Fehlerkorrektur bei zu kurzen Albentiteln
@@ -171,9 +184,10 @@ public class AlbenController {
     /**
     * Diese Methode erstellt im AlbumContainer ein Album
     * 
-    * Version-History:
     * @param title Titel vom Album
     * @return Fehlercode zur Auswertung
+    * 
+    * Version-History:
     * @date 21.11.2015 by Danilo: Initialisierung
     * @date 23.11.2015 by Danilo: Kommentar angepasst
     * @date 24.11.2015 by Danilo: Methode auf static gesetzt
@@ -193,9 +207,10 @@ public class AlbenController {
     /**
     * Diese Methode ändert im AlbumContainer den Namen eines Albums
     * 
-    * Version-History:
     * @param title Titel des Albums welches geändert werden soll
     * @param newTitle Neuer Titel des Albums
+    * 
+    * Version-History:
     * @return Fehlercode zur Auswertung <br> 0 = Albumtitel wurde geändert <br> 1 = Album nicht vorhanden <br> 2 = neuer Albumtitel schon vorhanden
     * @date 21.11.2015 by Danilo: Initialisierung
     * @date 23.11.2015 by Danilo: Kommentar angepasst
@@ -228,9 +243,10 @@ public class AlbenController {
     /**
     * Diese Methode ändert im AlbumContainer die Beschreibung eines Albums
     * 
-    * Version-History:
     * @param title Titel des Albums welches geändert werden soll
     * @param beschreibung Neue Beschreibung des Albums
+    * 
+    * Version-History:
     * @return Fehlercode zur Auswertung <br> 0 = Albumbeschreibung wurde geändert <br> 1 = Album nicht vorhanden
     * @date 21.11.2015 by Danilo: Initialisierung
     * @date 23.11.2015 by Danilo: Kommentar angepasst
@@ -250,16 +266,18 @@ public class AlbenController {
     /**
     * Diese Methode ändert im AlbumContainer das Sortierkennzeichen eines Albums
     * 
-    * Version-History:
     * @param title Titel des Albums welches geändert werden soll
     * @param sortierkennzeichen Neues Sortierkennzeichen des Albums
     * @return Fehlercode zur Auswertung <br> 0 = Albumsortierkennzeichen wurde geändert <br> 1 = Album nicht vorhanden
+    * 
+    * Version-History:
     * @date 21.11.2015 by Danilo: Initialisierung
     * @date 23.11.2015 by Danilo: Kommentar angepasst
     * @date 24.11.2015 by Danilo: Methode auf static gesetzt
     * @date 01.12.2015 by Danilo: Fehlerkorrektur
+    * @date 07.12.2015 by Danilo: Sortierkennzeichen Datentyp zu int
     */
-    private static int editAlbumSortierkennzeichen(String title, String sortierkennzeichen) {
+    private static int editAlbumSortierkennzeichen(String title, int sortierkennzeichen) {
         for (Album tmpAlbum : SystemController.getAlbumContainer().getAlbenListe()) {
             if (tmpAlbum.getTitel().equals(title)) { 
                 tmpAlbum.setSortierkennzeichen(sortierkennzeichen);

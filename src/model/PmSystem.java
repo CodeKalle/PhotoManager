@@ -13,7 +13,10 @@ public class PmSystem implements Serializable {
     private AlbenContainer alben;
     
     /**
-     * Standart Konstruktor.
+     * Konstruktor
+     * 
+     * Version-History:
+     * @date 14.11.2015 by Tobias: Initialisierung
      */
     public PmSystem() {
         this.fotos = new FotoContainer();
@@ -22,6 +25,9 @@ public class PmSystem implements Serializable {
     
     /**
      * Diese Methode loescht alle Fotos aus dem FotoContainer.
+     * 
+     * Version-History:
+     * @date 14.11.2015 by Tobias: Initialisierung
      */
     public void alleFotosLoeschen() {
         
@@ -46,7 +52,11 @@ public class PmSystem implements Serializable {
 
     /**
      * Getter fuer FotoContainer.
+     * 
      * @return aktuellen FotoContainer
+     * 
+     * Version-History:
+     * @date 14.11.2015 by Tobias: Initialisierung
      */
     public FotoContainer getFotos() {
         return fotos;
@@ -54,7 +64,11 @@ public class PmSystem implements Serializable {
 
     /**
      * Setter fuer FotoContainer.
+     * 
      * @param fotos neuer FotoContainer
+     * 
+     * Version-History:
+     * @date 14.11.2015 by Tobias: Initialisierung
      */
     public void setFotos(FotoContainer fotos) {
         this.fotos = fotos;
@@ -62,19 +76,25 @@ public class PmSystem implements Serializable {
 
     /**
      * Getter fuer AlbenContainer
+     * 
      * @return aktuellen AlbenContainer
+     * 
+     * Version-History:
+     * @date 14.11.2015 by Tobias: Initialisierung
      */
     public AlbenContainer getAlben() {
         return alben;
     }
 
     /**
-     * Setter fuer AlbenContainer.
+     * Setter fuer AlbenContainer
+     * 
      * @param alben neuer AlbenContainer
+     * 
+     * Version-History:
+     * @date 14.11.2015 by Tobias: Initialisierung
      */
     public void setAlben(AlbenContainer alben) {
         this.alben = alben;
-    }
-    
-    
+    } 
 }

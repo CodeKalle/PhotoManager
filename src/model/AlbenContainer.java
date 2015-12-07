@@ -15,23 +15,34 @@ public class AlbenContainer implements Serializable {
     private List<Album> albenListe;
     
     /**
-     * Standart Konstruktor
+     * Konstruktor
+     * 
+     * Version-History:
+     * @date 14.11.2015 by Tobias: Initialisierung
      */
     public AlbenContainer() {
         this.albenListe = new LinkedList<>();
     }
     
     /**
-     * Diese Methode gibt die Anzahl der Alben in der Liste zurück.
+     * Diese Methode gibt die Anzahl der Alben in der Liste zurück
+     * 
      * @return Anzahl von Alben
+     * 
+     * Version-History:
+     * @date 14.11.2015 by Tobias: Initialisierung
      */
     public int anzahlAlben() {
         return this.albenListe.size();
     }
 
     /**
-     * Getter fuer albenListe.
+     * Getter fuer albenListe
+     * 
      * @return Liste von Alben
+     * 
+     * Version-History:
+     * @date 14.11.2015 by Tobias: Initialisierung
      */
     public List<Album> getAlbenListe() {
         return albenListe;
@@ -39,17 +50,22 @@ public class AlbenContainer implements Serializable {
 
     /**
      * Setter fuer albenListe
+     * 
      * @param albenListe Liste mit Alben
+     * 
+     * Version-History:
+     * @date 14.11.2015 by Tobias: Initialisierung
      */
     public void setAlbenListe(List<Album> albenListe) {
         this.albenListe = albenListe;
     }
     
     /**
-    * Diese Methode fügt dem Container ein Album hinzu.
+    * Diese Methode fügt dem Container ein Album hinzu
+    * 
+    * @param album
     * 
     * Version-History:
-    * @param album
     * @date 21.11.2015 by Danilo: Initialisierung
     */
     public void add(Album album) {
@@ -59,8 +75,9 @@ public class AlbenContainer implements Serializable {
     /**
     * Diese Methode löscht aus dem Container ein Album.
     * 
-    * Version-History:
     * @param album
+    * 
+    * Version-History:
     * @date 21.11.2015 by Danilo: Initialisierung
     */
     public void delete(Album album) {

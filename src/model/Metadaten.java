@@ -15,7 +15,10 @@ public class Metadaten implements Serializable {
     Map<String, Object> daten;
 
     /**
-     * Standart Konstruktor
+     * Konstruktor
+     * 
+     * Version-History:
+     * @date 14.11.2015 by Tobias: Initialisierung
      */
     public Metadaten() {
         this.daten = new HashMap<>();
@@ -26,6 +29,9 @@ public class Metadaten implements Serializable {
      * Fuellt die Map mit den Initialwerten. 
      * Keys sind die 16 im DataDictionary bestimmten Werte.
      * Value ist immer null.
+     * 
+     * Version-History:
+     * @date 14.11.2015 by Tobias: Initialisierung
      */
     private void mapInitialisieren() {
         this.daten.put("Kurztitel", null);
@@ -48,8 +54,12 @@ public class Metadaten implements Serializable {
     
     /**
      * Diese Methode prueft ob schon ein Value bei einem bestimmten Key existiert.
+     * 
      * @param key der zu ueberpruefende Key
      * @return true wenn Leer, sonst false
+     * 
+     * Version-History:
+     * @date 14.11.2015 by Tobias: Initialisierung
      */
     public boolean istLeer(String key) {
         return false;
@@ -57,7 +67,11 @@ public class Metadaten implements Serializable {
 
     /**
      * Getter fuer daten
-     * @return aktuelle Map 
+     * 
+     * @return aktuelle Map
+     * 
+     * Version-History:
+     * @date 14.11.2015 by Tobias: Initialisierung
      */
     public Map<String, Object> getDaten() {
         return daten;
@@ -65,24 +79,36 @@ public class Metadaten implements Serializable {
 
     /**
      * Setter fuer daten
+     * 
      * @param Daten Map mit Werten
+     * 
+     * Version-History:
+     * @date 14.11.2015 by Tobias: Initialisierung
      */
     public void setDaten(Map<String, Object> Daten) {
         this.daten = Daten;
     }
     
     /**
-     * Setzt einen Wert in der Map daten.
-     * @param key Wert der veraendert werden soll.
-     * @param value Wert der gespeichert werden soll.
+     * Setzt einen Wert in der Map daten
+     * 
+     * @param key Wert der veraendert werden soll
+     * @param value Wert der gespeichert werden soll
+     * 
+     * Version-History:
+     * @date 14.11.2015 by Tobias: Initialisierung
      */
     public void setzeWert(String key, Object value) {
         this.daten.put(key, value);
     }
     
     /**
-     * Loescht einen Wert in der Map daten, indem der Value auf null gesetzt wird.
-     * @param key Wert der geloescht werden soll.
+     * Loescht einen Wert in der Map daten, indem der Value auf null gesetzt wird
+     * 
+     * @param key Wert der geloescht werden soll
+     * 
+     * Version-History:
+     * @date 14.11.2015 by Tobias: Initialisierung
      */
     public void loescheWert(String key) {
         this.daten.put(key, null);

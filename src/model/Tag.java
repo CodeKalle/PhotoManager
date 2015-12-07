@@ -1,4 +1,3 @@
-
 package model;
 
 import java.io.Serializable;
@@ -21,18 +20,25 @@ public class Tag implements Serializable {
     String information;
 
     /**
-     * Standart Konstruktor
+     * Konstruktor
+     * 
+     * Version-History:
+     * @date 14.11.2015 by Tobias: Initialisierung
      */
     public Tag() {
     }
     
     /**
      * Konstruktor
+     * 
      * @param xPos1 erste X-Position
      * @param yPos1 erste Y-Position
      * @param xPos2 zweite X-Position
      * @param yPos2 zweite Y-Position
      * @param information Kurzinformation zum markierten Bereich
+     * 
+     * Version-History:
+     * @date 14.11.2015 by Tobias: Initialisierung
      */
     public Tag(int xPos1, int yPos1, int xPos2, int yPos2, String information) {
         this.xPos1 = xPos1;
@@ -44,7 +50,11 @@ public class Tag implements Serializable {
 
     /**
      * Getter fuer xPos1
+     * 
      * @return Wert von xPos1
+     * 
+     * Version-History:
+     * @date 14.11.2015 by Tobias: Initialisierung
      */
     public int getxPos1() {
         return xPos1;
@@ -52,7 +62,11 @@ public class Tag implements Serializable {
 
     /**
      * Setter fuer xPos1
+     * 
      * @param xPos1 neuer Wert fuer xPos1
+     * 
+     * Version-History:
+     * @date 14.11.2015 by Tobias: Initialisierung
      */
     public void setxPos1(int xPos1) {
         this.xPos1 = xPos1;
@@ -60,7 +74,11 @@ public class Tag implements Serializable {
 
     /**
      * Getter fuer yPos1
+     * 
      * @return Wert von yPos1
+     * 
+     * Version-History:
+     * @date 14.11.2015 by Tobias: Initialisierung
      */
     public int getyPos1() {
         return yPos1;
@@ -68,7 +86,11 @@ public class Tag implements Serializable {
 
     /**
      * Setter fuer yPos1
+     * 
      * @param yPos1 neuer Wert fuer yPos1
+     * 
+     * Version-History:
+     * @date 14.11.2015 by Tobias: Initialisierung
      */
     public void setyPos1(int yPos1) {
         this.yPos1 = yPos1;
@@ -76,7 +98,11 @@ public class Tag implements Serializable {
 
     /**
      * Getter fuer xPos2
+     * 
      * @return Wert von xPos2
+     * 
+     * Version-History:
+     * @date 14.11.2015 by Tobias: Initialisierung
      */
     public int getxPos2() {
         return xPos2;
@@ -84,7 +110,11 @@ public class Tag implements Serializable {
 
     /**
      * Setter fuer xPos2
+     * 
      * @param xPos2 neuer Wert fuer xPos2
+     * 
+     * Version-History:
+     * @date 14.11.2015 by Tobias: Initialisierung
      */
     public void setxPos2(int xPos2) {
         this.xPos2 = xPos2;
@@ -92,7 +122,11 @@ public class Tag implements Serializable {
 
     /**
      * Getter fuer yPos2
+     * 
      * @return Wert von yPos2
+     * 
+     * Version-History:
+     * @date 14.11.2015 by Tobias: Initialisierung
      */
     public int getyPos2() {
         return yPos2;
@@ -100,7 +134,11 @@ public class Tag implements Serializable {
 
     /**
      * Setter fuer yPos2
+     * 
      * @param yPos2 neuer Wert fuer yPos2
+     * 
+     * Version-History:
+     * @date 14.11.2015 by Tobias: Initialisierung
      */
     public void setyPos2(int yPos2) {
         this.yPos2 = yPos2;
@@ -108,7 +146,11 @@ public class Tag implements Serializable {
 
     /**
      * Getter fuer information
+     * 
      * @return Inhalt von information
+     * 
+     * Version-History:
+     * @date 14.11.2015 by Tobias: Initialisierung
      */
     public String getInformation() {
         return information;
@@ -116,11 +158,13 @@ public class Tag implements Serializable {
 
     /**
      * Setter fuer information
+     * 
      * @param information neuer Inhalt fuer Information
+     * 
+     * Version-History:
+     * @date 14.11.2015 by Tobias: Initialisierung
      */
     public void setInformation(String information) {
         this.information = information;
     }
-    
-    
 }

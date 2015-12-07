@@ -104,6 +104,7 @@ public class TestDataController {
     
     /**
      * Generiert einen neuen AlbenContainer mit Testdaten
+     * @date 07.12.2015 by Danilo: Sortierkennzeichen Datentyp zu int
      */
     private static void generateTestAlbenContainer() throws IOException{
         int errorcode  = 0;
@@ -114,7 +115,7 @@ public class TestDataController {
             String[] tmpAlbum = generateAlbumTestDaten();
                 
             if( AlbenController.getAlbum(tmpAlbum[0]) == null){
-                errorcode = AlbenController.createNewAlbum(tmpAlbum[0],tmpAlbum[1], tmpAlbum[2]);
+                errorcode = AlbenController.createNewAlbum(tmpAlbum[0], tmpAlbum[1], Integer.valueOf(tmpAlbum[2]));
                 TestDocumizer.logging(errorcode, "Albumanlage: " + tmpAlbum[0] + " erfolgreich", false, true);
             }else{
                 TestDocumizer.logging(errorcode, "Albumanlage: " + tmpAlbum[0] + " schon vorhanden, wurde nicht angelegt", false, true);
@@ -161,7 +162,7 @@ public class TestDataController {
         
         randomTitle = RandomStringUtils.randomAlphanumeric(RandomUtils.nextInt(17) + 4);
         randomDescription = RandomStringUtils.randomAlphanumeric(RandomUtils.nextInt(201));
-        randomClassIndicator = RandomStringUtils.randomAlphanumeric(RandomUtils.nextInt(21));
+        randomClassIndicator = Integer.toString((int)(Math.random()*3));
         
         albumInfos[0] = randomTitle;
         albumInfos[1] = randomDescription;

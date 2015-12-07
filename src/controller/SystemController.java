@@ -16,7 +16,14 @@ import model.PmSystem;
  * 
  * Version-History:
  * @date 20.11.2015 by Danilo: Initialisierung
+ * @date 21.11.2015 by Danilo: Änderungen
  * @date 23.11.2015 by Danilo: Kommentare ergänzt
+ * @date 24.11.2015 by Danilo: Änderungen
+ * @date 30.11.2015 by Danilo: Anpassung an GUI
+ * @date 01.12.2015 by Danilo: Fehlerkorrektur
+ * @date 04.12.2015 by Danilo: Änderungen
+ * @date 06.12.2015 by Danilo: Änderungen
+ * @date 07.12.2015 by Danilo: Anpassung an Systemtests
  */
 public class SystemController {
     
@@ -30,6 +37,7 @@ public class SystemController {
     // Derzeit speichert das System die Datenbank da wo die ausführbare JAVA-Datei liegt 
     private static String filename = "pm.jdb";
     private static PmSystem pmSystem = new PmSystem();
+    private static Object SystemControllerTest;
     
     /**
      * Methode startet das System mit standard Dateiinformation
@@ -65,14 +73,17 @@ public class SystemController {
      * @date 20.11.2015 by Danilo: Initialisierung
      * @date 30.11.2015 by Danilo: Anpassung an GUI
      * @date 06.12.2015 by Danilo: Umbennenung,Anpassung an Test und setzen auf private
+     * @date 07.12.2015 by Danilo: Anpassung an Systemtests
      */
     private static int startSystem() {
         File file = new File(filename);
         if (file.exists()) {
             if (file.canRead() == true) {
-                checkAccess(0);
-                if (file.canWrite() == false) {
-                    return 800;
+                int error = loadOrSave(true);
+                if (error == 0) {    
+                    if (file.canWrite() == false) return 800;
+                } else {
+                    return error;
                 }
             } else {
                 initializePmSystem();
@@ -89,21 +100,20 @@ public class SystemController {
     }
     
     /**
-     * Prüft Zugriff auf Datei und speichert das System.
+     * Prüft Zugriff auf Datei und lädt oder speichert das System.
      * 
      * Version-History:
-     * @param mode 0 = Zum Laden,<br> 1 = Zum Speichern
+     * @param mode true = Zum Laden,<br> false = Zum Speichern
      * @return Rückgabe zur Fehlerauswertung
      * @date 20.11.2015 by Danilo: Initialisierung
      * @date 23.11.2015 by Danilo: Kommentar angepasst
      * @date 30.11.2015 by Danilo: Anpassung an GUI
+     * @date 07.12.2015 by Danilo: Anpassung an Systemtests und Umbenennung
      */
-    public static int checkAccess(int mode){
-
+    protected static int loadOrSave(boolean mode){
         File file = new File(filename);
-        switch (mode) {			
-            case 0:
-                if (file.canRead() == false) {
+        if(mode) {
+            if (file.canRead() == false) {
                     return 801;
                 } else {
                     if (systemLoad() != 0) {
@@ -113,20 +123,11 @@ public class SystemController {
                         } catch (IOException e) {}
                         return 806;
                     }
+                    return 0;
                 }
-                break;
-            case 1:
-                return systemSave();
-                /*if (file.canWrite() == false) {
-                    return 800;
-                } else {
-                    if (systemSave()!=0) return 805;
-                }
-                //break;*/
-            default:
-                break;
+        } else {
+            return systemSave();
         }
-        return 0;
     }
     
     /**
@@ -139,11 +140,11 @@ public class SystemController {
      * @date 20.11.2015 by Danilo: Initialisierung
      * @date 30.11.2015 by Danilo: Anpassung an GUI
      * @date 04.12.2015 by Danilo: Public da Methode vom Test gebraucht wird
+     * @date 07.12.2015 by Danilo: Anpassung an PmSystem
      */
     public static int initializePmSystem() {
-        pmSystem.setAlben(new AlbenContainer());
-        pmSystem.setFotos(new FotoContainer());
-        if (pmSystem.getAlben()==null || pmSystem.getFotos()==null) return 810;
+        pmSystem = new PmSystem();
+        if (pmSystem.getAlben().anzahlAlben()!=0 || pmSystem.getFotos().anzahlFotos()!=0) return 810;
         return 0;
     }
     
