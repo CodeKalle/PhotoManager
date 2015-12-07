@@ -35,7 +35,7 @@ import org.junit.Ignore;
  * @date 01.12.2015 by Daniel: Neustrukturierung für Kompatibilität mit zukünftigem TestRunner; testAddListOfFotosToAlbum bearbeitet; testDeleteAllFotosInAlbum hinzugefügt
  * @date 02.12.2015 by Daniel: testdaten, testGetFotosFromAlbum hinzugefügt; tearDown löscht container, metadaten funktioniert nicht (Kurztitel=null)
  * @date 03.12.2015 by Daniel: keine Verbesserung nach dem hinzufügen von foto zum container 
- * @date 01.12.2015 by Daniel: Neue Strukturierung der Tests
+ * @date 04.12.2015 by Daniel: Neue Strukturierung der Tests
  */
 public class FotoControllerTest {
     
@@ -45,6 +45,7 @@ public class FotoControllerTest {
      * Version-History:
      * @date 01.12.2015 by Daniel: Initialisierung
      * @date 01.12.2015 by Daniel: Anlegen neuer Klassenvariablen
+     * @date 07.12.2015 by Danilo: Sortierkennzeichen Datentyp zu int
      */
     private static List<Album> listOfAlbum;
     private static Map<Integer, Foto> mapOfFotos;
@@ -54,7 +55,7 @@ public class FotoControllerTest {
     // Daten des Testalbums
     private static String title;
     private static String beschreibung;
-    private static String sortierkennzeichen;
+    private static int sortierkennzeichen;
     // Fixe Testdaten
     private static String name;
     private static Path pathOfFoto;
@@ -95,7 +96,7 @@ public class FotoControllerTest {
         // Testalbum anlegen
         title = "Testtitel";
         beschreibung = "Testbeschreibung";
-        sortierkennzeichen = "Testkennzeichen";
+        sortierkennzeichen = 2;
         // Fixe Testdaten
         name = "Name";
         pathOfFoto = Paths.get("test/testdaten/Testbild43.jpeg");

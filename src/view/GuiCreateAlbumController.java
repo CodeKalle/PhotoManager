@@ -94,6 +94,14 @@ public class GuiCreateAlbumController implements Initializable {
         }
     }    
 
+    /**
+    * Erstellt ein Album im Model
+    * 
+    * Version-History:
+    * @return Fehlercode zur Auswertung
+    * @date ??.??.2015 by Tobias: Initialisierung
+    * @date 07.12.2015 by Danilo: Sortierkennzeichen Datentyp zu int
+    */
     private int AlbumErstellen() {
         String titel = guiCreateAlbumName.getText();
         String beschreibung = guiCreateAlbumBeschreibung.getText();
@@ -101,10 +109,10 @@ public class GuiCreateAlbumController implements Initializable {
         
         
         if(!bearbeitungsmodus)
-            return AlbenController.createNewAlbum(titel, beschreibung, Integer.toString(sortierkennzeichen));
+            return AlbenController.createNewAlbum(titel, beschreibung, sortierkennzeichen);
         else {
             //Wenn Album erfolgreich editiert, speicher den Titel des Albums in die globale Variable.
-            int err = AlbenController.editAlbum(origTitel, titel, beschreibung, Integer.toString(sortierkennzeichen));
+            int err = AlbenController.editAlbum(origTitel, titel, beschreibung, sortierkennzeichen);
 
             if(err != 0){
                 return 0;

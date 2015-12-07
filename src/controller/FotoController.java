@@ -21,12 +21,14 @@ import model.Metadaten;
  */
 public class FotoController {
     /**
-     * GUI-Methode
+     * GUI-Methode (Eröerterung im 2. Sprint)
      * Diese Methode setzt die Metadaten eines Fotos
      * 
      * @param pathOfFoto Bilddateipfad eines Fotos
      * @param meta Metadaten eines Fotos
      * @return Fehlercode zur Auswertung
+     * 
+     * Version-History:
      * @date 25.11.2015 by Danilo: Initialisierung
      * @date 29.11.2015 by Danilo: Fehlerkorrektur in Methode
      * @date 01.12.2015 by Danilo: Fehlerkorrektur
@@ -41,11 +43,13 @@ public class FotoController {
     }
     
     /**
-     * GUI-Methode
+     * GUI-Methode (Eröerterung im 2. Sprint)
      * Diese Methode gibt die Metadaten eines geforderten Fotos zurück
      * 
      * @param pathOfFoto Bilddateipfad eines Fotos
      * @return Metadaten des Fotos oder null
+     * 
+     * Version-History:
      * @date 25.11.2015 by Danilo: Initialisierung
      * @date 29.11.2015 by Danilo: Ändern der Rückgabe der Methode
      */
@@ -64,6 +68,8 @@ public class FotoController {
      * 
      * @param title Titel des Albums, aus dem die Fotos abgerufen werden
      * @return Liste der Bilddateipfade oder Leereliste
+     * 
+     * Version-History:
      * @date 24.11.2015 by Danilo: Initialisierung
      */
     public static List<Path> getFotosFromAlbum(String title) {
@@ -83,9 +89,12 @@ public class FotoController {
      * @param title Titel des Albums, dem die Fotos hinzugefügt werden
      * @param listOfPathes Liste der Bilddateipfade die dem Album als Foto hinzugefügt werden
      * @return Fehlercode zur Auswertung
+     * 
+     * Version-History:
      * @date 24.11.2015 by Danilo: Initialisierung
      * @date 29.11.2015 by Danilo: Ändern der Rückgabe der Methode
      * @date 01.12.2015 by Danilo: Fehlerkorrektur
+     * @date 07.12.2015 by Danilo: Anpassung der Fotoübergabeliste und transparente Speicherung
      */
     public static int addListOfFotosToAlbum(String title, List<Path> listOfPathes) {
         Album tmpAlbum = AlbenController.getAlbum(title);
@@ -95,11 +104,11 @@ public class FotoController {
             if(!listOfPathes.isEmpty()) {
                 List<Foto> newFotoListe = createFotosFromList(listOfPathes);
 
-                int addSize = addNewFotolistToExistingFotolist(tmpAlbum, newFotoListe);
+                int addSize = setNewFotolistinAlbum(tmpAlbum, newFotoListe);
                 if (addSize != newFotoListe.size()) {
                     return 410;
                 }
-                return 0;
+                return SystemController.loadOrSave(false);
             } else {
                 return 420;
             }
@@ -113,6 +122,8 @@ public class FotoController {
      * 
      * @param listOfPathes Liste der Bilddateipfade
      * @return Liste von Fotos
+     * 
+     * Version-History:
      * @date 24.11.2015 by Danilo: Initialisierung
      */
     private static List<Foto> createFotosFromList(List<Path> listOfPathes) {
@@ -129,6 +140,8 @@ public class FotoController {
      * 
      * @param listOfPathes Liste der Bilddateipfade die auf Leserecht überprüft werden soll
      * @return Geänderte Bilddateipfadliste
+     * 
+     * Version-History:
      * @date 24.11.2015 by Danilo: Initialisierung
      */
     private static List<Path> cleanErrorInListOfFotos(List<Path> listOfPathes) {
@@ -147,6 +160,8 @@ public class FotoController {
      * 
      * @param pathOfFoto Pfad zur Bilddatei
      * @return Foto welches erstellt oder gefunden wurde
+     * 
+     * Version-History:
      * @date 24.11.2015 by Danilo: Initialisierung
      * @date 06.12.2015 by Danilo: Ändern des Datentyp pfad zu String da Path nicht serialisierbar
      */
@@ -164,6 +179,8 @@ public class FotoController {
      * 
      * @param foto Foto das gesucht werden soll.
      * @return Foto welches erstellt wurde oder existiert
+     * 
+     * Version-History:
      * @date 24.11.2015 by Danilo: Initialisierung
      * @date 06.12.2015 by Danilo: Fotolink zum Fotocontainer hinzufügen falls es neu generiert wurde
      */
@@ -184,10 +201,17 @@ public class FotoController {
      * @param album Album welchem Fotos hinzugefügt werden sollen 
      * @param newFotoListe Liste der Fotos die hinzugefügt werden sollen
      * @return Anzahl der Fotos die hinzugefügt wurden
+     * 
+     * Version-History:
      * @date 24.11.2015 by Danilo: Initialisierung
      * @date 06.12.2015 by Danilo: Verschoben in checkIfFotoExist
+     * @date 07.12.2015 by Danilo: Ersetzen der Fotoliste im Album
      */
-    private static int addNewFotolistToExistingFotolist(Album album, List<Foto> newFotoListe) { 
+    private static int setNewFotolistinAlbum(Album album, List<Foto> newFotoListe) { 
+        // Löschen der alten Fotoliste
+        deleteAllFotosInAlbum(album);
+        
+        // Setzen der neuen Liste
         List<Foto> albumFotolist = album.getFotoListe();
         int oldSize = albumFotolist.size();
         for (Foto tmpFoto : newFotoListe) {
@@ -203,6 +227,8 @@ public class FotoController {
      * 
      * @param album Album aus welchem Fotos gelöscht werden sollen 
      * @return Fehlercode zum Auswerten
+     * 
+     * Version-History:
      * @date 25.11.2015 by Danilo: Initialisierung
      * @date 01.12.2015 by Danilo: Fehlerkorrektur
      */

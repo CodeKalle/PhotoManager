@@ -15,8 +15,9 @@ public class Start {
     /**
      * Einsprungpunkt der Software und starten aller benötigten Komponenten.
      * 
-     * Version-History:
      * @param args Paramtere die zum Programmstart an die Anwendung zur Auswertung gegeben werden
+     * 
+     * Version-History:
      * @date 20.11.2015 by Danilo: Initialisierung
      * @date 23.11.2015 by Danilo: Kommentar angepasst
      * @date 30.11.2015 by Danilo: Anpassung an aktuellen Stand der GUI

@@ -18,7 +18,10 @@ public class FotoContainer implements Serializable {
     private Map<Integer, Foto> fotoMap;
 
     /**
-     * Standart Konstruktor
+     * Konstruktor
+     * 
+     * Version-History:
+     * @date 14.11.2015 by Tobias: Initialisierung
      */
     public FotoContainer() {
         this.fotoMap = new HashMap<>();
@@ -27,27 +30,37 @@ public class FotoContainer implements Serializable {
     /**
      * Diese Methode bestimmt die Anzahl der Key - Values in der Map,
      * und somit die Anzahl der vorhandenen Fotos.
+     * 
      * @return Anzahl der Fotos im FotoContainer als Integer.
+     * 
+     * Version-History:
+     * @date 14.11.2015 by Tobias: Initialisierung
      */
     public int anzahlFotos() {
         return this.fotoMap.size();
     }
 
     /**
-     * Getter fuer fotoMap.
+     * Getter fuer fotoMap
+     * 
      * @return aktuelle Map mit Fotos
+     * 
+     * Version-History:
+     * @date 14.11.2015 by Tobias: Initialisierung
      */
     public Map<Integer, Foto> getFotoMap() {
         return fotoMap;
     }
 
     /**
-     * Setter fuer fotoMap.
+     * Setter fuer fotoMap
+     * 
      * @param fotoMap neue Map
+     * 
+     * Version-History:
+     * @date 14.11.2015 by Tobias: Initialisierung
      */
     public void setFotoMap(Map<Integer, Foto> fotoMap) {
         this.fotoMap = fotoMap;
     }
-    
-    
 }

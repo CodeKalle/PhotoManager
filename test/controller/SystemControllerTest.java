@@ -22,6 +22,7 @@ import static org.hamcrest.CoreMatchers.*;
  * 
  * Version-History:
  * @date 06.12.2015 by Danilo: Initialisierung
+ * @date 07.12.2015 by Danilo: Anpassung an Speicherverhalten
  */
 public class SystemControllerTest {
     
@@ -43,7 +44,6 @@ public class SystemControllerTest {
     private final static String NULLSTRING = null; 
     private final static int garanteedAlbumCount = 500;
     private final static int garanteedFotoCount = 5000;
-    
     /**
      * Standard Konstruktor der Klasse
      * 
@@ -58,10 +58,13 @@ public class SystemControllerTest {
      * 
      * Version-History:
      * @date 06.12.2015 by Danilo: Initialisierung
+     * @date 07.12.2015 by Danilo: Anpassung an Speicherverhalten
      */
     @BeforeClass
     public static void setUpClass() {
+        originFilename = SystemController.getFilename();
         filename = "pm-test.jdb";
+        SystemController.setFilename(filename);
     }
     
     /**
@@ -69,10 +72,14 @@ public class SystemControllerTest {
      * 
      * Version-History:
      * @date 06.12.2015 by Danilo: Initialisierung
+     * @date 07.12.2015 by Danilo: Anpassung an Speicherverhalten
      */
     @AfterClass
     public static void tearDownClass() {
         System.out.println("\n=== AlbenControllerTest ===\nTestzeit der Klasse: " + (timeGeneral/1000000) + " ms [" + (timeGeneral/1000) + " us]\n");
+        File storeFile = new File(filename);
+        if (storeFile.exists()) storeFile.delete();
+        SystemController.setFilename(originFilename);
     }
     
     /**
@@ -80,11 +87,11 @@ public class SystemControllerTest {
      * 
      * Version-History:
      * @date 06.12.2015 by Danilo: Initialisierung
+     * @date 07.12.2015 by Danilo: Anpassung an Speicherverhalten
      */
     @Before
     public void setUp() {
         generateRandomData();
-        originFilename = SystemController.getFilename();
         SystemController.run(filename);
         timeUsing = System.nanoTime();
     }
@@ -94,15 +101,13 @@ public class SystemControllerTest {
      * 
      * Version-History:
      * @date 06.12.2015 by Danilo: Initialisierung
+     * @date 07.12.2015 by Danilo: Anpassung an Speicherverhalten
      */
     @After
     public void tearDown() {
         long time = System.nanoTime();
         timeGeneral += (time - timeUsing);
         System.out.println("Testzeit der Methode: " + ((time - timeUsing)/1000000) + " ms [" + ((time - timeUsing)/1000) + " us]\n");
-        File checkFile = new File(filename);
-        if (checkFile.exists()) checkFile.delete();
-        SystemController.setFilename(originFilename);
     }
 
     /**
@@ -122,6 +127,7 @@ public class SystemControllerTest {
      * 
      * Version-History:
      * @date 06.12.2015 by Danilo: Initialisierung
+     * @date 07.12.2015 by Danilo: Sortierkennzeichen Datentyp zu int
      */
     private String generateRandomAlbumInContainer() {
         // Ein Album anlegen
@@ -130,7 +136,7 @@ public class SystemControllerTest {
             randomTitel = RandomStringUtils.randomAlphanumeric(RandomUtils.nextInt(17) + 4);
         } while (AlbenController.getAlbum(randomTitel)!=null);
         String randomBeschreibung = RandomStringUtils.randomAlphanumeric(RandomUtils.nextInt(201));
-        String randomSortierkennzeichen = RandomStringUtils.randomAlphanumeric(RandomUtils.nextInt(21));
+        int randomSortierkennzeichen = (int)(Math.random()*3);
         int errorcode = AlbenController.createNewAlbum(randomTitel, randomBeschreibung, randomSortierkennzeichen);
         if (errorcode!=0) {
             fail(ErrorController.changeErrorCode(errorcode)[1]);
@@ -148,14 +154,15 @@ public class SystemControllerTest {
      * 
      * Version-History:
      * @date 06.12.2015 by Danilo: Initialisierung
+     * @date 07.12.2015 by Danilo: Anpassung an Speicherverhalten
      */
     @Test
     public void testSystemRunStandardFilenameSuccess() {
         System.out.println("testSystemRunStandardFilenameSuccess");
         
         // Standard Datenbankdatei sichern falls vorhanden
-        File checkFile = new File(SystemController.getFilename());
-        File backupFile = new File(SystemController.getFilename() + ".bck");
+        File checkFile = new File(originFilename);
+        File backupFile = new File(originFilename + ".bck");
         if (backupFile.exists()) backupFile.delete();
         if (checkFile.exists()==true) {
             try {
@@ -166,7 +173,7 @@ public class SystemControllerTest {
         }
         
         // Starten des Systems mit standard Datenbank
-        int errorcode = SystemController.run();
+        int errorcode = SystemController.run(originFilename);
         if (errorcode!=0) {
             fail(ErrorController.changeErrorCode(errorcode)[1]);
         }
@@ -314,51 +321,81 @@ public class SystemControllerTest {
     }
     
     /**
-     * Testet die Methode checkAccess im SystemController.
+     * Testet Speicherverhalten des Systems
      * Testet, ob das System geladen werden kann.
      * 
      * Version-History:
      * @date 06.12.2015 by Danilo: Initialisierung
+     * @date 07.12.2015 by Danilo: Anpassung an Speicherverhalten
      */
     @Test
-    public void testCheckAccessLoadAndSaveSuccess() {
-        System.out.println("testCheckAccessLoadAndSaveSuccess");
-        
-        // Setzen des Testfilenames um bestehende Daten während des Tests nicht zu verändern
-        SystemController.setFilename(filename);
+    public void testLoadAndSaveSuccess() {
+        System.out.println("testLoadAndSaveSuccess");
         
         // Initialisierung der Datenbank
         int errorcode = SystemController.initializePmSystem();
         if (errorcode!=0) {
             fail(ErrorController.changeErrorCode(errorcode)[1]);
         }
-        
-        // Ein zufälliges Album anlegen
+ 
+        // Ein zufälliges Album anlegen (speichert automatisch)
         String randomTitel = generateRandomAlbumInContainer();
         
-        // Speichern der Datenbank als Testdatenbank
-        errorcode = SystemController.checkAccess(1);
-        if (errorcode!=0) {
-            fail(ErrorController.changeErrorCode(errorcode)[1]);
+        // Prüfen das zufälliges Album vorhanden ist
+        assertThat(AlbenController.getAlbum(randomTitel), is(not(nullValue())));
+        assertEquals(AlbenController.getAlbum(randomTitel).getTitel(), randomTitel);
+        
+        // Derzeitige Datenbankdatei sichern
+        File checkFile = new File(filename);
+        File backupFile = new File(filename + ".bck");
+        if (backupFile.exists()) backupFile.delete();
+        if (checkFile.exists()==true) {
+            try {
+                Files.move(checkFile.toPath(), backupFile.toPath());
+            } catch (IOException ex) {
+                Logger.getLogger(SystemControllerTest.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
         
-        // Erneute initialisierung der Datenbank
-        errorcode = SystemController.initializePmSystem();
-        if (errorcode!=0) {
-            fail(ErrorController.changeErrorCode(errorcode)[1]);
-        }
+        // Ein neues zufälliges Album anlegen (speichert automatisch)
+        String newRandomTitel = generateRandomAlbumInContainer();
         
-        // Prüfen das Album nicht vorhanden ist
+        // Prüfen das neues zufälliges Album vorhanden ist
+        assertThat(AlbenController.getAlbum(newRandomTitel), is(not(nullValue())));
+        assertEquals(AlbenController.getAlbum(newRandomTitel).getTitel(), newRandomTitel);
+        
+        // Das zufällige Album löschen (speichert automatisch)
+        List<String> tmpList = new LinkedList();
+        tmpList.add(randomTitel);
+        AlbenController.deleteListOfAlbum(tmpList);
+        
+        // Prüfen das zufälliges Album nicht mehr vorhanden ist
         assertThat(AlbenController.getAlbum(randomTitel), is(nullValue()));
         
-        // Laden der Datenbank als Testdatenbank
-        errorcode = SystemController.checkAccess(0);
-        if (errorcode!=0) {
-            fail(ErrorController.changeErrorCode(errorcode)[1]);
+        // Aktuelle Datenbankdatei löschen
+        if (checkFile.exists()==true) checkFile.delete();
+        
+        // Sicherung der Datenbank wieder herstellen
+        if (backupFile.exists()==true) {
+            try {
+                Files.move(backupFile.toPath(), checkFile.toPath());
+            } catch (IOException ex) {
+                Logger.getLogger(SystemControllerTest.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
         
-        // Prüfen das Album vorhanden ist
+        // Datenbank laden
+        SystemController.run(filename);
+        
+        // Prüfen das zufälliges Album vorhanden ist
+        assertThat(AlbenController.getAlbum(randomTitel), is(not(nullValue())));
         assertEquals(AlbenController.getAlbum(randomTitel).getTitel(), randomTitel);
+        
+        // Prüfen das neues zufälliges Album nicht mehr vorhanden ist
+        assertThat(AlbenController.getAlbum(newRandomTitel), is(nullValue()));
+        
+        // Datenbankdatei löschen
+        if (checkFile.exists()==true) checkFile.delete();
     }
     
     /**
@@ -367,13 +404,11 @@ public class SystemControllerTest {
      * 
      * Version-History:
      * @date 06.12.2015 by Danilo: Initialisierung
+     * @date 07.12.2015 by Danilo: Anpassung an Speicherverhalten
      */
     @Test
-    public void testCheckAccessLoadAndSaveSuccessGuaranteedStability() {
-        System.out.println("testCheckAccessLoadAndSaveSuccessGuaranteedStability");
-        
-        // Setzen des Testfilenames um bestehende Daten während des Tests nicht zu verändern
-        SystemController.setFilename(filename);
+    public void testLoadAndSaveSuccessGuaranteedStability() {
+        System.out.println("testLoadAndSaveSuccessGuaranteedStability");
         
         // Initialisierung der Datenbank
         int errorcode = SystemController.initializePmSystem();
@@ -386,7 +421,7 @@ public class SystemControllerTest {
         File folderFile = new File(folderName);
         folderFile.mkdir();
         
-        // Anlegen von garantierten Alben
+        // Anlegen von garantierten Alben [speichert automatisch]
         for (int i = 0; i< garanteedAlbumCount; i++) {
             String albumTitel = generateRandomAlbumInContainer();
             
@@ -395,7 +430,7 @@ public class SystemControllerTest {
             // Anlegen garantierter Fotos
             for (int j = 0; j < garanteedFotoCount/garanteedAlbumCount; j++)
             {
-                // Fotodatei anlegen
+                // Fotodatei anlegen [speichert automatisch]
                 File fotoFile = new File("test-fotos" + File.separator + "foto-a" + i + "-" + j + ".jpg");
                 if (!fotoFile.exists()) {
                     try {
@@ -446,25 +481,20 @@ public class SystemControllerTest {
         // Starten der Zeitmessung
         long time = System.nanoTime();
         
-        // Speichern der Datenbank als Testdatenbank
-        errorcode = SystemController.checkAccess(1);
+        // Ein zufälliges Album anlegen (speichert automatisch)
+        generateRandomAlbumInContainer();
         
         // Ende der Zeitmessung in us
         time = (System.nanoTime() - time)/1000000;
         
-        // Prüfen das Speichern korrekt verlief
-        if (errorcode!=0) {
-            fail(ErrorController.changeErrorCode(errorcode)[1] + Integer.toString(errorcode));
-        }
-        
         // Ausgabe für benutzer
-        System.out.println("Zeit für " + garanteedFotoCount/garanteedAlbumCount + " Fotos [mit Metadaten] in jeweils " + garanteedAlbumCount + " Alben: " + ((time)/1000) + " s [" + time + " ms]");
+        System.out.println("Zeit für " + garanteedFotoCount/garanteedAlbumCount + " Fotos [mit Metadaten] in jeweils " + garanteedAlbumCount + " Alben [+1]: " + ((time)/1000) + " s [" + time + " ms]");
         
         // Vorbereiten der Zeit
         time = time / 1000;
         
-        // Prüfen das garantierte Zeit erreicht wurde [20 Sekunden]
-        assertThat(time < 20, is(true));
+        // Prüfen das garantierte Zeit erreicht wurde [2 Sekunden]
+        assertThat(time < 2, is(true));
         
         // Testfotoordner mit allen darin enthaltenen Daten löschen
         if (folderFile.exists()) {
@@ -483,10 +513,11 @@ public class SystemControllerTest {
      * 
      * Version-History:
      * @date 06.12.2015 by Danilo: Initialisierung
+     * @date 07.12.2015 by Danilo: Anpassung an Speicherverhalten
      */
     @Test
-    public void testCheckAccessLoadFileCantReadFailure() {
-        System.out.println("testCheckAccessLoadFileCantReadFailure");
+    public void testLoadFileCantReadFailure() {
+        System.out.println("testLoadFileCantReadFailure");
         
         // Setzen des Testfilenames um bestehende Daten während des Tests nicht zu verändern
         SystemController.setFilename(randomFilename);
@@ -497,21 +528,23 @@ public class SystemControllerTest {
             fail(ErrorController.changeErrorCode(errorcode)[1]);
         }
         
-        // Ein zufälliges Album anlegen
+        // Ein zufälliges Album anlegen [automatische speichern]
         generateRandomAlbumInContainer();
+        
+        // Prüfen das Datenbank nicht leer
+        assertThat(AlbenController.getAlbumList().isEmpty(), is(false));
         
         // Leere Testdatenbank anlegen
         File loadFile = new File(randomFilename);
-        if (!loadFile.exists()) {
-            try {
-                loadFile.createNewFile();
-            } catch (IOException ex) {
-                Logger.getLogger(SystemControllerTest.class.getName()).log(Level.SEVERE, null, ex);
-            }
+        if (loadFile.exists()) loadFile.delete();
+        try {
+            loadFile.createNewFile();
+        } catch (IOException ex) {
+            Logger.getLogger(SystemControllerTest.class.getName()).log(Level.SEVERE, null, ex);
         }
         
         // Laden der Datenbank aus angelegter Testdatenbank
-        errorcode = SystemController.checkAccess(0);
+        errorcode = SystemController.run(randomFilename);
         if (errorcode==0) {
             fail(ErrorController.changeErrorCode(errorcode)[1]);
         }
@@ -519,8 +552,11 @@ public class SystemControllerTest {
         // Prüfen das Datenbank leer
         assertThat(AlbenController.getAlbumList().isEmpty(), is(true));
         
-        // Angelegte Datei löschen
+        // Angelegte Datenbankdatei löschen
         if (loadFile.exists()) loadFile.delete();
+        
+        // Zurücksetzen des Dateinamens
+        SystemController.setFilename(filename);
     }
     
     /**
@@ -529,9 +565,10 @@ public class SystemControllerTest {
      * 
      * Version-History:
      * @date 06.12.2015 by Danilo: Initialisierung
+     * @date 07.12.2015 by Danilo: Anpassung an Speicherverhalten
      */
     @Test
-    public void testCheckAccessSaveFileCantWriteFailure() {
+    public void testSaveFileCantWriteFailure() {
         System.out.println("testCheckAccessSaveFileCantWriteFailure");
         
         // Setzen des Testfilenames um bestehende Daten während des Tests nicht zu verändern
@@ -543,22 +580,32 @@ public class SystemControllerTest {
             fail(ErrorController.changeErrorCode(errorcode)[1]);
         }
         
-        // Ein zufälliges Album anlegen
+        // Ein zufälliges Album anlegen [automatische speichern]
         generateRandomAlbumInContainer();
+        
+        // Prüfen das Datenbank ein Album hält
+        assertThat(SystemController.getAlbumContainer().anzahlAlben(), is(1));
         
         // Schreibgeschützte Testdatenbank anlegen
         File loadFile = new File(randomFilename);
-        if (!loadFile.exists()) {
-            try {
-                loadFile.createNewFile();
-                loadFile.setWritable(false);
-            } catch (IOException ex) {
-                Logger.getLogger(SystemControllerTest.class.getName()).log(Level.SEVERE, null, ex);
-            }
+        if (loadFile.exists()) loadFile.delete();
+        try {
+            loadFile.createNewFile();
+            loadFile.setWritable(false);
+        } catch (IOException ex) {
+            Logger.getLogger(SystemControllerTest.class.getName()).log(Level.SEVERE, null, ex);
         }
         
-        // Speichern der Datenbank in vorhanden aber nicht schreibbare Testdatenbank
-        errorcode = SystemController.checkAccess(1);
+        // Ein weiteres Album anlegen
+        String randomTitel = "";
+        do {
+            randomTitel = RandomStringUtils.randomAlphanumeric(RandomUtils.nextInt(17) + 4);
+        } while (AlbenController.getAlbum(randomTitel)!=null);
+        String randomBeschreibung = RandomStringUtils.randomAlphanumeric(RandomUtils.nextInt(201));
+        int randomSortierkennzeichen = (int)(Math.random()*3);
+        errorcode = AlbenController.createNewAlbum(randomTitel, randomBeschreibung, randomSortierkennzeichen);
+        
+        // Prüfen das Speichern fehlgeschlagen ist
         if (errorcode==0) {
             fail(ErrorController.changeErrorCode(errorcode)[1]);
         }

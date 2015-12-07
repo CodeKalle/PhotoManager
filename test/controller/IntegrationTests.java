@@ -7,7 +7,6 @@ package controller;
 
 import java.io.IOException;
 import java.nio.file.Path;
-import javax.sound.midi.Patch;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -74,7 +73,10 @@ public class IntegrationTests {
     
     /**
      * Testet den UseCase Album anlegen und danach editieren
-    */
+     * 
+     * Version-History:
+     * @date 07.12.2015 by Danilo: Sortierkennzeichen Datentyp zu int
+     */
     @Test
     public void createAndEditAlbum()
     {   
@@ -94,7 +96,7 @@ public class IntegrationTests {
             //04. Bestätigen oder Abbrechen
             boolean guiResponse = true;
             if (guiResponse == true){
-                errorcode = AlbenController.createNewAlbum(createAlbumInfo[0], createAlbumInfo[1], createAlbumInfo[2]);
+                errorcode = AlbenController.createNewAlbum(createAlbumInfo[0], createAlbumInfo[1], Integer.valueOf(createAlbumInfo[2]));
                 if(errorcode != 0){
                     assertNull(AlbenController.getAlbum(createAlbumInfo[0]));
                     TestDocumizer.logging(errorcode, "Testmethode 'createAndEditAlbum': Albumanlage fehlgeschlagen", true, true);
@@ -113,9 +115,9 @@ public class IntegrationTests {
             //08. Albuminformationen bearbeiten
             modifyAlbumInfo = TestDataController.generateAlbumTestDaten();
             //08a Sortierkennzeichen
-            AlbenController.getAlbum(createdAlbum.getTitel()).setSortierkennzeichen(modifyAlbumInfo[2]);
+            AlbenController.getAlbum(createdAlbum.getTitel()).setSortierkennzeichen(Integer.valueOf(modifyAlbumInfo[2]));
             assertEquals(AlbenController.getAlbum(createdAlbum.getTitel()).getSortierkennzeichen(), modifyAlbumInfo[2]);
-            if(createdAlbum.getSortierkennzeichen().equals(modifyAlbumInfo[2])){
+            if(createdAlbum.getSortierkennzeichen()==Integer.valueOf(modifyAlbumInfo[2])){
                 TestDocumizer.logging(0, "Testmethode 'createAndEditAlbum': Sortierkennzeichen erfolgreich geändert", true, true);
             }else{
                 TestDocumizer.logging(0, "Testmethode 'createAndEditAlbum': Sortierkennzeichen nicht geändert", true, true);

@@ -7,10 +7,11 @@ package controller;
  * Version-History:
  * @date 20.11.2015 by Danilo: Initialisierung
  * @date 01.12.2015 by Danilo: Klasse dient nur zur Umsetzung Fehlercode zu
- * String
+ * @date ??.12.2015 by Andrea: String
  * @date 04.12.2015 by Danilo: Fehlerkorrektur bei zu kurzen Albentiteln,
- * Beschreibung und Sortierkennzeichen
+ * @date ??.12.2015 by Andrea: Beschreibung und Sortierkennzeichen
  * @date 06.12.2015 by Andrea: Fehlende Fehlerbeschreibung komplett hinzugefügt
+ * @date 07.12.2015 by Danilo: Kommentierung geändert
  */
 public class ErrorController {
     
@@ -18,15 +19,16 @@ public class ErrorController {
      * Methode wandelt Code in Text um und generiert zum Fehlercodes die
      * Nachrichtenbox. opt: 0=Error 1=Info 2=Warning 3=Question
      *
-     * Version-History:
-     *
      * @param errorcode Eingabe des Fehlercodes
      * @return Rückgabe des gedrückten Buttons der Fehlermeldung als Integer
+     * 
+     * Version-History:
      * @date 20.11.2015 by Danilo: Initialisierung
      * @date 24.11.2015 by Danilo: Änderung lokaler Variablen, Änderung der
-     * Kommentierung
+     * @date ??.12.2015 by Andrea: Kommentierung
      * @date 30.11.2015 by Danilo: Anpassung an SystemController
      * @date 06.12.2015 by Tobias: Merge verkackt, manuelles zurücksetzten
+     * @date 07.12.2015 by Danilo: Kommentierung geändert
      */
     public static String[] changeErrorCode(int errorcode) {
         String title;
@@ -34,7 +36,7 @@ public class ErrorController {
         switch (errorcode) {
             case 110:
                 title = "Albumanlege-Fehler";
-                text = "Albumtitel wurde bereitsfür ein Album verwendet.";
+                text = "Albumtitel wurde bereits für ein Album verwendet.";
                 break;
             case 115:
                 title = "Albumanlege-Fehler";
@@ -43,10 +45,6 @@ public class ErrorController {
             case 116:
                 title = "Albumanlege-Fehler";
                 text = "Albumbeschreibung nicht initialisiert.";
-                break;
-            case 117:
-                title = "Albumanlege-Fehler";
-                text = "Albumsortierkennzeichen nicht initialisiert.";
                 break;
             case 120:
                 title = "Albumanlege-Fehler";
@@ -68,10 +66,6 @@ public class ErrorController {
             case 156:
                 title = "Albumänderungs-Fehler";
                 text = "Albumbeschreibung nicht initialisiert.";
-                break;
-            case 157:
-                title = "Albumänderungs-Fehler";
-                text = "Albumsortierkennzeichen nicht initialisiert.";
                 break;
             case 160:
                 title = "Albumänderungs-Fehler";
@@ -133,11 +127,6 @@ public class ErrorController {
                 title = "Datenbankfehler";
                 text = "Zugriff auf Datenbank nicht möglich!";
                 break;
-            /* ins SystemController zu Errorcode 820,821,822 geändert
-             case 805:
-             title = "Datenbank-Speicherfehler";
-             text = "Datenbanksystem konnte nicht ordnungsgemäß gespeichert werden.";
-             break;*/
             case 806:
                 title = "Datenbank-Ladefehler";
                 text = "Datenbanksystem konnte nicht ordnungsgemäß geladen werden.";
@@ -188,7 +177,7 @@ public class ErrorController {
                 break;
             default:
                 title = "Fehler!";
-                text = "Fehlercode ist nicht verfügbar!";
+                text = "Fehlercode [" + errorcode + "] ist nicht verfügbar!";
                 break;
         }
         return new String[]{title, text};

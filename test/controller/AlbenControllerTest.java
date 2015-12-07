@@ -1,5 +1,6 @@
 package controller;
 
+import java.io.File;
 import java.util.LinkedList;
 import java.util.List;
 import model.Album;
@@ -20,6 +21,7 @@ import static org.hamcrest.CoreMatchers.*;
  * @date 03.12.2015 by Daniel: editAlbum, createNewAlbumIsExpectedAlbum, deleteAlbum, deleteListOfAlbums, createNewAlbum hinzugefügt
  * @date 04.12.2015 by Danilo: Anpassung an geänderten AlbenController
  * @date 05.12.2015 by Danilo: Anpassung der Zeitausgabe bei garantierte Albumanzahl
+ * @date 07.12.2015 by Danilo: Sortierkennzeichen Datentyp zu int
  */
 public class AlbenControllerTest {
     
@@ -30,24 +32,27 @@ public class AlbenControllerTest {
      * @date 01.12.2015 by Daniel: Initialisierung
      * @date 04.12.2015 by Danilo: Anpassung an geänderten AlbenController
      * @date 05.12.2015 by Danilo: Anpassung der Zeitausgabe bei garantierte Albumanzahl
+     * @date 07.12.2015 by Danilo: Sortierkennzeichen Datentyp zu int
      */
     private static List<Album> listOfAlbum;
     private static long timeUsing;
     private static long timeGeneral;
+    private static String filename;
+    private static String originFilename;
     // Fixe Testdaten
     private static String title;
     private static String beschreibung;
-    private static String sortierkennzeichen;
+    private static int sortierkennzeichen;
     // Neue fixe Testdaten
     private static String newTitle;
     private static String newBeschreibung;
-    private static String newSortierkennzeichen;
+    private static int newSortierkennzeichen;
     private static String shortTitle;
     private static String longTitle;
     // Zufällige Testdaten
     private String randomTitel;
     private String randomBeschreibung;
-    private String randomSortierkennzeichen;
+    private static int randomSortierkennzeichen;
     // Weitere Testdaten
     private final static String EMPTYSTRING = "";
     private final static String NULLSTRING = null; 
@@ -69,19 +74,25 @@ public class AlbenControllerTest {
      * @date 01.12.2015 by Daniel: Initialisierung
      * @date 04.12.2015 by Danilo: Setzen der Kommentare
      * @date 06.12.2015 by Danilo: prepareResourcesToTest in setUpClass umwandeln
+     * @date 07.12.2015 by Danilo: Sortierkennzeichen Datentyp zu int
      */
     @BeforeClass
     public static void setUpClass() {
+        originFilename = SystemController.getFilename();
+        filename = "pm-test.jdb";
+        SystemController.setFilename(filename);
         SystemController.initializePmSystem();
         listOfAlbum = SystemController.getAlbumContainer().getAlbenListe();
         // Fixe Testdaten
         title = "Testtitel";
         beschreibung = "Testbeschreibung";
-        sortierkennzeichen = "Testkennzeichen";
+        sortierkennzeichen = 0;
         // Neue fixe Testdaten
         newTitle = "Neuer Testtitel";
         newBeschreibung = "Neue Testbeschreibung";
-        newSortierkennzeichen = "Neue Kennzeichen";
+        newSortierkennzeichen = 1;
+        // RandomSortierkennzeichen da nur 3 Möglichkeiten
+        randomSortierkennzeichen = 2;
         shortTitle = "T";
         longTitle = "Ein so langer Titel, ist hoffentlich zu lang";
     }
@@ -92,10 +103,14 @@ public class AlbenControllerTest {
      * Version-History:
      * @date 01.12.2015 by Daniel: Initialisierung
      * @date 04.12.2015 by Danilo: Setzen der Kommentare
+     * @date 07.12.2015 by Danilo: Anpassung an Speicherverhalten
      */
     @AfterClass
     public static void tearDownClass() {
         System.out.println("\n=== AlbenControllerTest ===\nTestzeit der Klasse: " + (timeGeneral/1000000) + " ms [" + (timeGeneral/1000) + " us]\n");
+        File storeFile = new File(filename);
+        if (storeFile.exists()) storeFile.delete();
+        SystemController.setFilename(originFilename);
     }
     
     /**
@@ -132,6 +147,7 @@ public class AlbenControllerTest {
      * 
      * Version-History:
      * @date 04.12.2015 by Danilo: Initialisierung
+     * @date 07.12.2015 by Danilo: Sortierkennzeichen Datentyp zu int
      */
     private void generateRandomData() {
         do{
@@ -140,9 +156,6 @@ public class AlbenControllerTest {
         do{
             randomBeschreibung = RandomStringUtils.randomAlphanumeric(RandomUtils.nextInt(201));
         } while (beschreibung.equals(randomBeschreibung));
-        do{
-            randomSortierkennzeichen = RandomStringUtils.randomAlphanumeric(RandomUtils.nextInt(21));
-        } while (sortierkennzeichen.equals(randomSortierkennzeichen));
     }
     
     /**
@@ -361,6 +374,7 @@ public class AlbenControllerTest {
      * Version-History:
      * @date 01.12.2015 by Daniel: Initialisierung
      * @date 04.12.2015 by Danilo: Anpassung auf neue Version des AlbenControllers
+     * @date 07.12.2015 by Danilo: Sortierkennzeichen Datentyp zu int
      */
     @Test
     public void testEditAlbumSuccess() {
@@ -370,7 +384,7 @@ public class AlbenControllerTest {
         String oldTitel = generateRandomAlbum();
         Album oldAlbum = AlbenController.getAlbum(oldTitel);
         String oldBeschreibung = oldAlbum.getBeschreibung();
-        String oldSortierkennzeichen = oldAlbum.getSortierkennzeichen();
+        int oldSortierkennzeichen = oldAlbum.getSortierkennzeichen();
         
         // Album ändern mit neuen Werten
         int errorcode = AlbenController.editAlbum(oldTitel, newTitle, newBeschreibung, newSortierkennzeichen);
@@ -403,6 +417,7 @@ public class AlbenControllerTest {
      * 
      * Version-History:
      * @date 04.12.2015 by Danilo: Initialisierung
+     * @date 07.12.2015 by Danilo: Sortierkennzeichen Datentyp zu int
      */
     @Test
     public void testEditAlbumEmptyValue() {
@@ -437,15 +452,25 @@ public class AlbenControllerTest {
         expectAlbum = AlbenController.getAlbum(oldTitel);
         assertThat(expectAlbum.getBeschreibung().isEmpty(), is(true));
         
-        // Album ändern mit leerem Titel und neuen Werten
-        errorcode = AlbenController.editAlbum(oldTitel, oldTitel, newBeschreibung, EMPTYSTRING);
+        // Album ändern mit Sortierkennzeichen ausserhalb des Bereiches
+        errorcode = AlbenController.editAlbum(oldTitel, oldTitel, newBeschreibung, -1);
         if (errorcode != 0) {
             fail(ErrorController.changeErrorCode(errorcode)[1]);
         }
         
         // Prüft das Album geändert wurde und Sortierkennzeichen leer ist
         expectAlbum = AlbenController.getAlbum(oldTitel);
-        assertThat(expectAlbum.getSortierkennzeichen().isEmpty(), is(true));
+        assertThat(expectAlbum.getSortierkennzeichen(), is(0));
+        
+        // Album ändern mit Sortierkennzeichen ausserhalb des Bereiches
+        errorcode = AlbenController.editAlbum(oldTitel, oldTitel, newBeschreibung, 3);
+        if (errorcode != 0) {
+            fail(ErrorController.changeErrorCode(errorcode)[1]);
+        }
+        
+        // Prüft das Album geändert wurde und Sortierkennzeichen leer ist
+        expectAlbum = AlbenController.getAlbum(oldTitel);
+        assertThat(expectAlbum.getSortierkennzeichen(), is(0));
     }
     
     /**
@@ -455,6 +480,7 @@ public class AlbenControllerTest {
      * Version-History:
      * @date 01.12.2015 by Daniel: Initialisierung
      * @date 04.12.2015 by Danilo: Anpassung auf neue Version des AlbenControllers
+     * @date 07.12.2015 by Danilo: Sortierkennzeichen Datentyp zu int
      */
     @Test
     public void testEditAlbumNullValue() {
@@ -468,7 +494,6 @@ public class AlbenControllerTest {
         
         // Merken der werte
         String oldBeschreibung = result.getBeschreibung();
-        String oldSortierkennzeichen = result.getSortierkennzeichen();
         
         // Album ändern mit leerem Titel und neuen Werten
         int errorcode = AlbenController.editAlbum(oldTitel, NULLSTRING, newBeschreibung, newSortierkennzeichen);
@@ -492,16 +517,6 @@ public class AlbenControllerTest {
         // Prüft das Album nicht geändert wurde
         expectAlbum = AlbenController.getAlbum(oldTitel);
         assertThat(expectAlbum.getBeschreibung(), is(oldBeschreibung));
-        
-        // Album ändern mit neuer Beschreibung und null Sortierkennzeichen
-        errorcode = AlbenController.editAlbum(oldTitel, oldTitel, newBeschreibung, NULLSTRING);
-        if (errorcode == 0) {
-            fail(ErrorController.changeErrorCode(errorcode)[1]);
-        }
-        
-        // Prüft das Album nicht geändert wurde
-        expectAlbum = AlbenController.getAlbum(oldTitel);
-        assertThat(expectAlbum.getSortierkennzeichen(), is(oldSortierkennzeichen));
     }
     
     /**
