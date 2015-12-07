@@ -60,7 +60,7 @@ public class TestDataController {
     * @param path Pfad für Testbilder
     * @param databasePath Pfad der Datenbank
     * @param count Anzahl anzulegener Alben
-     * @throws java.io.IOException
+    * @throws java.io.IOException
     * @date 03.12.2015 by Benni: Initialisierung
     */
     public TestDataController (String path, String databasePath, int count)throws IOException{
@@ -137,7 +137,7 @@ public class TestDataController {
     }
     
     /**
-     * 
+     * Generiert ein Testalbum
      * @return 
      */
     public static String[] generateAlbumTestDaten(){

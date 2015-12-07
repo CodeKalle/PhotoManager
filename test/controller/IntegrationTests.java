@@ -26,7 +26,7 @@ import model.Album;
 public class IntegrationTests {
     private TestDataController TestDataCtrl;
     private Path PmDatabasePath;
-    private final String testBilderPfad = "Pfad";
+    private final String testBilderPfad = "D:\\05_Development\\GIT\\workspace\\PhotoManager\\test\\testdaten";
 
     /**
      *
@@ -42,11 +42,11 @@ public class IntegrationTests {
     @Before
     public void setUp(){
         try{
-            //Generiung Testdaten
-            TestDataCtrl = new TestDataController(testBilderPfad,"");
-
             //Initialisierung System
             SystemController.run();
+            
+            //Generiung Testdaten
+            TestDataCtrl = new TestDataController(testBilderPfad,"");
         
             //Sicherung der aktueller "Datenbank"
             TestDataCtrl.backupRestoreDatabase(true);        
@@ -54,6 +54,7 @@ public class IntegrationTests {
             System.err.format("IOException: %s%n", io);
             System.out.println("Dateifehler bei Testdatengenerierung: " + io.getMessage());
         }catch (Exception e){
+            System.err.format("Exception: %s%n", e);
             System.out.println("Allgemeiner Fehler bei Testdatengenerierung: " + e.getMessage());
         }
     }
@@ -79,7 +80,7 @@ public class IntegrationTests {
     */
     @Test
     @Ignore
-    private void createAndEditAlbum()
+    public void createAndEditAlbum()
     {   
         int errorcode;
         String[] createAlbumInfo;
@@ -154,7 +155,7 @@ public class IntegrationTests {
     */
     @Test
     @Ignore
-    private void addAndEditFoto()
+    public void addAndEditFoto()
     {
         
     }
@@ -164,7 +165,7 @@ public class IntegrationTests {
     */
     @Test
     @Ignore
-    private void startAndEditPresentation()
+    public void startAndEditPresentation()
     {
         
     }
