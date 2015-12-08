@@ -22,6 +22,7 @@ import model.Album;
  * @date 02.12.2015 by Tobias: Methode editAlbumTitle ergänzt
  * @date 04.12.2015 by Danilo: Fehlerkorrektur bei zu kurzen Albentiteln, Beschreibung und Sortierkennzeichen
  * @date 07.12.2015 by Danilo: Sortierkennzeichen Datentyp zu int
+ * @date 08.12.2015 by Danilo: Einfügen eines Fehlerloggingsystemes
  */
 public class AlbenController {
  
@@ -58,20 +59,21 @@ public class AlbenController {
     * @date 01.12.2015 by Danilo: Fehlerkorrektur
     * @date 04.12.2015 by Danilo: Fehlerkorrektur bei zu kurzen Albentiteln
     * @date 07.12.2015 by Danilo: Sortierkennzeichen Datentyp zu int und transparente Speicherung
+    * @date 08.12.2015 by Danilo: Einfügen eines Fehlerloggingsystemes
     */
     public static int createNewAlbum(String title, String beschreibung, int sortierkennzeichen) {
         // Prüft zu kruze Albentitel
-        if (title == null || title.length() <= 3) return 115;
-        if (beschreibung == null) return 116;
+        if (title == null || title.length() <= 3) return ErrorController.addDebugReport(115);
+        if (beschreibung == null) return ErrorController.addDebugReport(116);
         
         // Prüfen der Eingabe
         if (title.length() > 20) title = title.substring(0,20);
         if (beschreibung.length() > 200) beschreibung = beschreibung.substring(0,200);
         if (sortierkennzeichen < 0 || sortierkennzeichen > 2) sortierkennzeichen = 0;
         
-        if (createAlbum(title)!=0) return 110;
-        if (editAlbumBeschreibung(title, beschreibung)!=0) return 120;
-        if (editAlbumSortierkennzeichen(title, sortierkennzeichen)!=0) return 130;
+        if (createAlbum(title)!=0) return ErrorController.addDebugReport(110);
+        if (editAlbumBeschreibung(title, beschreibung)!=0) return ErrorController.addDebugReport(120);
+        if (editAlbumSortierkennzeichen(title, sortierkennzeichen)!=0) return ErrorController.addDebugReport(130);
         
         // Speichern des Systemes
         return SystemController.loadOrSave(false);
@@ -94,11 +96,12 @@ public class AlbenController {
     * @date 01.12.2015 by Danilo: Fehlerkorrektur
     * @date 04.12.2015 by Danilo: Fehlerkorrektur bei zu kurzen Albentiteln
     * @date 07.12.2015 by Danilo: Sortierkennzeichen Datentyp zu int und transparente Speicherung
+    * @date 08.12.2015 by Danilo: Einfügen eines Fehlerloggingsystemes
     */
     public static int editAlbum(String title, String newTitle, String beschreibung, int sortierkennzeichen) {
         // Prüft zu kruze Albentitel
-        if (newTitle == null || newTitle.length() <= 3) return 155;
-        if (beschreibung == null) return 156;
+        if (newTitle == null || newTitle.length() <= 3) return ErrorController.addDebugReport(155);
+        if (beschreibung == null) return ErrorController.addDebugReport(156);
         
         // Prüfen der Eingabe
         if (title.length() > 20) title = title.substring(0,20);
@@ -106,9 +109,9 @@ public class AlbenController {
         if (beschreibung.length() > 200) beschreibung = beschreibung.substring(0,200);
         if (sortierkennzeichen < 0 || sortierkennzeichen > 2) sortierkennzeichen = 0;
         
-        if (editAlbumTitle(title, newTitle)!=0) return 150;
-        if (editAlbumBeschreibung(newTitle, beschreibung)!=0) return 160;
-        if (editAlbumSortierkennzeichen(newTitle, sortierkennzeichen)!=0) return 170;
+        if (editAlbumTitle(title, newTitle)!=0) return ErrorController.addDebugReport(150);
+        if (editAlbumBeschreibung(newTitle, beschreibung)!=0) return ErrorController.addDebugReport(160);
+        if (editAlbumSortierkennzeichen(newTitle, sortierkennzeichen)!=0) return ErrorController.addDebugReport(170);
         
         // Speichern des Systems
         return SystemController.loadOrSave(false);
@@ -124,6 +127,7 @@ public class AlbenController {
     * Version-History:
     * @date 25.11.2015 by Danilo: Initialisierung
     * @date 07.12.2015 by Danilo: Transparente Speicherung
+    * @date 08.12.2015 by Danilo: Änderung des Fehlercodes und einfügen eines Fehlerloggingsystemes
     */
     public static int deleteListOfAlbum(List<String> titlelist) {
         int errorcode = 0;
@@ -131,7 +135,7 @@ public class AlbenController {
             errorcode += deleteAlbum(title);
         }
         if (errorcode==0) return SystemController.loadOrSave(false);
-        return errorcode;
+        return ErrorController.addDebugReport(300);
     }
     
     /**
@@ -146,6 +150,7 @@ public class AlbenController {
     * @date 24.11.2015 by Danilo: Methode auf static gesetzt
     * @date 25.11.2015 by Danilo: Methode auf private gesetzt
     * @date 01.12.2015 by Danilo: Fehlerkorrektur
+    * @date 08.12.2015 by Danilo: Einfügen eines Fehlerloggingsystemes
     */
     private static int deleteAlbum(String title) {
         for (Album tmpAlbum : SystemController.getAlbumContainer().getAlbenListe()) {
@@ -155,7 +160,7 @@ public class AlbenController {
                 return 0;
             }
         }
-        return 310;
+        return ErrorController.addDebugReport(310);
     }
     
     /**
@@ -168,6 +173,7 @@ public class AlbenController {
     * @date 24.11.2015 by Danilo: Initialisierung
     * @date 02.12.2015 by Tobias: Setzten auf public
     * @date 04.12.2015 by Danilo: Fehlerkorrektur bei zu kurzen Albentiteln
+    * @date 08.12.2015 by Danilo: Einfügen eines Fehlerloggingsystemes
     */
     public static Album getAlbum(String title) {
         // Prüft zu kruze Albentitel
@@ -178,6 +184,7 @@ public class AlbenController {
                 return tmpAlbum;
             }
         }
+        ErrorController.addDebugReport(100);
         return null;
     }
     
@@ -192,11 +199,12 @@ public class AlbenController {
     * @date 23.11.2015 by Danilo: Kommentar angepasst
     * @date 24.11.2015 by Danilo: Methode auf static gesetzt
     * @date 01.12.2015 by Danilo: Fehlerkorrektur
+    * @date 08.12.2015 by Danilo: Einfügen eines Fehlerloggingsystemes
     */
     private static int createAlbum(String title){
         for (Album tmpAlbum : SystemController.getAlbumContainer().getAlbenListe()) {
             if (tmpAlbum.getTitel().equals(title)) {  
-                return 320;
+                return ErrorController.addDebugReport(320);
             }
         }
         Album newAlbum = new Album(title);
@@ -218,18 +226,19 @@ public class AlbenController {
     * @date 28.11.2015 by Tobias: Prüfung von newTitel hinzugefügt
     * @date 01.12.2015 by Danilo: Fehlerkorrektur
     * @date 02.12.2015 by Tobias: Prüfen ob die Titel gleich sind
+    * @date 08.12.2015 by Danilo: Fehlercode angepasst und einfügen eines Fehlerloggingsystemes
     */
     private static int editAlbumTitle(String title, String newTitle) {
         for (Album tmpAlbum : SystemController.getAlbumContainer().getAlbenListe()) {
             //Wenn die Titel gleich sind, muss nichts geändert werden
             if(title.equals(newTitle)) {
-                return 0;
+                return ErrorController.addDebugReport(332);
             }
             //Wenn die Titel unterschiedlich sind:
             else {
                 //Prüfen ob neuer Titel schon vergeben ist
                 if (tmpAlbum.getTitel().equals(newTitle)) {
-                    return 331;
+                    return ErrorController.addDebugReport(331);
                 }
                 if (tmpAlbum.getTitel().equals(title)) { 
                     tmpAlbum.setTitel(newTitle);
@@ -237,7 +246,7 @@ public class AlbenController {
                 }
             }
         }
-        return 330;
+        return ErrorController.addDebugReport(330);
     }
     
     /**
@@ -252,6 +261,7 @@ public class AlbenController {
     * @date 23.11.2015 by Danilo: Kommentar angepasst
     * @date 24.11.2015 by Danilo: Methode auf static gesetzt
     * @date 01.12.2015 by Danilo: Fehlerkorrektur
+    * @date 08.12.2015 by Danilo: Einfügen eines Fehlerloggingsystemes
     */
     private static int editAlbumBeschreibung(String title, String beschreibung) {
         for (Album tmpAlbum : SystemController.getAlbumContainer().getAlbenListe()) {
@@ -260,7 +270,7 @@ public class AlbenController {
                 return 0;
             }
         }
-        return 340;
+        return ErrorController.addDebugReport(340);
     }
     
     /**
@@ -276,6 +286,7 @@ public class AlbenController {
     * @date 24.11.2015 by Danilo: Methode auf static gesetzt
     * @date 01.12.2015 by Danilo: Fehlerkorrektur
     * @date 07.12.2015 by Danilo: Sortierkennzeichen Datentyp zu int
+    * @date 08.12.2015 by Danilo: Einfügen eines Fehlerloggingsystemes
     */
     private static int editAlbumSortierkennzeichen(String title, int sortierkennzeichen) {
         for (Album tmpAlbum : SystemController.getAlbumContainer().getAlbenListe()) {
@@ -284,6 +295,6 @@ public class AlbenController {
                 return 0;
             }
         }
-        return 350;
+        return ErrorController.addDebugReport(350);
     }
 }

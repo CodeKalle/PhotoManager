@@ -18,6 +18,7 @@ import model.Metadaten;
  * @date 25.11.2015 by Danilo: Erstellen der Methode getMetaFromFoto und deleteAllFotosInAlbum, sowie setzen der Diamantoperanten
  * @date 29.11.2015 by Danilo: Methode setMetaInFoto ergänzt
  * @date 01.12.2015 by Danilo: Fehlerkorrektur
+ * @date 08.12.2015 by Danilo: Einfügen eines Fehlerloggingsystemes
  */
 public class FotoController {
     /**
@@ -32,12 +33,13 @@ public class FotoController {
      * @date 25.11.2015 by Danilo: Initialisierung
      * @date 29.11.2015 by Danilo: Fehlerkorrektur in Methode
      * @date 01.12.2015 by Danilo: Fehlerkorrektur
+     * @date 08.12.2015 by Danilo: Einfügen eines Fehlerloggingsystemes
      */
     public static int setMetaInFoto(Path pathOfFoto, Metadaten meta) {
         Foto searchFoto = generateFotoFromPath(pathOfFoto);
         searchFoto.setMetadata(meta);
         if(searchFoto.getMetadata()!=meta) {
-            return 510;
+            return ErrorController.addDebugReport(510);
         }
         return 0;
     }
@@ -95,6 +97,7 @@ public class FotoController {
      * @date 29.11.2015 by Danilo: Ändern der Rückgabe der Methode
      * @date 01.12.2015 by Danilo: Fehlerkorrektur
      * @date 07.12.2015 by Danilo: Anpassung der Fotoübergabeliste und transparente Speicherung
+     * @date 08.12.2015 by Danilo: Einfügen eines Fehlerloggingsystemes
      */
     public static int addListOfFotosToAlbum(String title, List<Path> listOfPathes) {
         Album tmpAlbum = AlbenController.getAlbum(title);
@@ -106,14 +109,14 @@ public class FotoController {
 
                 int addSize = setNewFotolistinAlbum(tmpAlbum, newFotoListe);
                 if (addSize != newFotoListe.size()) {
-                    return 410;
+                    return ErrorController.addDebugReport(410);
                 }
                 return SystemController.loadOrSave(false);
             } else {
-                return 420;
+                return ErrorController.addDebugReport(420);
             }
         } else {
-            return 430;
+            return ErrorController.addDebugReport(430);
         }
     }
     
@@ -191,7 +194,6 @@ public class FotoController {
         } else {
             SystemController.getFotoContainer().getFotoMap().put(foto.hashCode(), foto);
         }
-        
         return foto;
     }
     
@@ -231,6 +233,7 @@ public class FotoController {
      * Version-History:
      * @date 25.11.2015 by Danilo: Initialisierung
      * @date 01.12.2015 by Danilo: Fehlerkorrektur
+     * @date 08.12.2015 by Danilo: Einfügen eines Fehlerloggingsystemes
      */
     protected static int deleteAllFotosInAlbum(Album album){
         List <Foto> tmpFotolist = album.getFotoListe();
@@ -245,7 +248,7 @@ public class FotoController {
         }
         // Alle Fotos aus Album löschen
         tmpFotolist.clear();
-        if (!tmpFotolist.isEmpty()) return 450;
+        if (!tmpFotolist.isEmpty()) return ErrorController.addDebugReport(450);
         
         return 0;
     }
