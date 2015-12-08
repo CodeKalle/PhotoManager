@@ -226,13 +226,13 @@ public class AlbenController {
     * @date 28.11.2015 by Tobias: Prüfung von newTitel hinzugefügt
     * @date 01.12.2015 by Danilo: Fehlerkorrektur
     * @date 02.12.2015 by Tobias: Prüfen ob die Titel gleich sind
-    * @date 08.12.2015 by Danilo: Fehlercode angepasst und einfügen eines Fehlerloggingsystemes
+    * @date 08.12.2015 by Danilo: Einfügen eines Fehlerloggingsystemes
     */
     private static int editAlbumTitle(String title, String newTitle) {
         for (Album tmpAlbum : SystemController.getAlbumContainer().getAlbenListe()) {
             //Wenn die Titel gleich sind, muss nichts geändert werden
             if(title.equals(newTitle)) {
-                return ErrorController.addDebugReport(332);
+                return 0;
             }
             //Wenn die Titel unterschiedlich sind:
             else {
