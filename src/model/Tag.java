@@ -18,15 +18,6 @@ public class Tag implements Serializable {
     int yPos2;
     
     String information;
-
-    /**
-     * Konstruktor
-     * 
-     * Version-History:
-     * @date 14.11.2015 by Tobias: Initialisierung
-     */
-    public Tag() {
-    }
     
     /**
      * Konstruktor

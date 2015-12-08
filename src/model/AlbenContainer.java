@@ -10,6 +10,7 @@ import java.util.List;
  * 
  * Version-History:
  * @date 14.11.2015 by Tobias: Initialisierung + Anlegen von Grundmethoden
+ * @date 08.12.2015 by Danilo: Löschen nicht verwendeter Methoden [setAlbenListe]
  */
 public class AlbenContainer implements Serializable {
     private List<Album> albenListe;
@@ -46,18 +47,6 @@ public class AlbenContainer implements Serializable {
      */
     public List<Album> getAlbenListe() {
         return albenListe;
-    }
-
-    /**
-     * Setter fuer albenListe
-     * 
-     * @param albenListe Liste mit Alben
-     * 
-     * Version-History:
-     * @date 14.11.2015 by Tobias: Initialisierung
-     */
-    public void setAlbenListe(List<Album> albenListe) {
-        this.albenListe = albenListe;
     }
     
     /**
