@@ -1,6 +1,7 @@
 package controller;
 
 import java.io.BufferedWriter;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Paths;
 import java.nio.file.Files;
@@ -59,11 +60,23 @@ public class TestDocumizer {
         System.out.println(logText);
     }
     
+    /**
+     * IntegrationTests wird verwendet für die Integrations der einzelnen UseCases,
+     * bzw. der im Pflichtenheft beschriebenen Produktfunktion
+     * Version-History:
+     * @date 03.12.2015 by Benni: Initialisiarung
+     * @date 08.12.2015 by Danilo:Hinzufügen eines Filewriters
+     */
     private static void fileLogging(String logText) throws IOException{
         Path logPath = Paths.get(strLogPath);
         
+        FileWriter filwWriter;
         BufferedWriter writeBuf;
-        writeBuf = Files.newBufferedWriter(logPath, charset, CREATE, APPEND);
+        filwWriter = new FileWriter(logPath.toString());
+        writeBuf = new BufferedWriter(filwWriter);
         writeBuf.write(logText);
+        
+        if (writeBuf != null) writeBuf.close();
+        if (filwWriter != null) writeBuf.close();
     }
 }

@@ -15,18 +15,21 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 import org.junit.Ignore;
 import model.Album;
+import static org.hamcrest.CoreMatchers.*;
 
 /**
  * @author Benni
- IntegrationTests wird verwendet für die Integrations der einzelnen UseCases,
- bzw. der im Pflichtenheft beschriebenen Produktfunktion
- Version-History:
+ * IntegrationTests wird verwendet für die Integrations der einzelnen UseCases,
+ * bzw. der im Pflichtenheft beschriebenen Produktfunktion
+ * 
+ * Version-History:
  * @date 03.12.2015 by Benni: Grundgerüst angefangen
+ * @date 08.12.2015 by Danilo: Änderung des Pfades
  */
 public class IntegrationTests {
     private TestDataController TestDataCtrl;
     private Path PmDatabasePath;
-    private final String testBilderPfad = "C:\\03_Development\\workspace\\GIT\\PhotoManager\\test\\testdaten";
+    private final String testBilderPfad = "D:\\Test";
 
     /**
      *
@@ -116,7 +119,7 @@ public class IntegrationTests {
             modifyAlbumInfo = TestDataController.generateAlbumTestDaten();
             //08a Sortierkennzeichen
             AlbenController.getAlbum(createdAlbum.getTitel()).setSortierkennzeichen(Integer.valueOf(modifyAlbumInfo[2]));
-            assertEquals(AlbenController.getAlbum(createdAlbum.getTitel()).getSortierkennzeichen(), modifyAlbumInfo[2]);
+            assertThat(AlbenController.getAlbum(createdAlbum.getTitel()).getSortierkennzeichen(), is(Integer.valueOf(modifyAlbumInfo[2])));
             if(createdAlbum.getSortierkennzeichen()==Integer.valueOf(modifyAlbumInfo[2])){
                 TestDocumizer.logging(0, "Testmethode 'createAndEditAlbum': Sortierkennzeichen erfolgreich geändert", true, true);
             }else{
