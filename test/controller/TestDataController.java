@@ -5,6 +5,7 @@
  */
 package controller;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
@@ -72,7 +73,11 @@ public class TestDataController {
     
     /**
     * Setzen der Datenbankpfade
+    * 
     * @param databasePath = Pfad der Datenbank
+    * 
+    * Version-History:
+    * @date 03.12.2015 by Benni: Grundgerüst angefangen
     */
     private static void setDatabasePaths(String databasePath){
         if (databasePath.isEmpty() || databasePath.equals("")){
@@ -175,6 +180,9 @@ public class TestDataController {
      * Methode zum Sichern und Wiederherstellen der Datenbanken
      * @param backupMode True = Datenbank sichern, False = Datenbank wiederherstellen
      * @throws java.io.IOException
+     * 
+     * Version-History:
+     * @date 08.12.2015 by Danilo: Löschen der angelegten Backupdatenbank
     */
     public void backupRestoreDatabase(boolean backupMode) throws IOException{       
         if(backupMode == true){
@@ -191,7 +199,11 @@ public class TestDataController {
                 if(!Files.isSameFile(sourceDB, backupDB) && Files.isWritable(sourceDB))
                 {
                     Files.copy(backupDB, sourceDB, StandardCopyOption.REPLACE_EXISTING);
-                }   
+                }
+                
+                // Löschen der Backupdatenbank
+                File bckFile = new File(backupDB.toString());
+                if (bckFile.exists()) bckFile.delete();
             }
         }
     }
