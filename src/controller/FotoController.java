@@ -6,6 +6,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import model.Album;
 import model.Foto;
 import model.Metadaten;
@@ -21,14 +22,15 @@ import model.Metadaten;
  * @date 29.11.2015 by Danilo: Methode setMetaInFoto ergänzt
  * @date 01.12.2015 by Danilo: Fehlerkorrektur
  * @date 08.12.2015 by Danilo: Einfügen eines Fehlerloggingsystemes
+ * @date 09.12.2015 by Danilo: Sortieralgorithmus implementiert, Kommentare ergänzt und setMeta und getMeta angepasst
  */
 public class FotoController {
     /**
-     * GUI-Methode (Eröerterung im 2. Sprint)
+     * GUI-Methode
      * Diese Methode setzt die Metadaten eines Fotos
      * 
      * @param pathOfFoto Bilddateipfad eines Fotos
-     * @param meta Metadaten eines Fotos
+     * @param daten Map der Daten
      * @return Fehlercode zur Auswertung
      * 
      * Version-History:
@@ -36,11 +38,23 @@ public class FotoController {
      * @date 29.11.2015 by Danilo: Fehlerkorrektur in Methode
      * @date 01.12.2015 by Danilo: Fehlerkorrektur
      * @date 08.12.2015 by Danilo: Einfügen eines Fehlerloggingsystemes
+     * @date 09.12.2015 by Danilo: Zu setzeneden Wert in Map umgewandelt
      */
-    public static int setMetaInFoto(Path pathOfFoto, Metadaten meta) {
+    public static int setMetaInFoto(Path pathOfFoto, Map<String, Object> daten) {
+        // Sucht Foto im Container
         Foto searchFoto = generateFotoFromPath(pathOfFoto);
+        
+        // Holt zugehörige Metadaten
+        Metadaten meta = searchFoto.getMetadata();
+       
+        if (meta == null) meta = new Metadaten();
+        
+        // Setzen der Daten und setzen im Foto
+        meta.setDaten(daten);
         searchFoto.setMetadata(meta);
-        if(searchFoto.getMetadata()!=meta) {
+                
+        // Prüft das Daten gesetzt wurden
+        if(searchFoto.getMetadata().getDaten()!=daten) {
             return ErrorController.addDebugReport(510);
         }
         return 0;
@@ -56,14 +70,20 @@ public class FotoController {
      * Version-History:
      * @date 25.11.2015 by Danilo: Initialisierung
      * @date 29.11.2015 by Danilo: Ändern der Rückgabe der Methode
+     * @date 09.12.2015 by Danilo: Rückgabewert zu Map umgewandelt
      */
-    public static Metadaten getMetaFromFoto(Path pathOfFoto) {
+    public static Map<String, Object> getMetaFromFoto(Path pathOfFoto) {
+        // Foto aus Container holen
         Foto searchFoto = generateFotoFromPath(pathOfFoto);
+        
+        // Metdaten aus Foto holen
         Metadaten tmpMeta = searchFoto.getMetadata();
+        
+        // Falls keine Metadaten gesetzt, wird leere Metadaten generiert
         if (tmpMeta==null) {
             tmpMeta = new Metadaten();
         }
-        return tmpMeta;
+        return tmpMeta.getDaten();
     }
     
     /**

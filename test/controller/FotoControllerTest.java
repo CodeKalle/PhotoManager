@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -12,7 +13,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import model.Album;
 import model.Foto;
-import model.Metadaten;
 import org.apache.commons.lang.RandomStringUtils;
 import org.apache.commons.lang.math.RandomUtils;
 import static org.hamcrest.CoreMatchers.*;
@@ -29,6 +29,7 @@ import static org.junit.Assert.*;
  * @date 03.12.2015 by Daniel: keine Verbesserung nach dem hinzufügen von foto zum container 
  * @date 04.12.2015 by Daniel: Neue Strukturierung der Tests
  * @date 07.12.2015 by Danilo: Sortierkennzeichen Datentyp zu int und Fehlerkorrektur
+ * @date 09.12.2015 by Danilo: Anpassung an Änderungen im FotoCotnroller
  */
 public class FotoControllerTest {
     
@@ -39,6 +40,7 @@ public class FotoControllerTest {
      * @date 01.12.2015 by Daniel: Initialisierung
      * @date 01.12.2015 by Daniel: Anlegen neuer Klassenvariablen
      * @date 07.12.2015 by Danilo: Sortierkennzeichen Datentyp zu int
+     * @date 09.12.2015 by Danilo: Anpassung an Änderungen im FotoCotnroller
      */
     private static List<Album> listOfAlbum;
     private static Map<Integer, Foto> mapOfFotos;
@@ -54,7 +56,7 @@ public class FotoControllerTest {
     private static Path pathOfFoto;
     private static List listOfPathes;
     private static List listOfFotos;
-    private static Metadaten meta;
+    private static Map<String, Object> daten = new HashMap<>();
     private static String kurztitel;
     // Neue fixe Testdaten
     private static String newName;
@@ -81,6 +83,7 @@ public class FotoControllerTest {
      * @date 05.12.2015 by Daniel: Initialisierung
      * @date 06.12.2015 by Daniel: Album 
      * @date 07.12.2015 by Danilo: Änderung des Pfades, des Sortierkennzeichens und Fehlerkorrektur und umbennant
+     * @date 09.12.2015 by Danilo: Anpassung an Änderungen im FotoCotnroller
      */
     @BeforeClass
     public static void setUpClass() {
@@ -99,9 +102,8 @@ public class FotoControllerTest {
         listOfPathes.add(pathOfFoto);
         listOfFotos = new LinkedList<>();
         listOfFotos.add(testFoto);
-        meta = new Metadaten();
         kurztitel = "Kurztitel";
-        meta.setzeWert(kurztitel, kurztitel);
+        daten.put(kurztitel, kurztitel);
         // Neue fixe Testdaten
         newName = "Neuer Name";
     }
@@ -170,20 +172,24 @@ public class FotoControllerTest {
      * @date 01.12.2015 by Daniel: Initialisierung
      * @date 06.12.2015 by Daniel: Album konnte Angelegt werden, errorcode, Kommentare, übergebene Metadaten: null=null
      * @date 07.12.2015 by Danilo: Ausgabe entfernt
+     * @date 09.12.2015 by Danilo: Anpassung an Änderungen im FotoCotnroller
      */
     @Test
     public void testSetMetaInFoto() {
         System.out.println("testSetMetaInFoto");
+        
         // Album wurde angelegt
         assertThat(AlbenController.getAlbum(title), is(notNullValue()));
         
-        int errorcode = FotoController.setMetaInFoto(pathOfFoto, meta);
+        int errorcode = FotoController.setMetaInFoto(pathOfFoto, daten);
         if (errorcode != 0) {
             fail(ErrorController.changeErrorCode(errorcode)[1]);
         }
-        Map<String, Object> expectMeta = meta.getDaten();
         
-        Map<String, Object> resultMeta = FotoController.getMetaFromFoto(pathOfFoto).getDaten();
+        // Holt daten aus Datenbank
+        Map<String, Object> expectMeta = daten;
+        Map<String, Object> resultMeta = FotoController.getMetaFromFoto(pathOfFoto);
+        
         // Maps der lokalen Metadaten und übergebenen Metadaten stimmen überein
         assertEquals(expectMeta, resultMeta);
     }
@@ -196,6 +202,7 @@ public class FotoControllerTest {
      * @date 01.12.2015 by Daniel: Initialisierung
      * @date 06.12.2015 by Daniel: Album konnte Angelegt werden, Kommentare, übergebene Metadaten: null=null
      * @date 07.12.2015 by Danilo: Fehlerkorrektur
+     * @date 09.12.2015 by Danilo: Anpassung an Änderungen im FotoCotnroller
      */
     @Test
     public void testGetMetaFromFoto() {
@@ -204,10 +211,12 @@ public class FotoControllerTest {
         assertThat(AlbenController.getAlbum(title), is(notNullValue()));
         
         // Setzt Metadaten in das Foto
-        FotoController.setMetaInFoto(pathOfFoto, meta);
+        FotoController.setMetaInFoto(pathOfFoto, daten);
 
-        Map<String, Object> expectMeta = meta.getDaten();
-        Map<String, Object> resultMeta = FotoController.getMetaFromFoto(pathOfFoto).getDaten();
+        // Holt daten aus Datenbank
+        Map<String, Object> expectMeta = daten;
+        Map<String, Object> resultMeta = FotoController.getMetaFromFoto(pathOfFoto);
+        
         // Maps der lokalen Metadaten und übergebenen Metadaten stimmen überein
         assertEquals(expectMeta, resultMeta);
     }
