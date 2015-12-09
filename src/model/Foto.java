@@ -27,6 +27,7 @@ import java.util.Objects;
  * @date 06.12.2015 by Danilo: Ändern des Datentyp pfad zu String da Path nicht serialisierbar
  * @date 07.12.2015 by Danilo: Erstellungsdatum
  * @date 08.12.2015 by Danilo: Löschen nicht benötigter Methoden [getGroesse] (Größe nur für Hashwert)
+ * @date 09.12.2015 by Danilo: Equalsupdate
  */
 public class Foto implements Serializable {
     private String name;
@@ -195,22 +196,29 @@ public class Foto implements Serializable {
      * 
      * Version-History:
      * @date 14.11.2015 by Tobias: Initialisierung
+     * @date 09.12.2015 by Danilo: Verbesserung des Vergleiches, Kommentierung
      */
     @Override
     public boolean equals(Object obj) {
+        // Vergleich auf null sofortiger Abbruch
         if (obj == null) {
             return false;
         }
+        
+        // Prüft ob Object selbst ist
+        if (obj == this){
+            return true;
+        }
+        
+        // Prüft ob Objekt vergleichbar ist
         if (getClass() != obj.getClass()) {
             return false;
         }
+        
+        // Übergebenes Object darf nun nicht verändert werden
         final Foto other = (Foto) obj;
-        if (!Objects.equals(this.pfad, other.pfad)) {
-            return false;
-        }
-        if (this.groesse != other.groesse) {
-            return false;
-        }
-        return true;
-    } 
+        
+        // Prüfen der Hashcodes
+        return this.hashCode() == other.hashCode();
+    }
 }

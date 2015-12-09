@@ -2,6 +2,8 @@ package controller;
 
 import java.io.File;
 import java.nio.file.Path;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
 import model.Album;
@@ -73,10 +75,17 @@ public class FotoController {
      * 
      * Version-History:
      * @date 24.11.2015 by Danilo: Initialisierung
+     * @date 09.12.2015 by Danilo: Sortieren der Fotos
      */
     public static List<Path> getFotosFromAlbum(String title) {
+        // Album und Fotoliste holen
         Album tmpAlbum = AlbenController.getAlbum(title);
         List<Foto> albumFotolist = tmpAlbum.getFotoListe();
+        
+        // Sortieren der Fotoliste
+        albumFotolist = sortListOfFotos(tmpAlbum.getSortierkennzeichen(), albumFotolist);
+        
+        // Pfadliste erzeugen
         List<Path> listOfPathes = new LinkedList<>();
         for (Foto tmpFoto : albumFotolist) {
             listOfPathes.add(tmpFoto.getPfad());
@@ -98,16 +107,25 @@ public class FotoController {
      * @date 01.12.2015 by Danilo: Fehlerkorrektur
      * @date 07.12.2015 by Danilo: Anpassung der Fotoübergabeliste und transparente Speicherung
      * @date 08.12.2015 by Danilo: Einfügen eines Fehlerloggingsystemes
+     * @date 09.12.2015 by Danilo: Kommentare ergänzt
      */
     public static int addListOfFotosToAlbum(String title, List<Path> listOfPathes) {
+        // Album holen
         Album tmpAlbum = AlbenController.getAlbum(title);
         if(tmpAlbum!=null) {
+            
+            // Fehlerhafte Fotos aus Liste löschen [Lesegeschützt oder nicht existent]
             listOfPathes = cleanErrorInListOfFotos(listOfPathes);
             
+            // Prüft das min. 1 Foto lesbar oder existiert
             if(!listOfPathes.isEmpty()) {
+                // Fotoliste aus Pfadliste generieren
                 List<Foto> newFotoListe = createFotosFromList(listOfPathes);
 
+                // Fotoliste im Album setzen
                 int addSize = setNewFotolistinAlbum(tmpAlbum, newFotoListe);
+                
+                // Prüft das alle Fotos in Liste übernommen wurden
                 if (addSize != newFotoListe.size()) {
                     return ErrorController.addDebugReport(410);
                 }
@@ -186,12 +204,15 @@ public class FotoController {
      * Version-History:
      * @date 24.11.2015 by Danilo: Initialisierung
      * @date 06.12.2015 by Danilo: Fotolink zum Fotocontainer hinzufügen falls es neu generiert wurde
+     * @date 09.12.2015 by Danilo: Kommenter ergänzt
      */
     private static Foto checkIfFotoExist(Foto foto) {
         Foto tmpFoto = SystemController.getFotoContainer().getFotoMap().get(foto.hashCode());
         if (tmpFoto != null) {
+            // Übergebenes Foto auf gefundenes Foto setzen
             foto = tmpFoto;
         } else {
+            // Im Fotocontainer das ertesllt Foto registrieren
             SystemController.getFotoContainer().getFotoMap().put(foto.hashCode(), foto);
         }
         return foto;
@@ -208,6 +229,7 @@ public class FotoController {
      * @date 24.11.2015 by Danilo: Initialisierung
      * @date 06.12.2015 by Danilo: Verschoben in checkIfFotoExist
      * @date 07.12.2015 by Danilo: Ersetzen der Fotoliste im Album
+     * @date 09.12.2015 by Danilo: Kommentar ergänzt
      */
     private static int setNewFotolistinAlbum(Album album, List<Foto> newFotoListe) { 
         // Löschen der alten Fotoliste
@@ -217,10 +239,49 @@ public class FotoController {
         List<Foto> albumFotolist = album.getFotoListe();
         int oldSize = albumFotolist.size();
         for (Foto tmpFoto : newFotoListe) {
+            // Foto zum Album hinzufügen und Counter erhöhen
             albumFotolist.add(tmpFoto);
             tmpFoto.setCounter(1);
         }
         return albumFotolist.size()-oldSize;
+    }
+    
+    /**
+     * Methode sortiert die List der Fotoobjekte gemäß des Albumsortierkennzeichens mit Fehlerlogging
+     * 
+     * @param sort Sortierkennzeichen des Albums
+     * @param fotoList Liste der Fotoelemente
+     * 
+     * Version-History:
+     * @date 09.12.2015 by Danilo: Initialisierung
+     */
+    private static List<Foto> sortListOfFotos(int sort, List<Foto> fotoList){
+        switch(sort)
+        {
+            case 0:     // Benutzerdefiniert
+                return fotoList;
+            case 1:     // nach Name
+                // Sortieren der Liste nch Name in annonymer Klasse zum Code einzusparen
+                Collections.sort(fotoList, new Comparator<Foto>() {
+                    @Override
+                    public int compare(final Foto obj1, final Foto obj2) {
+                        return obj1.getName().compareTo(obj2.getName());
+                    }
+                });
+                return fotoList;
+            case 2:     // nach Datum
+                // Sortieren der Liste nach Datum in annonymer Klasse zum Code einzusparen
+                Collections.sort(fotoList, new Comparator<Foto>() {
+                    @Override
+                    public int compare(Foto obj1, Foto obj2) {
+                        return Long.compare(obj1.getErstellungdatum(), obj2.getErstellungdatum());
+                    }
+                });
+                return fotoList;
+            default:    // nicht definierter Sortieralgorithmus
+                ErrorController.addDebugReport(210);
+                return fotoList;
+        }
     }
     
     /**
@@ -241,7 +302,7 @@ public class FotoController {
             Foto checkFoto = SystemController.getFotoContainer().getFotoMap().get(tmpFoto.hashCode());
             // Fotocounter runterzählen da das Foto aus dem Album gelöscht wurde
             checkFoto.setCounter(-1);
-            // Prüfen das Foto in kein anderes Album verlinkt ist
+            // Prüfen das Foto in kein anderes Album verlinkt ist und löschen
             if(checkFoto.getCounter()<1) {
                 SystemController.getFotoContainer().getFotoMap().remove(tmpFoto.hashCode());
             }

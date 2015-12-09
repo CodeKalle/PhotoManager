@@ -1,11 +1,15 @@
 package controller;
 
+import java.io.File;
+import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import static java.util.Optional.empty;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import model.Album;
 import model.Foto;
 import model.Metadaten;
@@ -287,5 +291,84 @@ public class FotoControllerTest {
         List<Foto> expectList = new LinkedList<>();
         List<Foto> resultList = AlbenController.getAlbum(title).getFotoListe();
         assertEquals(expectList, resultList);
+    }
+    
+    /**
+     * Testet die Methode getFotosFromAlbumDiffrentSort der Klasse FotoController.
+     * Testet, ob die Fotoliste in verschiedenen Sortierungen zurück gegeben wird.
+     * 
+     * Version-History:
+     * @date 09.12.2015 by Dnilo: Initialisierung
+     */
+    @Test
+    public void testGetFotosFromAlbumDiffrentSort() {
+        System.out.println("testGetFotosFromAlbumDiffrentSort");
+        
+        // Album wurde angelegt
+        assertThat(AlbenController.getAlbum(title), is(notNullValue()));
+        
+        // Fotoliste des Fotocontainer prüfen
+        assertThat(SystemController.getFotoContainer().anzahlFotos(), is(0));
+
+        // Testfotoordner anlegen
+        String folderName = "test-fotos";
+        File folderFile = new File(folderName);
+        folderFile.mkdir();
+        
+        // Temporäre Fotos anlegen
+        List<Path> fotoPathList = new LinkedList();
+        int fotoCount = 10;
+        
+        // Anlegen 10 Fotos Rückwärts
+        for (int i = 1; i < fotoCount+1; i++)
+        {
+            // Fotodatei anlegen [speichert automatisch]
+            File fotoFile = new File("test-fotos" + File.separator + "foto-" + (fotoCount+1-i) + ".jpg");
+            if (!fotoFile.exists()) {
+                try {
+                    fotoFile.createNewFile();
+                } catch (IOException ex) {
+                    Logger.getLogger(SystemControllerTest.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+                
+            Foto tmpFoto = new Foto(fotoFile.getName(), Paths.get(fotoFile.getAbsolutePath()).toString());
+                
+            fotoPathList.add(tmpFoto.getPfad());
+        } 
+    
+        // Prüfen das Anlegen der Fotos im Album
+        int errorcode = FotoController.addListOfFotosToAlbum(title, fotoPathList);
+        if (errorcode!=0) {
+            fail(ErrorController.changeErrorCode(errorcode)[1]);
+        }
+
+        // Prüfen das temporäre Fotos vorhanden sind
+        assertThat(SystemController.getFotoContainer().anzahlFotos(), is(fotoCount));
+        
+        // Liste der Fotos ausgeben [Benutzerdefiniert]
+        System.out.println("Sortieren nach Benutzerdefiniert:");
+        for (Path tmpPath : FotoController.getFotosFromAlbum(title)) {
+            System.out.println(">" + tmpPath.getFileName());
+        }
+        
+        // Album auf Sortierung nach Name setzen
+        AlbenController.editAlbum(title, title, beschreibung, 1);
+        
+        // Liste der Fotos ausgeben [Name]
+        System.out.println("Sortieren nach Name:");
+        for (Path tmpPath : FotoController.getFotosFromAlbum(title)) {
+            System.out.println(">" + tmpPath.getFileName());
+        }
+        
+        // Testfotoordner mit allen darin enthaltenen Daten löschen
+        if (folderFile.exists()) {
+            String[] entries = folderFile.list();
+            for (String entrie : entries) {
+                File aktFile = new File(folderFile.getPath(), entrie);
+                aktFile.delete();
+            }
+            folderFile.delete();
+        }
     }
 }
