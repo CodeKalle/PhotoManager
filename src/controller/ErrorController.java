@@ -1,5 +1,10 @@
 package controller;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.LinkedList;
+import java.util.List;
+
 /**
  * Der ErrorController realisiert die Fehlerbehandlung und Umsetzung zur Eindeutigen
  * Beschreibung für den Benutzer
@@ -12,8 +17,65 @@ package controller;
  * @date ??.12.2015 by Andrea: Beschreibung und Sortierkennzeichen
  * @date 06.12.2015 by Andrea: Fehlende Fehlerbeschreibung komplett hinzugefügt
  * @date 07.12.2015 by Danilo: Kommentierung geändert
+ * @date 08.12.2015 by Danilo: Einfügen eines Fehlerloggingsystemes
  */
 public class ErrorController {
+    /**
+     * Klassenvariablen
+     * 
+     * Version-History:
+     * @date 08.12.2015 by Danilo: Initialisierung
+     */
+    private static List<String> debugReport = new LinkedList<String>();
+    
+    /**
+     * Methode fügt der Debugliste einen Eintrag hinzu
+     * 
+     * @param errorcode Fehlercode der mitgeloggt werden muss.
+     * @return Weitergabe des Fehlercodes
+     * 
+     * Version-History:
+     * @date 08.12.2015 by Danilo: Initialisierung
+     */
+    public static int addDebugReport(int errorcode){
+        // Aktuelle Uhrzeit erstellen
+        SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss");
+        String uhrzeit = sdf.format(new Date());
+
+        // Aufbereitung des Stings
+        String text = uhrzeit + "   " + String.valueOf(errorcode) + "   ";
+        text = text + changeErrorCode(errorcode)[0] + "   " + changeErrorCode(errorcode)[1];
+        
+        // Speichern der Fehlermeldung
+        debugReport.add(text);
+        
+        return errorcode;
+    }
+    
+    /**
+     * Methode hollt einen Eintrag aus der Debugliste und löscht diesen
+     * 
+     * @return 
+     * 
+     * Version-History:
+     * @date 08.12.2015 by Danilo: Initialisierung
+     */
+    public static String getDebugReport(){
+        String output = debugReport.remove(0);
+        return output;
+    }
+    
+    /**
+     * Methode hollt Status der Debugliste
+     * 
+     * @return Wahrheitswert über Status LEER?
+     * 
+     * Version-History:
+     * @date 08.12.2015 by Danilo: Initialisierung
+     */
+    public static boolean isDebugReportEmpty(){
+	return debugReport.isEmpty();
+    }
     
     /**
      * Methode wandelt Code in Text um und generiert zum Fehlercodes die
@@ -34,6 +96,10 @@ public class ErrorController {
         String title;
         String text;
         switch (errorcode) {
+            case 100:
+                title = "Album-Fehler";
+                text = "Album wurde in Datenbank nicht gefunden.";
+                break;
             case 110:
                 title = "Albumanlege-Fehler";
                 text = "Albumtitel wurde bereits für ein Album verwendet.";
@@ -75,6 +141,10 @@ public class ErrorController {
                 title = "Albumänderungs-Fehler";
                 text = "Sortierkennzeichen konnte bei Änderung nicht gesetzt werden.";
                 break;
+            case 300:
+                title = "Albumlösch-Fehler";
+                text = "Mehrere Alben konnten nicht gelöscht werden.";
+                break;
             case 310:
                 title = "Albumlösch-Fehler";
                 text = "Album wurde nicht gefunden.";
@@ -90,6 +160,10 @@ public class ErrorController {
             case 331:
                 title = "Albumtiteländerungs-Fehler";
                 text = "Albumtitel wurde schon für ein weiteres Album gesetzt.";
+                break;
+            case 332:
+                title = "Albumtiteländerungs-Fehler";
+                text = "Albumtitel wird schon verwendet.";
                 break;
             case 340:
                 title = "Albumbeschreibungänderungs-Fehler";

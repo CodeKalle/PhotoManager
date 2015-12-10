@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package view;
 
 import controller.AlbenController;
@@ -27,10 +22,25 @@ import javafx.scene.layout.TilePane;
 import javafx.stage.Stage;
 
 /**
- *
+ * Diese Klasse dient der Ansicht und Auswahl der Alben
+ * 
  * @author Tobias
+ * 
+ * Version-History:
+ * @date ??.??.2015 by Juliane & Manuel: Konzept der GUIs und programmtechnische Umsetzung
+ * @date 06.12.2015 by Tobias: Initialize erweitert
+ * @date 10.12.2015 by Danilo: Kommentare ergänzt
  */
 public class GuiAlbumOverviewController implements Initializable{
+    
+    /**
+    * KLASSENVARIABLEN
+    * 
+    * Version-History:
+    * @date ??.11.2015 by Tobias: Initialisierung
+    * @date 10.12.2015 by Danilo: Kommentare ergänzt
+    */
+    // Buttons des Fensters
     @FXML
     Button guiAlbumOverviewAlbumBearbeiten, 
             guiAlbumOverviewAlbumWechseln, 
@@ -38,9 +48,20 @@ public class GuiAlbumOverviewController implements Initializable{
             guiAlbumOverviewHauptmenue, 
             guiAlbumOverviewFotoHinzufuegen,
             guiAlbumOverviewNeuesAlbum;
+    // Albenbereich
     @FXML
     TilePane guiAlbumOverviewTilePane;
     
+    /**
+    * Methode handelt die Aktionen der Buttons
+    * 
+    * @throws java.io.IOException
+    * @param event Aktion des Buttons
+    * 
+    * Version-History:
+    * @date ??.11.2015 by Tobias: Initialisierung
+    * @date 10.12.2015 by Danilo: Kommentare ergänzt
+    */
     @FXML
     public void handleButtonAction(ActionEvent event) throws IOException{
         Stage stage;
@@ -93,14 +114,17 @@ public class GuiAlbumOverviewController implements Initializable{
         Scene scene = new Scene(root);
         stage.setScene(scene);
         stage.show();
-        
-        
     }
 
     /**
      * Initialisierung wird bei jedem Aufruf der GUI ausgeführt
+     * 
      * @param location
      * @param resources 
+     * 
+     * Version-History:
+     * @date ??.11.2015 by Tobias: Initialisierung
+     * @date 10.12.2015 by Danilo: Kommentare ergänzt
      */
     @Override
     public void initialize(URL location, ResourceBundle resources) {       
@@ -134,11 +158,9 @@ public class GuiAlbumOverviewController implements Initializable{
             label.setPrefWidth(80);
             label.setText(AlbenController.getAlbumList().get(i));
             
-            
             lpane.getChildren().add(imageView); //ID 0
             lpane.getChildren().add(checkBox);  //ID 1
             lpane.getChildren().add(label);     //ID 2
-            
             
             //Fertiges Konstrukt in Pane anzeigen
             guiAlbumOverviewTilePane.getChildren().add(i + 1, lpane);
@@ -146,7 +168,8 @@ public class GuiAlbumOverviewController implements Initializable{
     }
 
     /**
-     * Diese Methode ruft die Löschen Methode des AlbenControllers auf und löscht die markierten Alben.
+     * Diese Methode ruft die Löschen Methode des AlbenControllers auf und löscht die markierten Alben
+     * 
      * @return 0 wenn erfolgreich, 1 wenn keine Alben ausgewählt waren
      * 
      * Version-History:
@@ -175,7 +198,8 @@ public class GuiAlbumOverviewController implements Initializable{
 
     
     /**
-     * Diese Methode gibt den Titel eines markierten Album zurück.
+     * Diese Methode gibt den Titel eines markierten Album zurück
+     * 
      * @return Titel des Albums, oder null wenn keines oder zu viele Alben markiert waren.
      * 
      * Version-History:

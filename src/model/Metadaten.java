@@ -113,6 +113,4 @@ public class Metadaten implements Serializable {
     public void loescheWert(String key) {
         this.daten.put(key, null);
     }
-    
-    
 }

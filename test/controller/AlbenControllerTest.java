@@ -727,7 +727,8 @@ public class AlbenControllerTest {
             fail(ErrorController.changeErrorCode(errorcode)[1]);
         }
         
-        assertThat(errorcode, is(310*randomStringCount));
+        // Überprüfen des Fehlercodes
+        assertThat(errorcode, is(300));
         
         // Prüft das Datenbank die zufällige Anzahl an Alben minus der aus der Löschliste hält
         assertThat(SystemController.getAlbumContainer().anzahlAlben(), is(not(randomAlbenCount - deleteList.size())));

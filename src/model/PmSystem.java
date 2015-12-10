@@ -7,6 +7,7 @@ import java.io.Serializable;
  * 
  * Version-History:
  * @date 14.11.2015 by Tobias: Initialisierung + Anlegen von Grundmethoden
+ * @date 08.12.2015 by Danilo: Löschen nicht benötigter Funktionen [alleFotosLoeschen, alleAlbenLoeschen, setFotos, setAlben] da Controller für die Logik zuständig sind
  */
 public class PmSystem implements Serializable {
     private FotoContainer fotos;
@@ -22,33 +23,6 @@ public class PmSystem implements Serializable {
         this.fotos = new FotoContainer();
         this.alben = new AlbenContainer();
     }
-    
-    /**
-     * Diese Methode loescht alle Fotos aus dem FotoContainer.
-     * 
-     * Version-History:
-     * @date 14.11.2015 by Tobias: Initialisierung
-     */
-    public void alleFotosLoeschen() {
-        
-    }
-    
-    /**
-     * Diese Methode loescht alle Alben aus dem AlbenContainer.
-     * 
-     * Version-History:
-     * @return Fehlercode zur Auswertung <br> 0 = Alle Albem wurden gelöscht <br> 1 = Fehler
-     * @date 20.11.2015 by Danilo: Initialisierung
-     * @date 23.11.2015 by Danilo: Methode geändert und Kommentare ergänzt
-     */
-    public int alleAlbenLoeschen() {
-        fotos = new FotoContainer();
-        alben = new AlbenContainer();
-        
-        if (alben.anzahlAlben()==0&&fotos.anzahlFotos()==0) return 0;
-        
-        return 1;
-    }
 
     /**
      * Getter fuer FotoContainer.
@@ -63,18 +37,6 @@ public class PmSystem implements Serializable {
     }
 
     /**
-     * Setter fuer FotoContainer.
-     * 
-     * @param fotos neuer FotoContainer
-     * 
-     * Version-History:
-     * @date 14.11.2015 by Tobias: Initialisierung
-     */
-    public void setFotos(FotoContainer fotos) {
-        this.fotos = fotos;
-    }
-
-    /**
      * Getter fuer AlbenContainer
      * 
      * @return aktuellen AlbenContainer
@@ -85,16 +47,4 @@ public class PmSystem implements Serializable {
     public AlbenContainer getAlben() {
         return alben;
     }
-
-    /**
-     * Setter fuer AlbenContainer
-     * 
-     * @param alben neuer AlbenContainer
-     * 
-     * Version-History:
-     * @date 14.11.2015 by Tobias: Initialisierung
-     */
-    public void setAlben(AlbenContainer alben) {
-        this.alben = alben;
-    } 
 }

@@ -26,11 +26,13 @@ import java.util.Objects;
  * @date 25.11.2015 by Danilo: Erstellen einer Methode zum setzen der Größe und nutzen im Konstruktor
  * @date 06.12.2015 by Danilo: Ändern des Datentyp pfad zu String da Path nicht serialisierbar
  * @date 07.12.2015 by Danilo: Erstellungsdatum
+ * @date 08.12.2015 by Danilo: Löschen nicht benötigter Methoden [getGroesse] (Größe nur für Hashwert)
+ * @date 09.12.2015 by Danilo: Equalsupdate
  */
 public class Foto implements Serializable {
     private String name;
     private String pfad;
-    private int groesse;       //in Byte
+    private int groesse;                        //in Byte
     private Metadaten metadata;
     private int counter;
     private long erstellungdatum;
@@ -44,6 +46,7 @@ public class Foto implements Serializable {
      * Version-History:
      * @date 24.11.2015 by Danilo: Ändern des pfad in den Datentyp Path
      * @date 06.12.2015 by Danilo: Änderung am Counter da 0 anzeigt das dieses neu erstellt wurde und ändern des Datentyp pfad zu String da Path nicht serialisierbar
+     * @date 07.12.2015 by Danilo: Erstellungsdatum
      */
     public Foto(String name, String pfad) {
         this.name = name;
@@ -93,18 +96,6 @@ public class Foto implements Serializable {
      */
     public Path getPfad() {
         return Paths.get(pfad);
-    }
-
-    /**
-     * Getter fuer groesse
-     * 
-     * @return aktueller Wert von groesse
-     * 
-     * Version-History:
-     * @date 14.11.2015 by Tobias: Initialisierung
-     */
-    public long getGroesse() {
-        return groesse;
     }
 
     /**
@@ -205,22 +196,29 @@ public class Foto implements Serializable {
      * 
      * Version-History:
      * @date 14.11.2015 by Tobias: Initialisierung
+     * @date 09.12.2015 by Danilo: Verbesserung des Vergleiches, Kommentierung
      */
     @Override
     public boolean equals(Object obj) {
+        // Vergleich auf null sofortiger Abbruch
         if (obj == null) {
             return false;
         }
+        
+        // Prüft ob Object selbst ist
+        if (obj == this){
+            return true;
+        }
+        
+        // Prüft ob Objekt vergleichbar ist
         if (getClass() != obj.getClass()) {
             return false;
         }
+        
+        // Übergebenes Object darf nun nicht verändert werden
         final Foto other = (Foto) obj;
-        if (!Objects.equals(this.pfad, other.pfad)) {
-            return false;
-        }
-        if (this.groesse != other.groesse) {
-            return false;
-        }
-        return true;
-    } 
+        
+        // Prüfen der Hashcodes
+        return this.hashCode() == other.hashCode();
+    }
 }

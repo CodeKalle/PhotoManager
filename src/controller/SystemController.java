@@ -24,6 +24,7 @@ import model.PmSystem;
  * @date 04.12.2015 by Danilo: Änderungen
  * @date 06.12.2015 by Danilo: Änderungen
  * @date 07.12.2015 by Danilo: Anpassung an Systemtests
+ * @date 08.12.2015 by Danilo: Einfügen eines Fehlerloggingsystemes
  */
 public class SystemController {
     
@@ -37,7 +38,6 @@ public class SystemController {
     // Derzeit speichert das System die Datenbank da wo die ausführbare JAVA-Datei liegt 
     private static String filename = "pm.jdb";
     private static PmSystem pmSystem = new PmSystem();
-    private static Object SystemControllerTest;
     
     /**
      * Methode startet das System mit standard Dateiinformation
@@ -57,9 +57,10 @@ public class SystemController {
      * @param filename Dateiname zum Speichern
      * @return Rückgabe zur Fehlerauswertung
      * @date 06.12.2015 by Danilo: Initialisierung
+     * @date 08.12.2015 by Danilo: Einfügen eines Fehlerloggingsystemes
      */
     public static int run(String filename) {
-        if (filename == null || filename.length() < 3) return 850;
+        if (filename == null || filename.length() < 3) return ErrorController.addDebugReport(850);
         if (filename.length() > 20) filename = filename.substring(0,20);
         setFilename(filename);
         return startSystem();
@@ -74,6 +75,7 @@ public class SystemController {
      * @date 30.11.2015 by Danilo: Anpassung an GUI
      * @date 06.12.2015 by Danilo: Umbennenung,Anpassung an Test und setzen auf private
      * @date 07.12.2015 by Danilo: Anpassung an Systemtests
+     * @date 08.12.2015 by Danilo: Einfügen eines Fehlerloggingsystemes
      */
     private static int startSystem() {
         File file = new File(filename);
@@ -81,19 +83,19 @@ public class SystemController {
             if (file.canRead() == true) {
                 int error = loadOrSave(true);
                 if (error == 0) {    
-                    if (file.canWrite() == false) return 800;
+                    if (file.canWrite() == false) return ErrorController.addDebugReport(800);
                 } else {
                     return error;
                 }
             } else {
                 initializePmSystem();
-                return 801;
+                return ErrorController.addDebugReport(801);
             }
         } else {
                 try {
                     file.createNewFile();
                     initializePmSystem();
-                    if (systemSave()!=0) return 806;
+                    if (systemSave()!=0) return ErrorController.addDebugReport(806);
                 } catch (IOException e) { }
         }
         return 0;
@@ -109,19 +111,20 @@ public class SystemController {
      * @date 23.11.2015 by Danilo: Kommentar angepasst
      * @date 30.11.2015 by Danilo: Anpassung an GUI
      * @date 07.12.2015 by Danilo: Anpassung an Systemtests und Umbenennung
+     * @date 08.12.2015 by Danilo: Einfügen eines Fehlerloggingsystemes
      */
     protected static int loadOrSave(boolean mode){
         File file = new File(filename);
         if(mode) {
             if (file.canRead() == false) {
-                    return 801;
+                    return ErrorController.addDebugReport(801);
                 } else {
                     if (systemLoad() != 0) {
                         try {
                             file.createNewFile();
                             initializePmSystem();
                         } catch (IOException e) {}
-                        return 806;
+                        return ErrorController.addDebugReport(806);
                     }
                     return 0;
                 }
@@ -141,10 +144,11 @@ public class SystemController {
      * @date 30.11.2015 by Danilo: Anpassung an GUI
      * @date 04.12.2015 by Danilo: Public da Methode vom Test gebraucht wird
      * @date 07.12.2015 by Danilo: Anpassung an PmSystem
+     * @date 08.12.2015 by Danilo: Einfügen eines Fehlerloggingsystemes
      */
     public static int initializePmSystem() {
         pmSystem = new PmSystem();
-        if (pmSystem.getAlben().anzahlAlben()!=0 || pmSystem.getFotos().anzahlFotos()!=0) return 810;
+        if (pmSystem.getAlben().anzahlAlben()!=0 || pmSystem.getFotos().anzahlFotos()!=0) return ErrorController.addDebugReport(810);
         return 0;
     }
     
@@ -158,6 +162,7 @@ public class SystemController {
      * @date 23.11.2015 by Danilo: Kommentar angepasst
      * @date 24.11.2015 by Danilo: Methodenname geändert und lokale Variablen
      * @date 30.11.2015 by Danilo: Anpassen der Fehlercodes
+     * @date 08.12.2015 by Danilo: Einfügen eines Fehlerloggingsystemes
      */
     private static int systemSave() {
         int errorcode = 0;
@@ -170,14 +175,14 @@ public class SystemController {
             oos.writeObject(pmSystem);
         }
         catch (IOException e) {
-            errorcode = 820;
+            errorcode = ErrorController.addDebugReport(820);
         }
         finally {
             if (oos != null) try { oos.close(); } catch (IOException e) {
-                errorcode = 821;
+                errorcode = ErrorController.addDebugReport(821);
             }
             if (fos != null) try { fos.close(); } catch (IOException e) {
-                errorcode = 822;
+                errorcode = ErrorController.addDebugReport(822);
             }
         }
         return errorcode;
@@ -193,6 +198,7 @@ public class SystemController {
      * @date 24.11.2015 by Danilo: Methodenname geändert und lokale Variablen
      * @date 30.11.2015 by Danilo: Anpassen der Fehlercodes
      * @date 01.12.2015 by Danilo: Fehlerkorrektur
+     * @date 08.12.2015 by Danilo: Einfügen eines Fehlerloggingsystemes
      */
     private static int systemLoad() {
         int errorcode = 0;
@@ -207,26 +213,26 @@ public class SystemController {
                     PmSystem tmpDB = (PmSystem) ois.readObject();
                     pmSystem = tmpDB;
                 } catch (ClassNotFoundException e) {
-                    errorcode = 830;
+                    errorcode = ErrorController.addDebugReport(830);
                 }
             } catch (StreamCorruptedException e) {
-                errorcode = 831;
+                errorcode = ErrorController.addDebugReport(831);
             }
             finally {
                 if (ois != null) try { ois.close(); } catch (IOException e) {
-                    errorcode = 832;
+                    errorcode = ErrorController.addDebugReport(832);
                 }
             }
         }
         catch (IOException e) {
-                errorcode = 833;
+                errorcode = ErrorController.addDebugReport(833);
         }
         finally {
             if (ois != null) try { ois.close(); } catch (IOException e) {
-                errorcode = 834;
+                errorcode = ErrorController.addDebugReport(834);
             }
             if (fis != null) try { fis.close(); } catch (IOException e) {
-                errorcode = 835; 
+                errorcode = ErrorController.addDebugReport(835); 
             }
         }
 	return errorcode;

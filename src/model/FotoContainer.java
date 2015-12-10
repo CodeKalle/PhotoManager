@@ -12,7 +12,8 @@ import java.util.Map;
  * 
  * Version-History:
  * @date 14.11.2015 by Tobias: Initialisierung + Anlegen von Grundmethoden
- * @date 23.11.2015 by Tobias: Ändern der Fotomap. 
+ * @date 23.11.2015 by Tobias: Ändern der Fotomap.
+ * @date 08.12.2015 by Danilo: Löschen nicht benötigter Methoden [setFotoMap]
  */
 public class FotoContainer implements Serializable {
     private Map<Integer, Foto> fotoMap;
@@ -50,17 +51,5 @@ public class FotoContainer implements Serializable {
      */
     public Map<Integer, Foto> getFotoMap() {
         return fotoMap;
-    }
-
-    /**
-     * Setter fuer fotoMap
-     * 
-     * @param fotoMap neue Map
-     * 
-     * Version-History:
-     * @date 14.11.2015 by Tobias: Initialisierung
-     */
-    public void setFotoMap(Map<Integer, Foto> fotoMap) {
-        this.fotoMap = fotoMap;
     }
 }

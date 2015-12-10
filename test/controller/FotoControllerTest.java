@@ -1,14 +1,18 @@
 package controller;
 
+import java.io.File;
+import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import static java.util.Optional.empty;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import model.Album;
 import model.Foto;
-import model.Metadaten;
 import org.apache.commons.lang.RandomStringUtils;
 import org.apache.commons.lang.math.RandomUtils;
 import static org.hamcrest.CoreMatchers.*;
@@ -25,6 +29,7 @@ import static org.junit.Assert.*;
  * @date 03.12.2015 by Daniel: keine Verbesserung nach dem hinzufügen von foto zum container 
  * @date 04.12.2015 by Daniel: Neue Strukturierung der Tests
  * @date 07.12.2015 by Danilo: Sortierkennzeichen Datentyp zu int und Fehlerkorrektur
+ * @date 09.12.2015 by Danilo: Anpassung an Änderungen im FotoCotnroller
  */
 public class FotoControllerTest {
     
@@ -35,6 +40,7 @@ public class FotoControllerTest {
      * @date 01.12.2015 by Daniel: Initialisierung
      * @date 01.12.2015 by Daniel: Anlegen neuer Klassenvariablen
      * @date 07.12.2015 by Danilo: Sortierkennzeichen Datentyp zu int
+     * @date 09.12.2015 by Danilo: Anpassung an Änderungen im FotoCotnroller
      */
     private static List<Album> listOfAlbum;
     private static Map<Integer, Foto> mapOfFotos;
@@ -50,7 +56,7 @@ public class FotoControllerTest {
     private static Path pathOfFoto;
     private static List listOfPathes;
     private static List listOfFotos;
-    private static Metadaten meta;
+    private static Map<String, Object> daten = new HashMap<>();
     private static String kurztitel;
     // Neue fixe Testdaten
     private static String newName;
@@ -77,6 +83,7 @@ public class FotoControllerTest {
      * @date 05.12.2015 by Daniel: Initialisierung
      * @date 06.12.2015 by Daniel: Album 
      * @date 07.12.2015 by Danilo: Änderung des Pfades, des Sortierkennzeichens und Fehlerkorrektur und umbennant
+     * @date 09.12.2015 by Danilo: Anpassung an Änderungen im FotoCotnroller
      */
     @BeforeClass
     public static void setUpClass() {
@@ -95,9 +102,8 @@ public class FotoControllerTest {
         listOfPathes.add(pathOfFoto);
         listOfFotos = new LinkedList<>();
         listOfFotos.add(testFoto);
-        meta = new Metadaten();
         kurztitel = "Kurztitel";
-        meta.setzeWert(kurztitel, kurztitel);
+        daten.put(kurztitel, kurztitel);
         // Neue fixe Testdaten
         newName = "Neuer Name";
     }
@@ -166,20 +172,24 @@ public class FotoControllerTest {
      * @date 01.12.2015 by Daniel: Initialisierung
      * @date 06.12.2015 by Daniel: Album konnte Angelegt werden, errorcode, Kommentare, übergebene Metadaten: null=null
      * @date 07.12.2015 by Danilo: Ausgabe entfernt
+     * @date 09.12.2015 by Danilo: Anpassung an Änderungen im FotoCotnroller
      */
     @Test
     public void testSetMetaInFoto() {
         System.out.println("testSetMetaInFoto");
+        
         // Album wurde angelegt
         assertThat(AlbenController.getAlbum(title), is(notNullValue()));
         
-        int errorcode = FotoController.setMetaInFoto(pathOfFoto, meta);
+        int errorcode = FotoController.setMetaInFoto(pathOfFoto, daten);
         if (errorcode != 0) {
             fail(ErrorController.changeErrorCode(errorcode)[1]);
         }
-        Map<String, Object> expectMeta = meta.getDaten();
         
-        Map<String, Object> resultMeta = FotoController.getMetaFromFoto(pathOfFoto).getDaten();
+        // Holt daten aus Datenbank
+        Map<String, Object> expectMeta = daten;
+        Map<String, Object> resultMeta = FotoController.getMetaFromFoto(pathOfFoto);
+        
         // Maps der lokalen Metadaten und übergebenen Metadaten stimmen überein
         assertEquals(expectMeta, resultMeta);
     }
@@ -192,6 +202,7 @@ public class FotoControllerTest {
      * @date 01.12.2015 by Daniel: Initialisierung
      * @date 06.12.2015 by Daniel: Album konnte Angelegt werden, Kommentare, übergebene Metadaten: null=null
      * @date 07.12.2015 by Danilo: Fehlerkorrektur
+     * @date 09.12.2015 by Danilo: Anpassung an Änderungen im FotoCotnroller
      */
     @Test
     public void testGetMetaFromFoto() {
@@ -200,10 +211,12 @@ public class FotoControllerTest {
         assertThat(AlbenController.getAlbum(title), is(notNullValue()));
         
         // Setzt Metadaten in das Foto
-        FotoController.setMetaInFoto(pathOfFoto, meta);
+        FotoController.setMetaInFoto(pathOfFoto, daten);
 
-        Map<String, Object> expectMeta = meta.getDaten();
-        Map<String, Object> resultMeta = FotoController.getMetaFromFoto(pathOfFoto).getDaten();
+        // Holt daten aus Datenbank
+        Map<String, Object> expectMeta = daten;
+        Map<String, Object> resultMeta = FotoController.getMetaFromFoto(pathOfFoto);
+        
         // Maps der lokalen Metadaten und übergebenen Metadaten stimmen überein
         assertEquals(expectMeta, resultMeta);
     }
@@ -287,5 +300,84 @@ public class FotoControllerTest {
         List<Foto> expectList = new LinkedList<>();
         List<Foto> resultList = AlbenController.getAlbum(title).getFotoListe();
         assertEquals(expectList, resultList);
+    }
+    
+    /**
+     * Testet die Methode getFotosFromAlbumDiffrentSort der Klasse FotoController.
+     * Testet, ob die Fotoliste in verschiedenen Sortierungen zurück gegeben wird.
+     * 
+     * Version-History:
+     * @date 09.12.2015 by Dnilo: Initialisierung
+     */
+    @Test
+    public void testGetFotosFromAlbumDiffrentSort() {
+        System.out.println("testGetFotosFromAlbumDiffrentSort");
+        
+        // Album wurde angelegt
+        assertThat(AlbenController.getAlbum(title), is(notNullValue()));
+        
+        // Fotoliste des Fotocontainer prüfen
+        assertThat(SystemController.getFotoContainer().anzahlFotos(), is(0));
+
+        // Testfotoordner anlegen
+        String folderName = "test-fotos";
+        File folderFile = new File(folderName);
+        folderFile.mkdir();
+        
+        // Temporäre Fotos anlegen
+        List<Path> fotoPathList = new LinkedList();
+        int fotoCount = 10;
+        
+        // Anlegen 10 Fotos Rückwärts
+        for (int i = 1; i < fotoCount+1; i++)
+        {
+            // Fotodatei anlegen [speichert automatisch]
+            File fotoFile = new File("test-fotos" + File.separator + "foto-" + (fotoCount+1-i) + ".jpg");
+            if (!fotoFile.exists()) {
+                try {
+                    fotoFile.createNewFile();
+                } catch (IOException ex) {
+                    Logger.getLogger(SystemControllerTest.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+                
+            Foto tmpFoto = new Foto(fotoFile.getName(), Paths.get(fotoFile.getAbsolutePath()).toString());
+                
+            fotoPathList.add(tmpFoto.getPfad());
+        } 
+    
+        // Prüfen das Anlegen der Fotos im Album
+        int errorcode = FotoController.addListOfFotosToAlbum(title, fotoPathList);
+        if (errorcode!=0) {
+            fail(ErrorController.changeErrorCode(errorcode)[1]);
+        }
+
+        // Prüfen das temporäre Fotos vorhanden sind
+        assertThat(SystemController.getFotoContainer().anzahlFotos(), is(fotoCount));
+        
+        // Liste der Fotos ausgeben [Benutzerdefiniert]
+        System.out.println("Sortieren nach Benutzerdefiniert:");
+        for (Path tmpPath : FotoController.getFotosFromAlbum(title)) {
+            System.out.println(">" + tmpPath.getFileName());
+        }
+        
+        // Album auf Sortierung nach Name setzen
+        AlbenController.editAlbum(title, title, beschreibung, 1);
+        
+        // Liste der Fotos ausgeben [Name]
+        System.out.println("Sortieren nach Name:");
+        for (Path tmpPath : FotoController.getFotosFromAlbum(title)) {
+            System.out.println(">" + tmpPath.getFileName());
+        }
+        
+        // Testfotoordner mit allen darin enthaltenen Daten löschen
+        if (folderFile.exists()) {
+            String[] entries = folderFile.list();
+            for (String entrie : entries) {
+                File aktFile = new File(folderFile.getPath(), entrie);
+                aktFile.delete();
+            }
+            folderFile.delete();
+        }
     }
 }

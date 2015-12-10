@@ -2,8 +2,11 @@ package controller;
 
 import java.io.File;
 import java.nio.file.Path;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import model.Album;
 import model.Foto;
 import model.Metadaten;
@@ -18,26 +21,41 @@ import model.Metadaten;
  * @date 25.11.2015 by Danilo: Erstellen der Methode getMetaFromFoto und deleteAllFotosInAlbum, sowie setzen der Diamantoperanten
  * @date 29.11.2015 by Danilo: Methode setMetaInFoto ergänzt
  * @date 01.12.2015 by Danilo: Fehlerkorrektur
+ * @date 08.12.2015 by Danilo: Einfügen eines Fehlerloggingsystemes
+ * @date 09.12.2015 by Danilo: Sortieralgorithmus implementiert, Kommentare ergänzt und setMeta und getMeta angepasst
  */
 public class FotoController {
     /**
-     * GUI-Methode (Eröerterung im 2. Sprint)
+     * GUI-Methode
      * Diese Methode setzt die Metadaten eines Fotos
      * 
      * @param pathOfFoto Bilddateipfad eines Fotos
-     * @param meta Metadaten eines Fotos
+     * @param daten Map der Daten
      * @return Fehlercode zur Auswertung
      * 
      * Version-History:
      * @date 25.11.2015 by Danilo: Initialisierung
      * @date 29.11.2015 by Danilo: Fehlerkorrektur in Methode
      * @date 01.12.2015 by Danilo: Fehlerkorrektur
+     * @date 08.12.2015 by Danilo: Einfügen eines Fehlerloggingsystemes
+     * @date 09.12.2015 by Danilo: Zu setzeneden Wert in Map umgewandelt
      */
-    public static int setMetaInFoto(Path pathOfFoto, Metadaten meta) {
+    public static int setMetaInFoto(Path pathOfFoto, Map<String, Object> daten) {
+        // Sucht Foto im Container
         Foto searchFoto = generateFotoFromPath(pathOfFoto);
+        
+        // Holt zugehörige Metadaten
+        Metadaten meta = searchFoto.getMetadata();
+       
+        if (meta == null) meta = new Metadaten();
+        
+        // Setzen der Daten und setzen im Foto
+        meta.setDaten(daten);
         searchFoto.setMetadata(meta);
-        if(searchFoto.getMetadata()!=meta) {
-            return 510;
+                
+        // Prüft das Daten gesetzt wurden
+        if(searchFoto.getMetadata().getDaten()!=daten) {
+            return ErrorController.addDebugReport(510);
         }
         return 0;
     }
@@ -52,14 +70,20 @@ public class FotoController {
      * Version-History:
      * @date 25.11.2015 by Danilo: Initialisierung
      * @date 29.11.2015 by Danilo: Ändern der Rückgabe der Methode
+     * @date 09.12.2015 by Danilo: Rückgabewert zu Map umgewandelt
      */
-    public static Metadaten getMetaFromFoto(Path pathOfFoto) {
+    public static Map<String, Object> getMetaFromFoto(Path pathOfFoto) {
+        // Foto aus Container holen
         Foto searchFoto = generateFotoFromPath(pathOfFoto);
+        
+        // Metdaten aus Foto holen
         Metadaten tmpMeta = searchFoto.getMetadata();
+        
+        // Falls keine Metadaten gesetzt, wird leere Metadaten generiert
         if (tmpMeta==null) {
             tmpMeta = new Metadaten();
         }
-        return tmpMeta;
+        return tmpMeta.getDaten();
     }
     
     /**
@@ -71,10 +95,17 @@ public class FotoController {
      * 
      * Version-History:
      * @date 24.11.2015 by Danilo: Initialisierung
+     * @date 09.12.2015 by Danilo: Sortieren der Fotos
      */
     public static List<Path> getFotosFromAlbum(String title) {
+        // Album und Fotoliste holen
         Album tmpAlbum = AlbenController.getAlbum(title);
         List<Foto> albumFotolist = tmpAlbum.getFotoListe();
+        
+        // Sortieren der Fotoliste
+        albumFotolist = sortListOfFotos(tmpAlbum.getSortierkennzeichen(), albumFotolist);
+        
+        // Pfadliste erzeugen
         List<Path> listOfPathes = new LinkedList<>();
         for (Foto tmpFoto : albumFotolist) {
             listOfPathes.add(tmpFoto.getPfad());
@@ -95,25 +126,35 @@ public class FotoController {
      * @date 29.11.2015 by Danilo: Ändern der Rückgabe der Methode
      * @date 01.12.2015 by Danilo: Fehlerkorrektur
      * @date 07.12.2015 by Danilo: Anpassung der Fotoübergabeliste und transparente Speicherung
+     * @date 08.12.2015 by Danilo: Einfügen eines Fehlerloggingsystemes
+     * @date 09.12.2015 by Danilo: Kommentare ergänzt
      */
     public static int addListOfFotosToAlbum(String title, List<Path> listOfPathes) {
+        // Album holen
         Album tmpAlbum = AlbenController.getAlbum(title);
         if(tmpAlbum!=null) {
+            
+            // Fehlerhafte Fotos aus Liste löschen [Lesegeschützt oder nicht existent]
             listOfPathes = cleanErrorInListOfFotos(listOfPathes);
             
+            // Prüft das min. 1 Foto lesbar oder existiert
             if(!listOfPathes.isEmpty()) {
+                // Fotoliste aus Pfadliste generieren
                 List<Foto> newFotoListe = createFotosFromList(listOfPathes);
 
+                // Fotoliste im Album setzen
                 int addSize = setNewFotolistinAlbum(tmpAlbum, newFotoListe);
+                
+                // Prüft das alle Fotos in Liste übernommen wurden
                 if (addSize != newFotoListe.size()) {
-                    return 410;
+                    return ErrorController.addDebugReport(410);
                 }
                 return SystemController.loadOrSave(false);
             } else {
-                return 420;
+                return ErrorController.addDebugReport(420);
             }
         } else {
-            return 430;
+            return ErrorController.addDebugReport(430);
         }
     }
     
@@ -183,15 +224,17 @@ public class FotoController {
      * Version-History:
      * @date 24.11.2015 by Danilo: Initialisierung
      * @date 06.12.2015 by Danilo: Fotolink zum Fotocontainer hinzufügen falls es neu generiert wurde
+     * @date 09.12.2015 by Danilo: Kommenter ergänzt
      */
     private static Foto checkIfFotoExist(Foto foto) {
         Foto tmpFoto = SystemController.getFotoContainer().getFotoMap().get(foto.hashCode());
         if (tmpFoto != null) {
+            // Übergebenes Foto auf gefundenes Foto setzen
             foto = tmpFoto;
         } else {
+            // Im Fotocontainer das ertesllt Foto registrieren
             SystemController.getFotoContainer().getFotoMap().put(foto.hashCode(), foto);
         }
-        
         return foto;
     }
     
@@ -206,6 +249,7 @@ public class FotoController {
      * @date 24.11.2015 by Danilo: Initialisierung
      * @date 06.12.2015 by Danilo: Verschoben in checkIfFotoExist
      * @date 07.12.2015 by Danilo: Ersetzen der Fotoliste im Album
+     * @date 09.12.2015 by Danilo: Kommentar ergänzt
      */
     private static int setNewFotolistinAlbum(Album album, List<Foto> newFotoListe) { 
         // Löschen der alten Fotoliste
@@ -215,10 +259,49 @@ public class FotoController {
         List<Foto> albumFotolist = album.getFotoListe();
         int oldSize = albumFotolist.size();
         for (Foto tmpFoto : newFotoListe) {
+            // Foto zum Album hinzufügen und Counter erhöhen
             albumFotolist.add(tmpFoto);
             tmpFoto.setCounter(1);
         }
         return albumFotolist.size()-oldSize;
+    }
+    
+    /**
+     * Methode sortiert die List der Fotoobjekte gemäß des Albumsortierkennzeichens mit Fehlerlogging
+     * 
+     * @param sort Sortierkennzeichen des Albums
+     * @param fotoList Liste der Fotoelemente
+     * 
+     * Version-History:
+     * @date 09.12.2015 by Danilo: Initialisierung
+     */
+    private static List<Foto> sortListOfFotos(int sort, List<Foto> fotoList){
+        switch(sort)
+        {
+            case 0:     // Benutzerdefiniert
+                return fotoList;
+            case 1:     // nach Name
+                // Sortieren der Liste nch Name in annonymer Klasse zum Code einzusparen
+                Collections.sort(fotoList, new Comparator<Foto>() {
+                    @Override
+                    public int compare(final Foto obj1, final Foto obj2) {
+                        return obj1.getName().compareTo(obj2.getName());
+                    }
+                });
+                return fotoList;
+            case 2:     // nach Datum
+                // Sortieren der Liste nach Datum in annonymer Klasse zum Code einzusparen
+                Collections.sort(fotoList, new Comparator<Foto>() {
+                    @Override
+                    public int compare(Foto obj1, Foto obj2) {
+                        return Long.compare(obj1.getErstellungdatum(), obj2.getErstellungdatum());
+                    }
+                });
+                return fotoList;
+            default:    // nicht definierter Sortieralgorithmus
+                ErrorController.addDebugReport(210);
+                return fotoList;
+        }
     }
     
     /**
@@ -231,6 +314,7 @@ public class FotoController {
      * Version-History:
      * @date 25.11.2015 by Danilo: Initialisierung
      * @date 01.12.2015 by Danilo: Fehlerkorrektur
+     * @date 08.12.2015 by Danilo: Einfügen eines Fehlerloggingsystemes
      */
     protected static int deleteAllFotosInAlbum(Album album){
         List <Foto> tmpFotolist = album.getFotoListe();
@@ -238,14 +322,14 @@ public class FotoController {
             Foto checkFoto = SystemController.getFotoContainer().getFotoMap().get(tmpFoto.hashCode());
             // Fotocounter runterzählen da das Foto aus dem Album gelöscht wurde
             checkFoto.setCounter(-1);
-            // Prüfen das Foto in kein anderes Album verlinkt ist
+            // Prüfen das Foto in kein anderes Album verlinkt ist und löschen
             if(checkFoto.getCounter()<1) {
                 SystemController.getFotoContainer().getFotoMap().remove(tmpFoto.hashCode());
             }
         }
         // Alle Fotos aus Album löschen
         tmpFotolist.clear();
-        if (!tmpFotolist.isEmpty()) return 450;
+        if (!tmpFotolist.isEmpty()) return ErrorController.addDebugReport(450);
         
         return 0;
     }
