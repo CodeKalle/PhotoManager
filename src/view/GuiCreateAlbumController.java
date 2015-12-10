@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package view;
 
 import controller.AlbenController;
@@ -23,26 +18,50 @@ import javafx.stage.Stage;
 import model.Album;
 
 /**
- * FXML Controller class
- *
- * @author targhed
+ * Diese Klasse dient der Erstellung eines Albums
+ * 
+ * @author Tobias
+ * 
+ * Version-History:
+ * @date ??.??.2015 by Juliane & Manuel: Konzept der GUIs und programmtechnische Umsetzung
+ * @date 06.12.2015 by Tobias: Initialize erweitert
+ * @date 10.12.2015 by Danilo: Kommentare ergänzt
  */
 public class GuiCreateAlbumController implements Initializable {
     
+    /**
+    * KLASSENVARIABLEN
+    * 
+    * Version-History:
+    * @date ??.11.2015 by Tobias: Initialisierung
+    * @date 10.12.2015 by Danilo: Kommentare ergänzt
+    */
+    // Buttons des Fensters
     @FXML
     Button guiCreateAlbumSortierkennzeichenHinzufuegen,guiCreateAlbumSortierkennzeichenLoeschen,guiCreateAlbumOk,guiCreateAlbumAbbrechen;
+    // Combobox für Sortierkennzeichen
     @FXML
     private ComboBox guiCreateAlbumComboBox;
+    // Textfeld für den Alben Namen
     @FXML
     private TextField guiCreateAlbumName;
+    // Textbereich für die Alben Beschreibung
     @FXML
     private TextArea guiCreateAlbumBeschreibung;
-
-    
+    // Verwaltungsvariablen
     String origTitel, titel, beschreibung;
     Boolean bearbeitungsmodus = false;
     
-    
+    /**
+    * Methode handelt die Aktionen der Buttons
+    * 
+    * @throws java.io.IOException
+    * @param event Aktion des Buttons
+    * 
+    * Version-History:
+    * @date ??.11.2015 by Tobias: Initialisierung
+    * @date 10.12.2015 by Danilo: Kommentare ergänzt
+    */
     @FXML
     public void handleButtonAction(ActionEvent event) throws IOException{
         Stage stage;
@@ -72,15 +91,20 @@ public class GuiCreateAlbumController implements Initializable {
         stage.setScene(scene);
         stage.show();
     }
-
-
+    
     /**
-     * Initializes the controller class.
+     * Initialisierung wird bei jedem Aufruf der GUI ausgeführt
+     * 
+     * @param location
+     * @param resources 
+     * 
+     * Version-History:
+     * @date ??.11.2015 by Tobias: Initialisierung
+     * @date 10.12.2015 by Danilo: Kommentare ergänzt
      */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         Main.getPrimaryStage().setTitle("Photomanager - CreateAlbum.fxml");
-        // TODO
         
         this.origTitel = Main.speicher;
         
@@ -97,31 +121,31 @@ public class GuiCreateAlbumController implements Initializable {
     /**
     * Erstellt ein Album im Model
     * 
-    * Version-History:
     * @return Fehlercode zur Auswertung
+    * 
+    * Version-History:
     * @date ??.??.2015 by Tobias: Initialisierung
     * @date 07.12.2015 by Danilo: Sortierkennzeichen Datentyp zu int
+    * @date 10.12.2015 by Danilo: Kommentare ergänzt und lokale Variablen umbenannt
     */
     private int AlbumErstellen() {
-        String titel = guiCreateAlbumName.getText();
-        String beschreibung = guiCreateAlbumBeschreibung.getText();
-        int sortierkennzeichen = guiCreateAlbumComboBox.getSelectionModel().getSelectedIndex();
-        
+        String tmpTitel = guiCreateAlbumName.getText();
+        String tmpBeschreibung = guiCreateAlbumBeschreibung.getText();
+        int tmpSortierkennzeichen = guiCreateAlbumComboBox.getSelectionModel().getSelectedIndex();
         
         if(!bearbeitungsmodus)
-            return AlbenController.createNewAlbum(titel, beschreibung, sortierkennzeichen);
+            return AlbenController.createNewAlbum(tmpTitel, tmpBeschreibung, tmpSortierkennzeichen);
         else {
             //Wenn Album erfolgreich editiert, speicher den Titel des Albums in die globale Variable.
-            int err = AlbenController.editAlbum(origTitel, titel, beschreibung, sortierkennzeichen);
+            int err = AlbenController.editAlbum(origTitel, tmpTitel, tmpBeschreibung, tmpSortierkennzeichen);
 
             if(err != 0){
                 return 0;
             }
             else {
-                Main.speicher = titel;
+                Main.speicher = tmpTitel;
                 return err;
             }  
         }
     }
-    
 }

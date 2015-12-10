@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package view;
 
 import controller.FotoController;
@@ -25,16 +20,41 @@ import javafx.scene.layout.TilePane;
 import javafx.stage.Stage;
 
 /**
- * FXML Controller class
- *
+ * Diese Klasse dient der Ansicht in einem Album
+ * 
  * @author Tobias
+ * 
+ * Version-History:
+ * @date ??.??.2015 by Juliane & Manuel: Konzept der GUIs und programmtechnische Umsetzung
+ * @date 06.12.2015 by Tobias: Initialize erweitert
+ * @date 10.12.2015 by Danilo: Kommentare ergänzt
  */
 public class GuiSelectedAlbumController implements Initializable { 
+    
+    /**
+    * KLASSENVARIABLEN
+    * 
+    * Version-History:
+    * @date ??.11.2015 by Tobias: Initialisierung
+    * @date 10.12.2015 by Danilo: Kommentare ergänzt
+    */
+    // Buttons des Fensters
     @FXML
     Button guiSelectedAlbumFotosHinzufuegen, guiSelectedAlbumFotosHinzufuegen2, guiSelectedAlbumAlbumBearbeiten, guiSelectedAlbumFotosLoeschen, guiSelectedAlbumFotosBearbeiten, guiSelectedAlbumZurueckzuAlben;
+    // Fotobereich
     @FXML
     private TilePane guiSelectedAlbumTilePane;
     
+    /**
+    * Methode handelt die Aktionen der Buttons
+    * 
+    * @throws java.io.IOException
+    * @param event Aktion des Buttons
+    * 
+    * Version-History:
+    * @date ??.11.2015 by Tobias: Initialisierung
+    * @date 10.12.2015 by Danilo: Kommentare ergänzt
+    */
     @FXML
     public void handleButtonAction(ActionEvent event) throws IOException{
         Stage stage;
@@ -64,14 +84,23 @@ public class GuiSelectedAlbumController implements Initializable {
         }
         else {
             stage=(Stage) guiSelectedAlbumZurueckzuAlben.getScene().getWindow();
-            root = FXMLLoader.load(getClass().getResource(Main.letztesFenster));
-            
+            root = FXMLLoader.load(getClass().getResource(Main.letztesFenster)); 
         }
         Scene scene = new Scene(root);
         stage.setScene(scene);
         stage.show();
     }
 
+    /**
+     * Initialisierung wird bei jedem Aufruf der GUI ausgeführt
+     * 
+     * @param location
+     * @param resources 
+     * 
+     * Version-History:
+     * @date ??.11.2015 by Tobias: Initialisierung
+     * @date 10.12.2015 by Danilo: Kommentare ergänzt
+     */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         Main.getPrimaryStage().setTitle("Photomanager - SelectedAlbum");
@@ -106,20 +135,20 @@ public class GuiSelectedAlbumController implements Initializable {
             Label pfad = new Label();
             pfad.setVisible(false);
             pfad.setText(FotoController.getFotosFromAlbum(Main.speicher).get(i).toString());
-            
-            
-            
+
             lpane.getChildren().add(imageView); //ID 0
             lpane.getChildren().add(checkBox);  //ID 1
             lpane.getChildren().add(name);      //ID 2
             lpane.getChildren().add(pfad);      //ID 3
-            
             
             //Fertiges Konstrukt in Pane anzeigen
             guiSelectedAlbumTilePane.getChildren().add(i + 1, lpane);
         }
     }
 
+    /**
+     * Auskommentierten Code minimal halten
+     */
     /**private void FotosLoeschen() {
         List<Path> alben = new LinkedList();
         
