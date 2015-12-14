@@ -23,6 +23,7 @@ import model.Metadaten;
  * @date 01.12.2015 by Danilo: Fehlerkorrektur
  * @date 08.12.2015 by Danilo: Einfügen eines Fehlerloggingsystemes
  * @date 09.12.2015 by Danilo: Sortieralgorithmus implementiert, Kommentare ergänzt und setMeta und getMeta angepasst
+ * @date 14.12.2015 by Danilo: Änderung an Methode addListOfFotosToAlbum [addNewFotolistInAlbum] und erstellen von deleteNotExistingFotosInListFromAlbum
  */
 public class FotoController {
     /**
@@ -128,6 +129,7 @@ public class FotoController {
      * @date 07.12.2015 by Danilo: Anpassung der Fotoübergabeliste und transparente Speicherung
      * @date 08.12.2015 by Danilo: Einfügen eines Fehlerloggingsystemes
      * @date 09.12.2015 by Danilo: Kommentare ergänzt
+     * @date 14.12.2015 by Danilo: Änderung der Zufügeroutine von Fotos
      */
     public static int addListOfFotosToAlbum(String title, List<Path> listOfPathes) {
         // Album holen
@@ -143,7 +145,7 @@ public class FotoController {
                 List<Foto> newFotoListe = createFotosFromList(listOfPathes);
 
                 // Fotoliste im Album setzen
-                int addSize = setNewFotolistinAlbum(tmpAlbum, newFotoListe);
+                int addSize = addNewFotolistInAlbum(tmpAlbum, newFotoListe);
                 
                 // Prüft das alle Fotos in Liste übernommen wurden
                 if (addSize != newFotoListe.size()) {
@@ -156,6 +158,49 @@ public class FotoController {
         } else {
             return ErrorController.addDebugReport(430);
         }
+    }
+    
+    /**
+     * GUI-Methode
+     * Methode löscht alle Fotos in Album die nischt übergeben wurden
+     * 
+     * @param title Album welchem Fotos hinzugefügt werden sollen 
+     * @param existingListOfPathes Liste der Fotos die hinzugefügt werden sollen
+     * @return Fehlercode zur Auswertung
+     * 
+     * Version-History:
+     * @date 14.11.2015 by Danilo: Initialisierung
+     */
+    public static int deleteNotExistingFotosInListFromAlbum(String title, List<Path> existingListOfPathes) {
+        // Album holen
+        Album tmpAlbum = AlbenController.getAlbum(title);
+        if(tmpAlbum!=null) {
+            // Falls übergebene Liste null oder leer werden alle Fotos aus Album gelöscht
+            if (existingListOfPathes == null || existingListOfPathes.isEmpty()) {
+                return deleteAllFotosInAlbum(tmpAlbum);
+            }
+            else {
+                int count = 0;
+                // Fotoliste holen und abgleichen
+                List<Foto> albumFotolist = tmpAlbum.getFotoListe();
+                List<Foto> albumNewFotolist = new LinkedList();
+                for (Foto tmpFoto : albumFotolist) {
+                    // Falls am Ende der Albenliste noch Fotos stehen und Merkliste leer ist, 
+                    // müssen diese gelöscht werden oder falls die Pfade matchen
+                    if(!(count>existingListOfPathes.size()-1) && tmpFoto.getPfad().equals(existingListOfPathes.get(count))) {
+                        albumNewFotolist.add(tmpFoto);
+                        count++;
+                    }
+                    else {
+                        decrementFotoAndCheck(tmpFoto);
+                    }
+                }
+                // Setzen der neuen Fotoliste
+                tmpAlbum.setFotoListe(albumNewFotolist);
+                return 0;
+            }
+        }
+        return ErrorController.addDebugReport(430);
     }
     
     /**
@@ -246,15 +291,9 @@ public class FotoController {
      * @return Anzahl der Fotos die hinzugefügt wurden
      * 
      * Version-History:
-     * @date 24.11.2015 by Danilo: Initialisierung
-     * @date 06.12.2015 by Danilo: Verschoben in checkIfFotoExist
-     * @date 07.12.2015 by Danilo: Ersetzen der Fotoliste im Album
-     * @date 09.12.2015 by Danilo: Kommentar ergänzt
+     * @date 14.12.2015 by Danilo: Initialisierung
      */
-    private static int setNewFotolistinAlbum(Album album, List<Foto> newFotoListe) { 
-        // Löschen der alten Fotoliste
-        deleteAllFotosInAlbum(album);
-        
+    private static int addNewFotolistInAlbum(Album album, List<Foto> newFotoListe) { 
         // Setzen der neuen Liste
         List<Foto> albumFotolist = album.getFotoListe();
         int oldSize = albumFotolist.size();
@@ -315,22 +354,37 @@ public class FotoController {
      * @date 25.11.2015 by Danilo: Initialisierung
      * @date 01.12.2015 by Danilo: Fehlerkorrektur
      * @date 08.12.2015 by Danilo: Einfügen eines Fehlerloggingsystemes
+     * @date 14.12.2015 by Danilo: Foto löschen auslagern
      */
     protected static int deleteAllFotosInAlbum(Album album){
         List <Foto> tmpFotolist = album.getFotoListe();
         for (Foto tmpFoto : tmpFotolist) {
-            Foto checkFoto = SystemController.getFotoContainer().getFotoMap().get(tmpFoto.hashCode());
-            // Fotocounter runterzählen da das Foto aus dem Album gelöscht wurde
-            checkFoto.setCounter(-1);
-            // Prüfen das Foto in kein anderes Album verlinkt ist und löschen
-            if(checkFoto.getCounter()<1) {
-                SystemController.getFotoContainer().getFotoMap().remove(tmpFoto.hashCode());
-            }
+            decrementFotoAndCheck(SystemController.getFotoContainer().getFotoMap().get(tmpFoto.hashCode()));
         }
         // Alle Fotos aus Album löschen
         tmpFotolist.clear();
         if (!tmpFotolist.isEmpty()) return ErrorController.addDebugReport(450);
         
+        return 0;
+    }
+    
+    /**
+     * Methode löscht decrementiert den Fotozähler und prüft Löschmöglichkeit
+     * 
+     * @param album Album aus welchem Fotos gelöscht werden sollen 
+     * @return Fehlercode zum Auswerten
+     * 
+     * Version-History:
+     * @date 14.12.2015 by Danilo: Initialisierung
+     */
+    private static int decrementFotoAndCheck(Foto foto) {
+        // Fotocounter runterzählen
+        foto.setCounter(-1);
+        // Prüfen das Foto in kein anderes Album verlinkt ist und löschen
+        if(foto.getCounter()<1) {
+            SystemController.getFotoContainer().getFotoMap().remove(foto.hashCode());
+        }
+        if (SystemController.getFotoContainer().getFotoMap().remove(foto.hashCode())!=null) return ErrorController.addDebugReport(455);
         return 0;
     }
 }
