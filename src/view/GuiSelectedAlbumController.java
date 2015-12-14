@@ -111,7 +111,7 @@ public class GuiSelectedAlbumController implements Initializable {
             Pane lpane = new Pane();            
             lpane.setPrefSize(80, 100);
             
-            Image image = new Image("/src/dummy1.jpg");
+            Image image = new Image(FotoController.getFotosFromAlbum(Main.speicher).get(i).toUri().toString());
             
             ImageView imageView = new ImageView();
             imageView.setFitHeight(80);

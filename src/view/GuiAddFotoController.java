@@ -1,11 +1,14 @@
 package view;
 
+import controller.AlbenController;
+import controller.FotoController;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.URL;
 import java.net.UnknownHostException;
 import java.nio.file.FileSystems;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -75,6 +78,14 @@ public class GuiAddFotoController implements Initializable{
         Parent root;        
         if(event.getSource()==guiAddFotoBilderHinzufuegen){
             //Fotos zu Ablum hinzufügen, Methdenaufruf FotoController
+            aktuelleFotos = this.getMarkierteFotos();
+            if(aktuelleFotos != null){
+                FotoController.addListOfFotosToAlbum(Main.speicher, aktuelleFotos);
+            }
+            else{
+                return;
+            }
+            
             stage=(Stage) guiAddFotoBilderHinzufuegen.getScene().getWindow();
             root = FXMLLoader.load(getClass().getResource(Main.letztesFensterVorCreateAlbum));
         }
@@ -184,6 +195,35 @@ public class GuiAddFotoController implements Initializable{
 
             //Fertiges Konstrukt in Pane anzeigen
             guiAddFotoTilePane.getChildren().add(i, lpane);
+        }
+    }
+    
+    
+    /**
+     * Gibt die markierten Fotos aus der TilePane zurück
+     * @return Liste von Pfaden, der markierten Fotos
+     * 
+     * Version-History:
+     * @date 14.12.2015 by Tobias: Initialisirung
+     */
+    private List<Path> getMarkierteFotos() {
+        List<Path> fotos = new LinkedList();
+        
+        for(int i = 0; i < guiAddFotoTilePane.getChildren().size(); i++){
+            Pane pane = (Pane) guiAddFotoTilePane.getChildren().get(i);
+            CheckBox checkBox = (CheckBox) pane.getChildren().get(1);
+            Label pfad = (Label) pane.getChildren().get(3);
+            
+            if(checkBox.isSelected())
+                fotos.add(Paths.get(pfad.getText()));
+        }
+        
+        //keine Fotos markiert
+        if(fotos.isEmpty()) { 
+            return null;
+        }
+        else {
+            return fotos;
         }
     }
 }

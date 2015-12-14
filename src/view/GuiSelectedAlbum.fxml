@@ -33,7 +33,7 @@
                   <Button fx:id="guiSelectedAlbumZurueckzuAlben" layoutX="708.0" layoutY="61.0" mnemonicParsing="false" onAction="#handleButtonAction" text="Zurück" />
                </children>
             </Pane>
-            <TilePane fx:id="guiSelectedAlbumTilePane" prefHeight="200.0" prefWidth="200.0">
+            <TilePane fx:id="guiSelectedAlbumTilePane" hgap="60.0" prefHeight="200.0" prefWidth="200.0" vgap="50.0">
                <children>
                   <Pane prefHeight="100.0" prefWidth="80.0">
                      <children>
