@@ -40,7 +40,34 @@ public class FilePathTreeItem extends TreeItem<String>{
     private boolean isDirectory;
     // Information über Bild
     private boolean isJPEG;
+    // Information ob Knoten Root Element ist
+    private boolean isRoot;
+    // Referenz auf Controller
+    private GuiAddFotoController controller;
     
+    /**
+     * GETTER Gibt zurück ob Knoten ein Rootknoten ist
+     
+     * @return Ob Knoten Rootknoten ist
+     * 
+     * Version-History:
+     * @date 14.12.2015 by Tobias: Initialisierung
+     */
+    public boolean getIsRoot(){
+        return (this.isRoot);
+    }
+    
+    /**
+     * GETTER Holt den Controller
+     * 
+     * @return GuiAddFotoController
+     * 
+     * Version-History:
+     * @date 14.12.2015 by Tobias: Initialisierung
+     */
+    public GuiAddFotoController getController(){
+        return (this.controller);
+    }
     /**
     * GETTER Holt vollständiger Pfad der Datei oder des Ordners
     *
@@ -84,23 +111,27 @@ public class FilePathTreeItem extends TreeItem<String>{
     * KONSTRUKTOR
     *
     * @param file Pfad der Datei
+    * @param controller Der zuständige Controller der Gui
+    * @throws java.io.IOException
     * 
     * Version-History:
     * @date ??.11.2015 by Tobias: Initialisierung
     * @date 10.12.2015 by Danilo: Kommentare ergänzt
     */
-    public FilePathTreeItem(Path file) throws IOException{
+    public FilePathTreeItem(Path file, GuiAddFotoController controller, boolean isRoot) throws IOException{
         super(file.toString());
         this.fullPath=file.toString();
+        this.controller = controller;
+        this.isRoot = isRoot;
         
         Path jpg = Paths.get(".jpg");
-        
+        Path jpeg = Paths.get(".jpeg");
         // Testet ob es ein Ordner ist und setzt das Icon
         if(Files.isDirectory(file, LinkOption.NOFOLLOW_LINKS) && !Files.isHidden(file)){
             this.isDirectory=true;
             this.isJPEG=false;
             //this.setGraphic(new ImageView(folderCollapseImage));
-        }else if(file.toString().endsWith(jpg.toString())){
+        }else if(file.toString().endsWith(jpg.toString()) || file.toString().endsWith(jpeg.toString())){
             this.isDirectory=false;
             this.isJPEG=true;
         }else{
@@ -138,7 +169,7 @@ public class FilePathTreeItem extends TreeItem<String>{
                     if(attribs.isDirectory()){
                         DirectoryStream<Path> dir=Files.newDirectoryStream(path);
                         for(Path file:dir){
-                            FilePathTreeItem treeNode=new FilePathTreeItem(file);
+                            FilePathTreeItem treeNode=new FilePathTreeItem(file, getController(), false);
                             if(treeNode.isDirectory()){
                                 // Wenn Ordner ausklappbar machen
                                 treeNode.getChildren().add(null);
@@ -151,8 +182,12 @@ public class FilePathTreeItem extends TreeItem<String>{
                                 // Für jedes Bild aufruf in GuiAddFotoController, um Bild rechts anzuzeigen
                             }
                         }
+                        //Fotos anzeigen und danach die Liste leeren
+                        if(!fotos.isEmpty() && getIsRoot()){
+                            getController().bilderAnzeigen(fotos);
+                            fotos.clear();
+                        }
                     }
-                    
                 }catch(IOException x){
                     x.printStackTrace();
                 }

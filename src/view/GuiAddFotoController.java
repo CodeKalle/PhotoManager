@@ -1,11 +1,15 @@
 package view;
 
+import controller.AlbenController;
+import controller.FotoController;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.URL;
 import java.net.UnknownHostException;
 import java.nio.file.FileSystems;
 import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
@@ -56,6 +60,8 @@ public class GuiAddFotoController implements Initializable{
     @FXML
     TilePane guiAddFotoTilePane;
 
+    
+    List<Path> aktuelleFotos = new LinkedList();
     /**
     * Methode handelt die Aktionen der Buttons
     * 
@@ -72,6 +78,14 @@ public class GuiAddFotoController implements Initializable{
         Parent root;        
         if(event.getSource()==guiAddFotoBilderHinzufuegen){
             //Fotos zu Ablum hinzufügen, Methdenaufruf FotoController
+            aktuelleFotos = this.getMarkierteFotos();
+            if(aktuelleFotos != null){
+                FotoController.addListOfFotosToAlbum(Main.speicher, aktuelleFotos);
+            }
+            else{
+                return;
+            }
+            
             stage=(Stage) guiAddFotoBilderHinzufuegen.getScene().getWindow();
             root = FXMLLoader.load(getClass().getResource(Main.letztesFensterVorCreateAlbum));
         }
@@ -113,7 +127,7 @@ public class GuiAddFotoController implements Initializable{
                 FilePathTreeItem treeNode;
             
                 try {
-                    treeNode = new FilePathTreeItem(name);
+                    treeNode = new FilePathTreeItem(name, this, true);
 
                     //Unterknoten bekommen ein leeres Child, damit sie Aufklappbar werden. KEINE GUTE LÖSUNG!!
                     if(treeNode.isDirectory())
@@ -125,7 +139,7 @@ public class GuiAddFotoController implements Initializable{
                 }
             }
             
-            rootNode.setExpanded(false);
+            rootNode.setExpanded(true);
             
             //Root in die TreeView setzten mit allen Unterknoten
             treeView.setRoot(rootNode);      
@@ -141,44 +155,75 @@ public class GuiAddFotoController implements Initializable{
      * @date 06.12.2015 by Tobias: Initialisierung
      */
     public void bilderAnzeigen(List<Path> fotos){
+        guiAddFotoTilePane.getChildren().clear();
+
         //Fotos aus Album laden
         for(int i = 0; i < fotos.size(); i++) {
             //Für jedes Bild Konstrukt zusammensetzen
             Pane lpane = new Pane();            
             lpane.setPrefSize(80, 100);
-            
-            Image image = new Image("/src/dummy1.jpg");
-            
+
+            Image image = new Image(fotos.get(i).toUri().toString());
+
             ImageView imageView = new ImageView();
             imageView.setFitHeight(80);
             imageView.setFitWidth(80);
             imageView.setPickOnBounds(true);
             imageView.setPreserveRatio(true);
             imageView.setImage(image);            
-            
+
             CheckBox checkBox = new CheckBox();
             checkBox.setLayoutX(56.0);
             checkBox.setLayoutY(58.0);
             checkBox.setMnemonicParsing(false);
-            
+
             Label name = new Label();
             name.setLayoutX(20.0);
             name.setLayoutY(80.0);
             name.setPrefHeight(20);
             name.setPrefWidth(80);
             name.setText(fotos.get(i).getFileName().toString());
-            
+
             Label pfad = new Label();
             pfad.setVisible(false);
             pfad.setText(fotos.get(i).toString());
-            
+
             lpane.getChildren().add(imageView); //ID 0
             lpane.getChildren().add(checkBox);  //ID 1
             lpane.getChildren().add(name);      //ID 2
             lpane.getChildren().add(pfad);      //ID 3
-            
+
             //Fertiges Konstrukt in Pane anzeigen
             guiAddFotoTilePane.getChildren().add(i, lpane);
+        }
+    }
+    
+    
+    /**
+     * Gibt die markierten Fotos aus der TilePane zurück
+     * @return Liste von Pfaden, der markierten Fotos
+     * 
+     * Version-History:
+     * @date 14.12.2015 by Tobias: Initialisirung
+     */
+    private List<Path> getMarkierteFotos() {
+        List<Path> fotos = new LinkedList();
+        
+        for(int i = 0; i < guiAddFotoTilePane.getChildren().size(); i++){
+            Pane pane = (Pane) guiAddFotoTilePane.getChildren().get(i);
+            CheckBox checkBox = (CheckBox) pane.getChildren().get(1);
+            Label pfad = (Label) pane.getChildren().get(3);
+            
+            if(checkBox.isSelected())
+                fotos.add(Paths.get(pfad.getText()));
+        }
+        
+        //keine Fotos markiert
+        if(fotos.isEmpty()) { 
+            return null;
+        }
+        else {
+            return fotos;
         }
     }
 }
