@@ -116,7 +116,7 @@ public class GuiAddFotoController implements Initializable{
                 FilePathTreeItem treeNode;
             
                 try {
-                    treeNode = new FilePathTreeItem(name, this);
+                    treeNode = new FilePathTreeItem(name, this, true);
 
                     //Unterknoten bekommen ein leeres Child, damit sie Aufklappbar werden. KEINE GUTE LÖSUNG!!
                     if(treeNode.isDirectory())
@@ -144,6 +144,8 @@ public class GuiAddFotoController implements Initializable{
      * @date 06.12.2015 by Tobias: Initialisierung
      */
     public void bilderAnzeigen(List<Path> fotos){
+        guiAddFotoTilePane.getChildren().clear();
+
         //Fotos aus Album laden
         for(int i = 0; i < fotos.size(); i++) {
             //Für jedes Bild Konstrukt zusammensetzen

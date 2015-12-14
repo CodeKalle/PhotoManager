@@ -40,8 +40,22 @@ public class FilePathTreeItem extends TreeItem<String>{
     private boolean isDirectory;
     // Information über Bild
     private boolean isJPEG;
+    // Information ob Knoten Root Element ist
+    private boolean isRoot;
     // Referenz auf Controller
     private GuiAddFotoController controller;
+    
+    /**
+     * GETTER Gibt zurück ob Knoten ein Rootknoten ist
+     
+     * @return Ob Knoten Rootknoten ist
+     * 
+     * Version-History:
+     * @date 14.12.2015 by Tobias: Initialisierung
+     */
+    public boolean getIsRoot(){
+        return (this.isRoot);
+    }
     
     /**
      * GETTER Holt den Controller
@@ -104,10 +118,11 @@ public class FilePathTreeItem extends TreeItem<String>{
     * @date ??.11.2015 by Tobias: Initialisierung
     * @date 10.12.2015 by Danilo: Kommentare ergänzt
     */
-    public FilePathTreeItem(Path file, GuiAddFotoController controller) throws IOException{
+    public FilePathTreeItem(Path file, GuiAddFotoController controller, boolean isRoot) throws IOException{
         super(file.toString());
         this.fullPath=file.toString();
         this.controller = controller;
+        this.isRoot = isRoot;
         
         Path jpg = Paths.get(".jpg");
         Path jpeg = Paths.get(".jpeg");
@@ -154,7 +169,7 @@ public class FilePathTreeItem extends TreeItem<String>{
                     if(attribs.isDirectory()){
                         DirectoryStream<Path> dir=Files.newDirectoryStream(path);
                         for(Path file:dir){
-                            FilePathTreeItem treeNode=new FilePathTreeItem(file, getController());
+                            FilePathTreeItem treeNode=new FilePathTreeItem(file, getController(), false);
                             if(treeNode.isDirectory()){
                                 // Wenn Ordner ausklappbar machen
                                 treeNode.getChildren().add(null);
@@ -168,7 +183,7 @@ public class FilePathTreeItem extends TreeItem<String>{
                             }
                         }
                         //Fotos anzeigen und danach die Liste leeren
-                        if(!fotos.isEmpty()){
+                        if(!fotos.isEmpty() && getIsRoot()){
                             getController().bilderAnzeigen(fotos);
                             fotos.clear();
                         }
