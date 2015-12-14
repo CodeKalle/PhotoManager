@@ -1,8 +1,13 @@
 package view;
 
+import controller.AlbenController;
 import controller.FotoController;
 import java.io.IOException;
 import java.net.URL;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -77,8 +82,11 @@ public class GuiSelectedAlbumController implements Initializable {
             root = FXMLLoader.load(getClass().getResource("GuiAddFoto.fxml"));
         }
         else if(event.getSource()==guiSelectedAlbumFotosLoeschen){
-            // selektierte fotos aus deisem album löschen, dann diese gui refresh
-            //FotosLoeschen();
+            // Alle nicht selektierten Fotos in der TilePane als Fotos des Album setzten
+            List<Path> nichtMarkierteFotos = getNichtMarkierteFotos();
+            if(!nichtMarkierteFotos.isEmpty()) FotoController.addListOfFotosToAlbum(Main.speicher, nichtMarkierteFotos);
+            else return;
+            
             stage=(Stage) guiSelectedAlbumFotosLoeschen.getScene().getWindow();
             root = FXMLLoader.load(getClass().getResource("GuiSelectedAlbum.fxml"));
         }
@@ -145,28 +153,26 @@ public class GuiSelectedAlbumController implements Initializable {
             guiSelectedAlbumTilePane.getChildren().add(i + 1, lpane);
         }
     }
-
+    
     /**
-     * Auskommentierten Code minimal halten
+     * Gibt die markierten Fotos aus der TilePane zurück
+     * @return Liste von Pfaden, der markierten Fotos
+     * 
+     * Version-History:
+     * @date 14.12.2015 by Tobias: Initialisirung
      */
-    /**private void FotosLoeschen() {
-        List<Path> alben = new LinkedList();
+    private List<Path> getNichtMarkierteFotos() {
+        List<Path> fotos = new LinkedList();
         
         for(int i = 1; i < guiSelectedAlbumTilePane.getChildren().size(); i++){
             Pane pane = (Pane) guiSelectedAlbumTilePane.getChildren().get(i);
             CheckBox checkBox = (CheckBox) pane.getChildren().get(1);
             Label pfad = (Label) pane.getChildren().get(3);
             
-            if(checkBox.isSelected())
-                alben.add(new Path(pfad));
+            if(!checkBox.isSelected())
+                fotos.add(Paths.get(pfad.getText()));
         }
-
-        if(alben.isEmpty()) {
-            return 1;
-        }
-        else {
-            FotoController.
-            return 0;
-        }
-    }*/
+        
+        return fotos;
+    }
 }
