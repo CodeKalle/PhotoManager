@@ -30,6 +30,7 @@ import static org.junit.Assert.*;
  * @date 04.12.2015 by Daniel: Neue Strukturierung der Tests
  * @date 07.12.2015 by Danilo: Sortierkennzeichen Datentyp zu int und Fehlerkorrektur
  * @date 09.12.2015 by Danilo: Anpassung an Änderungen im FotoCotnroller
+ * @date 14.12.2015 by Danilo: Hinzufügen des Testordnerpfades und weiterer Test neuer Methoden [testDeleteNotExistingFotosFromListInAlbum]
  */
 public class FotoControllerTest {
     
@@ -41,6 +42,7 @@ public class FotoControllerTest {
      * @date 01.12.2015 by Daniel: Anlegen neuer Klassenvariablen
      * @date 07.12.2015 by Danilo: Sortierkennzeichen Datentyp zu int
      * @date 09.12.2015 by Danilo: Anpassung an Änderungen im FotoCotnroller
+     * @date 14.12.2015 by Danilo: Hinzufügen des Testordnerpfades
      */
     private static List<Album> listOfAlbum;
     private static Map<Integer, Foto> mapOfFotos;
@@ -53,6 +55,7 @@ public class FotoControllerTest {
     private static int sortierkennzeichen;
     // Fixe Testdaten
     private static String name;
+    private static Path pathOfTestfolder;
     private static Path pathOfFoto;
     private static List listOfPathes;
     private static List listOfFotos;
@@ -84,6 +87,7 @@ public class FotoControllerTest {
      * @date 06.12.2015 by Daniel: Album 
      * @date 07.12.2015 by Danilo: Änderung des Pfades, des Sortierkennzeichens und Fehlerkorrektur und umbennant
      * @date 09.12.2015 by Danilo: Anpassung an Änderungen im FotoCotnroller
+     * @date 14.12.2015 by Danilo: Hinzufügen des Testordnerpfades
      */
     @BeforeClass
     public static void setUpClass() {
@@ -96,6 +100,7 @@ public class FotoControllerTest {
         sortierkennzeichen = 2;
         // Fixe Testdaten
         name = "Name";
+        pathOfTestfolder = Paths.get("test/testdaten/");
         pathOfFoto = Paths.get("test/testdaten/Testbild43.jpg");
         testFoto = new Foto(name, pathOfFoto.toString());
         listOfPathes = new LinkedList<>();
@@ -251,10 +256,12 @@ public class FotoControllerTest {
      * Version-History:
      * @date 01.12.2015 by Daniel: Initialisierung
      * @date 06.12.2015 by Daniel: Album konnte Angelegt werden, errorcode, Kommentare
+     * @date 14.12.2015 by Danilo: Hinzufügen der Counterprüfung
      */
     @Test
     public void testAddListOfFotosToAlbum() {
         System.out.println("testAddListOfFotosToAlbum");
+        
         // Album wurde angelegt
         assertThat(AlbenController.getAlbum(title), is(notNullValue()));
         
@@ -276,6 +283,13 @@ public class FotoControllerTest {
 
         // Listen der lokalen Fotos und übergebenen Fotos stimmen überein
         assertEquals(expectList, resultList);
+        
+        // Prüfen der Fotocounter
+        for (Foto tmpFoto : AlbenController.getAlbum(title).getFotoListe())
+        {
+            // Prüft das jedes Foto einmal verlinkt ist
+            assertThat(tmpFoto.getCounter(), is(1));
+        }
     }
 
     /**
@@ -378,6 +392,277 @@ public class FotoControllerTest {
                 aktFile.delete();
             }
             folderFile.delete();
+        }
+    }
+    
+    /**
+     * Testet die Methode deleteNotExistingFotosFromListInAlbum der Klasse FotoController.
+     * Testet, ob die Fotoliste im Model gemäß der Änderungen geupdated wird.
+     * 
+     * Version-History:
+     * @date 14.12.2015 by Dnilo: Initialisierung
+     */
+    @Test
+    public void testDeleteNotExistingFotosFromListInAlbum() {
+        System.out.println("testDeleteNotExistingFotosFromListInAlbum");
+        
+        // Album wurde angelegt
+        assertThat(AlbenController.getAlbum(title), is(notNullValue()));
+        
+        // Prüft das Album kein Foto hält
+        assertThat(AlbenController.getAlbum(title).getFotoListe().size(), is(0));
+        
+        List<Path> fotoPathList = new LinkedList();
+        List<Path> fotoNotDeleteList = new LinkedList();
+        
+        // Fotos zum Album hinzufügen und für das Löschen speichern [Vorwärts]
+        for (int i = 0; i<5; i++) {
+            Foto newFoto = new Foto("Logo" + i + ".jpg", pathOfTestfolder + File.separator + "Logo" + i + ".jpg");
+            fotoPathList.add(newFoto.getPfad());
+            
+            // Erstes und letztes Foto löschen [hier merken der nicht zu löschenden]
+            if (i>0 && i<4) {
+                fotoNotDeleteList.add(newFoto.getPfad());
+            }
+        }
+        
+        // Prüfen das Anlegen der Fotos im Album
+        int errorcode = FotoController.addListOfFotosToAlbum(title, fotoPathList);
+        if (errorcode!=0) {
+            fail(ErrorController.changeErrorCode(errorcode)[1]);
+        }
+        
+        // Prüft das Album fünf Foto hält
+        assertThat(AlbenController.getAlbum(title).getFotoListe().size(), is(5));
+        
+        // Löschen der Temporären Liste
+        fotoPathList.clear();
+        
+        // Fotos zum Album hinzufügen und für das Löschen speichern [Rückwärts]
+        for (int i = 4; i>=0; i--) {
+            Foto newFoto = new Foto("Logo" + i + ".jpg", pathOfTestfolder + File.separator + "Logo" + i + ".jpg");
+            fotoPathList.add(newFoto.getPfad());
+            
+            // Alle Fotos ausser den letzten zwei löschen [hier merken der nicht zu löschenden]
+            if (i<2) {
+                fotoNotDeleteList.add(newFoto.getPfad());
+            }
+        }
+        
+        // Prüfen das Hinzufügen der Fotos im Album
+        errorcode = FotoController.addListOfFotosToAlbum(title, fotoPathList);
+        if (errorcode!=0) {
+            fail(ErrorController.changeErrorCode(errorcode)[1]);
+        }
+        
+        // Prüft das Album zehn Foto hält
+        assertThat(AlbenController.getAlbum(title).getFotoListe().size(), is(10));
+        
+        // Löschen der Fotos die nicht gemerkt wurden
+        errorcode = FotoController.deleteNotExistingFotosInListFromAlbum(title, fotoNotDeleteList);
+        if (errorcode!=0) {
+            fail(ErrorController.changeErrorCode(errorcode)[1]);
+        }
+        
+        // Prüft das Album zehn-gemerkte Foto hält, also 5
+        assertThat(AlbenController.getAlbum(title).getFotoListe().size(), is(5));
+    }
+
+    /**
+     * Testet die kombinatio der Methoden addListOfFotosToAlbum und deleteNotExistingFotosFromListInAlbum der Klasse FotoController.
+     * Testet, ob die Fotoliste nach mehrfachen Änderungen korrekt ist.
+     * 
+     * Version-History:
+     * @date 14.12.2015 by Dnilo: Initialisierung
+     */
+    @Test
+    public void testReplaceFotosInAlbum() {
+        System.out.println("testReplaceFotosInAlbum");
+        
+        // Album wurde angelegt
+        assertThat(AlbenController.getAlbum(title), is(notNullValue()));
+        
+        // Prüft das Album kein Foto hält
+        assertThat(AlbenController.getAlbum(title).getFotoListe().size(), is(0));
+        
+        List<Path> fotoPathList = new LinkedList();
+        List<Path> fotoNotDeleteList = new LinkedList();
+        
+        // Fotos 0-4 zum Album hinzufügen und für das Löschen speichern [Vorwärts]
+        for (int i = 0; i<5; i++) {
+            Foto newFoto = new Foto("Logo" + i + ".jpg", pathOfTestfolder + File.separator + "Logo" + i + ".jpg");
+            fotoPathList.add(newFoto.getPfad());
+            
+            // Erstes und letztes Foto löschen [hier merken der nicht zu löschenden]
+            if (i>0 && i<4) {
+                fotoNotDeleteList.add(newFoto.getPfad());
+            }
+        }     
+        
+        // Prüfen das Anlegen der Fotos im Album
+        int errorcode = FotoController.addListOfFotosToAlbum(title, fotoPathList);
+        if (errorcode!=0) {
+            fail(ErrorController.changeErrorCode(errorcode)[1]);
+        }
+        
+        // Prüft das Album fünf Foto hält
+        assertThat(AlbenController.getAlbum(title).getFotoListe().size(), is(5));
+        
+        // Löschen der Temporären Liste
+        fotoPathList.clear();
+
+        // Merkliste bisher: Logo1, Logo2, Logo3
+        // Aktuell: Logo0, Logo1, Logo2, Logo3, Logo4
+        // Prüfen der Fotocounter
+        for (Foto tmpFoto : AlbenController.getAlbum(title).getFotoListe())
+        {
+            // Prüft das jedes Foto einmal verlinkt ist
+            assertThat(tmpFoto.getCounter(), is(1));
+        }
+        
+        // Fotos 5x2 zum Album hinzufügen und für das Löschen speichern
+        for (int i = 0; i<5; i++) {
+            Foto newFoto = new Foto("Logo2.jpg", pathOfTestfolder + File.separator + "Logo2.jpg");
+            fotoPathList.add(newFoto.getPfad());
+            
+            // Zweites Foto nicht löschen [hier merken der nicht zu löschenden]
+            if (i!=1) {
+                fotoNotDeleteList.add(newFoto.getPfad());
+            }
+        }
+        
+        // Prüfen das Hinzufügen der Fotos im Album
+        errorcode = FotoController.addListOfFotosToAlbum(title, fotoPathList);
+        if (errorcode!=0) {
+            fail(ErrorController.changeErrorCode(errorcode)[1]);
+        }
+        
+        // Prüft das Album zehn Foto hält
+        assertThat(AlbenController.getAlbum(title).getFotoListe().size(), is(10));
+        
+        // Löschen der Temporären Liste
+        fotoPathList.clear();
+        
+        // Merkliste bisher: Logo1, Logo2, Logo3, Logo2, Logo2, Logo2, Logo2
+        // Aktuell: Logo0, Logo1, Logo2, Logo3, Logo4, Logo2, Logo2, Logo2, Logo2, Logo2
+        // Prüfen der Fotocounter
+        for (Foto tmpFoto : AlbenController.getAlbum(title).getFotoListe())
+        {
+            // Prüft das jedes Foto einmal verlinkt ist ausser Logo2
+            if (tmpFoto.getName().equals("Logo2.jpg")) {
+                assertThat(tmpFoto.getCounter(), is(6));
+            }
+            else {
+                assertThat(tmpFoto.getCounter(), is(1));
+            }
+        }
+        
+        // Fotos 0-4 zum Album hinzufügen und für das Löschen speichern [Vorwärts]
+        for (int i = 0; i<5; i++) {
+            Foto newFoto = new Foto("Logo" + i + ".jpg", pathOfTestfolder + File.separator + "Logo" + i + ".jpg");
+            fotoPathList.add(newFoto.getPfad());
+            
+            // Erstes und vorletztes Foto nicht löschen [hier merken der nicht zu löschenden]
+            if (i==0 || i==3) {
+                fotoNotDeleteList.add(newFoto.getPfad());
+            }
+        }
+        
+        // Prüfen das Hinzufügen der Fotos im Album
+        errorcode = FotoController.addListOfFotosToAlbum(title, fotoPathList);
+        if (errorcode!=0) {
+            fail(ErrorController.changeErrorCode(errorcode)[1]);
+        }
+        
+        // Prüft das Album fünfzehn Foto hält
+        assertThat(AlbenController.getAlbum(title).getFotoListe().size(), is(15));
+        
+        // Löschen der Temporären Liste
+        fotoPathList.clear();
+        
+        // Erwartung bisher: Logo1, Logo2, Logo3, Logo2, Logo2, Logo2, Logo2, Logo0, Logo3
+        // Aktuell: Logo0, Logo1, Logo2, Logo3, Logo4, Logo2, Logo2, Logo2, Logo2, Logo2, Logo0, Logo1, Logo2, Logo3, Logo4
+        // Prüfen der Fotocounter
+        for (Foto tmpFoto : AlbenController.getAlbum(title).getFotoListe())
+        {
+            // Prüft das jedes Foto zweimal verlinkt ist ausser Logo2
+            if (tmpFoto.getName().equals("Logo2.jpg")) {
+                assertThat(tmpFoto.getCounter(), is(7));
+            }
+            else {
+                assertThat(tmpFoto.getCounter(), is(2));
+            }
+        }
+        
+        // Fotos zum Album hinzufügen und für das Löschen speichern [Rückwärts]
+        for (int i = 4; i>=0; i--) {
+            Foto newFoto = new Foto("Logo" + i + ".jpg", pathOfTestfolder + File.separator + "Logo" + i + ".jpg");
+            fotoPathList.add(newFoto.getPfad());
+            
+            // Letztes Foto löschen [hier merken der nicht zu löschenden]
+            if (i!=0) {
+                fotoNotDeleteList.add(newFoto.getPfad());
+            }
+        }
+
+        // Prüfen das Hinzufügen der Fotos im Album
+        errorcode = FotoController.addListOfFotosToAlbum(title, fotoPathList);
+        if (errorcode!=0) {
+            fail(ErrorController.changeErrorCode(errorcode)[1]);
+        }
+        
+        // Prüft das Album zwanzig Fotos hält
+        assertThat(AlbenController.getAlbum(title).getFotoListe().size(), is(20));
+        
+        // Erwartung bisher: Logo1, Logo2, Logo3, Logo2, Logo2, Logo2, Logo2, Logo0, Logo3, Logo4, Logo3, Logo2, Logo1
+        // Aktuell: Logo0, Logo1, Logo2, Logo3, Logo4, Logo2, Logo2, Logo2, Logo2, Logo2, Logo0, Logo1, Logo2, Logo3, Logo4, Logo4, Logo3, Logo2, Logo1, Logo0
+        // Prüfen der Fotocounter
+        for (Foto tmpFoto : AlbenController.getAlbum(title).getFotoListe())
+        {
+            // Prüft das jedes Foto dreimal verlinkt ist ausser Logo2
+            if (tmpFoto.getName().equals("Logo2.jpg")) {
+                assertThat(tmpFoto.getCounter(), is(8));
+            }
+            else {
+                assertThat(tmpFoto.getCounter(), is(3));
+            }
+        }
+        
+        // Löschen der Temporären Liste
+        fotoPathList.clear();
+        
+        // Prüft das Merkliste 13 Fotos hält
+        assertThat(fotoNotDeleteList.size(), is(13));
+        
+        // Löschen der Fotos die nicht gemerkt wurden
+        errorcode = FotoController.deleteNotExistingFotosInListFromAlbum(title, fotoNotDeleteList);
+        if (errorcode!=0) {
+            fail(ErrorController.changeErrorCode(errorcode)[1]);
+        }
+        
+        // Prüft das Album zwanzig-gemerkte Foto hält, also 13
+        assertThat(AlbenController.getAlbum(title).getFotoListe().size(), is(13));
+for (Foto tmpFoto : AlbenController.getAlbum(title).getFotoListe())
+{
+    System.out.println(">" + tmpFoto.getName() + " " + tmpFoto.getCounter());
+}
+        // Erwartung bisher: Logo1, Logo2, Logo3, Logo2, Logo2, Logo2, Logo2, Logo0, Logo3, Logo4, Logo3, Logo2, Logo1
+        // Prüfen der Fotocounter
+        for (Foto tmpFoto : AlbenController.getAlbum(title).getFotoListe())
+        {
+            // Prüft das jedes Foto dreimal verlinkt ist ausser Logo2
+            if (tmpFoto.getName().equals("Logo1.jpg")) {
+                assertThat(tmpFoto.getCounter(), is(2));
+            }
+            else if (tmpFoto.getName().equals("Logo2.jpg")) {
+                assertThat(tmpFoto.getCounter(), is(6));
+            }
+            else if (tmpFoto.getName().equals("Logo3.jpg")) {
+                assertThat(tmpFoto.getCounter(), is(3));
+            }
+            else {
+                assertThat(tmpFoto.getCounter(), is(1));
+            }
         }
     }
 }

@@ -17,6 +17,7 @@ import java.util.List;
  * @date 25.11.2015 by Danilo: Änderung der Liste zu Diamantoperator Foto da nur Referenzen gespeichert werden
  * @date 07.12.2015 by Danilo: Sortierkennzeichen Datentyp zu int
  * @date 08.12.2015 by Danilo: Löschen nicht verwendeter Methoden [setFotoListe]
+ * @date 14.12.2015 by Danilo: Setzen der benötigten Methode setFotoListe
  */
 public class Album implements Serializable {
     private String titel;
@@ -138,5 +139,17 @@ public class Album implements Serializable {
      */
     public List<Foto> getFotoListe() {
         return fotoListe;
+    }
+    
+    /**
+     * Setter fuer fotoListe
+     * 
+     * @param fotolist Liste mit Fotos
+     * 
+     * Version-History:
+     * @date 14.12.2015 by Danilo: Initialisierung
+     */
+    public void setFotoListe(List<Foto> fotolist) {
+        this.fotoListe = fotolist;
     }
 }

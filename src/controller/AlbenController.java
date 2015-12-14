@@ -27,7 +27,7 @@ import model.Album;
  */
 public class AlbenController {
  
-    /**
+   /**
     * KLASSENVARIABLEN
     * 
     * Version-History:
@@ -40,7 +40,7 @@ public class AlbenController {
     // Maximale Beschreibungslänge eines Albums
     private static int maxBeschLength = 200;
     
-    /**
+   /**
     * GUI-Methode
     * Diese Methode erstellt eine Stringliste aller Alben im System
     * 
@@ -57,7 +57,7 @@ public class AlbenController {
         return albumlist;
     }
     
-    /**
+   /**
     * GUI-Methode
     * Diese Methode erstellt im AlbumContainer ein Album mit Titel, Beschreibung und Sortierkennzeichen
     * 
@@ -94,7 +94,7 @@ public class AlbenController {
         return SystemController.loadOrSave(false);
     }
     
-    /**
+   /**
     * GUI-Methode
     * Diese Methode verändert im AlbumContainer ein bestehendes Album in Form von Titel, Beschreibung und Sortierkennzeichen
     * 
@@ -133,7 +133,7 @@ public class AlbenController {
         return SystemController.loadOrSave(false);
     }
     
-    /**
+   /**
     * GUI-Methode
     * Diese Methode löscht eine Liste von Alben
     * 
@@ -154,7 +154,7 @@ public class AlbenController {
         return ErrorController.addDebugReport(300);
     }
     
-    /**
+   /**
     * Diese Methode löscht im AlbumContainer ein Album
     * 
     * @param title Titel des Albums welches gelöscht werden soll
@@ -179,7 +179,7 @@ public class AlbenController {
         return ErrorController.addDebugReport(310);
     }
     
-    /**
+   /**
     * Methode sucht nach einem Album und gibt dieses zurück
     * 
     * @param title Übergabe des gesuchten Albumtitels
@@ -205,7 +205,7 @@ public class AlbenController {
         return null;
     }
     
-    /**
+   /**
     * Diese Methode erstellt im AlbumContainer ein Album
     * 
     * @param title Titel vom Album
@@ -229,7 +229,7 @@ public class AlbenController {
         return 0;
     }
     
-    /**
+   /**
     * Diese Methode ändert im AlbumContainer den Namen eines Albums
     * 
     * @param title Titel des Albums welches geändert werden soll
@@ -266,7 +266,7 @@ public class AlbenController {
         return ErrorController.addDebugReport(330);
     }
     
-    /**
+   /**
     * Diese Methode ändert im AlbumContainer die Beschreibung eines Albums
     * 
     * @param title Titel des Albums welches geändert werden soll
@@ -290,7 +290,7 @@ public class AlbenController {
         return ErrorController.addDebugReport(340);
     }
     
-    /**
+   /**
     * Diese Methode ändert im AlbumContainer das Sortierkennzeichen eines Albums
     * 
     * @param title Titel des Albums welches geändert werden soll

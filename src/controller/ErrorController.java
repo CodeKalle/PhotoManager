@@ -91,6 +91,7 @@ public class ErrorController {
      * @date 30.11.2015 by Danilo: Anpassung an SystemController
      * @date 06.12.2015 by Tobias: Merge verkackt, manuelles zurücksetzten
      * @date 07.12.2015 by Danilo: Kommentierung geändert
+     * @date 14.12.2015 by Danilo: Update 455
      */
     public static String[] changeErrorCode(int errorcode) {
         String title;
@@ -188,6 +189,10 @@ public class ErrorController {
             case 450:
                 title = "Fotolösch-Fehler";
                 text = "Nicht alle Fotos konnten aus dem Album entfernt werden.";
+                break;
+            case 455:
+                title = "Fotolösch-Fehler";
+                text = "Ein Foto konnte nicht aus dem Fotocontainer gelöscht werden.";
                 break;
             case 510:
                 title = "Metadatenfehler";
