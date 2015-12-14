@@ -15,6 +15,7 @@ import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -27,6 +28,7 @@ import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.TilePane;
 import javafx.stage.Stage;
@@ -99,6 +101,8 @@ public class GuiAddFotoController implements Initializable{
         stage.show();
     }
 
+    
+
     /**
     * Initialisierung wird bei jedem Aufruf der GUI ausgeführt
     * 
@@ -146,6 +150,8 @@ public class GuiAddFotoController implements Initializable{
     }
     
     
+    
+    
     /**
      * Die Methode soll die Fotos im rechten TilePane der GuiAddFoto anzeigen, die sich im ausgewählten Ordner befinden.
      * 
@@ -164,13 +170,21 @@ public class GuiAddFotoController implements Initializable{
             lpane.setPrefSize(80, 100);
 
             Image image = new Image(fotos.get(i).toUri().toString());
+            
+
 
             ImageView imageView = new ImageView();
             imageView.setFitHeight(80);
             imageView.setFitWidth(80);
-            imageView.setPickOnBounds(true);
+            //imageView.setPickOnBounds(true);
             imageView.setPreserveRatio(true);
-            imageView.setImage(image);            
+            imageView.setImage(image);    
+            imageView.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
+                @Override public void handle(MouseEvent event) {
+                imageView.setFitHeight(200);
+                imageView.setFitWidth(200);
+            }
+            });
 
             CheckBox checkBox = new CheckBox();
             checkBox.setLayoutX(56.0);
@@ -192,6 +206,8 @@ public class GuiAddFotoController implements Initializable{
             lpane.getChildren().add(checkBox);  //ID 1
             lpane.getChildren().add(name);      //ID 2
             lpane.getChildren().add(pfad);      //ID 3
+            
+            
 
             //Fertiges Konstrukt in Pane anzeigen
             guiAddFotoTilePane.getChildren().add(i, lpane);
