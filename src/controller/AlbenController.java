@@ -23,9 +23,23 @@ import model.Album;
  * @date 04.12.2015 by Danilo: Fehlerkorrektur bei zu kurzen Albentiteln, Beschreibung und Sortierkennzeichen
  * @date 07.12.2015 by Danilo: Sortierkennzeichen Datentyp zu int
  * @date 08.12.2015 by Danilo: Einfügen eines Fehlerloggingsystemes
+ * @date 10.12.2015 by Danilo: Setzen von Klassenvariablen und einfügen dieser
  */
 public class AlbenController {
  
+    /**
+    * KLASSENVARIABLEN
+    * 
+    * Version-History:
+    * @date 10.12.2015 by Danilo: Initialisierung
+    */
+    // Minimale Titellänge eines Albums
+    private static int minTitleLength = 3;
+    // Maximale Titellänge eines Albums
+    private static int maxTitleLength = 20;
+    // Maximale Beschreibungslänge eines Albums
+    private static int maxBeschLength = 200;
+    
     /**
     * GUI-Methode
     * Diese Methode erstellt eine Stringliste aller Alben im System
@@ -60,15 +74,16 @@ public class AlbenController {
     * @date 04.12.2015 by Danilo: Fehlerkorrektur bei zu kurzen Albentiteln
     * @date 07.12.2015 by Danilo: Sortierkennzeichen Datentyp zu int und transparente Speicherung
     * @date 08.12.2015 by Danilo: Einfügen eines Fehlerloggingsystemes
+    * @date 10.12.2015 by Danilo: Einfügen globaler Variablen
     */
     public static int createNewAlbum(String title, String beschreibung, int sortierkennzeichen) {
         // Prüft zu kruze Albentitel
-        if (title == null || title.length() <= 3) return ErrorController.addDebugReport(115);
+        if (title == null || title.length() <= minTitleLength) return ErrorController.addDebugReport(115);
         if (beschreibung == null) return ErrorController.addDebugReport(116);
         
         // Prüfen der Eingabe
-        if (title.length() > 20) title = title.substring(0,20);
-        if (beschreibung.length() > 200) beschreibung = beschreibung.substring(0,200);
+        if (title.length() > maxTitleLength) title = title.substring(0,maxTitleLength);
+        if (beschreibung.length() > maxBeschLength) beschreibung = beschreibung.substring(0,maxBeschLength);
         if (sortierkennzeichen < 0 || sortierkennzeichen > 2) sortierkennzeichen = 0;
         
         if (createAlbum(title)!=0) return ErrorController.addDebugReport(110);
@@ -97,16 +112,17 @@ public class AlbenController {
     * @date 04.12.2015 by Danilo: Fehlerkorrektur bei zu kurzen Albentiteln
     * @date 07.12.2015 by Danilo: Sortierkennzeichen Datentyp zu int und transparente Speicherung
     * @date 08.12.2015 by Danilo: Einfügen eines Fehlerloggingsystemes
+    * @date 10.12.2015 by Danilo: Einfügen globaler Variablen
     */
     public static int editAlbum(String title, String newTitle, String beschreibung, int sortierkennzeichen) {
         // Prüft zu kruze Albentitel
-        if (newTitle == null || newTitle.length() <= 3) return ErrorController.addDebugReport(155);
+        if (newTitle == null || newTitle.length() <= minTitleLength) return ErrorController.addDebugReport(155);
         if (beschreibung == null) return ErrorController.addDebugReport(156);
         
         // Prüfen der Eingabe
-        if (title.length() > 20) title = title.substring(0,20);
-        if (newTitle.length() > 20) newTitle = newTitle.substring(0,20);
-        if (beschreibung.length() > 200) beschreibung = beschreibung.substring(0,200);
+        if (title.length() > maxTitleLength) title = title.substring(0,maxTitleLength);
+        if (newTitle.length() > maxTitleLength) newTitle = newTitle.substring(0,maxTitleLength);
+        if (beschreibung.length() > maxBeschLength) beschreibung = beschreibung.substring(0,maxBeschLength);
         if (sortierkennzeichen < 0 || sortierkennzeichen > 2) sortierkennzeichen = 0;
         
         if (editAlbumTitle(title, newTitle)!=0) return ErrorController.addDebugReport(150);
@@ -174,10 +190,11 @@ public class AlbenController {
     * @date 02.12.2015 by Tobias: Setzten auf public
     * @date 04.12.2015 by Danilo: Fehlerkorrektur bei zu kurzen Albentiteln
     * @date 08.12.2015 by Danilo: Einfügen eines Fehlerloggingsystemes
+    * @date 10.12.2015 by Danilo: Einfügen globaler Variablen
     */
     public static Album getAlbum(String title) {
         // Prüft zu kruze Albentitel
-        if (title == null || title.length() <= 3) return null;
+        if (title == null || title.length() <= minTitleLength) return null;
         
         for (Album tmpAlbum : SystemController.getAlbumContainer().getAlbenListe()) {
             if (tmpAlbum.getTitel().equals(title)) {  

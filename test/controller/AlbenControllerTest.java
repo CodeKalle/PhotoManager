@@ -22,6 +22,7 @@ import static org.hamcrest.CoreMatchers.*;
  * @date 04.12.2015 by Danilo: Anpassung an geänderten AlbenController
  * @date 05.12.2015 by Danilo: Anpassung der Zeitausgabe bei garantierte Albumanzahl
  * @date 07.12.2015 by Danilo: Sortierkennzeichen Datentyp zu int
+ * @date 10.12.2015 by Danilo: Änderung von Fehlern in Tests
  */
 public class AlbenControllerTest {
     
@@ -311,6 +312,7 @@ public class AlbenControllerTest {
      * 
      * Version-History:
      * @date 06.12.2015 by Daniel: Initialisierung
+     * @date 10.12.2015 by Danilo: Änderung der Fehlercoderückgabe im Fehlerfall
      */
     @Test
     public void testCreateNewAlbumShortTitle() {
@@ -326,7 +328,7 @@ public class AlbenControllerTest {
         // Album anlegen mit longTitle Titel
         int errorcode = AlbenController.createNewAlbum(shortTitle, beschreibung, sortierkennzeichen);
         if (errorcode != 115) {
-            fail(ErrorController.changeErrorCode(errorcode)[115]);
+            fail(ErrorController.changeErrorCode(errorcode)[1]);
         }
 
         // Prüft das Album mit zu kurzem Titel nicht angelegt wurde
@@ -340,6 +342,7 @@ public class AlbenControllerTest {
      * 
      * Version-History:
      * @date 06.12.2015 by Daniel: Initialisierung
+     * @date 10.12.2015 by Danilo: Änderung eines Fehlerhaften Kommentares
      */
     @Test
     public void testCreateNewAlbumLongTitle() {
@@ -358,7 +361,7 @@ public class AlbenControllerTest {
             fail(ErrorController.changeErrorCode(errorcode)[1]);
         }
 
-        // Prüft das Album mit dem auf 20 Stellen gekürzten Titel nicht angelegt wurde
+        // Prüft das Album mit dem auf 20 Stellen gekürzten Titel angelegt wurde
         String gekuerzterTitel = longTitle.substring(0,20);
         expectAlbum = AlbenController.getAlbum(gekuerzterTitel);
         assertEquals(gekuerzterTitel, expectAlbum.getTitel());
@@ -557,6 +560,7 @@ public class AlbenControllerTest {
      * Version-History:
      * @date 04.12.2015 by Danilo: Initialisierung
      * @date 05.12.2015 by Danilo: Anpassung an Positionen in Liste
+     * @date 10.12.2015 by Danilo: Zeitmessungkorrektur
      */
     @Test
     public void testGetAlbumGuaranteedStability() {
@@ -579,17 +583,19 @@ public class AlbenControllerTest {
         // Bestimmen und prüfen definierter Albennummern
         int[] checkAlbumNumber = {1, garanteedAlbumCount/2, garanteedAlbumCount};
         for (int i = 0; i < checkAlbumNumber.length; i++) {
+            
             // Zeitmessung starten
             long time = System.nanoTime();
             
             // Album aus LinkedList holen
             Album result = AlbenController.getAlbum(albumTitel[checkAlbumNumber[i]-1]);
-            if (result==null) {
-                fail("Album nicht gefunden");
-            }
             
             // Zeitmessung beenden
             time = System.nanoTime() - time;
+            
+            if (result==null) {
+                fail("Album nicht gefunden");
+            }
             
             // Generierung der visuellen Ausgabe
             System.out.println("Zeit für " + (checkAlbumNumber[i]) + ". Album in Liste: " + ((time)/1000000) + " ms [" + ((time)/1000) + " us]");
@@ -644,6 +650,7 @@ public class AlbenControllerTest {
      * 
      * Version-History:
      * @date 05.12.2015 by Danilo: Initialisierung
+     * @date 10.12.2015 by Danilo: Zeitmessungkorrektur
      */
     @Test
     public void testDeleteListOfAlbumGuaranteedStability() {
@@ -668,12 +675,13 @@ public class AlbenControllerTest {
             
         // Löschen der Alben aus dem AlbenContainer
         int errorcode = AlbenController.deleteListOfAlbum(deleteList);
-        if (errorcode != 0) {
-            fail(ErrorController.changeErrorCode(errorcode)[1]);
-        }
         
         // Zeitmessung beenden
         time = System.nanoTime() - time;
+        
+        if (errorcode != 0) {
+            fail(ErrorController.changeErrorCode(errorcode)[1]);
+        }
             
         // Generierung der visuellen Ausgabe
         System.out.println("Zeit für löschen aller ungeraden Alben in Liste: " + ((time)/1000000) + " ms [" + ((time)/1000) + " us]");
@@ -779,6 +787,7 @@ public class AlbenControllerTest {
      * 
      * Version-History:
      * @date 05.12.2015 by Danilo: Initialisierung
+     * @date 10.12.2015 by Danilo: Zeitmessungkorrektur
      */
     @Test
     public void testGetAlbumListGuaranteedStability() {
@@ -801,12 +810,13 @@ public class AlbenControllerTest {
         
         // Holen der Albenliste aus dem AlbenContainer
         tmpList = AlbenController.getAlbumList();
-        if (tmpList == null) {
-            fail("Es wurden keine Alben erstellt.");
-        }
         
         // Zeitmessung beenden
         time = System.nanoTime() - time;
+        
+        if (tmpList == null) {
+            fail("Es wurden keine Alben erstellt.");
+        }
             
         // Generierung der visuellen Ausgabe
         System.out.println("Zeit für das Erhalten der Albenliste: " + ((time)/1000000) + " ms [" + ((time)/1000) + " us]");
