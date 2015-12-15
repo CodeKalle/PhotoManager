@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.image.*?>
 <?import javafx.scene.text.*?>
 <?import java.lang.*?>
 <?import java.net.*?>
@@ -40,5 +41,10 @@
             <Font size="34.0" />
          </font>
       </Label>
+      <ImageView fitHeight="349.0" fitWidth="416.0" layoutX="192.0" layoutY="144.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../../../../../../../Mittweida-Studium/Sem5-2015-2016/Softwaretechnik/PhotoManagerLogo.png" />
+         </image>
+      </ImageView>
    </children>
 </AnchorPane>

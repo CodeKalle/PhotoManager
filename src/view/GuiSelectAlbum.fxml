@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.text.*?>
 <?import javafx.scene.image.*?>
 <?import javafx.geometry.*?>
 <?import java.lang.*?>
@@ -41,12 +42,23 @@
                   <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                </padding>
             </TilePane>
-            <TilePane id="TilePaneAddAlbum" fx:id="tp" alignment="CENTER" hgap="150.0" prefColumns="3" prefRows="2" tileAlignment="TOP_LEFT" vgap="20.0" GridPane.rowIndex="1">
+            <TilePane prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="1">
                <children>
-                  <Label text="Bitte wählen Sie ein Album aus." />
-                  <Button id="guiAlbumOverviewAlbumWechseln" fx:id="guiSelectAlbumAlbumWechseln" mnemonicParsing="false" onAction="#handleButtonAction" text="In Album wechseln" />
-                  <Button id="guiAlbumOverviewHauptmenue" fx:id="guiSelectAlbumHauptmenue" mnemonicParsing="false" onAction="#handleButtonAction" text="Zurück zum Hauptmenü" />
+                  <Label text="Bitte wählen Sie ein Album aus." translateX="30.0" translateY="41.0">
+                     <font>
+                        <Font size="25.0" />
+                     </font>
+                  </Label>
+                  <Button id="guiAlbumOverviewHauptmenue" fx:id="guiSelectAlbumHauptmenue" mnemonicParsing="false" onAction="#handleButtonAction" prefWidth="145.0" text="Zurück zum Hauptmenü" translateX="170.0" translateY="40.0" />
+                  <Button id="guiAlbumOverviewAlbumWechseln" fx:id="guiSelectAlbumAlbumWechseln" mnemonicParsing="false" onAction="#handleButtonAction" prefWidth="145.0" text="In Album wechseln" translateX="320.0" translateY="4.0">
+                     <TilePane.margin>
+                        <Insets />
+                     </TilePane.margin>
+                  </Button>
                </children>
+               <GridPane.margin>
+                  <Insets />
+               </GridPane.margin>
             </TilePane>
          </children>
       </GridPane>
