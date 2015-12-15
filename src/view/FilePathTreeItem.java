@@ -127,7 +127,7 @@ public class FilePathTreeItem extends TreeItem<String>{
         Path jpg = Paths.get(".jpg");
         Path jpeg = Paths.get(".jpeg");
         // Testet ob es ein Ordner ist und setzt das Icon
-        if(Files.isDirectory(file, LinkOption.NOFOLLOW_LINKS) && !Files.isHidden(file)){
+        if(Files.isDirectory(file, LinkOption.NOFOLLOW_LINKS) && !Files.isHidden(file) && Files.isReadable(file)){
             this.isDirectory=true;
             this.isJPEG=false;
             //this.setGraphic(new ImageView(folderCollapseImage));

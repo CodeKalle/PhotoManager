@@ -187,7 +187,7 @@ public class FotoController {
                 for (Foto tmpFoto : albumFotolist) {
                     // Falls am Ende der Albenliste noch Fotos stehen und Merkliste leer ist, 
                     // müssen diese gelöscht werden oder falls die Pfade matchen
-                    if(!(count>existingListOfPathes.size()-1) && tmpFoto.getPfad().equals(existingListOfPathes.get(count))) {
+                    if(count<existingListOfPathes.size() && tmpFoto.getPfad().equals(existingListOfPathes.get(count))) {
                         albumNewFotolist.add(tmpFoto);
                         count++;
                     }
@@ -376,6 +376,7 @@ public class FotoController {
      * 
      * Version-History:
      * @date 14.12.2015 by Danilo: Initialisierung
+     * @date 15.12.2015 by Danilo: Prüfung im Fehlerfall mit get ersetzt
      */
     private static int decrementFotoAndCheck(Foto foto) {
         // Fotocounter runterzählen
@@ -384,7 +385,7 @@ public class FotoController {
         if(foto.getCounter()<1) {
             SystemController.getFotoContainer().getFotoMap().remove(foto.hashCode());
         }
-        if (SystemController.getFotoContainer().getFotoMap().remove(foto.hashCode())!=null) return ErrorController.addDebugReport(455);
+        if (SystemController.getFotoContainer().getFotoMap().get(foto.hashCode())!=null) return ErrorController.addDebugReport(455);
         return 0;
     }
 }

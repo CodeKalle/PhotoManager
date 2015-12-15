@@ -84,9 +84,7 @@ public class GuiSelectedAlbumController implements Initializable {
         else if(event.getSource()==guiSelectedAlbumFotosLoeschen){
             // Alle nicht selektierten Fotos in der TilePane als Fotos des Album setzten
             List<Path> nichtMarkierteFotos = getNichtMarkierteFotos();
-            // Bitte prüfen!!
-            /*if(!nichtMarkierteFotos.isEmpty())*/ FotoController.deleteNotExistingFotosInListFromAlbum(Main.speicher, nichtMarkierteFotos);
-            /*else return;*/
+            FotoController.deleteNotExistingFotosInListFromAlbum(Main.speicher, nichtMarkierteFotos);
             
             stage=(Stage) guiSelectedAlbumFotosLoeschen.getScene().getWindow();
             root = FXMLLoader.load(getClass().getResource("GuiSelectedAlbum.fxml"));
