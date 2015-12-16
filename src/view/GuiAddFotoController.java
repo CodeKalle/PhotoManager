@@ -6,17 +6,13 @@ import java.io.IOException;
 import java.net.InetAddress;
 import java.net.URL;
 import java.net.UnknownHostException;
-import java.nio.file.DirectoryStream;
 import java.nio.file.FileSystems;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.nio.file.attribute.BasicFileAttributes;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.ResourceBundle;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.event.EventHandler;
@@ -64,7 +60,10 @@ public class GuiAddFotoController implements Initializable{
     // Der Fotogereich
     @FXML
     TilePane guiAddFotoTilePane;
+    
     List<Path> aktuelleFotos = new LinkedList();
+    
+    private static String position;
     
     /**
     * Methode handelt die Aktionen der Buttons
@@ -106,29 +105,26 @@ public class GuiAddFotoController implements Initializable{
     /**
     * Methode iteriert durch übergebennen Unterordner
     * 
-    * @throws java.io.IOException
     * @param parent Oberitem
     * @param depth Tiefe
     * 
     * Version-History:
     * @date 16.11.2015 by Danilo: Initialisierung
     */
-    public void searchInFolder(TreeItem<String> parent, int depth) throws IOException{
+    private void searchInFolder(TreeItem<String> parent, int depth) {
         depth++;
-        DirectoryStream<Path> filelist = Files.newDirectoryStream(Paths.get(parent.getValue()));
-        for(Path file:filelist){
-            File tmpFile = new File(file.toString());
-            if (tmpFile.canRead()) {
+        if (depth>1) return;
+        parent.getChildren().clear();
+        File newFile = new File(parent.getValue());
+        String[] directorie = newFile.list();
+        for(String file:directorie){
+            if (isAllowedFile(newFile.toPath())) {
                 TreeItem<String> treeItem = new TreeItem<>();
-                treeItem.setValue(file.toString());
-                treeItem.setValue(file.toString());
+                treeItem.setValue(file);
                 parent.getChildren().add(treeItem);
-                if (depth<=1)
-                {
-                    searchInFolder(treeItem, depth);
-                    if (tmpFile.isDirectory()){
-                        addHandler(treeItem);
-                    }
+                searchInFolder(treeItem , depth);
+                if (Files.isDirectory(Paths.get(file))){
+                    addHandler(treeItem);
                 }
             }
         }
@@ -142,16 +138,12 @@ public class GuiAddFotoController implements Initializable{
     * Version-History:
     * @date 16.11.2015 by Danilo: Initialisierung
     */
-    public void addHandler(TreeItem<String> treeitem) {
+    private void addHandler(TreeItem<String> treeitem) {
         treeitem.addEventHandler(TreeItem.branchExpandedEvent(), new EventHandler(){
             @Override
             public void handle(Event e){
-                System.out.println("Expand");
-                try {
-                    searchInFolder(treeitem, 0);
-                } catch (IOException ex) {
-                    Logger.getLogger(GuiAddFotoController.class.getName()).log(Level.SEVERE, null, ex);
-                }
+                System.out.println("Expand ");
+                searchInFolder(treeitem, 0);
             }
         });
         treeitem.addEventHandler(TreeItem.branchCollapsedEvent(), new EventHandler(){
@@ -160,6 +152,32 @@ public class GuiAddFotoController implements Initializable{
                 System.out.println("Collaps");
             }
         });
+    }
+    
+    /**
+    * Überpfüft das Datei gültiges Format hat
+    * 
+    * @param file
+    * 
+    * Version-History:
+    * @date 16.12.2015 by Danilo: Initialisierung
+    */
+    private boolean isAllowedFile(Path path) {
+        if (Files.isReadable(path)) {
+            return true;
+        }
+        if (Files.isDirectory(path)) {
+            return true;
+        }
+        {
+            String[] fileExtensions = new String[] {"jpg", "jpeg"};
+            for (String tmpExtension : fileExtensions) {
+                if(path.toFile().getName().toLowerCase().endsWith(tmpExtension)) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
     
     /**
@@ -187,20 +205,17 @@ public class GuiAddFotoController implements Initializable{
         
         Iterable<Path> rootDirectories=FileSystems.getDefault().getRootDirectories();
         for(Path path:rootDirectories){
-            try {
-                BasicFileAttributes attribs=Files.readAttributes(path,BasicFileAttributes.class);
-                if(attribs.isDirectory()){
-                    TreeItem<String> treeItem = new TreeItem<>();
-                    treeItem.setValue(path.toString());
-                    treeItem.setValue(path.toString());
-                    rootNode.getChildren().add(treeItem);
-                    searchInFolder(treeItem, 0);
-                    addHandler(treeItem);
-                }
-            } catch (IOException e) {}
+            File rootFile = new File(path.toString());
+            if(rootFile.isDirectory()){
+                TreeItem<String> treeItem = new TreeItem<>();
+                treeItem.setValue(path.toString());
+                rootNode.getChildren().add(treeItem);
+                searchInFolder(treeItem, 0);
+                addHandler(treeItem);
+            }
         }
         rootNode.setExpanded(true);
-            
+
         //Root in die TreeView setzten mit allen Unterknoten
         treeView.setRoot(rootNode);
     }
