@@ -61,6 +61,7 @@ public class FotoControllerTest {
     private static String name;
     private static Path pathOfTestfolder;
     private static Path pathOfFoto;
+    private static Path pathOfRandomFoto;
     private static List listOfPathes;
     private static List listOfFotos;
     private static Map<String, Object> daten = new HashMap<>();
@@ -433,8 +434,7 @@ public class FotoControllerTest {
         // Liste der Pfade leeren
         listOfPathes.clear();
         
-        // 5000 Bilder und Fotos anlegen
-        Foto[] fotos = new Foto[garanteedFotoCount];
+        // 5000 Bilder anlegen
         File [] bilder = new File[garanteedFotoCount];
         for (int i = 0; i < garanteedFotoCount; i++) {
             generateRandomData();
@@ -445,11 +445,9 @@ public class FotoControllerTest {
             } catch (IOException ex) {
                 Logger.getLogger(FotoControllerTest.class.getName()).log(Level.SEVERE, null, ex);
             }
-            fotos[i] = new Foto(randomName, pathOfRandomFoto.toString());
             listOfPathes.add(pathOfRandomFoto);
         }
         
-        System.out.println(listOfPathes);
         // Fotoliste enthält 500 Fotos
         FotoController.addListOfFotosToAlbum(title, listOfPathes);
         resultList = FotoController.getFotosFromAlbum(title);
@@ -818,10 +816,7 @@ public class FotoControllerTest {
         
         // Prüft das Album zwanzig-gemerkte Foto hält, also 13
         assertThat(AlbenController.getAlbum(title).getFotoListe().size(), is(13));
-for (Foto tmpFoto : AlbenController.getAlbum(title).getFotoListe())
-{
-    System.out.println(">" + tmpFoto.getName() + " " + tmpFoto.getCounter());
-}
+
         // Erwartung bisher: Logo1, Logo2, Logo3, Logo2, Logo2, Logo2, Logo2, Logo0, Logo3, Logo4, Logo3, Logo2, Logo1
         // Prüfen der Fotocounter
         for (Foto tmpFoto : AlbenController.getAlbum(title).getFotoListe())
