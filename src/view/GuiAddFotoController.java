@@ -63,8 +63,6 @@ public class GuiAddFotoController implements Initializable{
     
     List<Path> aktuelleFotos = new LinkedList();
     
-    private static String position;
-    
     /**
     * Methode handelt die Aktionen der Buttons
     * 
@@ -109,47 +107,68 @@ public class GuiAddFotoController implements Initializable{
     * @param depth Tiefe
     * 
     * Version-History:
-    * @date 16.11.2015 by Danilo: Initialisierung
+    * @date 16.12.2015 by Danilo: Initialisierung
     */
     private void searchInFolder(TreeItem<String> parent, int depth) {
         depth++;
-        if (depth>1) return;
+        if (depth>2) return;
         parent.getChildren().clear();
-        File newFile = new File(parent.getValue());
+        File newFile = new File(getPath(parent).toString());
         String[] directorie = newFile.list();
         for(String file:directorie){
-            if (isAllowedFile(newFile.toPath())) {
+            Path fullPath = Paths.get(newFile + File.separator + file);
+            if (isAllowedFile(fullPath)) {
                 TreeItem<String> treeItem = new TreeItem<>();
                 treeItem.setValue(file);
                 parent.getChildren().add(treeItem);
-                searchInFolder(treeItem , depth);
-                if (Files.isDirectory(Paths.get(file))){
+                if (Files.isDirectory(fullPath)) {
+                    searchInFolder(treeItem , depth);
                     addHandler(treeItem);
                 }
             }
         }
     }
-    
+
+    /**
+    * Methode die den Systempfad eines TreeItems zurück gibt
+    * 
+    * @param currentfile Übergebenes TreeItem
+    * @return
+    * 
+    * Version-History:
+    * @date 16.12.2015 by Danilo: Initialisierung
+    */
+    private Path getPath(TreeItem<String> currentfile) {
+        String fullPath = "";
+        if (currentfile.getParent()==null) {
+        }else if(currentfile.getParent().getParent()==null) {
+            fullPath = currentfile.getValue();
+        } else {
+            fullPath = getPath(currentfile.getParent()) + File.separator + currentfile.getValue();
+        }
+        return Paths.get(fullPath);
+    }
+
     /**
     * Methode fügt Handler hinzu
     * 
     * @param treeitem Oberitem
     * 
     * Version-History:
-    * @date 16.11.2015 by Danilo: Initialisierung
+    * @date 16.12.2015 by Danilo: Initialisierung
     */
     private void addHandler(TreeItem<String> treeitem) {
         treeitem.addEventHandler(TreeItem.branchExpandedEvent(), new EventHandler(){
             @Override
             public void handle(Event e){
-                System.out.println("Expand ");
+                System.out.println("Expand " + treeitem.getValue());
                 searchInFolder(treeitem, 0);
             }
         });
         treeitem.addEventHandler(TreeItem.branchCollapsedEvent(), new EventHandler(){
             @Override
             public void handle(Event e){
-                System.out.println("Collaps");
+                System.out.println("Collaps " + treeitem.getValue());
             }
         });
     }
@@ -163,8 +182,8 @@ public class GuiAddFotoController implements Initializable{
     * @date 16.12.2015 by Danilo: Initialisierung
     */
     private boolean isAllowedFile(Path path) {
-        if (Files.isReadable(path)) {
-            return true;
+        if (!Files.isReadable(path)) {
+            return false;
         }
         if (Files.isDirectory(path)) {
             return true;
