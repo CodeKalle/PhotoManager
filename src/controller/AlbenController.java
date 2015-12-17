@@ -34,7 +34,7 @@ public class AlbenController {
     * @date 10.12.2015 by Danilo: Initialisierung
     */
     // Minimale Titellänge eines Albums
-    private static int minTitleLength = 3;
+    private static int minTitleLength = 2;
     // Maximale Titellänge eines Albums
     private static int maxTitleLength = 20;
     // Maximale Beschreibungslänge eines Albums
