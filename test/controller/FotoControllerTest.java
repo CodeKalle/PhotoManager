@@ -28,6 +28,9 @@ import static org.junit.Assert.*;
  * @date 02.12.2015 by Daniel: testdaten, testGetFotosFromAlbum hinzugefügt; tearDown löscht container, metadaten funktioniert nicht (Kurztitel=null)
  * @date 03.12.2015 by Daniel: keine Verbesserung nach dem hinzufügen von foto zum container 
  * @date 04.12.2015 by Daniel: Neue Strukturierung der Tests
+ * @date 05.12.2015 by Daniel: Neue Struktur erweitern, alte Tests angepasst
+ * @date 06.12.2015 by Daniel: Alte Tests anpassen, neue Tests hinzugefügt
+ * @date 07.12.2015 by Daniel: neue Tests hinzugefügt
  * @date 07.12.2015 by Danilo: Sortierkennzeichen Datentyp zu int und Fehlerkorrektur
  * @date 09.12.2015 by Danilo: Anpassung an Änderungen im FotoCotnroller
  * @date 14.12.2015 by Danilo: Hinzufügen des Testordnerpfades und weiterer Test neuer Methoden [testDeleteNotExistingFotosFromListInAlbum]
@@ -40,6 +43,7 @@ public class FotoControllerTest {
      * Version-History:
      * @date 01.12.2015 by Daniel: Initialisierung
      * @date 01.12.2015 by Daniel: Anlegen neuer Klassenvariablen
+     * @date 06.12.2015 by Daniel: neue Attribute, Ausrichutng
      * @date 07.12.2015 by Danilo: Sortierkennzeichen Datentyp zu int
      * @date 09.12.2015 by Danilo: Anpassung an Änderungen im FotoCotnroller
      * @date 14.12.2015 by Danilo: Hinzufügen des Testordnerpfades
@@ -57,6 +61,7 @@ public class FotoControllerTest {
     private static String name;
     private static Path pathOfTestfolder;
     private static Path pathOfFoto;
+    private static Path pathOfRandomFoto;
     private static List listOfPathes;
     private static List listOfFotos;
     private static Map<String, Object> daten = new HashMap<>();
@@ -232,23 +237,71 @@ public class FotoControllerTest {
      * 
      * Version-History:
      * @date 01.12.2015 by Daniel: Initialisierung
-     * @date 06.12.2015 by Daniel: Album konnte Angelegt werden, Kommentare
+     * @date 06.12.2015 by Daniel: Album konnte Angelegt werden, Kommentare, kein Foto angelegt prüfen
      */
     @Test
     public void testGetFotosFromAlbum() {
         System.out.println("testGetFotosFromAlbum");
+        
         // Album wurde angelegt
         assertThat(AlbenController.getAlbum(title), is(notNullValue()));
-        FotoController.addListOfFotosToAlbum(title, listOfPathes);
-        // Fotoliste ist nicht leer?
-        assertThat(AlbenController.getAlbum(title).getFotoListe(), not(empty()));
         
-        List expectList = listOfPathes;
+        // Fotoliste ist leer
+        List expectList = new LinkedList<>();
         List resultList = FotoController.getFotosFromAlbum(title);
-        // Listen der lokalen Pfade und übergebenen Pfade stimmen überein
+        assertEquals(expectList, resultList);
+        
+        // Fotoliste konnte gelesen werden
+        FotoController.addListOfFotosToAlbum(title, listOfPathes);
+        resultList = FotoController.getFotosFromAlbum(title);
+        assertThat(resultList, not(empty()));
+        
+        // Fotos wurden hinzugefügt, enthält gleiche Pfade
+        expectList = listOfPathes;
         assertEquals(expectList, resultList);
     }
 
+    /**
+     * Testet die Methode testGetFotosFromAlbum der Klasse FotoController.
+     * Testet, ob die Fotoliste das Foto mit zufälligem Namen enthält.
+     * 
+     * Version-History:
+     * @date 07.12.2015 by Daniel: Initialisierung
+     */
+    @Test
+    public void testGetRandomFotosFromAlbum() {
+        System.out.println("testGetRandomFotosFromAlbum");
+        
+        // Album wurde angelegt
+        assertThat(AlbenController.getAlbum(title), is(notNullValue()));
+        
+        // Fotoliste ist leer
+        List expectList = new LinkedList<>();
+        List resultList = FotoController.getFotosFromAlbum(title);
+        assertEquals(expectList, resultList);
+                
+        // Foto mit zufälligem Namen erstellen
+        generateRandomData();
+        testFoto = new Foto(randomName, pathOfFoto.toString());
+        
+        // Fotoliste konnte gelesen werden
+        FotoController.addListOfFotosToAlbum(title, listOfPathes);
+        resultList = FotoController.getFotosFromAlbum(title);
+        assertThat(resultList, not(empty()));
+        
+        // Fotos wurden hinzugefügt, enthält gleiche Pfade
+        expectList = listOfPathes;
+        assertEquals(expectList, resultList);
+        
+        // FotoContainer hat das Foto mit zufälligem Namen
+        for (Foto tmpFoto : mapOfFotos.values()) {
+            if (tmpFoto.getName().equals(randomName)) {
+            } else {
+                fail("Foto nicht im FotoContainer");
+            }
+        }
+    }
+    
     /**
      * Testet die Methode testAddListOfFotosToAlbum der Klasse FotoController.
      * Testet, ob die Fotoliste des Albums mit der übergebenen Liste übereinstimmt.
@@ -265,14 +318,7 @@ public class FotoControllerTest {
         // Album wurde angelegt
         assertThat(AlbenController.getAlbum(title), is(notNullValue()));
         
-        // Testweise in der Methode angelegt um Foto sicher zu erstellen, kann danach wieder weg
-        listOfPathes = new LinkedList<>();
-        listOfPathes.add(pathOfFoto);
-        testFoto = new Foto(name, pathOfFoto.toString());
-        listOfFotos = new LinkedList<>();
-        listOfFotos.add(testFoto);
-        
-        // addListOfFotosToAlbum geprüft, gibt 0 zurück, wenn kein Fehler entstand, errorcode != 0: AssertiationFailedError
+        // Errorcode != 0, wenn ein Fehler aufgetreten ist
         int errorcode = FotoController.addListOfFotosToAlbum(title, listOfPathes);
         if (errorcode != 0) {
             fail(ErrorController.changeErrorCode(errorcode)[1]);
@@ -291,7 +337,133 @@ public class FotoControllerTest {
             assertThat(tmpFoto.getCounter(), is(1));
         }
     }
+    
+        /**
+     * Testet die Methode testAddListOfFotosToAlbum der Klasse FotoController.
+     * Testet, ob Fotos hinzugefügt werden, die einen leeren Namen enthalten.
+     * 
+     * Version-History:
+     * @date 07.12.2015 by Daniel: Initialisierung
+     */
+    @Test
+    public void testAddListOfFotosToAlbumEmptyName() {
+        System.out.println("testAddListOfFotosToAlbumEmptyName");
+        
+        // Album wurde angelegt
+        assertThat(AlbenController.getAlbum(title), is(notNullValue()));
+        
+        // Foto mit leerem Namen erstellen
+        testFoto = new Foto(EMPTYSTRING, pathOfFoto.toString());
+        
+        // Errorcode != 0, wenn ein Fehler aufgetreten ist
+        int errorcode = FotoController.addListOfFotosToAlbum(title, listOfPathes);
+        if (errorcode != 0) {
+            fail(ErrorController.changeErrorCode(errorcode)[1]);
+        }
+        
+        // Listen der lokalen Fotos und übergebenen Fotos stimmen überein
+        List expectList = listOfPathes;
+        List resultList = FotoController.getFotosFromAlbum(title);
+        assertEquals(expectList, resultList);
+        
+        // Kein Foto mit leerem Namen enthalten
+        for (Foto tmpFoto : mapOfFotos.values()) {
+            if (tmpFoto.getName().equals(EMPTYSTRING)) {
+                fail("Foto mit leerem Namen im FotoContainer");
+            }
+        }
+    }
+    
+    /**
+     * Testet die Methode testAddListOfFotosToAlbum der Klasse FotoController.
+     * Testet, ob die Fotoliste des Albums mit der übergebenen Liste übereinstimmt.
+     * 
+     * Version-History:
+     * @date 07.12.2015 by Daniel: Initialisierung
+     */
+    @Test
+    public void testAddListOfFotosToAlbumNullName() {
+        System.out.println("testAddListOfFotosToAlbumNullName");
+        
+        // Album wurde angelegt
+        assertThat(AlbenController.getAlbum(title), is(notNullValue()));
+        
+        // Foto ohne Namen erstellen
+        testFoto = new Foto(NULLSTRING, pathOfFoto.toString());
+        
+        // Errorcode != 0, wenn ein Fehler aufgetreten ist
+        int errorcode = FotoController.addListOfFotosToAlbum(title, listOfPathes);
+        if (errorcode != 0) {
+            fail(ErrorController.changeErrorCode(errorcode)[1]);
+        }
+        
+        // Listen der lokalen Fotos und übergebenen Fotos stimmen überein
+        List expectList = listOfPathes;
+        List resultList = FotoController.getFotosFromAlbum(title);
+        assertEquals(expectList, resultList);
+        
+        // Kein Foto ohne Namen enthalten
+        for (Foto tmpFoto : mapOfFotos.values()) {
+            if (tmpFoto.getName().equals(NULLSTRING)) {
+                fail("Foto ohne Name im FotoContainer");
+            }
+        }
+    }
 
+    /**
+     * Testet die Methode testGetFotosFromAlbum der Klasse FotoController.
+     * Testet, ob die Fotoliste des Albums mit der lokal erstellten Liste übereinstimmt.
+     * 
+     * Version-History:
+     * @date 07.12.2015 by Daniel: Initialisierung
+     * @date 07.12.2015 by Daniel: Fehler behoben (Bilder anlegen)
+     * 
+     */
+    @Test
+    public void testGetFotosFromAlbumStability() {
+        System.out.println("testGetFotosFromAlbumStability");
+        
+        // Album wurde angelegt
+        assertThat(AlbenController.getAlbum(title), is(notNullValue()));
+        
+        // Fotoliste ist leer
+        List expectList = new LinkedList<>();
+        List resultList = FotoController.getFotosFromAlbum(title);
+        assertEquals(expectList, resultList);
+        
+        // Liste der Pfade leeren
+        listOfPathes.clear();
+        
+        // 5000 Bilder anlegen
+        File [] bilder = new File[garanteedFotoCount];
+        for (int i = 0; i < garanteedFotoCount; i++) {
+            generateRandomData();
+            pathOfRandomFoto = Paths.get("test/testdaten/RandomTestbild" + i + ".jpg");
+            bilder[i] = new File(pathOfRandomFoto.toString());
+            try {
+                bilder[i].createNewFile();
+            } catch (IOException ex) {
+                Logger.getLogger(FotoControllerTest.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            listOfPathes.add(pathOfRandomFoto);
+        }
+        
+        // Fotoliste enthält 500 Fotos
+        FotoController.addListOfFotosToAlbum(title, listOfPathes);
+        resultList = FotoController.getFotosFromAlbum(title);
+        System.out.println(resultList);
+        assertEquals(garanteedFotoCount, resultList.size());
+        
+        // Fotos wurden hinzugefügt, enthält gleiche Pfade
+        expectList = listOfPathes;
+        assertEquals(expectList, resultList);
+        
+        // Bilder löschen
+        for (int i = 0; i < garanteedFotoCount; i++) {
+            bilder[i].delete();
+        }
+    }
+    
     /**
      * Testet die Methode testDeleteAllFotosInAlbum der Klasse FotoController.
      * Testet, ob die Fotoliste des Albums gelöscht wurde.
@@ -303,16 +475,18 @@ public class FotoControllerTest {
     @Test
     public void testDeleteAllFotosInAlbum() {
         System.out.println("testDeleteAllFotosInAlbum");
+        
         // Album wurde angelegt
         assertThat(AlbenController.getAlbum(title), is(notNullValue()));
         
+        // Liste von Fotos hinzugefügt
         FotoController.addListOfFotosToAlbum(title, listOfPathes);
-        // Liste von Fotos, die gelöschtw erden sollen, wurde hinzugefügt
-        assertThat(AlbenController.getAlbum(title).getFotoListe(), not(empty()));
+        assertThat(FotoController.getFotosFromAlbum(title), not(empty()));
         
+        // Fotos wurden gelöscht
         FotoController.deleteAllFotosInAlbum(AlbenController.getAlbum(title));
-        List<Foto> expectList = new LinkedList<>();
-        List<Foto> resultList = AlbenController.getAlbum(title).getFotoListe();
+        List<Path> expectList = new LinkedList<>();
+        List<Path> resultList = FotoController.getFotosFromAlbum(title);
         assertEquals(expectList, resultList);
     }
     
@@ -642,10 +816,7 @@ public class FotoControllerTest {
         
         // Prüft das Album zwanzig-gemerkte Foto hält, also 13
         assertThat(AlbenController.getAlbum(title).getFotoListe().size(), is(13));
-for (Foto tmpFoto : AlbenController.getAlbum(title).getFotoListe())
-{
-    System.out.println(">" + tmpFoto.getName() + " " + tmpFoto.getCounter());
-}
+
         // Erwartung bisher: Logo1, Logo2, Logo3, Logo2, Logo2, Logo2, Logo2, Logo0, Logo3, Logo4, Logo3, Logo2, Logo1
         // Prüfen der Fotocounter
         for (Foto tmpFoto : AlbenController.getAlbum(title).getFotoListe())
