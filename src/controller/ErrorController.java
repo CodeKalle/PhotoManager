@@ -92,6 +92,7 @@ public class ErrorController {
      * @date 06.12.2015 by Tobias: Merge verkackt, manuelles zurücksetzten
      * @date 07.12.2015 by Danilo: Kommentierung geändert
      * @date 14.12.2015 by Danilo: Update 455
+     * @date 27.12.2015 by Andrea: Fehlerkommentierung
      */
     public static String[] changeErrorCode(int errorcode) {
         String title;
@@ -142,6 +143,10 @@ public class ErrorController {
                 title = "Albumänderungs-Fehler";
                 text = "Sortierkennzeichen konnte bei Änderung nicht gesetzt werden.";
                 break;
+            case 210:
+                title = "Fotosortier-Fehler";
+                text = "Sortierung enthält fehlerhafte Parameter.";
+                break;    
             case 300:
                 title = "Albumlösch-Fehler";
                 text = "Mehrere Alben konnten nicht gelöscht werden.";
