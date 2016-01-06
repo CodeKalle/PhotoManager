@@ -46,11 +46,11 @@
             </TilePane>
             <TilePane id="TilePaneAddAlbum" fx:id="tp" alignment="CENTER" hgap="150.0" prefColumns="3" prefRows="2" tileAlignment="TOP_LEFT" vgap="20.0" GridPane.rowIndex="1">
                <children>
-                  <Button id="guiAlbumOverviewAlbumBearbeiten" fx:id="guiAlbumOverviewAlbumBearbeiten" mnemonicParsing="false" onAction="#handleButtonAction" prefWidth="145.0" text="Album bearbeiten" textAlignment="CENTER" />
-                  <Button id="guiAlbumOverviewAlbumLoeschen" fx:id="guiAlbumOverviewAlbumLoeschen" mnemonicParsing="false" onAction="#handleButtonAction" prefWidth="145.0" text="Album löschen" />
-                  <Button id="guiAlbumOverviewFotoHinzufuegen" fx:id="guiAlbumOverviewFotoHinzufuegen" mnemonicParsing="false" onAction="#handleButtonAction" prefWidth="145.0" text="Fotos hinzufügen" />
-                  <Button id="guiAlbumOverviewAlbumWechseln" fx:id="guiAlbumOverviewAlbumWechseln" mnemonicParsing="false" onAction="#handleButtonAction" prefWidth="145.0" text="In Album wechseln" />
-                  <Button id="guiAlbumOverviewHauptmenue" fx:id="guiAlbumOverviewHauptmenue" mnemonicParsing="false" onAction="#handleButtonAction" prefWidth="145.0" text="Zurück zum Hauptmenü" />
+                  <Button id="guiAlbumOverviewAlbumBearbeiten" fx:id="guiAlbumOverviewAlbumBearbeiten" mnemonicParsing="false" onAction="#handleButtonAction" prefWidth="150.0" text="Album bearbeiten" textAlignment="CENTER" />
+                  <Button id="guiAlbumOverviewAlbumLoeschen" fx:id="guiAlbumOverviewAlbumLoeschen" mnemonicParsing="false" onAction="#handleButtonAction" prefWidth="150.0" text="Album löschen" />
+                  <Button id="guiAlbumOverviewFotoHinzufuegen" fx:id="guiAlbumOverviewFotoHinzufuegen" mnemonicParsing="false" onAction="#handleButtonAction" prefWidth="150.0" text="Fotos hinzufügen" />
+                  <Button id="guiAlbumOverviewAlbumWechseln" fx:id="guiAlbumOverviewAlbumWechseln" mnemonicParsing="false" onAction="#handleButtonAction" prefWidth="150.0" text="In Album wechseln" />
+                  <Button id="guiAlbumOverviewHauptmenue" fx:id="guiAlbumOverviewHauptmenue" mnemonicParsing="false" onAction="#handleButtonAction" prefWidth="150.0" text="Zurück zum Hauptmenü" />
                </children>
             </TilePane>
          </children>

@@ -18,8 +18,8 @@
       <TextField fx:id="guiCreateAlbumName" layoutX="69.0" layoutY="96.0" />
       <TextArea fx:id="guiCreateAlbumBeschreibung" layoutX="69.0" layoutY="182.0" prefHeight="165.0" prefWidth="484.0" />
       <ComboBox fx:id="guiCreateAlbumComboBox" disable="true" layoutX="69.0" layoutY="414.0" prefWidth="150.0" />
-      <Button fx:id="guiCreateAlbumSortierkennzeichenHinzufuegen" disable="true" layoutX="311.0" layoutY="414.0" mnemonicParsing="false" onAction="#handleButtonAction" text="Hinzufügen" />
-      <Button fx:id="guiCreateAlbumSortierkennzeichenLoeschen" disable="true" layoutX="311.0" layoutY="450.0" mnemonicParsing="false" onAction="#handleButtonAction" text="Löschen" />
+      <Button fx:id="guiCreateAlbumSortierkennzeichenHinzufuegen" disable="true" layoutX="311.0" layoutY="414.0" mnemonicParsing="false" onAction="#handleButtonAction" prefWidth="80.0" text="Hinzufügen" />
+      <Button fx:id="guiCreateAlbumSortierkennzeichenLoeschen" disable="true" layoutX="311.0" layoutY="450.0" mnemonicParsing="false" onAction="#handleButtonAction" prefWidth="80.0" text="Löschen" />
       <Button fx:id="guiCreateAlbumOk" layoutX="618.0" layoutY="533.0" mnemonicParsing="false" onAction="#handleButtonAction" text="Ok" />
       <Button fx:id="guiCreateAlbumAbbrechen" layoutX="697.0" layoutY="533.0" mnemonicParsing="false" onAction="#handleButtonAction" text="Abbrechen" />
    </children>
