@@ -36,7 +36,7 @@
             </VBox>
          </children>
       </HBox>
-      <Label id="LabelWilkommen" alignment="CENTER" layoutX="157.0" layoutY="116.0" styleClass="mainTitle" stylesheets="@GuiStyle.css" text="Willkommen zum Photomanager" textAlignment="CENTER" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="50.0">
+      <Label id="LabelWilkommen" alignment="CENTER" layoutX="157.0" layoutY="116.0" styleClass="mainTitle" stylesheets="@GuiStyle.css" text="Willkommen zum PhotoManager" textAlignment="CENTER" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="50.0">
          <font>
             <Font size="34.0" />
          </font>
