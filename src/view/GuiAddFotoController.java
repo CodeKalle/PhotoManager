@@ -54,13 +54,25 @@ public class GuiAddFotoController implements Initializable{
     // Alle Buttons des Fensters
     @FXML
     Button guiAddFotoAbbrechen, guiAddFotoBilderHinzufuegen;
+    
     // Die Baumstruktur des Filesystems
     @FXML
     TreeView<String> treeView;
+    
     // Der Fotogereich
     @FXML
     TilePane guiAddFotoTilePane;
     
+    // Markierung ob man sich im Root befindet
+    boolean isRoot = true;
+    
+    // Oberstes Treeitem
+    TreeItem<String> rootNode;
+    
+    // Position des letzten Ordners
+    String lastPosition;
+    
+    // Fotoliste
     List<Path> aktuelleFotos = new LinkedList();
     
     /**
@@ -108,6 +120,7 @@ public class GuiAddFotoController implements Initializable{
     * 
     * Version-History:
     * @date 16.12.2015 by Danilo: Initialisierung
+    * @date 07.01.2016 by Danilo: Update
     */
     private void searchInFolder(TreeItem<String> parent) {
         parent.getChildren().clear();
@@ -176,13 +189,21 @@ public class GuiAddFotoController implements Initializable{
     * 
     * Version-History:
     * @date 16.12.2015 by Danilo: Initialisierung
+    * @date 07.01.2016 by Danilo: Update
     */
     private void addHandler(TreeItem<String> treeitem) {
         treeitem.addEventHandler(TreeItem.branchExpandedEvent(), new EventHandler(){
             @Override
             public void handle(Event e){
                 if (treeitem.getChildren().get(0)==null) searchInFolder(treeitem);
-                bilderAnzeigen(getPathList(getPath(treeitem)));
+                //if (getNoteCount(treeitem, 0)==0) bilderAnzeigen(getPathList(getPath(treeitem)));
+                if (isRoot==true) {
+                    isRoot=false;
+                    lastPosition = treeitem.toString();
+                    bilderAnzeigen(getPathList(getPath(treeitem)));
+                } else {
+                    if (treeitem.getParent()==rootNode) isRoot=true;
+                }   
             }
         });
         treeitem.addEventHandler(TreeItem.branchCollapsedEvent(), new EventHandler(){
@@ -202,6 +223,7 @@ public class GuiAddFotoController implements Initializable{
     * @date ??.11.2015 by Tobias: Initialisierung
     * @date 10.12.2015 by Danilo: Kommentare ergänzt
     * @date 16.12.2015 by Danilo: Pfadprüfung geändert
+    * @date 07.01.2016 by Danilo: Update
     */
     @Override
     public void initialize(URL location, ResourceBundle resources) {       
@@ -213,7 +235,7 @@ public class GuiAddFotoController implements Initializable{
         try{hostName=InetAddress.getLocalHost().getHostName();}catch(UnknownHostException x){}
  
         //Root erstellen
-        TreeItem<String> rootNode=new TreeItem(hostName);
+        rootNode=new TreeItem(hostName);
         
         Iterable<Path> rootDirectories=FileSystems.getDefault().getRootDirectories();
         for(Path path:rootDirectories){
