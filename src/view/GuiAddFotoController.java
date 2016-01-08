@@ -1,6 +1,7 @@
 package view;
 
 import controller.FotoController;
+import controller.SystemController;
 import java.io.File;
 import java.io.IOException;
 import java.net.InetAddress;
@@ -13,6 +14,9 @@ import java.nio.file.Paths;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.ResourceBundle;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.event.EventHandler;
@@ -41,8 +45,10 @@ import javafx.scene.control.TreeItem;
  * @date ??.??.2015 by Juliane & Manuel: Konzept der GUIs und programmtechnische Umsetzung
  * @date 06.12.2015 by Tobias: Initialize erweitert
  * @date 10.12.2015 by Danilo: Kommentare ergänzt
+ * @date 07.01.2016 by Danilo: Update
+ * @date 08.01.2016 by Danilo: Filesystem Speicherpunkt
  */
-public class GuiAddFotoController implements Initializable{
+public class GuiAddFotoController implements Initializable {
     
     /**
     * KLASSENVARIABLEN
@@ -50,6 +56,7 @@ public class GuiAddFotoController implements Initializable{
     * Version-History:
     * @date ??.11.2015 by Tobias: Initialisierung
     * @date 10.12.2015 by Danilo: Kommentare ergänzt
+    * @date 08.01.2016 by Danilo: Verschieben der zu merkenden Position in SystemController
     */
     // Alle Buttons des Fensters
     @FXML
@@ -68,9 +75,6 @@ public class GuiAddFotoController implements Initializable{
     
     // Oberstes Treeitem
     TreeItem<String> rootNode;
-    
-    // Position des letzten Ordners
-    String lastPosition;
     
     // Fotoliste
     List<Path> aktuelleFotos = new LinkedList();
@@ -153,11 +157,13 @@ public class GuiAddFotoController implements Initializable{
         for (String tmpExtension : fileExtensions) {
             File newFile = new File(path.toString());
             File[] directorie = newFile.listFiles();
-            for(File file:directorie){
-                if(file.getName().endsWith(tmpExtension)) {
-                    pathlist.add(file.toPath());
+            try {
+                for(File file:directorie){
+                    if(file.getName().endsWith(tmpExtension)) {
+                        pathlist.add(file.toPath());
+                    }
                 }
-            }
+            } catch (NullPointerException e) {}
         }
         return pathlist;
     }
@@ -166,7 +172,7 @@ public class GuiAddFotoController implements Initializable{
     * Methode die den Systempfad eines TreeItems zurück gibt
     * 
     * @param currentfile Übergebenes TreeItem
-    * @return
+    * @return Vollständiger Pfad des TreeItems
     * 
     * Version-History:
     * @date 16.12.2015 by Danilo: Initialisierung
@@ -190,29 +196,99 @@ public class GuiAddFotoController implements Initializable{
     * Version-History:
     * @date 16.12.2015 by Danilo: Initialisierung
     * @date 07.01.2016 by Danilo: Update
+    * @date 08.01.2016 by Danilo: Ordnerposition
     */
     private void addHandler(TreeItem<String> treeitem) {
         treeitem.addEventHandler(TreeItem.branchExpandedEvent(), new EventHandler(){
             @Override
             public void handle(Event e){
-                if (treeitem.getChildren().get(0)==null) searchInFolder(treeitem);
-                //if (getNoteCount(treeitem, 0)==0) bilderAnzeigen(getPathList(getPath(treeitem)));
-                if (isRoot==true) {
-                    isRoot=false;
-                    lastPosition = treeitem.toString();
-                    bilderAnzeigen(getPathList(getPath(treeitem)));
-                } else {
-                    if (treeitem.getParent()==rootNode) isRoot=true;
-                }   
+                callTreeitemForAction(treeitem);
             }
         });
         treeitem.addEventHandler(TreeItem.branchCollapsedEvent(), new EventHandler(){
             @Override
             public void handle(Event e){
+                callTreeitemForAction(treeitem);
             }
         });
     }
-
+    
+    /**
+    * Methode ruft Action für TreeItem und verhidert die Rekursion in der Filehierarchy
+    * 
+    * @param treeitem TreeItem deren Action ausgelöst werden soll
+    * 
+    * Version-History:
+    * @date 08.01.2016 by Danilo: Initialisierung
+    */
+    private void callTreeitemForAction(TreeItem<String> treeitem) {
+        if (isRoot==true) {
+            isRoot=false;
+            treeView.getSelectionModel().select(treeitem);
+        } else {
+            if (treeitem.getParent()==rootNode) isRoot=true;
+        }
+    }
+    
+    /**
+    * Methode gibt Ebene im Filesystem zurück
+    * 
+    * @param path Übergebener Pfad
+    * 
+    * Version-History:
+    * @date 08.01.2016 by Danilo: Initialisierung
+    */
+    private int getLevelOfFile(Path path) {
+        if (path==null) {
+            return 0;
+        } else {
+            return (1 + getLevelOfFile(path.getParent()));
+        }
+    }
+    
+    /**
+    * Öffnet Baummenü zur letzten gemerkten Position
+    * 
+    * Version-History:
+    * @date 08.01.2016 by Danilo: Initialisierung
+    */
+    private void expandToPosition() {
+        // Prüfen ob Pfad schon gemerkt wurde und Pfad ein Ornder mit Berechtigungen zum lesen ist
+        Path path = SystemController.getPosition();
+        if (path == null || !path.toFile().isDirectory() || !path.toFile().canRead()) return;      
+        
+        TreeItem<String> lastFolder = null;
+        
+        // Rootverzeichnis öffnen
+        ObservableList<TreeItem<String>> elementlist = rootNode.getChildren();
+        for (TreeItem<String> tmp : elementlist) {
+            if (tmp.getValue().equals(path.getRoot().toString())) {
+                tmp.setExpanded(true);
+                searchInFolder(tmp);
+                elementlist = tmp.getChildren();
+                lastFolder = tmp;
+            }
+        }
+        
+        // Unterverzeichnisse öffnen
+        int fileLevel = getLevelOfFile(path);
+        for (int i = 0; i<fileLevel-1; i++) {
+            for (TreeItem<String> tmp : elementlist) {
+                //Ordner expandieren
+                if (tmp.getValue().equals(path.getName(i).toString())) {
+                    tmp.setExpanded(true);
+                    searchInFolder(tmp);
+                    elementlist = tmp.getChildren();
+                    lastFolder = tmp;
+                }
+            }
+        }
+        
+        // Bilder anzeigen und TreeItem markieren
+        if (lastFolder!= null) bilderAnzeigen(getPathList(getPath(lastFolder)));
+        treeView.getSelectionModel().select(lastFolder);
+    }
+    
     /**
     * Initialisierung wird bei jedem Aufruf der GUI ausgeführt
     * 
@@ -224,6 +300,7 @@ public class GuiAddFotoController implements Initializable{
     * @date 10.12.2015 by Danilo: Kommentare ergänzt
     * @date 16.12.2015 by Danilo: Pfadprüfung geändert
     * @date 07.01.2016 by Danilo: Update
+    * @date 08.01.2016 by Danilo: Handler für Mausklick
     */
     @Override
     public void initialize(URL location, ResourceBundle resources) {       
@@ -243,15 +320,32 @@ public class GuiAddFotoController implements Initializable{
             if(rootFile.isDirectory()){
                 TreeItem<String> treeItem = new TreeItem<>();
                 treeItem.setValue(path.toString());
+                treeItem.getChildren().add(null);
                 rootNode.getChildren().add(treeItem);
-                searchInFolder(treeItem);
                 addHandler(treeItem);
             }
         }
+        
+        // Computerroot ausklappen
         rootNode.setExpanded(true);
+        
+        // Gemerkte Position wieder herstellen
+        expandToPosition();
 
         //Root in die TreeView setzten mit allen Unterknoten
         treeView.setRoot(rootNode);
+        
+        // Handler für den Mausklick der TreeView
+        treeView.getSelectionModel().selectedItemProperty().addListener(new ChangeListener() {
+            @Override
+            public void changed(ObservableValue observable, Object oldVal, Object newVal) {
+                SystemController.setPosition(getPath(treeView.getSelectionModel().getSelectedItem()));
+                treeView.getSelectionModel().select(treeView.getSelectionModel().getSelectedItem());
+                TreeItem<String> treeitem = treeView.getSelectionModel().getSelectedItem();
+                if (!treeitem.getChildren().isEmpty() && treeitem.getChildren().get(0)==null) searchInFolder(treeitem);
+                bilderAnzeigen(getPathList(getPath(treeitem)));
+            }
+        });
     }
     
     /**
@@ -264,7 +358,9 @@ public class GuiAddFotoController implements Initializable{
      */
     public void bilderAnzeigen(List<Path> fotos){
         guiAddFotoTilePane.getChildren().clear();
-
+        
+        guiAddFotoTilePane.setCursor(javafx.scene.Cursor.WAIT);
+        
         //Fotos aus Album laden
         for(int i = 0; i < fotos.size(); i++) {
             //Für jedes Bild Konstrukt zusammensetzen
@@ -304,9 +400,10 @@ public class GuiAddFotoController implements Initializable{
             //Fertiges Konstrukt in Pane anzeigen
             guiAddFotoTilePane.getChildren().add(i, lpane);
         }
+        
+        guiAddFotoTilePane.setCursor(javafx.scene.Cursor.DEFAULT);
     }
-    
-    
+
     /**
      * Gibt die markierten Fotos aus der TilePane zurück
      * @return Liste von Pfaden, der markierten Fotos

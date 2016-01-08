@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.StreamCorruptedException;
+import java.nio.file.Path;
 import model.AlbenContainer;
 import model.FotoContainer;
 import model.PmSystem;
@@ -25,6 +26,7 @@ import model.PmSystem;
  * @date 06.12.2015 by Danilo: Änderungen
  * @date 07.12.2015 by Danilo: Anpassung an Systemtests
  * @date 08.12.2015 by Danilo: Einfügen eines Fehlerloggingsystemes
+ * @date 08.01.2016 by Danilo: Ordnerposition im Filesystem
  */
 public class SystemController {
     
@@ -34,16 +36,19 @@ public class SystemController {
      * Version-History:
      * @date 20.11.2015 by Danilo: Initialisierung
      * @date 06.12.2015 by Danilo: Änderung des fileattributes
+     * @date 08.01.2016 by Danilo: Position im Ordnerpfad
      */
     // Derzeit speichert das System die Datenbank da wo die ausführbare JAVA-Datei liegt 
     private static String filename = "pm.jdb";
     private static PmSystem pmSystem = new PmSystem();
+    private static Path lastFilesystemPosition;
     
     /**
      * Methode startet das System mit standard Dateiinformation
      * 
-     * Version-History:
      * @return Rückgabe zur Fehlerauswertung
+     * 
+     * Version-History:
      * @date 06.12.2015 by Danilo: Initialisierung
      */
     public static int run() {
@@ -53,9 +58,10 @@ public class SystemController {
     /**
      * Methode startet das System mit Dateiinformation
      * 
-     * Version-History:
      * @param filename Dateiname zum Speichern
      * @return Rückgabe zur Fehlerauswertung
+     * 
+     * Version-History:
      * @date 06.12.2015 by Danilo: Initialisierung
      * @date 08.12.2015 by Danilo: Einfügen eines Fehlerloggingsystemes
      */
@@ -69,8 +75,9 @@ public class SystemController {
     /**
      * Methode realisiert die Generierung der benötigten Komponenten in Threads.
      * 
-     * Version-History:
      * @return Rückgabe zur Fehlerauswertung
+     * 
+     * Version-History:
      * @date 20.11.2015 by Danilo: Initialisierung
      * @date 30.11.2015 by Danilo: Anpassung an GUI
      * @date 06.12.2015 by Danilo: Umbennenung,Anpassung an Test und setzen auf private
@@ -104,9 +111,10 @@ public class SystemController {
     /**
      * Prüft Zugriff auf Datei und lädt oder speichert das System.
      * 
-     * Version-History:
      * @param mode true = Zum Laden,<br> false = Zum Speichern
      * @return Rückgabe zur Fehlerauswertung
+     * 
+     * Version-History:
      * @date 20.11.2015 by Danilo: Initialisierung
      * @date 23.11.2015 by Danilo: Kommentar angepasst
      * @date 30.11.2015 by Danilo: Anpassung an GUI
@@ -138,8 +146,9 @@ public class SystemController {
      * Diese Methode wird nur benötigt falls das System keine Datenbank zum
      * laden findet.
      * 
-     * Version-History:
      * @return Rückgabe zur Fehlerauswertung
+     * 
+     * Version-History:
      * @date 20.11.2015 by Danilo: Initialisierung
      * @date 30.11.2015 by Danilo: Anpassung an GUI
      * @date 04.12.2015 by Danilo: Public da Methode vom Test gebraucht wird
@@ -155,8 +164,9 @@ public class SystemController {
     /**
      * Diese Methode speichert das gesamte System.
      * 
-     * Version-History:
      * @return Fehlercode zur Auswertung
+     * 
+     * Version-History:
      * @date 20.11.2015 by Danilo: Initialisierung
      * @date 23.11.2015 by Tobias: Setzten der Methode auf private
      * @date 23.11.2015 by Danilo: Kommentar angepasst
@@ -191,8 +201,9 @@ public class SystemController {
     /**
      * Diese Methode laed das System aus einer bestehenden Datei.
      * 
-     * Version-History:
      * @return Fehlercode zur Auswertung
+     * 
+     * Version-History:
      * @date 20.11.2015 by Danilo: Initialisierung
      * @date 23.11.2015 by Danilo: Kommentar angepasst
      * @date 24.11.2015 by Danilo: Methodenname geändert und lokale Variablen
@@ -241,8 +252,9 @@ public class SystemController {
     /**
      * Dieser Setter setzt den Dateipfad.
      * 
-     * Version-History:
      * @param filename Dateipfad
+     * 
+     * Version-History:
      * @date 06.12.2015 by Danilo: Initialisierung
      */
     public static void setFilename(String filename) {
@@ -252,8 +264,9 @@ public class SystemController {
     /**
      * Dieser Getter holt den Dateipfad.
      * 
-     * Version-History:
      * @return Rückgabe des Dateipfades
+     * 
+     * Version-History:
      * @date 06.12.2015 by Danilo: Initialisierung
      */
     public static String getFilename() {
@@ -263,8 +276,9 @@ public class SystemController {
     /**
      * Dieser Getter holt den Albencontainer.
      * 
-     * Version-History:
      * @return Rückgabe der gesamten Albenliste des Systems
+     * 
+     * Version-History:
      * @date 21.11.2015 by Danilo: Initialisierung
      * @date 23.11.2015 by Danilo: Kommentar angepasst
      * @date 06.12.2015 by Danilo: Status auf protected
@@ -276,13 +290,38 @@ public class SystemController {
     /**
      * Dieser Getter holt den Fotocontainer.
      * 
-     * Version-History:
      * @return Rückgabe der gesamten Fotoliste des Systems
+     * 
+     * Version-History:
      * @date 21.11.2015 by Danilo: Initialisierung
      * @date 23.11.2015 by Danilo: Kommentar angepasst
      * @date 06.12.2015 by Danilo: Status auf protected
      */
     protected static FotoContainer getFotoContainer(){
         return pmSystem.getFotos();
+    }
+    
+    /**
+     * Dieser Getter holt die Position im Ordnerpfad.
+     * 
+     * @return Rückgabe der Ordnerposition
+     * 
+     * Version-History:
+     * @date 08.01.2016 by Danilo: Initialisierung
+     */
+    public static Path getPosition(){
+        return lastFilesystemPosition;
+    }
+    
+    /**
+     * Dieser Setter setzt die Position im Ordnerpfad.
+     * 
+     * @param path Ordnerposition
+     * 
+     * Version-History:
+     * @date 08.01.2016 by Danilo: Initialisierung
+     */
+    public static void setPosition(Path path){
+        lastFilesystemPosition = path;
     }
 }
