@@ -27,7 +27,8 @@
                <children>
                   <Pane prefHeight="100.0" prefWidth="80.0">
                      <children>
-                        <Button fx:id="guiAlbumOverviewNeuesAlbum" mnemonicParsing="false" onAction="#handleButtonAction" prefHeight="80.0" prefWidth="80.0" text="Neues Album" textAlignment="CENTER" wrapText="true" />
+                        <Button fx:id="guiAlbumOverviewNeuesAlbum" mnemonicParsing="false" onAction="#handleButtonAction" prefHeight="80.0" prefWidth="80.0" styleClass="buttonAlben" stylesheets="@../../build/classes/view/GuiStyle.css" textAlignment="CENTER" wrapText="true" />
+                        <Label id="LabelAnlegen" layoutX="3.0" layoutY="86.0" text="Neues Album" textAlignment="CENTER" />
                      </children>
                      <TilePane.margin>
                         <Insets />

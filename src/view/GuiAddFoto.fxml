@@ -18,11 +18,11 @@
          <children>
             <TilePane id="TilePaneAddAlbum" alignment="CENTER" hgap="150.0" prefColumns="3" prefRows="2" tileAlignment="TOP_LEFT" vgap="20.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
                <children>
-                  <Button id="guiAddFotoBilderHinzufuegen" fx:id="guiAddFotoBilderHinzufuegen" mnemonicParsing="false" onAction="#handleButtonAction" text="Bilder hinzufügen" />
-                  <Button id="guiAddFotoAbbrechen" fx:id="guiAddFotoAbbrechen" mnemonicParsing="false" onAction="#handleButtonAction" text="Abbrechen" />
+                  <Button id="guiAddFotoBilderHinzufuegen" fx:id="guiAddFotoBilderHinzufuegen" mnemonicParsing="false" onAction="#handleButtonAction" prefWidth="120.0" text="Bilder hinzufügen" />
+                  <Button id="guiAddFotoAbbrechen" fx:id="guiAddFotoAbbrechen" mnemonicParsing="false" onAction="#handleButtonAction" prefWidth="120.0" text="Abbrechen" />
                </children>
             </TilePane>
-            <TreeView fx:id="treeView" />
+            <TreeView fx:id="treeView" GridPane.rowSpan="2147483647" />
             <TilePane id="TilePaneAddFoto" fx:id="guiAddFotoTilePane" hgap="60.0" prefHeight="460.0" prefWidth="590.0" vgap="50.0" GridPane.columnIndex="1" />
          </children>
          <columnConstraints>

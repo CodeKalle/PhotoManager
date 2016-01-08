@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.*?>
 <?import javafx.scene.image.*?>
 <?import javafx.scene.text.*?>
 <?import java.lang.*?>
@@ -18,19 +19,19 @@
          <children>
             <VBox id="VBoxStart" alignment="CENTER" layoutX="129.0" layoutY="370.0" spacing="20.0">
                <children>
-                  <Button id="guiMainButtonPraesentation" fx:id="guiMainButtonPraesentation" disable="true" layoutX="166.0" layoutY="370.0" mnemonicParsing="false" onAction="#handleButtonActionMain" opacity="0.4" prefHeight="50.0" prefWidth="50.0" styleClass="buttonDia" textAlignment="CENTER" />
+                  <Button id="guiMainButtonPraesentation" fx:id="guiMainButtonPraesentation" disable="true" layoutX="166.0" layoutY="370.0" mnemonicParsing="false" onAction="#handleButtonActionMain" opacity="0.4" prefHeight="50.0" prefWidth="50.0" styleClass="buttonDia" stylesheets="@../../build/classes/view/GuiStyle.css" textAlignment="CENTER" />
                   <Label id="LabelStart" layoutX="129.0" layoutY="458.0" text="Bildschirmpräsentation&#10;bearbeiten und starten" textAlignment="CENTER" />
                </children>
             </VBox>
             <VBox id="VboxAnlege" alignment="CENTER" layoutX="360.0" layoutY="370.0" spacing="20.0">
                <children>
-                  <Button id="guiMainButtonAlbum" fx:id="guiMainButtonAlbum" layoutX="375.0" layoutY="370.0" mnemonicParsing="false" onAction="#handleButtonActionMain" opacity="0.4" prefHeight="50.0" prefWidth="50.0" styleClass="buttonAlben" textAlignment="CENTER" />
+                  <Button id="guiMainButtonAlbum" fx:id="guiMainButtonAlbum" layoutX="375.0" layoutY="370.0" mnemonicParsing="false" onAction="#handleButtonActionMain" opacity="0.4" prefHeight="50.0" prefWidth="50.0" styleClass="buttonAlben" stylesheets="@../../build/classes/view/GuiStyle.css" textAlignment="CENTER" />
                   <Label id="LabelAnlegen" layoutX="360.0" layoutY="458.0" text="Alben anlegen&#10;und pflegen" textAlignment="CENTER" />
                </children>
             </VBox>
             <VBox id="VboxEinpflegen" alignment="CENTER" layoutX="563.0" layoutY="370.0" spacing="20.0">
                <children>
-                  <Button id="guiMainButtonFoto" fx:id="guiMainButtonFoto" layoutX="582.0" layoutY="370.0" mnemonicParsing="false" onAction="#handleButtonActionMain" opacity="0.4" prefHeight="50.0" prefWidth="50.0" styleClass="buttonFotos" stylesheets="@GuiStyle.css" textAlignment="CENTER" />
+                  <Button id="guiMainButtonFoto" fx:id="guiMainButtonFoto" layoutX="582.0" layoutY="370.0" mnemonicParsing="false" onAction="#handleButtonActionMain" opacity="0.4" prefHeight="50.0" prefWidth="50.0" styleClass="buttonFotos" stylesheets="@../../build/classes/view/GuiStyle.css" textAlignment="CENTER" />
                   <Label id="LabelEinpflegen" layoutX="563.0" layoutY="458.0" text="Fotos einpflegen&#10;und editieren" textAlignment="CENTER" />
                </children>
             </VBox>
@@ -41,10 +42,20 @@
             <Font size="34.0" />
          </font>
       </Label>
-      <ImageView fitHeight="349.0" fitWidth="416.0" layoutX="192.0" layoutY="123.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@../src/PhotoManagerLogo.png" />
-         </image>
-      </ImageView>
+      <GridPane layoutX="192.0" layoutY="123.0" AnchorPane.bottomAnchor="165.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="123.0">
+         <columnConstraints>
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
+         </columnConstraints>
+         <rowConstraints>
+            <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+         </rowConstraints>
+         <children>
+            <ImageView fitHeight="349.0" fitWidth="416.0" focusTraversable="true" layoutX="192.0" layoutY="123.0" nodeOrientation="INHERIT" pickOnBounds="true" preserveRatio="true" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS">
+               <image>
+                  <Image url="@../src/PhotoManagerLogo.png" />
+               </image>
+            </ImageView>
+         </children>
+      </GridPane>
    </children>
 </AnchorPane>
