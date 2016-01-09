@@ -1,7 +1,10 @@
 package view;
 
+import controller.AlbenController;
 import java.io.IOException;
 import java.net.URL;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -12,6 +15,11 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.Pane;
+import javafx.scene.layout.TilePane;
 import javafx.stage.Stage;
 
 /**
@@ -42,6 +50,10 @@ public class GuiSelectPraesentationController implements Initializable{
     // Combobox für den Anzeigemodus
     @FXML
     private CheckBox guiSelectPresentationVollbild;
+    // TilePane für die Alben
+    @FXML
+    private TilePane guiSelectPraesentationTilePane;
+    
     
     /**
     * Methode handelt die Aktionen der Buttons
@@ -58,8 +70,12 @@ public class GuiSelectPraesentationController implements Initializable{
         Stage stage;
         Parent root;        
         if(event.getSource()==guiSelectPresentationStart){
-            stage=(Stage) guiSelectPresentationStart.getScene().getWindow();
-            root = FXMLLoader.load(getClass().getResource("GuiPlayPraesentation.fxml"));
+            if((Main.speicher = getMarkiertesAlbum())!=null){
+                Main.speicher = getMarkiertesAlbum();
+                stage=(Stage) guiSelectPresentationStart.getScene().getWindow();
+                root = FXMLLoader.load(getClass().getResource("GuiPlayPraesentation.fxml"));
+            }
+            else return;
         }
         else {
             stage=(Stage) guiSelectPresentationHauptmenue.getScene().getWindow();
@@ -80,10 +96,77 @@ public class GuiSelectPraesentationController implements Initializable{
      * Version-History:
      * @date ??.11.2015 by Tobias: Initialisierung
      * @date 10.12.2015 by Danilo: Kommentare ergänzt
+     * @date 09.01.2016 by Tobias: 
      */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-           // Titel setzten
+        // Titel setzten
         Main.getPrimaryStage().setTitle("Photomanager - SelectPraesentation.fxml");
+        
+        //Alben laden
+        for(int i = 0; i < AlbenController.getAlbumList().size(); i++) {
+            //Für jedes Bild Konstrukt zusammensetzen
+            Pane lpane = new Pane();            
+            lpane.setPrefSize(80, 100);
+            
+            Image image = new Image("/src/dummy1.jpg");
+            
+            ImageView imageView = new ImageView();
+            imageView.setFitHeight(80);
+            imageView.setFitWidth(80);
+            imageView.setPickOnBounds(true);
+            imageView.setPreserveRatio(true);
+            imageView.setImage(image);            
+            
+            CheckBox checkBox = new CheckBox();
+            checkBox.setLayoutX(56.0);
+            checkBox.setLayoutY(58.0);
+            checkBox.setMnemonicParsing(false);
+            
+            Label label = new Label();
+            label.setLayoutX(20.0);
+            label.setLayoutY(80.0);
+            label.setPrefHeight(20);
+            label.setPrefWidth(80);
+            label.setText(AlbenController.getAlbumList().get(i));
+            
+            lpane.getChildren().add(imageView); //ID 0
+            lpane.getChildren().add(checkBox);  //ID 1
+            lpane.getChildren().add(label);     //ID 2
+            
+            //Fertiges Konstrukt in Pane anzeigen
+            guiSelectPraesentationTilePane.getChildren().add(i, lpane);
+        }
+        
+    }
+    
+    /**
+     * Diese Methode gibt den Titel eines markierten Album zurück
+     * 
+     * @return Titel des Albums, oder null wenn keines oder zu viele Alben markiert waren.
+     * 
+     * Version-History:
+     * @date 01.12.2015 by Manuel Zeidler and Tobias Dahm: Initialisierung
+     */
+    private String getMarkiertesAlbum() {
+        List<String> alben = new LinkedList();
+        
+        for(int i = 0; i < guiSelectPraesentationTilePane.getChildren().size(); i++){
+            Pane pane = (Pane) guiSelectPraesentationTilePane.getChildren().get(i);
+            CheckBox checkBox = (CheckBox) pane.getChildren().get(1);
+            Label label = (Label) pane.getChildren().get(2);
+            
+            if(checkBox.isSelected())
+                alben.add(label.getText());
+        }
+        
+        //zu viele oder keine Alben markiert
+        if(alben.isEmpty() || alben.size() > 1) { 
+            return null;
+        }
+        //ein Album markiert
+        else {
+            return alben.get(0);
+        }
     }
 }

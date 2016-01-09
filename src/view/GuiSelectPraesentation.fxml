@@ -27,18 +27,6 @@
           <RowConstraints maxHeight="292.0" minHeight="10.0" prefHeight="147.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <ScrollPane prefHeight="200.0" prefWidth="200.0">
-              <content>
-                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="452.0" prefWidth="784.0">
-                     <children>
-                        <Text layoutX="131.0" layoutY="230.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Hier befinden sich die Alben, die man markieren und dadurch für die Präsentation auswählen kann." />
-                        <TilePane hgap="60.0" prefHeight="200.0" prefWidth="200.0" vgap="50.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
-                           <children>
-                              <Pane />
-                           </children></TilePane>
-                     </children></AnchorPane>
-              </content>
-            </ScrollPane>
             <Pane fx:id="ButtonStartePraes" prefHeight="200.0" prefWidth="200.0" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS">
                <children>
                   <Button fx:id="guiSelectPresentationStart" layoutX="25.0" layoutY="99.0" mnemonicParsing="false" onAction="#handleButtonAction" text="Start" />
@@ -78,6 +66,18 @@
                   </HBox>
                </children>
             </Pane>
+            <ScrollPane prefHeight="200.0" prefWidth="200.0">
+               <content>
+                  <TilePane fx:id="guiSelectPraesentationTilePane" hgap="40.0" prefWidth="800.0" vgap="30.0">
+                     <padding>
+                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                     </padding>
+                     <opaqueInsets>
+                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                     </opaqueInsets>
+                  </TilePane>
+               </content>
+            </ScrollPane>
          </children>
       </GridPane>
    </children>
