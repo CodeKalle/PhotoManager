@@ -15,6 +15,7 @@ import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -27,6 +28,7 @@ import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.TilePane;
 import javafx.stage.Stage;
@@ -170,7 +172,20 @@ public class GuiAddFotoController implements Initializable{
             imageView.setFitWidth(80);
             imageView.setPickOnBounds(true);
             imageView.setPreserveRatio(true);
-            imageView.setImage(image);            
+            imageView.setImage(image);    
+            imageView.addEventHandler(MouseEvent.MOUSE_ENTERED, new EventHandler<MouseEvent>() {
+                public void handle(MouseEvent event) {
+                imageView.setFitHeight(200);
+                imageView.setFitWidth(200);
+            }
+            });
+                        imageView.addEventHandler(MouseEvent.MOUSE_EXITED, new EventHandler<MouseEvent>() {
+                @Override public void handle(MouseEvent event) {
+                imageView.setFitHeight(80);
+                imageView.setFitWidth(80);
+                imageView.setPickOnBounds(true);
+            }
+            });
 
             CheckBox checkBox = new CheckBox();
             checkBox.setLayoutX(56.0);
