@@ -28,7 +28,7 @@
                <children>
                   <Pane prefHeight="100.0" prefWidth="80.0">
                      <children>
-                        <Button fx:id="guiSelectAlbumNeuesAlbum" mnemonicParsing="false" onAction="#handleButtonAction" prefHeight="80.0" prefWidth="80.0" styleClass="buttonAlben" stylesheets="@../../build/classes/view/GuiStyle.css" textAlignment="CENTER" wrapText="true" />
+                        <Button fx:id="guiSelectAlbumNeuesAlbum" mnemonicParsing="false" onAction="#handleButtonAction" prefHeight="80.0" prefWidth="80.0" styleClass="buttonAlben" stylesheets="GuiStyle.css" textAlignment="CENTER" wrapText="true" />
                         <Label id="LabelStart" layoutX="5.0" layoutY="87.0" text="Neues Album" textAlignment="CENTER" />
                      </children>
                   </Pane>
@@ -47,7 +47,7 @@
                <children>
                   <HBox alignment="CENTER" TilePane.alignment="CENTER">
                      <children>
-                        <Label styleClass="beschreibung" stylesheets="@../../build/classes/view/GuiStyle.css" text="Bitte wählen Sie ein Album aus." HBox.hgrow="ALWAYS">
+                        <Label styleClass="beschreibung" stylesheets="GuiStyle.css" text="Bitte wählen Sie ein Album aus." HBox.hgrow="ALWAYS">
                            <font>
                               <Font size="20.0" />
                            </font>

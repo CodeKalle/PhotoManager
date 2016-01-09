@@ -43,7 +43,7 @@
                <children>
                   <Pane prefHeight="100.0" prefWidth="80.0">
                      <children>
-                        <Button mnemonicParsing="false" prefHeight="80.0" prefWidth="80.0" styleClass="buttonFotos" stylesheets="@../../build/classes/view/GuiStyle.css" textAlignment="CENTER" wrapText="true" />
+                        <Button mnemonicParsing="false" prefHeight="80.0" prefWidth="80.0" styleClass="buttonFotos" stylesheets="GuiStyle.css" textAlignment="CENTER" wrapText="true" />
                         <Label id="LabelStart" layoutX="9.0" layoutY="85.0" text="Fotos&#10;hinzufügen" textAlignment="CENTER" />
                      </children>
                   </Pane>

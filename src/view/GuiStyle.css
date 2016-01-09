@@ -41,14 +41,14 @@
 }
 
 .buttonFotos {
-    -fx-graphic: url("Button-Fotos.png");
+    -fx-graphic: url("../src/Button-Fotos.png");
 }
 
 .buttonAlben {
-    -fx-graphic: url("Button-Alben.png");
+    -fx-graphic: url("../src/Button-Alben.png");
 }
 
 .buttonDia {
-    -fx-graphic: url("Button-Dia.png");
+    -fx-graphic: url("../src/Button-Dia.png");
 }
 

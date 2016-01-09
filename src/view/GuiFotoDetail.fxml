@@ -15,15 +15,15 @@
         <URL value="@GuiStyle.css" />
     </stylesheets>
    <children>
-      <SplitPane dividerPositions="0.2982456140350877" prefHeight="600.0" prefWidth="800.0" styleClass="mainFxmlClass" stylesheets="@../../build/classes/view/GuiStyle.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <SplitPane dividerPositions="0.2982456140350877" prefHeight="600.0" prefWidth="800.0" styleClass="mainFxmlClass" stylesheets="GuiStyle.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <items>
-          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="598.0" prefWidth="273.0" styleClass="mainFxmlClass" stylesheets="@../../build/classes/view/GuiStyle.css">
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="598.0" prefWidth="273.0" styleClass="mainFxmlClass" stylesheets="GuiStyle.css">
                <children>
-                  <ScrollPane prefHeight="598.0" prefWidth="235.0" styleClass="mainFxmlClass" stylesheets="@../../build/classes/view/GuiStyle.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                  <ScrollPane prefHeight="598.0" prefWidth="235.0" styleClass="mainFxmlClass" stylesheets="GuiStyle.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                     <content>
-                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="597.0" prefWidth="233.0" styleClass="mainFxmlClass" stylesheets="@../../build/classes/view/GuiStyle.css">
+                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="597.0" prefWidth="233.0" styleClass="mainFxmlClass" stylesheets="GuiStyle.css">
                            <children>
-                              <TilePane layoutX="14.0" prefColumns="1" prefHeight="200.0" prefWidth="200.0" styleClass="mainFxmlClass" stylesheets="@../../build/classes/view/GuiStyle.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                              <TilePane layoutX="14.0" prefColumns="1" prefHeight="200.0" prefWidth="200.0" styleClass="mainFxmlClass" stylesheets="GuiStyle.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                            </children>
                         </AnchorPane>
                     </content>
@@ -32,7 +32,7 @@
             </AnchorPane>
           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
                <children>
-                  <SplitPane dividerPositions="0.6946308724832215" orientation="VERTICAL" prefHeight="598.0" prefWidth="557.0" styleClass="mainFxmlClass" stylesheets="@../../build/classes/view/GuiStyle.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                  <SplitPane dividerPositions="0.6946308724832215" orientation="VERTICAL" prefHeight="598.0" prefWidth="557.0" styleClass="mainFxmlClass" stylesheets="GuiStyle.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                     <items>
                       <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
                            <children>
