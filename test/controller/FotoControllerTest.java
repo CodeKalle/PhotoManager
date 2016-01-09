@@ -495,7 +495,7 @@ public class FotoControllerTest {
      * Testet, ob die Fotoliste in verschiedenen Sortierungen zurück gegeben wird.
      * 
      * Version-History:
-     * @date 09.12.2015 by Dnilo: Initialisierung
+     * @date 09.12.2015 by Danilo: Initialisierung
      */
     @Test
     public void testGetFotosFromAlbumDiffrentSort() {
@@ -647,7 +647,7 @@ public class FotoControllerTest {
      * Testet, ob die Fotoliste nach mehrfachen Änderungen korrekt ist.
      * 
      * Version-History:
-     * @date 14.12.2015 by Dnilo: Initialisierung
+     * @date 14.12.2015 by Danilo: Initialisierung
      */
     @Test
     public void testReplaceFotosInAlbum() {
