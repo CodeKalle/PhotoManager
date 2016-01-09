@@ -14,5 +14,6 @@
     </stylesheets>
    <children>
       <ImageView fx:id="guiPlayPraesentationImageView" fitHeight="600.0" fitWidth="800.0" pickOnBounds="true" preserveRatio="true" />
+      <Button fx:id="guiPlayPraesentationBack" layoutX="734.0" layoutY="561.0" mnemonicParsing="false" onAction="#handleButtonAction" text="Zurück" />
    </children>
 </AnchorPane>
