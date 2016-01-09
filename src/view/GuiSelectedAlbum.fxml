@@ -39,9 +39,9 @@
                   <Insets />
                </GridPane.margin>
             </TilePane>
-            <ScrollPane prefHeight="200.0" prefWidth="200.0">
+            <ScrollPane hbarPolicy="NEVER">
                <content>
-                  <TilePane fx:id="guiSelectedAlbumTilePane" hgap="40.0" vgap="30.0">
+                  <TilePane fx:id="guiSelectedAlbumTilePane" hgap="40.0" prefWidth="800.0" vgap="30.0">
                      <children>
                         <Pane prefHeight="100.0" prefWidth="80.0">
                            <children>

@@ -380,6 +380,7 @@ public class GuiAddFotoController implements Initializable {
                 public void handle(MouseEvent event) {
                 imageView.setFitHeight(200);
                 imageView.setFitWidth(200);
+                imageView.toFront();
             }
             });
                         imageView.addEventHandler(MouseEvent.MOUSE_EXITED, new EventHandler<MouseEvent>() {
