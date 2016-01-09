@@ -7,11 +7,12 @@
     -fx-background-radius: 30;
     -fx-background-insets: 0,1,1;
     -fx-text-fill: black;
+    -fx-font-family: "Comic Sans MS";
     -fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.6) , 3, 0.0 , 0 , 1 );
 }
 
 .button:hover {
-    -fx-background-color: #838B8B;
+    -fx-background-color: #3d3d3d;
     -fx-text-fill: white;
 }
 /*.button:focused {
@@ -27,3 +28,27 @@
     -fx-background-color: #1d1d1d;
     -fx-text-fill: white;
 }
+
+.mainFxmlClass {
+    -fx-background-color: #ffd090;
+    -fx-font-family: "Comic Sans MS";
+}
+
+.mainTitle {
+    -fx-font-family: "Comic Sans MS";
+    -fx-text-fill: #990000;
+    -fx-font-weight: bold;
+}
+
+.buttonFotos {
+    -fx-graphic: url("Button-Fotos.png");
+}
+
+.buttonAlben {
+    -fx-graphic: url("Button-Alben.png");
+}
+
+.buttonDia {
+    -fx-graphic: url("Button-Dia.png");
+}
+

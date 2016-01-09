@@ -10,30 +10,31 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane id="AnchorPane" prefHeight="600.0" prefWidth="800.0" styleClass="mainFxmlClass" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.GuiFotoEditController">
+
+<AnchorPane id="AnchorPane" styleClass="mainFxmlClass" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.GuiFotoEditController">
     <stylesheets>
         <URL value="@GuiStyle.css" />
     </stylesheets>
    <children>
-      <SplitPane dividerPositions="0.3" prefHeight="600.0" prefWidth="800.0">
+      <SplitPane dividerPositions="0.3" prefHeight="600.0" prefWidth="800.0" styleClass="mainFxmlClass" stylesheets="@../../build/classes/view/GuiStyle.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <items>
-          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0" styleClass="mainFxmlClass" stylesheets="@../../build/classes/view/GuiStyle.css">
                <children>
-                  <SplitPane dividerPositions="0.8" orientation="VERTICAL" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                  <SplitPane dividerPositions="0.8" orientation="VERTICAL" styleClass="mainFxmlClass" stylesheets="@../../build/classes/view/GuiStyle.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                     <items>
                       <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="520.0" prefWidth="282.0">
                            <children>
-                              <SplitPane dividerPositions="0.7" orientation="VERTICAL" prefHeight="200.0" prefWidth="160.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                              <SplitPane dividerPositions="0.7" orientation="VERTICAL" prefHeight="200.0" prefWidth="160.0" styleClass="mainFxmlClass" stylesheets="@../../build/classes/view/GuiStyle.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                 <items>
-                                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+                                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0" styleClass="mainFxmlClass" stylesheets="@../../build/classes/view/GuiStyle.css">
                                        <children>
-                                          <Text layoutX="69.0" layoutY="81.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Infos blabla" />
+                                          <Text layoutX="69.0" layoutY="81.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Infos blabla" AnchorPane.leftAnchor="24.0" AnchorPane.topAnchor="40.0" />
                                        </children>
                                     </AnchorPane>
-                                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+                                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0" styleClass="mainFxmlClass" stylesheets="@../../build/classes/view/GuiStyle.css">
                                        <children>
-                                          <TextField layoutX="24.0" layoutY="45.0" />
-                                          <Label layoutX="25.0" layoutY="14.0" text="Info ergänzen" />
+                                          <TextField layoutX="24.0" layoutY="45.0" AnchorPane.leftAnchor="24.0" />
+                                          <Label layoutX="25.0" layoutY="14.0" text="Info ergänzen" AnchorPane.leftAnchor="25.0" />
                                        </children>
                                     </AnchorPane>
                                 </items>
@@ -42,17 +43,17 @@
                         </AnchorPane>
                       <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
                            <children>
-                              <Button id="guiFotoEditHinzufuegen" fx:id="guiFotoEditHinzufuegen" layoutX="21.0" layoutY="33.0" mnemonicParsing="false" onAction="#handleButtonAction" text="Hinzufügen" />
-                              <Button id="guiFotoEditLoeschen" fx:id="guiFotoEditLoeschen" layoutX="141.0" layoutY="33.0" mnemonicParsing="false" onAction="#handleButtonAction" text="Löschen" />
+                              <Button id="guiFotoEditHinzufuegen" fx:id="guiFotoEditHinzufuegen" layoutX="21.0" layoutY="33.0" mnemonicParsing="false" onAction="#handleButtonAction" text="Hinzufügen" AnchorPane.bottomAnchor="44.0" AnchorPane.leftAnchor="30.0" />
+                              <Button id="guiFotoEditLoeschen" fx:id="guiFotoEditLoeschen" layoutX="141.0" layoutY="33.0" mnemonicParsing="false" onAction="#handleButtonAction" text="Löschen" AnchorPane.bottomAnchor="44.0" AnchorPane.rightAnchor="30.0" />
                            </children>
                         </AnchorPane>
                     </items>
                   </SplitPane>
                </children>
             </AnchorPane>
-          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0" styleClass="mainFxmlClass" stylesheets="@../../build/classes/view/GuiStyle.css">
                <children>
-                  <SplitPane dividerPositions="0.8" orientation="VERTICAL" prefHeight="200.0" prefWidth="160.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                  <SplitPane dividerPositions="0.8" orientation="VERTICAL" prefHeight="200.0" prefWidth="160.0" styleClass="mainFxmlClass" stylesheets="@../../build/classes/view/GuiStyle.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                     <items>
                         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
                            <children>
@@ -69,8 +70,8 @@
                         </AnchorPane>
                       <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
                            <children>
-                              <Button id="guiFotoEditOk" fx:id="guiFotoEditOk" layoutX="114.0" layoutY="46.0" mnemonicParsing="false" onAction="#handleButtonAction" text="Ok" />
-                              <Button id="guiFotoEditAbbrechen" fx:id="guiFotoEditAbbrechen" layoutX="347.0" layoutY="46.0" mnemonicParsing="false" onAction="#handleButtonAction" text="Abbrechen" />
+                              <Button id="guiFotoEditOk" fx:id="guiFotoEditOk" layoutX="114.0" layoutY="46.0" mnemonicParsing="false" onAction="#handleButtonAction" prefWidth="80.0" text="Ok" AnchorPane.bottomAnchor="44.0" AnchorPane.leftAnchor="50.0" />
+                              <Button id="guiFotoEditAbbrechen" fx:id="guiFotoEditAbbrechen" layoutX="347.0" layoutY="46.0" mnemonicParsing="false" onAction="#handleButtonAction" prefWidth="80.0" text="Abbrechen" AnchorPane.bottomAnchor="44.0" AnchorPane.rightAnchor="50.0" />
                            </children>
                         </AnchorPane>
                     </items>

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.text.*?>
 <?import javafx.scene.image.*?>
 <?import javafx.geometry.*?>
 <?import java.lang.*?>
@@ -27,7 +28,8 @@
                <children>
                   <Pane prefHeight="100.0" prefWidth="80.0">
                      <children>
-                        <Button fx:id="guiSelectAlbumNeuesAlbum" mnemonicParsing="false" onAction="#handleButtonAction" prefHeight="80.0" prefWidth="80.0" text="Neues Album" textAlignment="CENTER" wrapText="true" />
+                        <Button fx:id="guiSelectAlbumNeuesAlbum" mnemonicParsing="false" onAction="#handleButtonAction" prefHeight="80.0" prefWidth="80.0" styleClass="buttonAlben" stylesheets="@../../build/classes/view/GuiStyle.css" textAlignment="CENTER" wrapText="true" />
+                        <Label id="LabelStart" layoutX="5.0" layoutY="87.0" text="Neues Album" textAlignment="CENTER" />
                      </children>
                   </Pane>
                </children>
@@ -41,12 +43,36 @@
                   <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                </padding>
             </TilePane>
-            <TilePane id="TilePaneAddAlbum" fx:id="tp" alignment="CENTER" hgap="150.0" prefColumns="3" prefRows="2" tileAlignment="TOP_LEFT" vgap="20.0" GridPane.rowIndex="1">
+            <TilePane prefHeight="200.0" prefWidth="200.0" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS">
                <children>
-                  <Label text="Bitte wählen Sie ein Album aus." />
-                  <Button id="guiAlbumOverviewAlbumWechseln" fx:id="guiSelectAlbumAlbumWechseln" mnemonicParsing="false" onAction="#handleButtonAction" text="In Album wechseln" />
-                  <Button id="guiAlbumOverviewHauptmenue" fx:id="guiSelectAlbumHauptmenue" mnemonicParsing="false" onAction="#handleButtonAction" text="Zurück zum Hauptmenü" />
+                  <HBox alignment="CENTER" TilePane.alignment="CENTER">
+                     <children>
+                        <Label styleClass="beschreibung" stylesheets="@../../build/classes/view/GuiStyle.css" text="Bitte wählen Sie ein Album aus." HBox.hgrow="ALWAYS">
+                           <font>
+                              <Font size="20.0" />
+                           </font>
+                           <HBox.margin>
+                              <Insets right="70.0" />
+                           </HBox.margin>
+                        </Label>
+                        <Button id="guiAlbumOverviewAlbumWechseln" fx:id="guiSelectAlbumAlbumWechseln" mnemonicParsing="false" onAction="#handleButtonAction" prefWidth="150.0" text="In Album wechseln">
+                           <TilePane.margin>
+                              <Insets />
+                           </TilePane.margin>
+                           <HBox.margin>
+                              <Insets right="70.0" />
+                           </HBox.margin>
+                        </Button>
+                        <Button id="guiAlbumOverviewHauptmenue" fx:id="guiSelectAlbumHauptmenue" mnemonicParsing="false" onAction="#handleButtonAction" prefWidth="150.0" text="Zurück zum Hauptmenü" />
+                     </children>
+                     <TilePane.margin>
+                        <Insets left="40.0" top="40.0" />
+                     </TilePane.margin>
+                  </HBox>
                </children>
+               <GridPane.margin>
+                  <Insets />
+               </GridPane.margin>
             </TilePane>
          </children>
       </GridPane>
