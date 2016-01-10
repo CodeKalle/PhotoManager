@@ -253,10 +253,11 @@ public class GuiAddFotoController implements Initializable {
     * 
     * Version-History:
     * @date 08.01.2016 by Danilo: Initialisierung
+    * @date 10.01.2016 by Danilo: Fehlerkorrektur
     */
     private void callTreeitemForAction(TreeItem<String> treeitem) {
         if (isRoot==true) {
-            isRoot=false;
+            if (treeitem.getParent()!=rootNode) isRoot=false;
             treeView.getSelectionModel().select(treeitem);
         } else {
             if (treeitem.getParent()==rootNode) isRoot=true;
@@ -359,8 +360,9 @@ public class GuiAddFotoController implements Initializable {
             }
         }
         
-        // Computerroot ausklappen
+        // Computerroot ausklappen und markieren
         rootNode.setExpanded(true);
+        treeView.getSelectionModel().select(rootNode);
         
         // Gemerkte Position wieder herstellen
         expandToPosition();
