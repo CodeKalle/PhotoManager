@@ -30,7 +30,7 @@
             </AnchorPane>
             <AnchorPane prefHeight="200.0" prefWidth="200.0" styleClass="mainFxmlClass" GridPane.columnIndex="1">
                <children>
-                  <ScrollPane hbarPolicy="NEVER" prefHeight="200.0" prefWidth="200.0" styleClass="mainFxmlClass" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                  <ScrollPane fx:id="guiAddFotoScrollPane" hbarPolicy="NEVER" prefHeight="200.0" prefWidth="200.0" styleClass="mainFxmlClass" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                      <content>
                         <TilePane fx:id="guiAddFotoTilePane" hgap="40.0" vgap="30.0">
                            <opaqueInsets>
@@ -42,6 +42,11 @@
                         </TilePane>
                      </content>
                   </ScrollPane>
+                  <HBox fx:id="zoomBox" alignment="CENTER" disable="true" pickOnBounds="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                     <children>
+                        <ImageView fx:id="zoomImageView" disable="true" fitHeight="400.0" fitWidth="400.0" preserveRatio="true" />
+                     </children>
+                  </HBox>
                </children>
             </AnchorPane>
          </children>
