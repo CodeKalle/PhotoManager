@@ -73,7 +73,7 @@ public class GuiSelectedAlbumController implements Initializable {
         else if(event.getSource()==guiSelectedAlbumFotosBearbeiten){
             // selektierte fotos bearbeiten
             stage=(Stage) guiSelectedAlbumFotosBearbeiten.getScene().getWindow();
-            root = FXMLLoader.load(getClass().getResource("GuiFotoEdit.fxml"));
+            root = FXMLLoader.load(getClass().getResource("GuiFotoDetail.fxml"));
         }
         else if(event.getSource()==guiSelectedAlbumFotosHinzufuegen || event.getSource()==guiSelectedAlbumFotosHinzufuegen2){
             // fotos zu diesem album hinzufügen

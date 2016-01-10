@@ -13,7 +13,11 @@
         <URL value="@GuiStyle.css" />
     </stylesheets>
    <children>
-      <ImageView fx:id="guiPlayPraesentationImageView" fitHeight="600.0" fitWidth="800.0" pickOnBounds="true" preserveRatio="true" />
-      <Button fx:id="guiPlayPraesentationBack" layoutX="734.0" layoutY="561.0" mnemonicParsing="false" onAction="#handleButtonAction" text="Zurück" />
+      <HBox alignment="CENTER" prefHeight="600.0" prefWidth="800.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <ImageView fx:id="guiPlayPraesentationImageView" fitHeight="600.0" fitWidth="800.0" pickOnBounds="true" preserveRatio="true" />
+         </children>
+      </HBox>
+      <Button fx:id="guiPlayPraesentationBack" layoutX="725.0" layoutY="560.0" mnemonicParsing="false" onAction="#handleButtonAction" text="Zurück" />
    </children>
 </AnchorPane>
