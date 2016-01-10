@@ -393,6 +393,7 @@ public class GuiAddFotoController implements Initializable {
                     zoomBox.setDisable(false);
                     zoomImageView.setDisable(false);
                     zoomImageView.setImage(image);
+                    guiAddFotoTilePane.setOpacity(0.4);
                     guiAddFotoScrollPane.setId("scroll-pane1");
                 }
             });
@@ -402,6 +403,7 @@ public class GuiAddFotoController implements Initializable {
                     zoomImageView.setImage(null);
                     zoomImageView.setDisable(false);
                     zoomBox.setDisable(false);
+                    guiAddFotoTilePane.setOpacity(1);
                     guiAddFotoScrollPane.setId("scroll-pane2");
                 }
             });
