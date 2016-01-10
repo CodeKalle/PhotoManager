@@ -23,28 +23,6 @@
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <TilePane fx:id="guiAlbumOverviewTilePane" hgap="40.0" vgap="30.0">
-               <children>
-                  <Pane prefHeight="100.0" prefWidth="80.0">
-                     <children>
-                        <Button fx:id="guiAlbumOverviewNeuesAlbum" mnemonicParsing="false" onAction="#handleButtonAction" prefHeight="80.0" prefWidth="80.0" styleClass="buttonAlben" stylesheets="@GuiStyle.css" textAlignment="CENTER" wrapText="true" />
-                        <Label id="LabelAnlegen" layoutX="3.0" layoutY="86.0" text="Neues Album" textAlignment="CENTER" />
-                     </children>
-                     <TilePane.margin>
-                        <Insets />
-                     </TilePane.margin>
-                  </Pane>
-               </children>
-               <GridPane.margin>
-                  <Insets />
-               </GridPane.margin>
-               <opaqueInsets>
-                  <Insets />
-               </opaqueInsets>
-               <padding>
-                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-               </padding>
-            </TilePane>
             <TilePane id="TilePaneAddAlbum" fx:id="tp" alignment="CENTER" hgap="40.0" prefColumns="3" prefRows="2" tileAlignment="TOP_LEFT" vgap="20.0" GridPane.rowIndex="1">
                <children>
                   <Button id="guiAlbumOverviewAlbumBearbeiten" fx:id="guiAlbumOverviewAlbumBearbeiten" mnemonicParsing="false" onAction="#handleButtonAction" prefWidth="150.0" text="Album bearbeiten" textAlignment="CENTER" />
@@ -54,6 +32,29 @@
                   <Button id="guiAlbumOverviewHauptmenue" fx:id="guiAlbumOverviewHauptmenue" mnemonicParsing="false" onAction="#handleButtonAction" prefWidth="150.0" text="Zurück zum Hauptmenü" />
                </children>
             </TilePane>
+            <ScrollPane hbarPolicy="NEVER">
+               <content>
+                  <TilePane fx:id="guiAlbumOverviewTilePane" hgap="40.0" prefWidth="800.0" vgap="30.0">
+                     <children>
+                        <Pane prefHeight="100.0" prefWidth="80.0">
+                           <children>
+                              <Button fx:id="guiAlbumOverviewNeuesAlbum" mnemonicParsing="false" onAction="#handleButtonAction" prefHeight="80.0" prefWidth="80.0" styleClass="buttonAlben" stylesheets="@GuiStyle.css" textAlignment="CENTER" wrapText="true" />
+                              <Label id="LabelAnlegen" layoutX="3.0" layoutY="86.0" text="Neues Album" textAlignment="CENTER" />
+                           </children>
+                           <TilePane.margin>
+                              <Insets />
+                           </TilePane.margin>
+                        </Pane>
+                     </children>
+                     <opaqueInsets>
+                        <Insets />
+                     </opaqueInsets>
+                     <padding>
+                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                     </padding>
+                  </TilePane>
+               </content>
+            </ScrollPane>
          </children>
       </GridPane>
    </children>
