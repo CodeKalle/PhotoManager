@@ -28,6 +28,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -36,6 +37,7 @@ import javafx.scene.layout.TilePane;
 import javafx.stage.Stage;
 import javafx.scene.control.TreeView;
 import javafx.scene.control.TreeItem;
+import javafx.scene.layout.Background;
 import javafx.scene.layout.HBox;
 
 /**
@@ -66,6 +68,8 @@ public class GuiAddFotoController implements Initializable {
     HBox zoomBox;
     @FXML
     ImageView zoomImageView;
+    @FXML
+    ScrollPane guiAddFotoScrollPane;
     // Alle Buttons des Fensters
     @FXML
     Button guiAddFotoAbbrechen, guiAddFotoBilderHinzufuegen;
@@ -383,23 +387,20 @@ public class GuiAddFotoController implements Initializable {
             imageView.setImage(image);    
             imageView.addEventHandler(MouseEvent.MOUSE_PRESSED, new EventHandler<MouseEvent>() {
                 public void handle(MouseEvent event) {
-                    zoomBox.setVisible(true);
+                    zoomBox.setDisable(false);
+                    zoomImageView.setDisable(false);
                     zoomImageView.setImage(image);
-                    zoomImageView.toFront();
-                /*
-                imageView.setFitHeight(400);
-                imageView.setFitWidth(400);
-                imageView.toFront();
-                    */
-            }
+                    guiAddFotoScrollPane.setId("scroll-pane1");
+                }
             });
-                        imageView.addEventHandler(MouseEvent.MOUSE_RELEASED, new EventHandler<MouseEvent>() {
-                @Override public void handle(MouseEvent event) {
-                imageView.toBack();
-                imageView.setFitHeight(80);
-                imageView.setFitWidth(80);
-                imageView.setPickOnBounds(true);
-            }
+            
+            imageView.addEventHandler(MouseEvent.MOUSE_RELEASED, new EventHandler<MouseEvent>() {
+                public void handle(MouseEvent event) {
+                    zoomImageView.setImage(null);
+                    zoomImageView.setDisable(false);
+                    zoomBox.setDisable(false);
+                    guiAddFotoScrollPane.setId("scroll-pane2");
+                }
             });
 
             CheckBox checkBox = new CheckBox();

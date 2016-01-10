@@ -10,7 +10,16 @@
     -fx-font-family: "Comic Sans MS";
     -fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.6) , 3, 0.0 , 0 , 1 );
 }
-
+.scroll-pane > .viewport {
+   -fx-background-color: red;
+}
+#scroll-pane1 > .viewport {
+   -fx-background-color: black;
+}
+/* Pane in der GuiAddFoto !muss wie default sein! */
+#scroll-pane2 > .viewport {
+   -fx-background-color: red; 
+}
 .button:hover {
     -fx-background-color: #3d3d3d;
     -fx-text-fill: white;
