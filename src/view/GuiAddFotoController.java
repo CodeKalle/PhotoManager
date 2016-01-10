@@ -383,30 +383,21 @@ public class GuiAddFotoController implements Initializable {
             imageView.setPickOnBounds(true);
             imageView.setPreserveRatio(true);
             imageView.setImage(image);    
+            
             imageView.addEventHandler(MouseEvent.MOUSE_PRESSED, new EventHandler<MouseEvent>() {
                 public void handle(MouseEvent event) {
-                    //zoomBox.setVisible(true);
                     zoomBox.setDisable(false);
                     zoomImageView.setDisable(false);
                     zoomImageView.setImage(image);
-                    //zoomImageView.toFront();
-                /*
-                imageView.setFitHeight(400);
-                imageView.setFitWidth(400);
-                imageView.toFront();
-                    */
-            }
+                }
             });
-                        imageView.addEventHandler(MouseEvent.MOUSE_RELEASED, new EventHandler<MouseEvent>() {
+            
+            imageView.addEventHandler(MouseEvent.MOUSE_RELEASED, new EventHandler<MouseEvent>() {
                 @Override public void handle(MouseEvent event) {
+                    zoomImageView.setImage(null);
                     zoomImageView.setDisable(true);
                     zoomBox.setDisable(true);
-                    /*imageView.toBack();
-                imageView.setFitHeight(80);
-                imageView.setFitWidth(80);
-                imageView.setPickOnBounds(true);
-                    */
-            }
+                }
             });
 
             CheckBox checkBox = new CheckBox();
