@@ -19,19 +19,19 @@
          <children>
             <VBox id="VBoxStart" alignment="CENTER" layoutX="129.0" layoutY="370.0" spacing="20.0">
                <children>
-                  <Button id="guiMainButtonPraesentation" fx:id="guiMainButtonPraesentation" layoutX="166.0" layoutY="370.0" mnemonicParsing="false" onAction="#handleButtonActionMain" opacity="0.4" prefHeight="50.0" prefWidth="50.0" styleClass="buttonDia" stylesheets="@GuiStyle.css" textAlignment="CENTER" />
+                  <Button id="guiMainButtonPraesentation" fx:id="guiMainButtonPraesentation" layoutX="166.0" layoutY="370.0" mnemonicParsing="false" onAction="#handleButtonActionMain" prefHeight="50.0" prefWidth="50.0" styleClass="buttonDia" stylesheets="@GuiStyle.css" textAlignment="CENTER" />
                   <Label id="LabelStart" layoutX="129.0" layoutY="458.0" text="Bildschirmpräsentation&#10;bearbeiten und starten" textAlignment="CENTER" />
                </children>
             </VBox>
             <VBox id="VboxAnlege" alignment="CENTER" layoutX="360.0" layoutY="370.0" spacing="20.0">
                <children>
-                  <Button id="guiMainButtonAlbum" fx:id="guiMainButtonAlbum" layoutX="375.0" layoutY="370.0" mnemonicParsing="false" onAction="#handleButtonActionMain" opacity="0.4" prefHeight="50.0" prefWidth="50.0" styleClass="buttonAlben" stylesheets="@GuiStyle.css" textAlignment="CENTER" />
+                  <Button id="guiMainButtonAlbum" fx:id="guiMainButtonAlbum" layoutX="375.0" layoutY="370.0" mnemonicParsing="false" onAction="#handleButtonActionMain" prefHeight="50.0" prefWidth="50.0" styleClass="buttonAlben" stylesheets="@GuiStyle.css" textAlignment="CENTER" />
                   <Label id="LabelAnlegen" layoutX="360.0" layoutY="458.0" text="Alben anlegen&#10;und pflegen" textAlignment="CENTER" />
                </children>
             </VBox>
             <VBox id="VboxEinpflegen" alignment="CENTER" layoutX="563.0" layoutY="370.0" spacing="20.0">
                <children>
-                  <Button id="guiMainButtonFoto" fx:id="guiMainButtonFoto" layoutX="582.0" layoutY="370.0" mnemonicParsing="false" onAction="#handleButtonActionMain" opacity="0.4" prefHeight="50.0" prefWidth="50.0" styleClass="buttonFotos" stylesheets="@GuiStyle.css" textAlignment="CENTER" />
+                  <Button id="guiMainButtonFoto" fx:id="guiMainButtonFoto" layoutX="582.0" layoutY="370.0" mnemonicParsing="false" onAction="#handleButtonActionMain" prefHeight="50.0" prefWidth="50.0" styleClass="buttonFotos" stylesheets="@GuiStyle.css" textAlignment="CENTER" />
                   <Label id="LabelEinpflegen" layoutX="563.0" layoutY="458.0" text="Fotos einpflegen&#10;und editieren" textAlignment="CENTER" />
                </children>
             </VBox>
