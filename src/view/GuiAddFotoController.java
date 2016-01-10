@@ -37,7 +37,6 @@ import javafx.scene.layout.TilePane;
 import javafx.stage.Stage;
 import javafx.scene.control.TreeView;
 import javafx.scene.control.TreeItem;
-import javafx.scene.layout.Background;
 import javafx.scene.layout.HBox;
 
 /**
@@ -62,14 +61,15 @@ public class GuiAddFotoController implements Initializable {
     * @date 10.12.2015 by Danilo: Kommentare ergänzt
     * @date 08.01.2016 by Danilo: Verschieben der zu merkenden Position in SystemController
     */
-    
-    
     @FXML
     HBox zoomBox;
+    
     @FXML
     ImageView zoomImageView;
+    
     @FXML
     ScrollPane guiAddFotoScrollPane;
+    
     // Alle Buttons des Fensters
     @FXML
     Button guiAddFotoAbbrechen, guiAddFotoBilderHinzufuegen;
@@ -137,6 +137,7 @@ public class GuiAddFotoController implements Initializable {
     * Version-History:
     * @date 16.12.2015 by Danilo: Initialisierung
     * @date 07.01.2016 by Danilo: Update
+    * @date 10.01.2016 by Danilo: Ordneraxpansion geändert
     */
     private void searchInFolder(TreeItem<String> parent) {
         parent.getChildren().clear();
@@ -144,12 +145,32 @@ public class GuiAddFotoController implements Initializable {
         String[] directorie = newFile.list();
         for(String file:directorie){
             Path fullPath = Paths.get(newFile + File.separator + file);
-            if (Files.isReadable(fullPath)&&Files.isDirectory(fullPath)) {
+            if (Files.isReadable(fullPath) && Files.isDirectory(fullPath)) {
                 TreeItem<String> treeItem = new TreeItem<>();
                 treeItem.setValue(file);
                 parent.getChildren().add(treeItem);
-                treeItem.getChildren().add(null);
+                checkThatFolderHasSubfolder(treeItem);
                 addHandler(treeItem);
+            }
+        }
+    }
+    
+    /**
+    * Methode ändert Möglichkeit der Ordneraxpansion
+    * 
+    * @param treeItem Ordnername
+    * 
+    * Version-History:
+    * @date 10.01.2016 by Danilo: Initialisierung
+    */
+    private void checkThatFolderHasSubfolder(TreeItem<String> treeItem) {
+        File newFile = new File(getPath(treeItem).toString());
+        String[] directorie = newFile.list();
+        for(String file:directorie){
+            Path fullPath = Paths.get(newFile + File.separator + file);
+            if (Files.isDirectory(fullPath)) {
+                treeItem.getChildren().add(null);
+                return;
             }
         }
     }
@@ -351,9 +372,9 @@ public class GuiAddFotoController implements Initializable {
         treeView.getSelectionModel().selectedItemProperty().addListener(new ChangeListener() {
             @Override
             public void changed(ObservableValue observable, Object oldVal, Object newVal) {
-                SystemController.setPosition(getPath(treeView.getSelectionModel().getSelectedItem()));
-                treeView.getSelectionModel().select(treeView.getSelectionModel().getSelectedItem());
                 TreeItem<String> treeitem = treeView.getSelectionModel().getSelectedItem();
+                SystemController.setPosition(getPath(treeitem));
+                treeView.getSelectionModel().select(treeitem);
                 if (!treeitem.getChildren().isEmpty() && treeitem.getChildren().get(0)==null) searchInFolder(treeitem);
                 bilderAnzeigen(getPathList(getPath(treeitem)));
             }
@@ -389,6 +410,7 @@ public class GuiAddFotoController implements Initializable {
             imageView.setImage(image);    
             
             imageView.addEventHandler(MouseEvent.MOUSE_PRESSED, new EventHandler<MouseEvent>() {
+                @Override
                 public void handle(MouseEvent event) {
                     zoomBox.setDisable(false);
                     zoomImageView.setDisable(false);
@@ -399,6 +421,7 @@ public class GuiAddFotoController implements Initializable {
             });
             
             imageView.addEventHandler(MouseEvent.MOUSE_RELEASED, new EventHandler<MouseEvent>() {
+                @Override
                 public void handle(MouseEvent event) {
                     zoomImageView.setImage(null);
                     zoomImageView.setDisable(false);
