@@ -380,12 +380,16 @@ public class GuiAddFotoController implements Initializable {
             ImageView imageView = new ImageView();
             imageView.setFitHeight(80);
             imageView.setFitWidth(80);
+            imageView.setPickOnBounds(true);
+            imageView.setPreserveRatio(true);
             imageView.setImage(image);    
             imageView.addEventHandler(MouseEvent.MOUSE_PRESSED, new EventHandler<MouseEvent>() {
                 public void handle(MouseEvent event) {
-                    zoomBox.setVisible(true);
+                    //zoomBox.setVisible(true);
+                    zoomBox.setDisable(false);
+                    zoomImageView.setDisable(false);
                     zoomImageView.setImage(image);
-                    zoomImageView.toFront();
+                    //zoomImageView.toFront();
                 /*
                 imageView.setFitHeight(400);
                 imageView.setFitWidth(400);
@@ -395,10 +399,13 @@ public class GuiAddFotoController implements Initializable {
             });
                         imageView.addEventHandler(MouseEvent.MOUSE_RELEASED, new EventHandler<MouseEvent>() {
                 @Override public void handle(MouseEvent event) {
-                imageView.toBack();
+                    zoomImageView.setDisable(true);
+                    zoomBox.setDisable(true);
+                    /*imageView.toBack();
                 imageView.setFitHeight(80);
                 imageView.setFitWidth(80);
                 imageView.setPickOnBounds(true);
+                    */
             }
             });
 
