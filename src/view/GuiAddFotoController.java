@@ -384,7 +384,10 @@ public class GuiAddFotoController implements Initializable {
             ImageView imageView = new ImageView();
             imageView.setFitHeight(80);
             imageView.setFitWidth(80);
+            imageView.setPickOnBounds(true);
+            imageView.setPreserveRatio(true);
             imageView.setImage(image);    
+            
             imageView.addEventHandler(MouseEvent.MOUSE_PRESSED, new EventHandler<MouseEvent>() {
                 public void handle(MouseEvent event) {
                     zoomBox.setDisable(false);
