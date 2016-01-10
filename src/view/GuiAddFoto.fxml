@@ -17,25 +17,33 @@
    <children>
       <GridPane id="GridPaneAddFoto" alignment="CENTER" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <TilePane id="TilePaneAddAlbum" alignment="CENTER" hgap="150.0" prefColumns="3" prefRows="2" tileAlignment="TOP_LEFT" vgap="20.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
+            <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
                <children>
-                  <Button id="guiAddFotoBilderHinzufuegen" fx:id="guiAddFotoBilderHinzufuegen" mnemonicParsing="false" onAction="#handleButtonAction" prefWidth="120.0" text="Bilder hinzufügen" />
-                  <Button id="guiAddFotoAbbrechen" fx:id="guiAddFotoAbbrechen" mnemonicParsing="false" onAction="#handleButtonAction" prefWidth="120.0" text="Abbrechen" />
+                  <Button id="guiAddFotoBilderHinzufuegen" fx:id="guiAddFotoBilderHinzufuegen" mnemonicParsing="false" onAction="#handleButtonAction" prefWidth="120.0" text="Bilder hinzufügen" AnchorPane.leftAnchor="60.0" AnchorPane.topAnchor="60.0" />
+                  <Button id="guiAddFotoAbbrechen" fx:id="guiAddFotoAbbrechen" mnemonicParsing="false" onAction="#handleButtonAction" prefWidth="120.0" text="Abbrechen" AnchorPane.rightAnchor="60.0" AnchorPane.topAnchor="60.0" />
                </children>
-            </TilePane>
-            <TreeView fx:id="treeView" GridPane.rowSpan="2147483647" />
-            <ScrollPane hbarPolicy="NEVER" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1">
-               <content>
-                  <TilePane fx:id="guiAddFotoTilePane" hgap="40.0" vgap="30.0">
-                     <opaqueInsets>
-                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-                     </opaqueInsets>
-                     <padding>
-                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-                     </padding>
-                  </TilePane>
-               </content>
-            </ScrollPane>
+            </AnchorPane>
+            <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.rowSpan="2">
+               <children>
+                  <TreeView fx:id="treeView" styleClass="mainFxmlClass" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+               </children>
+            </AnchorPane>
+            <AnchorPane prefHeight="200.0" prefWidth="200.0" styleClass="mainFxmlClass" GridPane.columnIndex="1">
+               <children>
+                  <ScrollPane hbarPolicy="NEVER" prefHeight="200.0" prefWidth="200.0" styleClass="mainFxmlClass" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                     <content>
+                        <TilePane fx:id="guiAddFotoTilePane" hgap="40.0" vgap="30.0">
+                           <opaqueInsets>
+                              <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                           </opaqueInsets>
+                           <padding>
+                              <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                           </padding>
+                        </TilePane>
+                     </content>
+                  </ScrollPane>
+               </children>
+            </AnchorPane>
          </children>
          <columnConstraints>
             <ColumnConstraints hgrow="SOMETIMES" maxWidth="395.0" minWidth="10.0" prefWidth="187.0" />

@@ -24,21 +24,15 @@
           <RowConstraints maxHeight="294.0" minHeight="10.0" prefHeight="145.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <TilePane hgap="40.0" prefHeight="200.0" prefWidth="200.0" vgap="100.0" GridPane.rowIndex="1">
+            <AnchorPane GridPane.rowIndex="1">
                <children>
-                  <Button fx:id="guiSelectedAlbumAlbumBearbeiten" mnemonicParsing="false" onAction="#handleButtonAction" prefWidth="120.0" text="Album bearbeiten" />
-                  <Button fx:id="guiSelectedAlbumFotosHinzufuegen" mnemonicParsing="false" onAction="#handleButtonAction" prefWidth="120.0" text="Fotos hinzufügen" />
-                  <Button fx:id="guiSelectedAlbumFotosBearbeiten" mnemonicParsing="false" onAction="#handleButtonAction" prefWidth="120.0" text="Fotos bearbeiten" />
-                  <Button fx:id="guiSelectedAlbumFotosLoeschen" mnemonicParsing="false" onAction="#handleButtonAction" prefWidth="120.0" text="Fotos löschen" />
-                  <Button fx:id="guiSelectedAlbumZurueckzuAlben" mnemonicParsing="false" onAction="#handleButtonAction" prefWidth="120.0" text="Zurück" />
+                  <Button fx:id="guiSelectedAlbumFotosBearbeiten" mnemonicParsing="false" onAction="#handleButtonAction" prefWidth="120.0" text="Fotos bearbeiten" AnchorPane.bottomAnchor="60.0" AnchorPane.leftAnchor="190.0" />
+                  <Button fx:id="guiSelectedAlbumFotosHinzufuegen" mnemonicParsing="false" onAction="#handleButtonAction" prefWidth="120.0" text="Fotos hinzufügen" AnchorPane.bottomAnchor="60.0" AnchorPane.leftAnchor="35.0" />
+                  <Button fx:id="guiSelectedAlbumFotosLoeschen" mnemonicParsing="false" onAction="#handleButtonAction" prefWidth="120.0" text="Fotos löschen" AnchorPane.bottomAnchor="60.0" AnchorPane.leftAnchor="345.0" />
+                  <Button fx:id="guiSelectedAlbumAlbumBearbeiten" mnemonicParsing="false" onAction="#handleButtonAction" prefWidth="120.0" text="Album bearbeiten" AnchorPane.bottomAnchor="60.0" AnchorPane.leftAnchor="500.0" />
+                  <Button fx:id="guiSelectedAlbumZurueckzuAlben" mnemonicParsing="false" onAction="#handleButtonAction" prefWidth="120.0" text="Zurück" AnchorPane.bottomAnchor="60.0" AnchorPane.rightAnchor="30.0" />
                </children>
-               <padding>
-                  <Insets left="20.0" top="60.0" />
-               </padding>
-               <GridPane.margin>
-                  <Insets />
-               </GridPane.margin>
-            </TilePane>
+            </AnchorPane>
             <ScrollPane hbarPolicy="NEVER">
                <content>
                   <TilePane fx:id="guiSelectedAlbumTilePane" hgap="40.0" prefWidth="800.0" vgap="30.0">

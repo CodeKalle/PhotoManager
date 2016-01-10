@@ -24,37 +24,17 @@
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <TilePane prefHeight="200.0" prefWidth="200.0" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS">
+            <AnchorPane GridPane.rowIndex="1">
                <children>
-                  <HBox alignment="CENTER" TilePane.alignment="CENTER">
-                     <children>
-                        <Label styleClass="beschreibung" stylesheets="@GuiStyle.css" text="Bitte wählen Sie ein Album aus." HBox.hgrow="ALWAYS">
-                           <font>
-                              <Font size="20.0" />
-                           </font>
-                           <HBox.margin>
-                              <Insets right="70.0" />
-                           </HBox.margin>
-                        </Label>
-                        <Button id="guiAlbumOverviewAlbumWechseln" fx:id="guiSelectAlbumAlbumWechseln" mnemonicParsing="false" onAction="#handleButtonAction" prefWidth="150.0" text="In Album wechseln">
-                           <TilePane.margin>
-                              <Insets />
-                           </TilePane.margin>
-                           <HBox.margin>
-                              <Insets right="70.0" />
-                           </HBox.margin>
-                        </Button>
-                        <Button id="guiAlbumOverviewHauptmenue" fx:id="guiSelectAlbumHauptmenue" mnemonicParsing="false" onAction="#handleButtonAction" prefWidth="150.0" text="Zurück zum Hauptmenü" />
-                     </children>
-                     <TilePane.margin>
-                        <Insets left="40.0" top="40.0" />
-                     </TilePane.margin>
-                  </HBox>
+                  <Button id="guiAlbumOverviewHauptmenue" fx:id="guiSelectAlbumHauptmenue" mnemonicParsing="false" onAction="#handleButtonAction" prefWidth="150.0" text="Zurück zum Hauptmenü" AnchorPane.rightAnchor="40.0" AnchorPane.topAnchor="50.0" />
+                  <Button id="guiAlbumOverviewAlbumWechseln" fx:id="guiSelectAlbumAlbumWechseln" mnemonicParsing="false" onAction="#handleButtonAction" prefWidth="150.0" text="Ins Album wechseln" AnchorPane.rightAnchor="250.0" AnchorPane.topAnchor="50.0" />
+                  <Label styleClass="beschreibung" stylesheets="@GuiStyle.css" text="Bitte wählen Sie ein Album aus." AnchorPane.leftAnchor="40.0" AnchorPane.topAnchor="50.0">
+                     <font>
+                        <Font size="20.0" />
+                     </font>
+                  </Label>
                </children>
-               <GridPane.margin>
-                  <Insets />
-               </GridPane.margin>
-            </TilePane>
+            </AnchorPane>
             <ScrollPane hbarPolicy="NEVER" prefHeight="200.0" prefWidth="200.0">
                <content>
                   <TilePane fx:id="guiAlbumOverviewTilePane" hgap="40.0" prefWidth="800.0" vgap="30.0">

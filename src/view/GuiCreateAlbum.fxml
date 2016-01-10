@@ -12,15 +12,15 @@
         <URL value="@GuiStyle.css" />
     </stylesheets>
    <children>
-      <Label layoutX="66.0" layoutY="79.0" text="Bitte geben sie den Namen des Albums ein:" />
-      <Label layoutX="70.0" layoutY="172.0" text="Beschreibung hinzufügen (optional):" />
-      <Label layoutX="69.0" layoutY="378.0" text="Sortierkennzeichen hinzufügen (optional):" />
-      <TextField fx:id="guiCreateAlbumName" layoutX="69.0" layoutY="117.0" prefHeight="26.0" prefWidth="681.0" />
-      <TextArea fx:id="guiCreateAlbumBeschreibung" layoutX="69.0" layoutY="210.0" prefHeight="141.0" prefWidth="681.0" />
-      <ComboBox fx:id="guiCreateAlbumComboBox" disable="true" layoutX="69.0" layoutY="418.0" prefHeight="26.0" prefWidth="681.0" />
-      <Button fx:id="guiCreateAlbumSortierkennzeichenHinzufuegen" disable="true" layoutX="169.0" layoutY="470.0" mnemonicParsing="false" onAction="#handleButtonAction" prefWidth="80.0" text="Hinzufügen" />
-      <Button fx:id="guiCreateAlbumSortierkennzeichenLoeschen" disable="true" layoutX="69.0" layoutY="470.0" mnemonicParsing="false" onAction="#handleButtonAction" prefWidth="80.0" text="Löschen" />
-      <Button fx:id="guiCreateAlbumOk" layoutX="571.0" layoutY="533.0" mnemonicParsing="false" onAction="#handleButtonAction" prefWidth="80.0" text="Ok" />
-      <Button fx:id="guiCreateAlbumAbbrechen" layoutX="672.0" layoutY="533.0" mnemonicParsing="false" onAction="#handleButtonAction" prefWidth="80.0" text="Abbrechen" />
+      <Label layoutX="66.0" layoutY="79.0" text="Bitte geben sie den Namen des Albums ein:" AnchorPane.leftAnchor="60.0" AnchorPane.rightAnchor="60.0" AnchorPane.topAnchor="60.0" />
+      <Label layoutX="70.0" layoutY="172.0" text="Beschreibung hinzufügen (optional):" AnchorPane.leftAnchor="60.0" AnchorPane.rightAnchor="60.0" AnchorPane.topAnchor="160.0" />
+      <Label layoutX="69.0" layoutY="378.0" text="Sortierkennzeichen hinzufügen (optional):" AnchorPane.bottomAnchor="200.0" AnchorPane.leftAnchor="60.0" AnchorPane.rightAnchor="60.0" AnchorPane.topAnchor="370.0" />
+      <ComboBox fx:id="guiCreateAlbumComboBox" disable="true" layoutX="69.0" layoutY="418.0" prefHeight="26.0" prefWidth="681.0" AnchorPane.bottomAnchor="165.0" AnchorPane.leftAnchor="60.0" AnchorPane.rightAnchor="60.0" />
+      <TextField fx:id="guiCreateAlbumName" layoutX="69.0" layoutY="117.0" prefHeight="26.0" prefWidth="681.0" AnchorPane.leftAnchor="60.0" AnchorPane.rightAnchor="60.0" AnchorPane.topAnchor="105.0" />
+      <TextArea fx:id="guiCreateAlbumBeschreibung" layoutX="69.0" layoutY="210.0" prefHeight="141.0" prefWidth="681.0" AnchorPane.bottomAnchor="250.0" AnchorPane.leftAnchor="60.0" AnchorPane.rightAnchor="60.0" AnchorPane.topAnchor="200.0" />
+      <Button fx:id="guiCreateAlbumSortierkennzeichenHinzufuegen" disable="true" layoutX="169.0" layoutY="470.0" mnemonicParsing="false" onAction="#handleButtonAction" prefWidth="80.0" text="Hinzufügen" AnchorPane.bottomAnchor="110.0" AnchorPane.leftAnchor="160.0" />
+      <Button fx:id="guiCreateAlbumSortierkennzeichenLoeschen" disable="true" layoutX="69.0" layoutY="470.0" mnemonicParsing="false" onAction="#handleButtonAction" prefWidth="80.0" text="Löschen" AnchorPane.bottomAnchor="110.0" AnchorPane.leftAnchor="60.0" />
+      <Button fx:id="guiCreateAlbumOk" layoutX="571.0" layoutY="533.0" mnemonicParsing="false" onAction="#handleButtonAction" prefWidth="80.0" text="Ok" AnchorPane.bottomAnchor="40.0" AnchorPane.rightAnchor="160.0" />
+      <Button fx:id="guiCreateAlbumAbbrechen" layoutX="672.0" layoutY="533.0" mnemonicParsing="false" onAction="#handleButtonAction" prefWidth="80.0" text="Abbrechen" AnchorPane.bottomAnchor="40.0" AnchorPane.rightAnchor="60.0" />
    </children>
 </AnchorPane>

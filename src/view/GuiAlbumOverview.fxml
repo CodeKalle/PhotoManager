@@ -23,15 +23,6 @@
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <TilePane id="TilePaneAddAlbum" fx:id="tp" alignment="CENTER" hgap="40.0" prefColumns="3" prefRows="2" tileAlignment="TOP_LEFT" vgap="20.0" GridPane.rowIndex="1">
-               <children>
-                  <Button id="guiAlbumOverviewAlbumBearbeiten" fx:id="guiAlbumOverviewAlbumBearbeiten" mnemonicParsing="false" onAction="#handleButtonAction" prefWidth="150.0" text="Album bearbeiten" textAlignment="CENTER" />
-                  <Button id="guiAlbumOverviewAlbumLoeschen" fx:id="guiAlbumOverviewAlbumLoeschen" mnemonicParsing="false" onAction="#handleButtonAction" prefWidth="150.0" text="Album löschen" />
-                  <Button id="guiAlbumOverviewFotoHinzufuegen" fx:id="guiAlbumOverviewFotoHinzufuegen" mnemonicParsing="false" onAction="#handleButtonAction" prefWidth="150.0" text="Fotos hinzufügen" />
-                  <Button id="guiAlbumOverviewAlbumWechseln" fx:id="guiAlbumOverviewAlbumWechseln" mnemonicParsing="false" onAction="#handleButtonAction" prefWidth="150.0" text="In Album wechseln" />
-                  <Button id="guiAlbumOverviewHauptmenue" fx:id="guiAlbumOverviewHauptmenue" mnemonicParsing="false" onAction="#handleButtonAction" prefWidth="150.0" text="Zurück zum Hauptmenü" />
-               </children>
-            </TilePane>
             <ScrollPane hbarPolicy="NEVER">
                <content>
                   <TilePane fx:id="guiAlbumOverviewTilePane" hgap="40.0" prefWidth="800.0" vgap="30.0">
@@ -55,6 +46,15 @@
                   </TilePane>
                </content>
             </ScrollPane>
+            <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="1">
+               <children>
+                  <Button id="guiAlbumOverviewAlbumLoeschen" fx:id="guiAlbumOverviewAlbumLoeschen" layoutX="14.0" layoutY="73.0" mnemonicParsing="false" onAction="#handleButtonAction" prefWidth="150.0" text="Album löschen" AnchorPane.bottomAnchor="25.0" AnchorPane.leftAnchor="25.0" />
+                  <Button id="guiAlbumOverviewAlbumBearbeiten" fx:id="guiAlbumOverviewAlbumBearbeiten" layoutX="14.0" layoutY="26.0" mnemonicParsing="false" onAction="#handleButtonAction" prefWidth="150.0" text="Album bearbeiten" textAlignment="CENTER" AnchorPane.leftAnchor="25.0" AnchorPane.topAnchor="25.0" />
+                  <Button id="guiAlbumOverviewFotoHinzufuegen" fx:id="guiAlbumOverviewFotoHinzufuegen" layoutX="206.0" layoutY="73.0" mnemonicParsing="false" onAction="#handleButtonAction" prefWidth="150.0" text="Fotos hinzufügen" AnchorPane.bottomAnchor="25.0" AnchorPane.leftAnchor="250.0" />
+                  <Button id="guiAlbumOverviewAlbumWechseln" fx:id="guiAlbumOverviewAlbumWechseln" layoutX="206.0" layoutY="26.0" mnemonicParsing="false" onAction="#handleButtonAction" prefWidth="150.0" text="Ins Album wechseln" AnchorPane.leftAnchor="250.0" AnchorPane.topAnchor="25.0" />
+                  <Button id="guiAlbumOverviewHauptmenue" fx:id="guiAlbumOverviewHauptmenue" layoutX="606.0" layoutY="47.0" mnemonicParsing="false" onAction="#handleButtonAction" prefWidth="150.0" text="Zurück zum Hauptmenü" AnchorPane.bottomAnchor="47.0" AnchorPane.rightAnchor="30.0" AnchorPane.topAnchor="47.0" />
+               </children>
+            </AnchorPane>
          </children>
       </GridPane>
    </children>
