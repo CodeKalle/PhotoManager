@@ -36,6 +36,7 @@ import javafx.scene.layout.TilePane;
 import javafx.stage.Stage;
 import javafx.scene.control.TreeView;
 import javafx.scene.control.TreeItem;
+import javafx.scene.layout.HBox;
 
 /**
  * Diese Klasse dient der Erstellung und dem Handling des Fotohinzufüge Fensters
@@ -59,6 +60,12 @@ public class GuiAddFotoController implements Initializable {
     * @date 10.12.2015 by Danilo: Kommentare ergänzt
     * @date 08.01.2016 by Danilo: Verschieben der zu merkenden Position in SystemController
     */
+    
+    
+    @FXML
+    HBox zoomBox;
+    @FXML
+    ImageView zoomImageView;
     // Alle Buttons des Fensters
     @FXML
     Button guiAddFotoAbbrechen, guiAddFotoBilderHinzufuegen;
@@ -373,14 +380,17 @@ public class GuiAddFotoController implements Initializable {
             ImageView imageView = new ImageView();
             imageView.setFitHeight(80);
             imageView.setFitWidth(80);
-            imageView.setPickOnBounds(true);
-            imageView.setPreserveRatio(true);
             imageView.setImage(image);    
             imageView.addEventHandler(MouseEvent.MOUSE_PRESSED, new EventHandler<MouseEvent>() {
                 public void handle(MouseEvent event) {
-                imageView.setFitHeight(200);
-                imageView.setFitWidth(200);
+                    zoomBox.setVisible(true);
+                    zoomImageView.setImage(image);
+                    zoomImageView.toFront();
+                /*
+                imageView.setFitHeight(400);
+                imageView.setFitWidth(400);
                 imageView.toFront();
+                    */
             }
             });
                         imageView.addEventHandler(MouseEvent.MOUSE_RELEASED, new EventHandler<MouseEvent>() {
