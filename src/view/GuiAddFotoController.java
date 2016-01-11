@@ -235,6 +235,7 @@ public class GuiAddFotoController implements Initializable {
         treeitem.addEventHandler(TreeItem.branchExpandedEvent(), new EventHandler(){
             @Override
             public void handle(Event e){
+                if (!treeitem.getChildren().isEmpty() && treeitem.getChildren().get(0)==null) searchInFolder(treeitem);
                 callTreeitemForAction(treeitem);
             }
         });
@@ -377,7 +378,6 @@ public class GuiAddFotoController implements Initializable {
                 TreeItem<String> treeitem = treeView.getSelectionModel().getSelectedItem();
                 SystemController.setPosition(getPath(treeitem));
                 treeView.getSelectionModel().select(treeitem);
-                if (!treeitem.getChildren().isEmpty() && treeitem.getChildren().get(0)==null) searchInFolder(treeitem);
                 bilderAnzeigen(getPathList(getPath(treeitem)));
             }
         });
