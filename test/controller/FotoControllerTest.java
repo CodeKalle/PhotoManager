@@ -338,7 +338,7 @@ public class FotoControllerTest {
         }
     }
     
-        /**
+    /**
      * Testet die Methode testAddListOfFotosToAlbum der Klasse FotoController.
      * Testet, ob Fotos hinzugefügt werden, die einen leeren Namen enthalten.
      * 
