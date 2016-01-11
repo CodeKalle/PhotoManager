@@ -100,7 +100,7 @@ public class GuiSelectAlbumController implements Initializable{
     @Override
     public void initialize(URL location, ResourceBundle resources) {       
         // Titel setzten
-        Main.getPrimaryStage().setTitle("Photomanager - GuiSelectAlbum.fxml");
+        Main.getPrimaryStage().setTitle("PhotoManager - Albenauswahl");
         
         //Alben laden
         for(int i = 0; i < AlbenController.getAlbumList().size(); i++) {

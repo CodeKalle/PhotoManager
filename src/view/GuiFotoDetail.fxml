@@ -41,9 +41,9 @@
                               <Button id="guiFotoDetailBearbeiten" fx:id="guiFotoDetailBearbeiten" layoutX="441.0" layoutY="40.0" mnemonicParsing="false" onAction="#handleButtonAction" text="Bearbeiten" AnchorPane.rightAnchor="55.0" AnchorPane.topAnchor="40.0" />
                               <Button id="guiFotoDetailAbbrechen" fx:id="guiFotoDetailAbbrechen" layoutX="441.0" layoutY="113.0" mnemonicParsing="false" onAction="#handleButtonAction" text="Abbrechen" AnchorPane.bottomAnchor="40.0" AnchorPane.rightAnchor="55.0" />
                               <Label layoutX="27.0" layoutY="14.0" text="Metadaten:" AnchorPane.leftAnchor="27.0" AnchorPane.topAnchor="13.0" />
-                              <TextArea layoutX="27.0" layoutY="31.0" prefHeight="120.0" prefWidth="160.0" AnchorPane.bottomAnchor="30.0" AnchorPane.leftAnchor="27.0" AnchorPane.topAnchor="30.0" />
+                              <TextArea layoutX="27.0" layoutY="31.0" prefHeight="120.0" prefWidth="160.0" styleClass="textFeld" AnchorPane.bottomAnchor="30.0" AnchorPane.leftAnchor="27.0" AnchorPane.topAnchor="30.0" />
                               <Label layoutX="224.0" layoutY="13.0" text="Exifdaten:" AnchorPane.rightAnchor="290.0" AnchorPane.topAnchor="13.0" />
-                              <TextArea layoutX="233.0" layoutY="30.0" prefHeight="120.0" prefWidth="160.0" AnchorPane.bottomAnchor="30.0" AnchorPane.rightAnchor="190.0" AnchorPane.topAnchor="30.0" />
+                              <TextArea layoutX="233.0" layoutY="30.0" prefHeight="120.0" prefWidth="160.0" styleClass="textFeld" AnchorPane.bottomAnchor="30.0" AnchorPane.rightAnchor="190.0" AnchorPane.topAnchor="30.0" />
                            </children>
                         </AnchorPane>
                     </items>

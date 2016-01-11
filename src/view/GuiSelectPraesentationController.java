@@ -101,7 +101,7 @@ public class GuiSelectPraesentationController implements Initializable{
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         // Titel setzten
-        Main.getPrimaryStage().setTitle("Photomanager - SelectPraesentation.fxml");
+        Main.getPrimaryStage().setTitle("PhotoManager - Auswahl der Präsentation");
         
         //Alben laden
         for(int i = 0; i < AlbenController.getAlbumList().size(); i++) {

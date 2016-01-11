@@ -80,7 +80,7 @@ public class GuiMainController implements Initializable{
     @Override
     public void initialize(URL location, ResourceBundle resources) {       
         // Titel setzten
-        Main.getPrimaryStage().setTitle("Photomanager - Main.fxml");
+        Main.getPrimaryStage().setTitle("PhotoManager - Hauptmenü");
     }
 }
     

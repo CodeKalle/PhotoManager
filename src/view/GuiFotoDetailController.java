@@ -75,7 +75,7 @@ public class GuiFotoDetailController implements Initializable{
      */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        Main.getPrimaryStage().setTitle("Photomanager - FotoDetail.fxml");
+        Main.getPrimaryStage().setTitle("PhotoManager - Details");
     }
     
 }

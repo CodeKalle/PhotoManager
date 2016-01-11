@@ -104,7 +104,7 @@ public class GuiCreateAlbumController implements Initializable {
      */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        Main.getPrimaryStage().setTitle("Photomanager - CreateAlbum.fxml");
+        Main.getPrimaryStage().setTitle("PhotoManager - Neues Album");
         
         this.origTitel = Main.speicher;
         
