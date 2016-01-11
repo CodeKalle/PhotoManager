@@ -150,7 +150,6 @@ public class GuiAddFotoController implements Initializable {
                 treeItem.setValue(file);
                 parent.getChildren().add(treeItem);
                 checkThatFolderHasSubfolder(treeItem);
-                addHandler(treeItem);
             }
         }
     }
@@ -170,6 +169,7 @@ public class GuiAddFotoController implements Initializable {
             Path fullPath = Paths.get(newFile + File.separator + file);
             if (Files.isDirectory(fullPath)) {
                 treeItem.getChildren().add(null);
+                addHandler(treeItem);
                 return;
             }
         }
