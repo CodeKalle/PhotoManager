@@ -61,6 +61,8 @@ public class FotoControllerTest {
     private static String name;
     private static Path pathOfTestfolder;
     private static Path pathOfFoto;
+    private static Path pathOfExe;
+    private static Path pathOfTxt;
     private static Path pathOfRandomFoto;
     private static List listOfPathes;
     private static List listOfFotos;
@@ -107,6 +109,8 @@ public class FotoControllerTest {
         name = "Name";
         pathOfTestfolder = Paths.get("test/testdaten/");
         pathOfFoto = Paths.get("test/testdaten/Testbild43.jpg");
+        pathOfExe = Paths.get("test/testdaten/TestbildEXE.jpg.exe");
+        pathOfTxt = Paths.get("test/testdaten/TestbildTXT.jpg.txt");
         testFoto = new Foto(name, pathOfFoto.toString());
         listOfPathes = new LinkedList<>();
         listOfPathes.add(pathOfFoto);
@@ -834,6 +838,68 @@ public class FotoControllerTest {
             else {
                 assertThat(tmpFoto.getCounter(), is(1));
             }
+        }
+    }
+    
+    /**
+     * Testet die Methode testAddListOfFotosToAlbum der Klasse FotoController.
+     * Testet, ob eine *.exe-Datei hinzugefügt werden kann.
+     * 
+     * Version-History:
+     * @date 11.01.2016 by Daniel: Initialisierung
+     */
+    @Test
+    public void testAddExeToAlbum() {
+        System.out.println("testAddExeToAlbum");
+        
+        // Album wurde angelegt
+        assertThat(AlbenController.getAlbum(title), is(notNullValue()));
+        
+        LinkedList<Path> listOfExe = new LinkedList<>();
+        listOfExe.add(pathOfExe);
+        
+        // Errorcode != 0, wenn ein Fehler aufgetreten ist
+        int errorcode = FotoController.addListOfFotosToAlbum(title, listOfExe);
+        if (errorcode != 410) {
+            fail(ErrorController.changeErrorCode(errorcode)[1]);
+        }
+        
+        // Prüfen der Fotocounter
+        for (Foto tmpFoto : AlbenController.getAlbum(title).getFotoListe())
+        {
+            // Prüft das jedes Foto einmal verlinkt ist
+            assertThat(tmpFoto.getCounter(), is(0));
+        }
+    }
+    
+    /**
+     * Testet die Methode testAddListOfFotosToAlbum der Klasse FotoController.
+     * Testet, ob eine *.txt-Datei hinzugefügt werden kann.
+     * 
+     * Version-History:
+     * @date 11.01.2016 by Daniel: Initialisierung
+     */
+    @Test
+    public void testAddTxtToAlbum() {
+        System.out.println("testAddTxtToAlbum");
+        
+        // Album wurde angelegt
+        assertThat(AlbenController.getAlbum(title), is(notNullValue()));
+        
+        LinkedList<Path> listOfTxt = new LinkedList<>();
+        listOfTxt.add(pathOfTxt);
+        
+        // Errorcode != 0, wenn ein Fehler aufgetreten ist
+        int errorcode = FotoController.addListOfFotosToAlbum(title, listOfTxt);
+        if (errorcode != 410) {
+            fail(ErrorController.changeErrorCode(errorcode)[1]);
+        }
+        
+        // Prüfen der Fotocounter
+        for (Foto tmpFoto : AlbenController.getAlbum(title).getFotoListe())
+        {
+            // Prüft das jedes Foto einmal verlinkt ist
+            assertThat(tmpFoto.getCounter(), is(0));
         }
     }
 }
