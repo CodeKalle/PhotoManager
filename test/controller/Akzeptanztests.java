@@ -136,6 +136,7 @@ public class Akzeptanztests {
      * 
      * Version-History:
      * @date 04.01.2016 by Daniel: Initialisierung
+     * @date 11.01.2016 by Daniel: geeignete Ausgabe
      */
     @Test
     public void testAlbumAnlegen() {
@@ -160,6 +161,8 @@ public class Akzeptanztests {
         assertEquals(beschreibung, expectAlbum.getBeschreibung());
         assertEquals(sortierkennzeichen, expectAlbum.getSortierkennzeichen());
         assertThat(SystemController.getAlbumContainer().anzahlAlben(), is(1));
+        System.out.println("Titel: " + title + ", Beschreibung: " + beschreibung + ", Sortierkennzeichen: " + sortierkennzeichen);
+        System.out.println("Album wurde angelegt");
     }
     
     /**
@@ -167,6 +170,7 @@ public class Akzeptanztests {
      * 
      * Version-History:
      * @date 10.01.2016 by Daniel: Initialisierung
+     * @date 11.01.2016 by Daniel: geeignete Ausgabe
      */
     @Test
     public void testAlbumLöschen() {
@@ -188,6 +192,7 @@ public class Akzeptanztests {
         
         // Ob das Urlaubsalbum gelöscht wurde
         assertThat(SystemController.getAlbumContainer().anzahlAlben(), is(0));
+        System.out.println("Album wurde gelöscht");
     }
     
     /**
@@ -196,6 +201,7 @@ public class Akzeptanztests {
      * Version-History:
      * @date 09.01.2016 by Daniel: Initialisierung
      * @date 10.01.2016 by Daniel: Prüft Anzahl der Fotos, Album wird nun hier angelegt
+     * @date 11.01.2016 by Daniel: geeignete Ausgabe
      */
     @Test
     public void testFotosHinzufuegen() {
@@ -213,18 +219,27 @@ public class Akzeptanztests {
 
         // Das Urlaubsalbum enthält 4 Fotos
         assertThat(SystemController.getFotoContainer().anzahlFotos(), is(4));
-        
-        // Prüfen der Fotocounter
-        for (Foto tmpFoto : AlbenController.getAlbum(title).getFotoListe()) {
-            assertThat(tmpFoto.getCounter(), is(1));
-        }
+        System.out.println("Fotos wurden dem Album hinzugefügt");
     }
     
+    /**
+     * Testet, ob die Fotos sortiert werden können.
+     * 
+     * Version-History:
+     * @date 11.01.2016 by Daniel: Initialisierung
+     */
+    @Test
+    public void testFotosSortieren() {
+        System.out.println("*Fotos sortieren*");
+    }    
+        
     /**
      * Testet, ob die Fotos des Urlaubsalbums gelöscht werden können.
      * 
      * Version-History:
      * @date 10.01.2016 by Daniel: Initialisierung
+     * @date 11.01.2016 by Daniel: geeignete Ausgabe
+     * 
      */
     @Test
     public void testFotosLoeschen() {
@@ -243,6 +258,17 @@ public class Akzeptanztests {
         List<Path> expectList = new LinkedList<>();
         List<Path> resultList = FotoController.getFotosFromAlbum(title);
         assertEquals(expectList, resultList);
+        System.out.println("Fotos wurden aus dem Album gelöscht");
     }
 
+    /**
+     * Testet, ob das System gespeichert werden kann.
+     * 
+     * Version-History:
+     * @date 11.01.2016 by Daniel: Initialisierung
+     */
+    @Test
+    public void testSystemSpeichern() {
+        System.out.println("*System seichern*");
+    } 
 }
