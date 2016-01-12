@@ -29,6 +29,9 @@ import static org.junit.Assert.*;
  * @date 03.01.2016 by Daniel: Initialisierung
  * @date 04.01.2016 by Daniel: Grundgerüst aufgebaut
  * @date 09.01.2016 by Daniel: Setup bearbeitet, testFotoHinzufügen hinzugefügt
+ * @date 10.01.2016 by Daniel: tearDOwn und Ergänzugen
+ * @date 11.01.2016 by Daniel: Ausgaben hinzugefügt
+ * @date 12.01.2016 by Daniel: Alle Methoden überprüft und ergänzt
  */
 public class Akzeptanztests {
     
@@ -37,6 +40,7 @@ public class Akzeptanztests {
      * 
      * Version-History:
      * @date 04.01.2016 by Daniel: Initialisierung
+     * @date 09.01.2016 by Daniel: Fotopaths hinzugefügt
      */
     // Setup-Daten
     private static String filename;
@@ -227,10 +231,31 @@ public class Akzeptanztests {
      * 
      * Version-History:
      * @date 11.01.2016 by Daniel: Initialisierung
+     * @date 12.01.2016 by Daniel: Sortierkennzeichen verändern
      */
     @Test
     public void testFotosSortieren() {
         System.out.println("*Fotos sortieren*");
+        
+        // Album wird angelegt
+        AlbenController.createNewAlbum(title, beschreibung, sortierkennzeichen);
+        assertThat(AlbenController.getAlbum(title), is(notNullValue()));
+        
+        // Sortierkennzeichen ist 1
+        assertThat(AlbenController.getAlbum(title).getSortierkennzeichen(), is(1));
+        System.out.println("Sortierkennzeichen is 1");
+        
+        // Neues Sortierkennzeichen ist 0
+        int newSortierkennzeichen = 0;
+        AlbenController.editAlbum(title, title, beschreibung, newSortierkennzeichen);
+        assertThat(AlbenController.getAlbum(title).getSortierkennzeichen(), is(0));
+        System.out.println("Sortierkennzeichen wurde von 1 auf 0 geändert");
+        
+        // Neues Sortierkennzeichen ist 2
+        newSortierkennzeichen = 2;
+        AlbenController.editAlbum(title, title, beschreibung, newSortierkennzeichen);
+        assertThat(AlbenController.getAlbum(title).getSortierkennzeichen(), is(2));
+        System.out.println("Sortierkennzeichen wurde von 0 auf 2 geändert");
     }    
         
     /**
@@ -239,7 +264,7 @@ public class Akzeptanztests {
      * Version-History:
      * @date 10.01.2016 by Daniel: Initialisierung
      * @date 11.01.2016 by Daniel: geeignete Ausgabe
-     * 
+     * @date 12.01.2016 by Daniel: Auswahl zu löschender Fotos geprüft
      */
     @Test
     public void testFotosLoeschen() {
@@ -253,22 +278,57 @@ public class Akzeptanztests {
         FotoController.addListOfFotosToAlbum(title, listOfPathes);
         assertThat(FotoController.getFotosFromAlbum(title), not(empty()));
         
-        // Fotos wurden gelöscht
-        FotoController.deleteAllFotosInAlbum(AlbenController.getAlbum(title));
+        // Urlaubsfoto 1 und 2 löschen
+        List<Path> deleteList = new LinkedList<>();
+        deleteList.clear();
+        deleteList.add(pathOfFoto3);
+        deleteList.add(pathOfFoto4);
+        FotoController.deleteNotExistingFotosInListFromAlbum(title, deleteList);
+        
+        // Prüfen, ob 1 und 2 gelöscht
         List<Path> expectList = new LinkedList<>();
+        expectList.add(pathOfFoto3);
+        expectList.add(pathOfFoto4);
         List<Path> resultList = FotoController.getFotosFromAlbum(title);
         assertEquals(expectList, resultList);
-        System.out.println("Fotos wurden aus dem Album gelöscht");
+        System.out.println("Urlaubsfotos 1 und 2 wurden gelöscht");
+        
+        // Urlaubsfotos löschen
+        FotoController.deleteAllFotosInAlbum(AlbenController.getAlbum(title));
+        expectList = new LinkedList<>();
+        resultList = FotoController.getFotosFromAlbum(title);
+        assertEquals(expectList, resultList);
+        System.out.println("Alle Fotos wurden aus dem Album gelöscht");
     }
 
     /**
-     * Testet, ob das System gespeichert werden kann.
+     * Testet, ob das System gespeichert und geladen werden kann.
      * 
      * Version-History:
      * @date 11.01.2016 by Daniel: Initialisierung
+     * @date 11.01.2016 by Daniel: System speichern und laden
      */
     @Test
     public void testSystemSpeichern() {
         System.out.println("*System seichern*");
+        
+        // Album wird angelegt
+        AlbenController.createNewAlbum(title, beschreibung, sortierkennzeichen);
+        assertThat(AlbenController.getAlbum(title), is(notNullValue()));
+        
+        // System speichern, anderes initialisieren
+        SystemController.loadOrSave(false);
+        SystemController.setFilename("tmp.jdb");
+        SystemController.initializePmSystem();
+        assertThat(SystemController.getFilename(), is("tmp.jdb"));
+        System.out.println("System wurde gespeichert und durch ein anderes ersetzt");
+       
+        // System laden
+        SystemController.setFilename(filename);
+        SystemController.loadOrSave(true);
+        assertThat(SystemController.getFilename(), is(filename));
+        assertThat(AlbenController.getAlbum(title).getTitel(), is(title));
+        System.out.println("Das erste System konnte geladen werden und enthält das Urlaubsalbum");
+       
     } 
 }
