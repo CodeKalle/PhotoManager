@@ -84,6 +84,6 @@ public class GuiFotoEditController implements Initializable{
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         // Titel setzten
-        Main.getPrimaryStage().setTitle("Photomanager - FotoEdit.fxml");
+        Main.getPrimaryStage().setTitle("Photomanager - Foto bearbeiten");
     }
 }

@@ -40,7 +40,7 @@
                               <Text layoutX="69.0" layoutY="81.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Infos blabla" AnchorPane.leftAnchor="24.0" AnchorPane.rightAnchor="143.0" AnchorPane.topAnchor="40.0" />
                            </children>
                         </AnchorPane>
-                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0" styleClass="fotoEditPane" GridPane.rowIndex="1">
+                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0" styleClass="editPane" GridPane.rowIndex="1">
                            <children>
                               <TextField layoutX="24.0" layoutY="45.0" AnchorPane.leftAnchor="24.0" AnchorPane.rightAnchor="46.0" />
                               <Label layoutX="25.0" layoutY="14.0" text="Info ergänzen" AnchorPane.leftAnchor="25.0" AnchorPane.rightAnchor="129.0" />

@@ -39,7 +39,7 @@ public class GuiPlayPraesentation implements Initializable{
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         // Titel setzten
-        Main.getPrimaryStage().setTitle("Photomanager - PlayPraesentation.fxml");
+        Main.getPrimaryStage().setTitle("PhotoManager - Präsentation");
         
         praesi = new Praesentation();
         praesi.start();

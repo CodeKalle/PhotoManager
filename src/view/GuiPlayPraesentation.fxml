@@ -18,6 +18,6 @@
             <ImageView fx:id="guiPlayPraesentationImageView" fitHeight="600.0" fitWidth="800.0" pickOnBounds="true" preserveRatio="true" />
          </children>
       </HBox>
-      <Button fx:id="guiPlayPraesentationBack" layoutX="725.0" layoutY="560.0" mnemonicParsing="false" onAction="#handleButtonAction" text="Zurück" />
+      <Button fx:id="guiPlayPraesentationBack" layoutX="725.0" layoutY="560.0" mnemonicParsing="false" onAction="#handleButtonAction" opacity="0.3" text="Zurück" AnchorPane.bottomAnchor="15.0" AnchorPane.rightAnchor="15.0" />
    </children>
 </AnchorPane>

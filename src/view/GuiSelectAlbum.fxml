@@ -15,7 +15,7 @@
         <URL value="@GuiStyle.css" />
     </stylesheets>
    <children>
-      <GridPane id="GridPaneAddAlbum" alignment="CENTER" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <GridPane id="GridPaneAddAlbum" alignment="CENTER" styleClass="paneBorder" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <columnConstraints>
           <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
         </columnConstraints>
@@ -24,18 +24,18 @@
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <AnchorPane GridPane.rowIndex="1">
+            <AnchorPane styleClass="paneBorder" GridPane.rowIndex="1">
                <children>
                   <Button id="guiAlbumOverviewHauptmenue" fx:id="guiSelectAlbumHauptmenue" mnemonicParsing="false" onAction="#handleButtonAction" prefWidth="150.0" text="Zurück zum Hauptmenü" AnchorPane.rightAnchor="40.0" AnchorPane.topAnchor="50.0" />
                   <Button id="guiAlbumOverviewAlbumWechseln" fx:id="guiSelectAlbumAlbumWechseln" mnemonicParsing="false" onAction="#handleButtonAction" prefWidth="150.0" text="Ins Album wechseln" AnchorPane.rightAnchor="250.0" AnchorPane.topAnchor="50.0" />
-                  <Label styleClass="beschreibung" stylesheets="@GuiStyle.css" text="Bitte wählen Sie ein Album aus." AnchorPane.leftAnchor="40.0" AnchorPane.topAnchor="50.0">
+                  <Label styleClass="mainFxmlClass" stylesheets="@GuiStyle.css" text="Bitte wählen Sie ein Album aus." AnchorPane.leftAnchor="40.0" AnchorPane.topAnchor="50.0">
                      <font>
                         <Font size="20.0" />
                      </font>
                   </Label>
                </children>
             </AnchorPane>
-            <ScrollPane hbarPolicy="NEVER" prefHeight="200.0" prefWidth="200.0">
+            <ScrollPane hbarPolicy="NEVER" prefHeight="200.0" prefWidth="200.0" styleClass="editPane">
                <content>
                   <TilePane fx:id="guiAlbumOverviewTilePane" hgap="40.0" prefWidth="800.0" vgap="30.0">
                      <children>

@@ -129,7 +129,7 @@ public class GuiAlbumOverviewController implements Initializable{
     @Override
     public void initialize(URL location, ResourceBundle resources) {       
         // Titel setzten
-        Main.getPrimaryStage().setTitle("Photomanager - Alben");
+        Main.getPrimaryStage().setTitle("PhotoManager - Alben");
         
         //Alben laden
         for(int i = 0; i < AlbenController.getAlbumList().size(); i++) {
@@ -137,7 +137,7 @@ public class GuiAlbumOverviewController implements Initializable{
             Pane lpane = new Pane();            
             lpane.setPrefSize(80, 100);
             
-            Image image = new Image("/src/dummy1.jpg");
+            Image image = new Image("/src/alben.png");
             
             ImageView imageView = new ImageView();
             imageView.setFitHeight(80);

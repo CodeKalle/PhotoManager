@@ -340,7 +340,7 @@ public class GuiAddFotoController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {       
         // Titel setzten
-        Main.getPrimaryStage().setTitle("Photomanager - AddFoto.fxml");
+        Main.getPrimaryStage().setTitle("PhotoManager - Foto hinzufügen");
         
         //Treeview füllen    
         String hostName="computer";

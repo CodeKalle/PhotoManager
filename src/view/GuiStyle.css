@@ -11,14 +11,14 @@
     -fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.6) , 3, 0.0 , 0 , 1 );
 }
 .scroll-pane > .viewport {
-   -fx-background-color: red;
+   -fx-background-color: #ffdd99;
 }
 #scroll-pane1 > .viewport {
    -fx-background-color: black;
 }
 /* Pane in der GuiAddFoto !muss wie default sein! */
 #scroll-pane2 > .viewport {
-   -fx-background-color: red; 
+   -fx-background-color: #ffdd99; 
 }
 .button:hover {
     -fx-background-color: #3d3d3d;
@@ -38,11 +38,16 @@
     -fx-text-fill: white;
 }
 
+/*Allgemeiner Style der GUI*/
 .mainFxmlClass {
     -fx-background-color: #ffd090;
     -fx-font-family: "Comic Sans MS";
+    -fx-box-border: #ffb050;
+    -fx-inner-border: #ffdd99;
+    -fx-inner-border-horizontal: #ffdd99;
 }
 
+/*Titel der MainGUI*/
 .mainTitle {
     -fx-font-family: "Comic Sans MS";
     -fx-text-fill: #990000;
@@ -61,3 +66,19 @@
     -fx-graphic: url("../src/Button-Dia.png");
 }
 
+/*Panels mit hellerem Hintergrund*/
+.editPane {
+    -fx-background-color: #ffdd99;
+    -fx-border-color: #ffb050;
+}
+
+/*Dunklere Umrandung der Panels*/
+.paneBorder {
+    -fx-border-color: #ffb050;
+}
+
+/*Hintergrundfarbe für die Textfelder*/
+.textFeld {
+    -fx-background-color: #ffeeaa;
+    -fx-border-color: #ffb050;
+}
