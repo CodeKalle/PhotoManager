@@ -21,6 +21,7 @@ import org.apache.commons.lang.math.RandomUtils;
  * TestDataController erstellt Testdatenumgebung bietet Möglichkeiten zur Testdatenverwaltung
  * Version-History:
  * @date 03.12.2015 by Benni: Erstellung
+ * @date 10.01.2015 by Benni: kemmntierten Quellcode entfernt
  */
 public class TestDataController {
     //Testdaten SystemController
@@ -35,15 +36,27 @@ public class TestDataController {
     private static List<String> fotoList;
     //Testdaten AlbumController
     private static int albumCount = 10; //Standardwert hier hinterlegen, wird verwendet wenn Konstruktor nur mit Path aufgerufen werden
+    //Testpfade Autogenerierung
+    private static String appPath;
+    private static String testDataPath;
+    private static String pathSeparator;
+    private static String testBilderPfad;
     
-    
-    public List<String> getfotoList(){
-        return TestDataController.fotoList;
+   /**
+    * Konstruktor mit Autogenerierung
+    * @toDo 06.12.2015 by Benni - Prio: low: 
+    * Standardtestbilderpfad hinterlegen, damit Kontruktor ohne Parameter aufgerufen werden kann
+    * @throws IOException 
+    */
+    public TestDataController() throws IOException{
+        pathSeparator = System.getProperty("file.separator");
+        appPath = System.getProperty("user.dir");
+        testDataPath = appPath + pathSeparator + "test" + pathSeparator + "testdaten";
+        testBilderPfad = testDataPath;
+        
+        setDatabasePaths(appPath);
+        generateTestData(testBilderPfad);
     }
-    
-    //@toDo 06.12.2015 by Benni - Prio: low: 
-    //Standardtestbilderpfad hinterlegen, damit Kontruktor ohne Parameter aufgerufen werden kann
-    public TestDataController(){ }
     
     /**
     * Konstruktor mit einem Parametern
@@ -69,6 +82,14 @@ public class TestDataController {
             albumCount = count;
             setDatabasePaths(databasePath);
             generateTestData(path);
+    }
+    
+    /**
+     *
+     * @return
+     */
+    public List<String> getFotoList(){
+        return TestDataController.fotoList;
     }
     
     /**
@@ -153,17 +174,6 @@ public class TestDataController {
         String randomTitle;
         String randomDescription;
         String randomClassIndicator;
-        /*
-        do{
-            randomTitle = RandomStringUtils.randomAlphanumeric(RandomUtils.nextInt(17) + 4);
-        } while (randomTitle.equals(randomTitle));
-        do{
-            randomDescription = RandomStringUtils.randomAlphanumeric(RandomUtils.nextInt(201));
-        } while (randomDescription.equals(randomDescription));
-        do{
-            randomClassIndicator = RandomStringUtils.randomAlphanumeric(RandomUtils.nextInt(21));
-        } while (randomClassIndicator.equals(randomClassIndicator));
-        */
         
         randomTitle = RandomStringUtils.randomAlphanumeric(RandomUtils.nextInt(17) + 4);
         randomDescription = RandomStringUtils.randomAlphanumeric(RandomUtils.nextInt(201));
