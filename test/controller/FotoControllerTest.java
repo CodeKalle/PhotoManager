@@ -858,18 +858,14 @@ public class FotoControllerTest {
         LinkedList<Path> listOfExe = new LinkedList<>();
         listOfExe.add(pathOfExe);
         
-        // Errorcode != 0, wenn ein Fehler aufgetreten ist
+        // Errorcode == 0, wenn ein Fehler aufgetreten ist
         int errorcode = FotoController.addListOfFotosToAlbum(title, listOfExe);
-        if (errorcode != 410) {
+        if (errorcode != 0) {
             fail(ErrorController.changeErrorCode(errorcode)[1]);
         }
         
-        // Prüfen der Fotocounter
-        for (Foto tmpFoto : AlbenController.getAlbum(title).getFotoListe())
-        {
-            // Prüft das jedes Foto einmal verlinkt ist
-            assertThat(tmpFoto.getCounter(), is(0));
-        }
+        // Prüfen, dass Foto nicht angelegt
+        assertThat(AlbenController.getAlbum(title).getFotoListe().size(), is(0));
     }
     
     /**
@@ -889,17 +885,13 @@ public class FotoControllerTest {
         LinkedList<Path> listOfTxt = new LinkedList<>();
         listOfTxt.add(pathOfTxt);
         
-        // Errorcode != 0, wenn ein Fehler aufgetreten ist
+        // Errorcode == 0, wenn ein Fehler aufgetreten ist
         int errorcode = FotoController.addListOfFotosToAlbum(title, listOfTxt);
-        if (errorcode != 410) {
+        if (errorcode != 0) {
             fail(ErrorController.changeErrorCode(errorcode)[1]);
         }
         
-        // Prüfen der Fotocounter
-        for (Foto tmpFoto : AlbenController.getAlbum(title).getFotoListe())
-        {
-            // Prüft das jedes Foto einmal verlinkt ist
-            assertThat(tmpFoto.getCounter(), is(0));
-        }
+        // Prüfen, dass Foto nicht angelegt
+        assertThat(AlbenController.getAlbum(title).getFotoListe().size(), is(0));
     }
 }
