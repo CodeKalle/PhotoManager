@@ -10,6 +10,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -20,6 +21,7 @@ import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.TilePane;
 import javafx.stage.Stage;
@@ -111,35 +113,46 @@ public class GuiSelectedAlbumController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         Main.getPrimaryStage().setTitle("Photomanager - Ausgewähltes Album");
-        
+
         //Fotos aus Album laden
-        for(int i = 0; i < FotoController.getFotosFromAlbum(Main.speicher).size(); i++) {
+        for (int i = 0; i < FotoController.getFotosFromAlbum(Main.speicher).size(); i++) {
             //Für jedes Bild Konstrukt zusammensetzen
-            Pane lpane = new Pane();            
+            Pane lpane = new Pane();
             lpane.setPrefSize(80, 100);
-            
+
             Image image = new Image(FotoController.getFotosFromAlbum(Main.speicher).get(i).toUri().toString());
-            
+
             ImageView imageView = new ImageView();
+            CheckBox checkBox = new CheckBox();
+            Label name = new Label();
+            Label pfad = new Label();
+
             imageView.setFitHeight(80);
             imageView.setFitWidth(80);
             imageView.setPickOnBounds(true);
             imageView.setPreserveRatio(true);
-            imageView.setImage(image);            
-            
-            CheckBox checkBox = new CheckBox();
+            imageView.setImage(image);
+            imageView.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
+                @Override
+                public void handle(MouseEvent event) {
+                    if (checkBox.isSelected()) {
+                        checkBox.setSelected(false);
+                    } else {
+                        checkBox.setSelected(true);
+                    }
+                }
+            });
+
             checkBox.setLayoutX(56.0);
             checkBox.setLayoutY(58.0);
             checkBox.setMnemonicParsing(false);
-            
-            Label name = new Label();
+
             name.setLayoutX(20.0);
             name.setLayoutY(80.0);
             name.setPrefHeight(20);
             name.setPrefWidth(80);
             name.setText(FotoController.getFotosFromAlbum(Main.speicher).get(i).getFileName().toString());
-            
-            Label pfad = new Label();
+
             pfad.setVisible(false);
             pfad.setText(FotoController.getFotosFromAlbum(Main.speicher).get(i).toString());
 
@@ -147,7 +160,7 @@ public class GuiSelectedAlbumController implements Initializable {
             lpane.getChildren().add(checkBox);  //ID 1
             lpane.getChildren().add(name);      //ID 2
             lpane.getChildren().add(pfad);      //ID 3
-            
+
             //Fertiges Konstrukt in Pane anzeigen
             guiSelectedAlbumTilePane.getChildren().add(i + 1, lpane);
         }
