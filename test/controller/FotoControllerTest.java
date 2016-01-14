@@ -95,6 +95,8 @@ public class FotoControllerTest {
      * @date 07.12.2015 by Danilo: Änderung des Pfades, des Sortierkennzeichens und Fehlerkorrektur und umbennant
      * @date 09.12.2015 by Danilo: Anpassung an Änderungen im FotoCotnroller
      * @date 14.12.2015 by Danilo: Hinzufügen des Testordnerpfades
+     * @date 11.01.2016 by Daniel: Initialisierung .txt und .exe tests
+     * @date 13.01.2016 by Daniel: .txt und .exe kann hinzugefügt werden
      */
     @BeforeClass
     public static void setUpClass() {
@@ -843,10 +845,11 @@ public class FotoControllerTest {
     
     /**
      * Testet die Methode testAddListOfFotosToAlbum der Klasse FotoController.
-     * Testet, ob eine *.exe-Datei hinzugefügt werden kann.
+     * Testet, ob eine *.exe-Datei hinzugefügt werden kann, ohne Fehler zu erzeugen.
      * 
      * Version-History:
      * @date 11.01.2016 by Daniel: Initialisierung
+     * @date 13.01.2016 by Daniel: Datei kann hinzugefügt werden
      */
     @Test
     public void testAddExeToAlbum() {
@@ -865,15 +868,16 @@ public class FotoControllerTest {
         }
         
         // Prüfen, dass Foto nicht angelegt
-        assertThat(AlbenController.getAlbum(title).getFotoListe().size(), is(0));
+        assertThat(AlbenController.getAlbum(title).getFotoListe().size(), is(1));
     }
     
     /**
      * Testet die Methode testAddListOfFotosToAlbum der Klasse FotoController.
-     * Testet, ob eine *.txt-Datei hinzugefügt werden kann.
+     * Testet, ob eine *.txt-Datei hinzugefügt werden kann, ohne Fehler zu erzeugen.
      * 
      * Version-History:
      * @date 11.01.2016 by Daniel: Initialisierung
+     * @date 13.01.2016 by Daniel: Datei kann hinzugefügt werden
      */
     @Test
     public void testAddTxtToAlbum() {
@@ -892,6 +896,6 @@ public class FotoControllerTest {
         }
         
         // Prüfen, dass Foto nicht angelegt
-        assertThat(AlbenController.getAlbum(title).getFotoListe().size(), is(0));
+        assertThat(AlbenController.getAlbum(title).getFotoListe().size(), is(1));
     }
 }
