@@ -7,6 +7,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -17,6 +18,7 @@ import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.TilePane;
 import javafx.stage.Stage;
@@ -111,18 +113,30 @@ public class GuiSelectAlbumController implements Initializable{
             Image image = new Image("/src/alben.png");
             
             ImageView imageView = new ImageView();
+            CheckBox checkBox = new CheckBox();
+            Label label = new Label();
+            
             imageView.setFitHeight(80);
             imageView.setFitWidth(80);
             imageView.setPickOnBounds(true);
             imageView.setPreserveRatio(true);
-            imageView.setImage(image);            
-            
-            CheckBox checkBox = new CheckBox();
+            imageView.setImage(image);
+            imageView.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
+                @Override
+                public void handle(MouseEvent event) {
+                    if (checkBox.isSelected()) {
+                        checkBox.setSelected(false);
+                    } else {
+                        checkBox.setSelected(true);
+                    }
+                }
+            });
+ 
             checkBox.setLayoutX(56.0);
             checkBox.setLayoutY(58.0);
             checkBox.setMnemonicParsing(false);
+            checkBox.setIndeterminate(false);
             
-            Label label = new Label();
             label.setLayoutX(20.0);
             label.setLayoutY(80.0);
             label.setPrefHeight(20);
