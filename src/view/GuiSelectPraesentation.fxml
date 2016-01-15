@@ -23,8 +23,8 @@
           <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
         </columnConstraints>
         <rowConstraints>
-          <RowConstraints maxHeight="500.0" minHeight="10.0" prefHeight="453.0" vgrow="SOMETIMES" />
-          <RowConstraints maxHeight="292.0" minHeight="10.0" prefHeight="147.0" vgrow="SOMETIMES" />
+          <RowConstraints maxHeight="579.0" minHeight="10.0" prefHeight="539.0" vgrow="SOMETIMES" />
+          <RowConstraints maxHeight="292.0" minHeight="10.0" prefHeight="59.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
             <ScrollPane hbarPolicy="NEVER" prefHeight="200.0" prefWidth="200.0" styleClass="editPane">
@@ -41,21 +41,8 @@
             </ScrollPane>
             <AnchorPane prefHeight="200.0" prefWidth="200.0" styleClass="paneBorder" GridPane.rowIndex="1">
                <children>
-                  <CheckBox fx:id="guiSelectPresentationSchleife" alignment="CENTER" contentDisplay="CENTER" disable="true" mnemonicParsing="false" selected="true" text="Endlosschleife" textAlignment="CENTER" AnchorPane.rightAnchor="130.0" AnchorPane.topAnchor="20.0" />
-                  <ComboBox fx:id="guiSelectPresentationFormat" disable="true" promptText="Format" AnchorPane.leftAnchor="270.0" AnchorPane.rightAnchor="400.0" AnchorPane.topAnchor="16.0">
-                      <items>
-                        <FXCollections fx:factory="observableArrayList">
-                            <String fx:value="Format1" />
-                            <String fx:value="Format2" />
-                         </FXCollections>
-                      </items>
-                  </ComboBox>
                   <Button fx:id="guiSelectPresentationStart" mnemonicParsing="false" onAction="#handleButtonAction" text="Start" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="40.0" />
                   <Button fx:id="guiSelectPresentationHauptmenue" mnemonicParsing="false" onAction="#handleButtonAction" text="Zurück zum Hauptmenü" AnchorPane.bottomAnchor="20.0" AnchorPane.rightAnchor="40.0" />
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="beschreibung" text="Bitte wählen sie ihr Format aus:" AnchorPane.leftAnchor="40.0" AnchorPane.topAnchor="20.0" />
-                  <CheckBox fx:id="guiSelectPresentationVollbild" disable="true" mnemonicParsing="false" text="Vollbild" AnchorPane.rightAnchor="285.0" AnchorPane.topAnchor="20.0" />
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Wählen sie einen Titel (optional):" AnchorPane.leftAnchor="40.0" AnchorPane.topAnchor="60.0" />
-                  <TextField fx:id="guiSelectPresentationTitel" styleClass="textFeld" AnchorPane.leftAnchor="270.0" AnchorPane.rightAnchor="330.0" AnchorPane.topAnchor="56.0" />
                </children>
             </AnchorPane>
          </children>
