@@ -31,6 +31,7 @@ public class Main extends Application {
     protected static String speicher;
     protected static String letztesFensterVorCreateAlbum;
     protected static String letztesFenster;
+    protected static int id;
     
     /**
     * Methode startet die GUI
