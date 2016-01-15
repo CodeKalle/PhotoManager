@@ -62,6 +62,7 @@ public class Main extends Application {
             
             primaryStage.setMinHeight(600.00);
             primaryStage.setMinWidth(800.00);
+            primaryStage.setResizable(false);
             
             //Verbindung zum Controller
             GuiMainController guiMainController = loader.getController();
