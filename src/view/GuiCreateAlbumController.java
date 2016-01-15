@@ -1,7 +1,6 @@
 package view;
 
 import controller.AlbenController;
-import controller.FotoController;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -17,7 +16,6 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import model.Album;
-import model.FotoContainer;
 
 /**
  * Diese Klasse dient der Erstellung eines Albums
