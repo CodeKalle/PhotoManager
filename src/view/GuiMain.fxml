@@ -21,7 +21,7 @@
             <VBox id="VBoxStart" alignment="CENTER" layoutX="129.0" layoutY="370.0" spacing="20.0">
                <children>
                   <Button id="guiMainButtonPraesentation" fx:id="guiMainButtonPraesentation" layoutX="166.0" layoutY="370.0" mnemonicParsing="false" onAction="#handleButtonActionMain" prefHeight="50.0" prefWidth="50.0" styleClass="buttonDia" stylesheets="@GuiStyle.css" textAlignment="CENTER" />
-                  <Label id="LabelStart" layoutX="129.0" layoutY="458.0" text="Bildschirmpräsentation&#10;bearbeiten und starten" textAlignment="CENTER" />
+                  <Label id="LabelStart" layoutX="129.0" layoutY="458.0" text="Bildschirmpräsentation &#10;starten" textAlignment="CENTER" />
                </children>
             </VBox>
             <VBox id="VboxAnlege" alignment="CENTER" layoutX="360.0" layoutY="370.0" spacing="20.0">

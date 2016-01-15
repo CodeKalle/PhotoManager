@@ -79,6 +79,8 @@ public class GuiPlayPraesentation implements Initializable {
         KeyFrame startFadeIn = new KeyFrame(Duration.ZERO, e -> {
             guiPlayPraesentationImageView.setImage(new Image(FotoController.getFotosFromAlbum(Main.speicher).get(i).toUri().toString()));
             i++;
+            if(i >=FotoController.getFotosFromAlbum(Main.speicher).size())
+                i=0;
         }, transparent);
         KeyFrame endFadeIn = new KeyFrame(Duration.seconds(1), opaque);
         KeyFrame stay = new KeyFrame(Duration.seconds(6), opaque);
