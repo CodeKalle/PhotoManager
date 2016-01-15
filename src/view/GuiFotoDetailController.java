@@ -1,9 +1,17 @@
 package view;
 
+import com.drew.imaging.ImageMetadataReader;
+import com.drew.imaging.ImageProcessingException;
+import com.drew.metadata.Directory;
+import com.drew.metadata.Tag;
 import controller.FotoController;
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.nio.file.Path;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -112,6 +120,7 @@ public class GuiFotoDetailController implements Initializable {
             imageView.setFitWidth(80);
             imageView.setPickOnBounds(true);
             imageView.setPreserveRatio(true);
+            imageView.setId(Integer.toString(i));
             imageView.setImage(image);
 
             imageView.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
@@ -119,9 +128,14 @@ public class GuiFotoDetailController implements Initializable {
                 public void handle(MouseEvent event) {
 
                     guiFotoDetailImageView.setImage(image);
-                    guiAddFotoDetailTextArea.setVisible(false);
-                    guiAddFotoDetailTextArea.setText("test 1234!");
-
+                    guiAddFotoDetailTextArea.setVisible(true);
+                    try {
+                        guiAddFotoDetailTextArea.setText(getExifData(FotoController.getFotosFromAlbum(Main.speicher).get(Integer.valueOf(imageView.getId()))));
+                    } catch (ImageProcessingException ex) {
+                        Logger.getLogger(GuiFotoDetailController.class.getName()).log(Level.SEVERE, null, ex);
+                    } catch (IOException ex) {
+                        Logger.getLogger(GuiFotoDetailController.class.getName()).log(Level.SEVERE, null, ex);
+                    }
                 }
             });
 
@@ -143,8 +157,23 @@ public class GuiFotoDetailController implements Initializable {
             //Fertiges Konstrukt in Pane anzeigen
             guiFotoDetailTilePane.getChildren().add(i, lpane);
         }
-        
+
         guiFotoDetailImageView.setImage(new Image(FotoController.getFotosFromAlbum(Main.speicher).get(Main.id).toUri().toString()));
     }
 
+    private static String getExifData(Path path) throws ImageProcessingException, IOException {
+        File jpegFile = new File(path.toString());
+
+        com.drew.metadata.Metadata metadata = ImageMetadataReader.readMetadata(jpegFile);
+
+        
+        String exif ="";
+        for (Directory directory : metadata.getDirectories()) {
+            for (Tag tag : directory.getTags()) {
+                exif += tag + System.getProperty("line.separator");
+         
+            }
+        }
+        return exif;
+    }
 }
