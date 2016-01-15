@@ -26,8 +26,6 @@
          <children>
             <AnchorPane styleClass="paneBorder" GridPane.rowIndex="1">
                <children>
-                  <Button fx:id="guiSelectedAlbumFotosBearbeiten" mnemonicParsing="false" onAction="#handleButtonAction" prefWidth="120.0" text="Fotos bearbeiten" AnchorPane.bottomAnchor="60.0" AnchorPane.leftAnchor="190.0" />
-                  <Button fx:id="guiSelectedAlbumFotosHinzufuegen" mnemonicParsing="false" onAction="#handleButtonAction" prefWidth="120.0" text="Fotos hinzufügen" AnchorPane.bottomAnchor="60.0" AnchorPane.leftAnchor="35.0" />
                   <Button fx:id="guiSelectedAlbumFotosLoeschen" mnemonicParsing="false" onAction="#handleButtonAction" prefWidth="120.0" text="Fotos löschen" AnchorPane.bottomAnchor="60.0" AnchorPane.leftAnchor="345.0" />
                   <Button fx:id="guiSelectedAlbumAlbumBearbeiten" mnemonicParsing="false" onAction="#handleButtonAction" prefWidth="120.0" text="Album bearbeiten" AnchorPane.bottomAnchor="60.0" AnchorPane.leftAnchor="500.0" />
                   <Button fx:id="guiSelectedAlbumZurueckzuAlben" mnemonicParsing="false" onAction="#handleButtonAction" prefWidth="120.0" text="Zurück" AnchorPane.bottomAnchor="60.0" AnchorPane.rightAnchor="30.0" />
@@ -39,7 +37,7 @@
                      <children>
                         <Pane prefHeight="100.0" prefWidth="80.0">
                            <children>
-                              <Button fx:id="guiSelectedAlbumFotosHinzufuegen2" mnemonicParsing="false" onAction="#handleButtonAction" prefHeight="80.0" prefWidth="80.0" styleClass="buttonFotos" stylesheets="@GuiStyle.css" textAlignment="CENTER" wrapText="true" />
+                              <Button fx:id="guiSelectedAlbumFotosHinzufuegen" mnemonicParsing="false" onAction="#handleButtonAction" prefHeight="80.0" prefWidth="80.0" styleClass="buttonFotos" stylesheets="@GuiStyle.css" textAlignment="CENTER" wrapText="true" />
                               <Label id="LabelStart" layoutX="9.0" layoutY="85.0" text="Fotos&#10;hinzufügen" textAlignment="CENTER" />
                            </children>
                         </Pane>

@@ -52,7 +52,7 @@
                         <ImageView fx:id="guiFotoDetailImageView" fitHeight="600.0" fitWidth="632.0" pickOnBounds="true" preserveRatio="true" />
                      </children>
                   </HBox>
-                  <TextArea fx:id="guiAddFotoDetailTextArea" editable="false" opacity="0.5" prefHeight="200.0" prefWidth="631.0" visible="false" AnchorPane.bottomAnchor="0.0">
+                  <TextArea fx:id="guiAddFotoDetailTextArea" editable="false" opacity="0.5" prefHeight="200.0" prefWidth="631.0" AnchorPane.bottomAnchor="0.0">
                      <cursor>
                         <Cursor fx:constant="DEFAULT" />
                      </cursor>

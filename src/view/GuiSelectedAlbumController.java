@@ -51,7 +51,7 @@ public class GuiSelectedAlbumController implements Initializable {
      */
     // Buttons des Fensters
     @FXML
-    Button guiSelectedAlbumFotosHinzufuegen, guiSelectedAlbumFotosHinzufuegen2, guiSelectedAlbumAlbumBearbeiten, guiSelectedAlbumFotosLoeschen, guiSelectedAlbumFotosBearbeiten, guiSelectedAlbumZurueckzuAlben;
+    Button guiSelectedAlbumFotosHinzufuegen, guiSelectedAlbumAlbumBearbeiten, guiSelectedAlbumFotosLoeschen, guiSelectedAlbumZurueckzuAlben;
     // Fotobereich
     @FXML
     private TilePane guiSelectedAlbumTilePane;
@@ -75,12 +75,7 @@ public class GuiSelectedAlbumController implements Initializable {
             Main.letztesFensterVorCreateAlbum = "GuiSelectedAlbum.fxml";
             stage = (Stage) guiSelectedAlbumAlbumBearbeiten.getScene().getWindow();
             root = FXMLLoader.load(getClass().getResource("GuiCreateAlbum.fxml"));
-        } else if (event.getSource() == guiSelectedAlbumFotosBearbeiten) {
-            // selektierte fotos bearbeiten
-
-            stage = (Stage) guiSelectedAlbumFotosBearbeiten.getScene().getWindow();
-            root = FXMLLoader.load(getClass().getResource("GuiFotoDetail.fxml"));
-        } else if (event.getSource() == guiSelectedAlbumFotosHinzufuegen || event.getSource() == guiSelectedAlbumFotosHinzufuegen2) {
+        } else if (event.getSource() == guiSelectedAlbumFotosHinzufuegen) {
             // fotos zu diesem album hinzufügen
             Main.letztesFensterVorCreateAlbum = "GuiSelectedAlbum.fxml";
             stage = (Stage) guiSelectedAlbumFotosHinzufuegen.getScene().getWindow();
@@ -94,7 +89,7 @@ public class GuiSelectedAlbumController implements Initializable {
             root = FXMLLoader.load(getClass().getResource("GuiSelectedAlbum.fxml"));
         } else {
             stage = (Stage) guiSelectedAlbumZurueckzuAlben.getScene().getWindow();
-            root = FXMLLoader.load(getClass().getResource(Main.letztesFenster));
+            root = FXMLLoader.load(getClass().getResource("GuiAlbumOverview.fxml"));
         }
         Scene scene = new Scene(root);
         stage.setScene(scene);
@@ -142,7 +137,7 @@ public class GuiSelectedAlbumController implements Initializable {
                             try {
                                 Main.letztesFenster = "GuiSelectedAlbum.fxml";
                                 Main.id = Integer.valueOf(imageView.getId());
-                                Stage stage = (Stage) guiSelectedAlbumFotosBearbeiten.getScene().getWindow();
+                                Stage stage = (Stage) guiSelectedAlbumFotosHinzufuegen.getScene().getWindow();
                                 Parent root = FXMLLoader.load(getClass().getResource("GuiFotoDetail.fxml"));
                                 Scene scene = new Scene(root);
                                 stage.setScene(scene);

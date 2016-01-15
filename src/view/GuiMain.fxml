@@ -30,12 +30,7 @@
                   <Label id="LabelAnlegen" layoutX="360.0" layoutY="458.0" text="Alben anlegen&#10;und pflegen" textAlignment="CENTER" />
                </children>
             </VBox>
-            <VBox id="VboxEinpflegen" alignment="CENTER" layoutX="563.0" layoutY="370.0" spacing="20.0">
-               <children>
-                  <Button id="guiMainButtonFoto" fx:id="guiMainButtonFoto" layoutX="582.0" layoutY="370.0" mnemonicParsing="false" onAction="#handleButtonActionMain" prefHeight="50.0" prefWidth="50.0" styleClass="buttonFotos" stylesheets="@GuiStyle.css" textAlignment="CENTER" />
-                  <Label id="LabelEinpflegen" layoutX="563.0" layoutY="458.0" text="Fotos einpflegen&#10;und editieren" textAlignment="CENTER" />
-               </children>
-            </VBox>
+            <VBox id="VboxEinpflegen" alignment="CENTER" layoutX="563.0" layoutY="370.0" spacing="20.0" />
          </children>
       </HBox>
       <Label id="LabelWilkommen" alignment="CENTER" layoutX="157.0" layoutY="116.0" styleClass="mainTitle" stylesheets="@GuiStyle.css" text="Willkommen zum PhotoManager" textAlignment="CENTER" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="50.0">

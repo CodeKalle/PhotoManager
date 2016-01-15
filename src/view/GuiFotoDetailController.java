@@ -119,7 +119,7 @@ public class GuiFotoDetailController implements Initializable {
                 public void handle(MouseEvent event) {
 
                     guiFotoDetailImageView.setImage(image);
-                    guiAddFotoDetailTextArea.setVisible(true);
+                    guiAddFotoDetailTextArea.setVisible(false);
                     guiAddFotoDetailTextArea.setText("test 1234!");
 
                 }

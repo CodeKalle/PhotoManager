@@ -50,7 +50,6 @@ public class GuiAlbumOverviewController implements Initializable {
     // Buttons des Fensters
     @FXML
     Button guiAlbumOverviewAlbumBearbeiten,
-            guiAlbumOverviewAlbumWechseln,
             guiAlbumOverviewAlbumLoeschen,
             guiAlbumOverviewHauptmenue,
             guiAlbumOverviewFotoHinzufuegen,
@@ -84,16 +83,6 @@ public class GuiAlbumOverviewController implements Initializable {
             Main.letztesFensterVorCreateAlbum = "GuiAlbumOverview.fxml";
             stage = (Stage) guiAlbumOverviewAlbumBearbeiten.getScene().getWindow();
             root = FXMLLoader.load(getClass().getResource("GuiCreateAlbum.fxml"));
-        } else if (event.getSource() == guiAlbumOverviewAlbumWechseln) {
-            //Methodenaufruf getMarkiertesAlbum
-            titel = getMarkiertesAlbum();
-            if (titel == null) {
-                return;   //Wenn kein oder mehrere Alben markiert sind, bleibe in der aktuellen Übersicht.
-            }
-            Main.speicher = titel;      //Titel zwischenspeichern, damit er im nächsten Fenster weiter verwendet werden kann.
-            Main.letztesFenster = "GuiAlbumOverview.fxml";
-            stage = (Stage) guiAlbumOverviewAlbumWechseln.getScene().getWindow();
-            root = FXMLLoader.load(getClass().getResource("GuiSelectedAlbum.fxml"));
         } else if (event.getSource() == guiAlbumOverviewAlbumLoeschen) {
             //Methodenaufruf Alben löschen
             if (albenLoeschen() == 1) {
@@ -166,7 +155,7 @@ public class GuiAlbumOverviewController implements Initializable {
                             try {
                                 Main.speicher = getMarkiertesAlbum();
                                 Main.letztesFenster = "GuiAlbumOverview.fxml";
-                                Stage stage = (Stage) guiAlbumOverviewAlbumWechseln.getScene().getWindow();
+                                Stage stage = (Stage) guiAlbumOverviewAlbumBearbeiten.getScene().getWindow();
                                 Parent root = FXMLLoader.load(getClass().getResource("GuiSelectedAlbum.fxml"));
                                 Scene scene = new Scene(root);
                                 stage.setScene(scene);
