@@ -16,7 +16,7 @@
       <Label layoutX="66.0" layoutY="79.0" text="Bitte geben sie den Namen des Albums ein:" AnchorPane.leftAnchor="60.0" AnchorPane.rightAnchor="60.0" AnchorPane.topAnchor="60.0" />
       <Label layoutX="70.0" layoutY="172.0" text="Beschreibung hinzufügen (optional):" AnchorPane.leftAnchor="60.0" AnchorPane.rightAnchor="60.0" AnchorPane.topAnchor="160.0" />
       <Label layoutX="69.0" layoutY="378.0" text="Sortierkennzeichen hinzufügen (optional):" AnchorPane.bottomAnchor="200.0" AnchorPane.leftAnchor="60.0" AnchorPane.rightAnchor="60.0" AnchorPane.topAnchor="370.0" />
-      <ComboBox fx:id="guiCreateAlbumComboBox" layoutX="69.0" layoutY="418.0" prefHeight="26.0" prefWidth="681.0" AnchorPane.bottomAnchor="165.0" AnchorPane.leftAnchor="60.0" AnchorPane.rightAnchor="60.0" >
+      <ComboBox fx:id="guiCreateAlbumComboBox" layoutX="69.0" layoutY="418.0" prefHeight="26.0" prefWidth="681.0" styleClass="textFeld" AnchorPane.bottomAnchor="165.0" AnchorPane.leftAnchor="60.0" AnchorPane.rightAnchor="60.0">
         <items>
             <FXCollections fx:factory="observableArrayList">
                 <String fx:value="Benutzerdefiniert" />

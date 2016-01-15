@@ -6,6 +6,7 @@ import java.util.logging.Logger;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
@@ -63,7 +64,8 @@ public class Main extends Application {
             
             primaryStage.setMinHeight(600.00);
             primaryStage.setMinWidth(800.00);
-            primaryStage.setResizable(false);
+            primaryStage.setResizable(false); /* Codecracker Jule war hier!! Biatches! */
+            primaryStage.getIcons().add(new Image(getClass().getResourceAsStream("../src/icon.png")));
             
             //Verbindung zum Controller
             GuiMainController guiMainController = loader.getController();
