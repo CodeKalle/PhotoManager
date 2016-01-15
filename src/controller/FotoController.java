@@ -170,6 +170,7 @@ public class FotoController {
      * 
      * Version-History:
      * @date 14.11.2015 by Danilo: Initialisierung
+     * @date 15.01.2016 by Tobias: Speichern hinzugefügt
      */
     public static int deleteNotExistingFotosInListFromAlbum(String title, List<Path> existingListOfPathes) {
         // Album holen
@@ -177,7 +178,9 @@ public class FotoController {
         if(tmpAlbum!=null) {
             // Falls übergebene Liste null oder leer werden alle Fotos aus Album gelöscht
             if (existingListOfPathes == null || existingListOfPathes.isEmpty()) {
-                return deleteAllFotosInAlbum(tmpAlbum);
+                ErrorController.addDebugReport(deleteAllFotosInAlbum(tmpAlbum));
+                return SystemController.loadOrSave(false);
+                 
             }
             else {
                 int count = 0;
@@ -197,7 +200,7 @@ public class FotoController {
                 }
                 // Setzen der neuen Fotoliste
                 tmpAlbum.setFotoListe(albumNewFotolist);
-                return 0;
+                return SystemController.loadOrSave(false);
             }
         }
         return ErrorController.addDebugReport(430);
