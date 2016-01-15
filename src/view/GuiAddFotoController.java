@@ -37,6 +37,7 @@ import javafx.scene.layout.TilePane;
 import javafx.stage.Stage;
 import javafx.scene.control.TreeView;
 import javafx.scene.control.TreeItem;
+import javafx.scene.input.MouseButton;
 import javafx.scene.layout.HBox;
 
 /**
@@ -390,62 +391,85 @@ public class GuiAddFotoController implements Initializable {
      * 
      * Version-History:
      * @date 06.12.2015 by Tobias: Initialisierung
+     * @date 15.12.2015 by Manuel: Eventhandling
      */
-    public void bilderAnzeigen(List<Path> fotos){
+    public void bilderAnzeigen(List<Path> fotos) {
         guiAddFotoTilePane.getChildren().clear();
-        
+
         guiAddFotoTilePane.setCursor(javafx.scene.Cursor.WAIT);
-        
+
         //Fotos aus Album laden
-        for(int i = 0; i < fotos.size(); i++) {
+        for (int i = 0; i < fotos.size(); i++) {
             //Für jedes Bild Konstrukt zusammensetzen
-            Pane lpane = new Pane();            
+            Pane lpane = new Pane();
             lpane.setPrefSize(80, 100);
 
             Image image = new Image(fotos.get(i).toUri().toString());
 
             ImageView imageView = new ImageView();
+            CheckBox checkBox = new CheckBox();
+            Label name = new Label();
+            Label pfad = new Label();
+
             imageView.setFitHeight(80);
             imageView.setFitWidth(80);
             imageView.setPickOnBounds(true);
             imageView.setPreserveRatio(true);
-            imageView.setImage(image);    
-            
+            imageView.setImage(image);
+
+            // EventHandler Zoom bei Rechter Maustatse
             imageView.addEventHandler(MouseEvent.MOUSE_PRESSED, new EventHandler<MouseEvent>() {
                 @Override
                 public void handle(MouseEvent event) {
-                    zoomBox.setDisable(false);
-                    zoomImageView.setDisable(false);
-                    zoomImageView.setImage(image);
-                    guiAddFotoTilePane.setOpacity(0.4);
-                    guiAddFotoScrollPane.setId("scroll-pane1");
-                }
-            });
-            
-            imageView.addEventHandler(MouseEvent.MOUSE_RELEASED, new EventHandler<MouseEvent>() {
-                @Override
-                public void handle(MouseEvent event) {
-                    zoomImageView.setImage(null);
-                    zoomImageView.setDisable(false);
-                    zoomBox.setDisable(false);
-                    guiAddFotoTilePane.setOpacity(1);
-                    guiAddFotoScrollPane.setId("scroll-pane2");
+                    if (event.getButton() == MouseButton.SECONDARY) {
+                        zoomBox.setDisable(false);
+                        zoomImageView.setDisable(false);
+                        zoomImageView.setImage(image);
+                        guiAddFotoTilePane.setOpacity(0.4);
+                        guiAddFotoScrollPane.setId("scroll-pane1");
+                    }
                 }
             });
 
-            CheckBox checkBox = new CheckBox();
+            imageView.addEventHandler(MouseEvent.MOUSE_RELEASED, new EventHandler<MouseEvent>() {
+                @Override
+                public void handle(MouseEvent event) {
+                    if (event.getButton() == MouseButton.SECONDARY) {
+                        zoomImageView.setImage(null);
+                        zoomImageView.setDisable(false);
+                        zoomBox.setDisable(false);
+                        guiAddFotoTilePane.setOpacity(1);
+                        guiAddFotoScrollPane.setId("scroll-pane2");
+                    }
+                }
+            });
+            // Eventhandler Checkbox
+            imageView.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
+                @Override
+                public void handle(MouseEvent event) {
+                    if (event.getButton() == MouseButton.PRIMARY) {
+                        if (checkBox.isSelected()) {
+                            checkBox.setSelected(false);
+                        } else {
+                            checkBox.setSelected(true);
+                        }
+                    }
+                }
+            });
+
+
             checkBox.setLayoutX(56.0);
             checkBox.setLayoutY(58.0);
             checkBox.setMnemonicParsing(false);
 
-            Label name = new Label();
+
             name.setLayoutX(20.0);
             name.setLayoutY(80.0);
             name.setPrefHeight(20);
             name.setPrefWidth(80);
             name.setText(fotos.get(i).getFileName().toString());
 
-            Label pfad = new Label();
+
             pfad.setVisible(false);
             pfad.setText(fotos.get(i).toString());
 
