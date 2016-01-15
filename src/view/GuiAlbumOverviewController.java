@@ -50,7 +50,6 @@ public class GuiAlbumOverviewController implements Initializable {
     // Buttons des Fensters
     @FXML
     Button guiAlbumOverviewAlbumBearbeiten,
-            guiAlbumOverviewAlbumWechseln,
             guiAlbumOverviewAlbumLoeschen,
             guiAlbumOverviewHauptmenue,
             guiAlbumOverviewFotoHinzufuegen,
@@ -84,16 +83,6 @@ public class GuiAlbumOverviewController implements Initializable {
             Main.letztesFensterVorCreateAlbum = "GuiAlbumOverview.fxml";
             stage = (Stage) guiAlbumOverviewAlbumBearbeiten.getScene().getWindow();
             root = FXMLLoader.load(getClass().getResource("GuiCreateAlbum.fxml"));
-        } else if (event.getSource() == guiAlbumOverviewAlbumWechseln) {
-            //Methodenaufruf getMarkiertesAlbum
-            titel = getMarkiertesAlbum();
-            if (titel == null) {
-                return;   //Wenn kein oder mehrere Alben markiert sind, bleibe in der aktuellen Übersicht.
-            }
-            Main.speicher = titel;      //Titel zwischenspeichern, damit er im nächsten Fenster weiter verwendet werden kann.
-            Main.letztesFenster = "GuiAlbumOverview.fxml";
-            stage = (Stage) guiAlbumOverviewAlbumWechseln.getScene().getWindow();
-            root = FXMLLoader.load(getClass().getResource("GuiSelectedAlbum.fxml"));
         } else if (event.getSource() == guiAlbumOverviewAlbumLoeschen) {
             //Methodenaufruf Alben löschen
             if (albenLoeschen() == 1) {
@@ -157,6 +146,7 @@ public class GuiAlbumOverviewController implements Initializable {
             imageView.setFitWidth(80);
             imageView.setPickOnBounds(true);
             imageView.setPreserveRatio(true);
+            imageView.setId(AlbenController.getAlbumList().get(i));
             imageView.setImage(image);
             imageView.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
                 @Override
@@ -164,9 +154,9 @@ public class GuiAlbumOverviewController implements Initializable {
                     if (event.getButton().equals(MouseButton.PRIMARY)) {
                         if (event.getClickCount() == 2) {
                             try {
-                                Main.speicher = getMarkiertesAlbum();
+                                Main.speicher = imageView.getId();                                
                                 Main.letztesFenster = "GuiAlbumOverview.fxml";
-                                Stage stage = (Stage) guiAlbumOverviewAlbumWechseln.getScene().getWindow();
+                                Stage stage = (Stage) guiAlbumOverviewAlbumBearbeiten.getScene().getWindow();
                                 Parent root = FXMLLoader.load(getClass().getResource("GuiSelectedAlbum.fxml"));
                                 Scene scene = new Scene(root);
                                 stage.setScene(scene);
