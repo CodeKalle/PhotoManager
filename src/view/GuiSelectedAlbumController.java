@@ -1,6 +1,5 @@
 package view;
 
-import controller.AlbenController;
 import controller.FotoController;
 import java.io.IOException;
 import java.net.URL;
@@ -112,7 +111,7 @@ public class GuiSelectedAlbumController implements Initializable {
      */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        Main.getPrimaryStage().setTitle("Photomanager - Ausgewähltes Album");
+        Main.getPrimaryStage().setTitle("Photomanager - Album: " + Main.speicher);
 
         //Fotos aus Album laden
         for (int i = 0; i < FotoController.getFotosFromAlbum(Main.speicher).size(); i++) {
