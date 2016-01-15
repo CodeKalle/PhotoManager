@@ -146,6 +146,7 @@ public class GuiAlbumOverviewController implements Initializable {
             imageView.setFitWidth(80);
             imageView.setPickOnBounds(true);
             imageView.setPreserveRatio(true);
+            imageView.setId(AlbenController.getAlbumList().get(i));
             imageView.setImage(image);
             imageView.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
                 @Override
@@ -153,7 +154,7 @@ public class GuiAlbumOverviewController implements Initializable {
                     if (event.getButton().equals(MouseButton.PRIMARY)) {
                         if (event.getClickCount() == 2) {
                             try {
-                                Main.speicher = getMarkiertesAlbum();
+                                Main.speicher = imageView.getId();                                
                                 Main.letztesFenster = "GuiAlbumOverview.fxml";
                                 Stage stage = (Stage) guiAlbumOverviewAlbumBearbeiten.getScene().getWindow();
                                 Parent root = FXMLLoader.load(getClass().getResource("GuiSelectedAlbum.fxml"));
