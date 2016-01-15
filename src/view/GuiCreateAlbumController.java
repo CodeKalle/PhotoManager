@@ -66,17 +66,7 @@ public class GuiCreateAlbumController implements Initializable {
     public void handleButtonAction(ActionEvent event) throws IOException{
         Stage stage;
         Parent root;        
-        if(event.getSource()==guiCreateAlbumSortierkennzeichenHinzufuegen){
-            //Neues Sortierkennzeichen zur Combobox hinzufügen, gui neu laden
-            stage=(Stage) guiCreateAlbumSortierkennzeichenHinzufuegen.getScene().getWindow();
-            root = FXMLLoader.load(getClass().getResource("GuiCreateAlbum.fxml"));
-        }
-        else if(event.getSource()==guiCreateAlbumSortierkennzeichenLoeschen) {
-            // Sortierkennzeichen aus der Combobox löschen, gui neu laden
-            stage=(Stage) guiCreateAlbumSortierkennzeichenLoeschen.getScene().getWindow();
-            root = FXMLLoader.load(getClass().getResource("GuiCreateAlbum.fxml"));
-        }
-        else if(event.getSource()==guiCreateAlbumOk) {      
+        if(event.getSource()==guiCreateAlbumOk) {      
             // get value guiCreateAlbumName, guiCreateAlbumBeschreibung, guiCreateAlbumComboBox; create Album(); wechsel zu --- albenübersicht oder in das neue album
             if(AlbumErstellen() != 0) return;
             stage=(Stage) guiCreateAlbumOk.getScene().getWindow();
@@ -101,6 +91,7 @@ public class GuiCreateAlbumController implements Initializable {
      * Version-History:
      * @date ??.11.2015 by Tobias: Initialisierung
      * @date 10.12.2015 by Danilo: Kommentare ergänzt
+     * @date 15.01.2016 by Tobias: Anzeige von Sortierkennzeichen ergänzt
      */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -115,6 +106,18 @@ public class GuiCreateAlbumController implements Initializable {
             guiCreateAlbumName.setText(album.getTitel());
             guiCreateAlbumBeschreibung.setText(album.getBeschreibung());
             guiCreateAlbumComboBox.getSelectionModel().select(0);
+        }
+        
+        
+        //Sortierkennzeichen erhalten
+        if(AlbenController.getSortierkennzeichenFromAlbum(Main.speicher)==350 || AlbenController.getSortierkennzeichenFromAlbum(Main.speicher)==0){
+            guiCreateAlbumComboBox.setValue("Benutzerdefiniert");
+        }
+        else if(AlbenController.getSortierkennzeichenFromAlbum(Main.speicher)==1){
+            guiCreateAlbumComboBox.setValue("Name");
+        }
+        else if(AlbenController.getSortierkennzeichenFromAlbum(Main.speicher)==2){
+            guiCreateAlbumComboBox.setValue("Datum");
         }
     }    
 
@@ -132,6 +135,7 @@ public class GuiCreateAlbumController implements Initializable {
         String tmpTitel = guiCreateAlbumName.getText();
         String tmpBeschreibung = guiCreateAlbumBeschreibung.getText();
         int tmpSortierkennzeichen = guiCreateAlbumComboBox.getSelectionModel().getSelectedIndex();
+        System.out.println(tmpSortierkennzeichen);
         
         if(!bearbeitungsmodus)
             return AlbenController.createNewAlbum(tmpTitel, tmpBeschreibung, tmpSortierkennzeichen);

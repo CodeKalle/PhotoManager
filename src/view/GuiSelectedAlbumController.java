@@ -1,6 +1,5 @@
 package view;
 
-import controller.AlbenController;
 import controller.FotoController;
 import java.io.IOException;
 import java.net.URL;
@@ -112,15 +111,16 @@ public class GuiSelectedAlbumController implements Initializable {
      */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        Main.getPrimaryStage().setTitle("Photomanager - Ausgewähltes Album");
+        Main.getPrimaryStage().setTitle("Photomanager - Album: " + Main.speicher);
 
         //Fotos aus Album laden
-        for (int i = 0; i < FotoController.getFotosFromAlbum(Main.speicher).size(); i++) {
+        List<Path> fotos = FotoController.getFotosFromAlbum(Main.speicher);
+        for (int i = 0; i < fotos.size(); i++) {
             //Für jedes Bild Konstrukt zusammensetzen
             Pane lpane = new Pane();
             lpane.setPrefSize(80, 100);
 
-            Image image = new Image(FotoController.getFotosFromAlbum(Main.speicher).get(i).toUri().toString());
+            Image image = new Image(fotos.get(i).toUri().toString());
 
             ImageView imageView = new ImageView();
             CheckBox checkBox = new CheckBox();
@@ -151,10 +151,10 @@ public class GuiSelectedAlbumController implements Initializable {
             name.setLayoutY(80.0);
             name.setPrefHeight(20);
             name.setPrefWidth(80);
-            name.setText(FotoController.getFotosFromAlbum(Main.speicher).get(i).getFileName().toString());
+            name.setText(fotos.get(i).getFileName().toString());
 
             pfad.setVisible(false);
-            pfad.setText(FotoController.getFotosFromAlbum(Main.speicher).get(i).toString());
+            pfad.setText(fotos.get(i).toString());
 
             lpane.getChildren().add(imageView); //ID 0
             lpane.getChildren().add(checkBox);  //ID 1

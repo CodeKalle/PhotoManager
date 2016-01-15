@@ -314,4 +314,24 @@ public class AlbenController {
         }
         return ErrorController.addDebugReport(350);
     }
+    
+    
+    /**
+     * Diese Methode gibt das Sortierkennzeichen für ein Album zurück, damit es richtig in der GUI angezeigt
+     * werden kann.
+     * 
+     * @param title Titel des Albums
+     * @return Code für das Sortierkennzeichen
+     * 
+     * Version-History:
+     * @date 15.01.2016 by Tobias: Anlegen der Methode
+     */
+    public static int getSortierkennzeichenFromAlbum(String title){
+        for (Album tmpAlbum : SystemController.getAlbumContainer().getAlbenListe()) {
+            if (tmpAlbum.getTitel().equals(title)) { 
+                return tmpAlbum.getSortierkennzeichen();
+            }
+        }
+        return ErrorController.addDebugReport(350);
+    }
 }
