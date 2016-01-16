@@ -94,6 +94,10 @@
 .text-area .scroll-pane .viewport{
     -fx-background-color: transparent;
 }
+/* Hintergrund EXIF Daten */
+#text-area1 .scroll-pane .viewport{
+    -fx-background-color: #ffeeaa;
+}
 
 .text-area .scroll-pane .content{
     -fx-background-color: transparent;
