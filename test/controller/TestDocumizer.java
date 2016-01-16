@@ -4,15 +4,15 @@ import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Paths;
-import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.charset.Charset;
-import static java.nio.file.StandardOpenOption.APPEND;
-import static java.nio.file.StandardOpenOption.CREATE;
 
 /**
  *
  * @author Benni
+ * 
+ * Version-History:
+ * @date 11.01.2016 by Benni: Umbenennung von Variblen, kommentierten Code entfernt
  */
 
 public class TestDocumizer {
@@ -33,6 +33,15 @@ public class TestDocumizer {
         return timeGeneral;
     }
     
+    /**
+     * Protokollierung
+     * Version-History:
+     * @param errorcode Übergabe des internen PM Fehlercodes - Auflösung des Fehlercodes folgt automatisch, 0 kein interner Fehlercode
+     * @param advancedDescription Freier Beschreibungstext 
+     * @param consoleLog Ausgabe des Logeintrags auf der Console
+     * @param fileLog Logeintrag in der Testprotokolldatei erstellen
+     * @date 03.12.2015 by Benni: Initialisiarung
+     */
     public static void logging(int errorcode, String advancedDescription, boolean consoleLog, boolean fileLog) throws IOException{
         String logString = "";
         if (errorcode <= 0){
@@ -70,13 +79,13 @@ public class TestDocumizer {
     private static void fileLogging(String logText) throws IOException{
         Path logPath = Paths.get(strLogPath);
         
-        FileWriter filwWriter;
+        FileWriter fileWriter;
         BufferedWriter writeBuf;
-        filwWriter = new FileWriter(logPath.toString());
-        writeBuf = new BufferedWriter(filwWriter);
+        fileWriter = new FileWriter(logPath.toString());
+        writeBuf = new BufferedWriter(fileWriter);
         writeBuf.write(logText);
         
         if (writeBuf != null) writeBuf.close();
-        if (filwWriter != null) writeBuf.close();
+        if (fileWriter != null) fileWriter.close();
     }
 }

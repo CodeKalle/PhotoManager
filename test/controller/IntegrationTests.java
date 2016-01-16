@@ -25,11 +25,15 @@ import static org.hamcrest.CoreMatchers.*;
  * Version-History:
  * @date 03.12.2015 by Benni: Grundgerüst angefangen
  * @date 08.12.2015 by Danilo: Änderung des Pfades
+ * @date 10.01.2016 by Benni: Abänderung der Testpfad Hinterlegung, Testpfad dynamisch: Applikationsverzeichnis + "\test\testdaten"
  */
 public class IntegrationTests {
     private TestDataController TestDataCtrl;
     private Path PmDatabasePath;
-    private final String testBilderPfad = "D:\\Test";
+    private static String appPath;
+    private static String testDataPath;
+    private static String pathSeparator;
+    private static String testBilderPfad; //= "D:\\Test";
 
     /**
      *
@@ -49,6 +53,11 @@ public class IntegrationTests {
             TestDocumizer.startTimer();
             
             //Initialisierung System
+            pathSeparator = System.getProperty("file.separator");
+            appPath = System.getProperty("user.dir");
+            testDataPath = appPath + pathSeparator + "test" + pathSeparator + "testdaten";
+            testBilderPfad = testDataPath;
+            //TestDocumizer.logging(0, testPath, true, false);
             SystemController.run();
             
             //Generiung Testdaten
