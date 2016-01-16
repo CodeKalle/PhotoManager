@@ -23,6 +23,7 @@ import static org.hamcrest.CoreMatchers.*;
  * @date 05.12.2015 by Danilo: Anpassung der Zeitausgabe bei garantierte Albumanzahl
  * @date 07.12.2015 by Danilo: Sortierkennzeichen Datentyp zu int
  * @date 10.12.2015 by Danilo: Änderung von Fehlern in Tests
+ * @date 16.01.2016 by Daniel: Sortierkennzeichentests hinzugefügt
  */
 public class AlbenControllerTest {
     
@@ -824,5 +825,77 @@ public class AlbenControllerTest {
         // Prüfen das Alpenliste nicht leer ist
         assertThat(tmpList.isEmpty(), is(false));
         assertThat(tmpList.size(), is(garanteedAlbumCount));
+    }
+    
+    /**
+     * Testet die Methode editAlbumSortierkennzeichen der Klasse AlbenController.
+     * Testet, ob das Sortierkennzeichen verändert werden kann
+     * 
+     * Version-History:
+     * @date 16.01.2016 by Daniel: Initialisierung
+     */
+    @Test
+    public void testEditAlbumSortierkennzeichen() { 
+        System.out.println("testEditAlbumSortierkennzeichen");
+        
+        // Prüft das Datenbank leer ist
+        assertThat(SystemController.getAlbumContainer().anzahlAlben(), is(0));
+        
+        // Album anlegen mit fixen Daten
+        int errorcode = AlbenController.createNewAlbum(title, beschreibung, sortierkennzeichen);
+        if (errorcode != 0) {
+            fail(ErrorController.changeErrorCode(errorcode)[1]);
+        }
+        
+        // Sortierkennzechen 0 - 2 können ausgewählt werden und werden richtig eingetragen
+        int sortError;
+        int resultSortierkennzeichen;
+        
+        for (int i = 0; i < 3; i++) {
+            sortError = AlbenController.createNewAlbum(title + i, beschreibung, sortierkennzeichen + i);
+            if (errorcode != 0) {
+                fail(ErrorController.changeErrorCode(errorcode)[1]);
+            }
+            resultSortierkennzeichen = AlbenController.getAlbum(title + i).getSortierkennzeichen();
+            assertThat(sortierkennzeichen + i, is(resultSortierkennzeichen));
+        }
+        
+        // Sortierkennzeichen 5 existiert nicht (error 130)
+        sortError = AlbenController.createNewAlbum(newTitle, beschreibung, sortierkennzeichen + 5);
+        if (errorcode != 130) {
+            fail(ErrorController.changeErrorCode(errorcode)[1]);
+        }
+    }
+    
+    /**
+     * Testet die Methode editAlbumSortierkennzeichen der Klasse AlbenController.
+     * Testet, ob das Sortierkennzeichen korrekt zurückgegeben wird
+     * 
+     * Version-History:
+     * @date 16.01.2016 by Daniel: Initialisierung
+     */
+    @Test
+    public void testGetSortierkennzeichenFromAlbum() { 
+        System.out.println("testGetSortierkennzeichenFromAlbum");
+        
+        // Prüft das Datenbank leer ist
+        assertThat(SystemController.getAlbumContainer().anzahlAlben(), is(0));
+        
+        // Album anlegen mit fixen Daten
+        int errorcode = AlbenController.createNewAlbum(title, beschreibung, sortierkennzeichen);
+        if (errorcode != 0) {
+            fail(ErrorController.changeErrorCode(errorcode)[1]);
+        }
+        
+        // Error == 0
+        int resultSortierkennzeichen;
+        int sortError = AlbenController.getSortierkennzeichenFromAlbum(title);
+        if (sortError != 0) {
+            fail(ErrorController.changeErrorCode(sortError)[1]);
+        }
+        
+        // Richtiges Sortiekennzeichen ist gessetzt
+        resultSortierkennzeichen = AlbenController.getAlbum(title).getSortierkennzeichen();
+        assertThat(sortierkennzeichen, is(resultSortierkennzeichen));
     }
 }
