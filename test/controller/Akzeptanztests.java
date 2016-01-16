@@ -32,6 +32,7 @@ import static org.junit.Assert.*;
  * @date 10.01.2016 by Daniel: tearDOwn und Ergänzugen
  * @date 11.01.2016 by Daniel: Ausgaben hinzugefügt
  * @date 12.01.2016 by Daniel: Alle Methoden überprüft und ergänzt
+ * @date 12.01.2016 by Daniel: FotoHinzufügen und AlbumHinzufügen vollständig
  */
 public class Akzeptanztests {
     
@@ -42,6 +43,7 @@ public class Akzeptanztests {
      * @date 04.01.2016 by Daniel: Initialisierung
      * @date 09.01.2016 by Daniel: Fotopaths hinzugefügt
      */
+    
     // Setup-Daten
     private static String filename;
     private static String originFilename;
@@ -141,6 +143,7 @@ public class Akzeptanztests {
      * Version-History:
      * @date 04.01.2016 by Daniel: Initialisierung
      * @date 11.01.2016 by Daniel: geeignete Ausgabe
+     * @date 15.01.2016 by Daniel: Alle Akzeptanzkriterien wurden erfolgreich getestet
      */
     @Test
     public void testAlbumAnlegen() {
@@ -153,20 +156,27 @@ public class Akzeptanztests {
         Album expectAlbum = AlbenController.getAlbum(title);
         assertThat(expectAlbum, is(nullValue()));
         
-        // Album anlegen mit fixen Daten
-        int errorcode = AlbenController.createNewAlbum(title, beschreibung, sortierkennzeichen);
-        if (errorcode != 0) {
-            fail(ErrorController.changeErrorCode(errorcode)[1]);
+        // Album anlegen
+        int errorcode1 = AlbenController.createNewAlbum(title, beschreibung, sortierkennzeichen);
+        if (errorcode1 != 0) {
+            fail(ErrorController.changeErrorCode(errorcode1)[1]);
         }
         
-        // Prüft das Album mit fixen Daten angelegt wurde
+        // Prüft, ob das Urlaubsalbum korrekt angelegt werden kann
         expectAlbum = AlbenController.getAlbum(title);
         assertEquals(title, expectAlbum.getTitel());
         assertEquals(beschreibung, expectAlbum.getBeschreibung());
         assertEquals(sortierkennzeichen, expectAlbum.getSortierkennzeichen());
         assertThat(SystemController.getAlbumContainer().anzahlAlben(), is(1));
-        System.out.println("Titel: " + title + ", Beschreibung: " + beschreibung + ", Sortierkennzeichen: " + sortierkennzeichen);
         System.out.println("Album wurde angelegt");
+        System.out.println("Titel: " + title + ", Beschreibung: " + beschreibung + ", Sortierkennzeichen: " + sortierkennzeichen);
+        
+        // Das Urlaubsalbum kann nicht erneut angelegt werden
+        int errorcode2 = AlbenController.createNewAlbum(title, beschreibung, sortierkennzeichen);
+        if (errorcode2 != 110) {
+            fail(ErrorController.changeErrorCode(errorcode2)[1]);
+        }
+        System.out.println("Das Urlaubsalbum wurde nicht erneut angelegt, da es bereits existiert");
     }
     
     /**
@@ -206,6 +216,7 @@ public class Akzeptanztests {
      * @date 09.01.2016 by Daniel: Initialisierung
      * @date 10.01.2016 by Daniel: Prüft Anzahl der Fotos, Album wird nun hier angelegt
      * @date 11.01.2016 by Daniel: geeignete Ausgabe
+     * @date 15.01.2016 by Daniel: Alle Akzeptanzkriterien wurden erfolgreich getestet
      */
     @Test
     public void testFotosHinzufuegen() {
@@ -216,14 +227,33 @@ public class Akzeptanztests {
         assertThat(AlbenController.getAlbum(title), is(notNullValue()));
         
         // Errorcode != 0, wenn ein Fehler aufgetreten ist
-        int errorcode = FotoController.addListOfFotosToAlbum(title, listOfPathes);
-        if (errorcode != 0) {
-            fail(ErrorController.changeErrorCode(errorcode)[1]);
+        int errorcode1 = FotoController.addListOfFotosToAlbum(title, listOfPathes);
+        if (errorcode1 != 0) {
+            fail(ErrorController.changeErrorCode(errorcode1)[1]);
         }
 
         // Das Urlaubsalbum enthält 4 Fotos
         assertThat(SystemController.getFotoContainer().anzahlFotos(), is(4));
         System.out.println("Fotos wurden dem Album hinzugefügt");
+        
+        // Errorcode == , wenn bereits vorhandene Fotos nicht erneut hinzugefügt wurden
+        int errorcode2 = FotoController.addListOfFotosToAlbum(title, listOfPathes);
+        if (errorcode2 == 410) {
+            fail(ErrorController.changeErrorCode(errorcode2)[1]);
+        }
+        
+        // Das System enthält immernoch 4 Fotos
+        assertThat(SystemController.getFotoContainer().anzahlFotos(), is(4));
+        System.out.println("Bereits vorhandene Fotopfade wurden dem System nicht hinzugefügt");
+        
+        // Das Urlaubsalbum enthält 8 Fotos, jedes Foto 2 mal
+        int counter = 0;
+        for (Foto tmpFoto : AlbenController.getAlbum(title).getFotoListe()) {
+            counter++;
+            assertThat(tmpFoto.getCounter(), is(2));
+        }
+        assertThat(counter, is(8));
+        System.out.println("Das Urlaubsalbum enthält jedes Foto zweimal");
     }
     
     /**
