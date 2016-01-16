@@ -868,7 +868,7 @@ public class AlbenControllerTest {
     }
     
     /**
-     * Testet die Methode editAlbumSortierkennzeichen der Klasse AlbenController.
+     * Testet die Methode getSortierkennzeichenFromAlbum der Klasse AlbenController.
      * Testet, ob das Sortierkennzeichen korrekt zurückgegeben wird
      * 
      * Version-History:
