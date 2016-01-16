@@ -43,6 +43,7 @@ public class GuiPlayPraesentation implements Initializable {
 
     //Wert für die Übergänge.
     private int i = 0;
+    Timeline timeline;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -55,7 +56,7 @@ public class GuiPlayPraesentation implements Initializable {
     public void handleButtonAction(ActionEvent event) throws IOException, InterruptedException {
         Stage stage;
         Parent root;
-
+        stop();
         stage = (Stage) guiPlayPraesentationBack.getScene().getWindow();
         root = FXMLLoader.load(getClass().getResource("GuiSelectPraesentation.fxml"));
 
@@ -71,7 +72,7 @@ public class GuiPlayPraesentation implements Initializable {
      * @date 15.01.2015 by Manu & Tobias: Methode geschrieben
      */
     private void play() {
-        Timeline timeline = new Timeline();
+        timeline = new Timeline();
 
         KeyValue transparent = new KeyValue(guiPlayPraesentationImageView.opacityProperty(), 0.0);
         KeyValue opaque = new KeyValue(guiPlayPraesentationImageView.opacityProperty(), 1.0);
@@ -90,5 +91,9 @@ public class GuiPlayPraesentation implements Initializable {
         timeline.getKeyFrames().addAll(startFadeIn, endFadeIn, stay, startFadeOut, endFadeOut);
         timeline.setCycleCount(Animation.INDEFINITE);
         timeline.play();
+    }
+    
+    private void stop(){
+        timeline.stop();
     }
 }
