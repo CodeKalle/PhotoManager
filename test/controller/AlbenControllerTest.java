@@ -832,7 +832,7 @@ public class AlbenControllerTest {
      * Testet, ob das Sortierkennzeichen verändert werden kann
      * 
      * Version-History:
-     * @date 16.01.2016 by Daniel: Initialisierung
+     * @date 16.01.2016 by Daniel: Initialisierung, nicht existierende Sortierkennzeichen übernehmen Standartwert
      */
     @Test
     public void testEditAlbumSortierkennzeichen() { 
@@ -862,9 +862,13 @@ public class AlbenControllerTest {
         
         // Sortierkennzeichen 5 existiert nicht (error 130)
         sortError = AlbenController.createNewAlbum(newTitle, beschreibung, 5);
-        if (errorcode != 130) {
+        if (errorcode != 0) {
             fail(ErrorController.changeErrorCode(errorcode)[1]);
         }
+        
+        // Das Standard-Sortierkenkeizen 0 wird gesetzt.
+        resultSortierkennzeichen = AlbenController.getAlbum(newTitle).getSortierkennzeichen();
+        assertThat(sortierkennzeichen, is(resultSortierkennzeichen));
     }
     
     /**
