@@ -103,6 +103,7 @@ public class GuiFotoDetailController implements Initializable {
      * Version-History:
      * @date ??.11.2015 by Tobias: Initialisierung
      * @date 10.12.2015 by Danilo: Kommentare ergänzt
+     * @date 16.01.2015 by Manuel Eventhandler
      */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -123,11 +124,26 @@ public class GuiFotoDetailController implements Initializable {
             imageView.setId(Integer.toString(i));
             imageView.setImage(image);
 
+            // Bei Click bild auswählen
             imageView.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
                 @Override
                 public void handle(MouseEvent event) {
-
                     guiFotoDetailImageView.setImage(image);
+                    // Bei Mouse Over Hintergrund der Textarea ändern
+                    guiAddFotoDetailTextArea.addEventHandler(MouseEvent.MOUSE_ENTERED, new EventHandler<MouseEvent>() {
+                        @Override
+                        public void handle(MouseEvent event) {
+                            guiAddFotoDetailTextArea.setId("text-area1");
+                            guiAddFotoDetailTextArea.setOpacity(0.9);
+                        }
+                    });
+                    //Bei verlassen der Maus zurück
+                    guiAddFotoDetailTextArea.addEventHandler(MouseEvent.MOUSE_EXITED, new EventHandler<MouseEvent>() {
+                        @Override
+                        public void handle(MouseEvent event) {
+                            guiAddFotoDetailTextArea.setId("text-area");
+                        }
+                    });
                     guiAddFotoDetailTextArea.setVisible(true);
                     try {
                         guiAddFotoDetailTextArea.setText(getExifData(FotoController.getFotosFromAlbum(Main.speicher).get(Integer.valueOf(imageView.getId()))));
@@ -166,12 +182,11 @@ public class GuiFotoDetailController implements Initializable {
 
         com.drew.metadata.Metadata metadata = ImageMetadataReader.readMetadata(jpegFile);
 
-        
-        String exif ="";
+        String exif = "";
         for (Directory directory : metadata.getDirectories()) {
             for (Tag tag : directory.getTags()) {
                 exif += tag + System.getProperty("line.separator");
-         
+
             }
         }
         return exif;
