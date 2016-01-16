@@ -901,5 +901,8 @@ public class AlbenControllerTest {
         // Richtiges Sortiekennzeichen ist gessetzt
         resultSortierkennzeichen = AlbenController.getAlbum(title).getSortierkennzeichen();
         assertThat(sortierkennzeichen, is(resultSortierkennzeichen));
+        
+        // Andere Sortierkennzeichen sind nicht gesetzt
+        assertThat(newSortierkennzeichen, not(resultSortierkennzeichen));
     }
 }
