@@ -19,8 +19,8 @@
          <children>
             <AnchorPane styleClass="paneBorder" stylesheets="@GuiStyle.css" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" GridPane.vgrow="ALWAYS">
                <children>
-                  <Button id="guiAddFotoBilderHinzufuegen" fx:id="guiAddFotoBilderHinzufuegen" mnemonicParsing="false" onAction="#handleButtonAction" prefWidth="120.0" text="Bilder hinzufügen" AnchorPane.leftAnchor="60.0" AnchorPane.topAnchor="60.0" />
-                  <Button id="guiAddFotoAbbrechen" fx:id="guiAddFotoAbbrechen" mnemonicParsing="false" onAction="#handleButtonAction" prefWidth="120.0" text="Abbrechen" AnchorPane.rightAnchor="60.0" AnchorPane.topAnchor="60.0" />
+                  <Button id="guiAddFotoBilderHinzufuegen" fx:id="guiAddFotoBilderHinzufuegen" mnemonicParsing="false" onAction="#handleButtonAction" prefWidth="120.0" text="Bilder hinzufügen" AnchorPane.bottomAnchor="47.0" AnchorPane.leftAnchor="60.0" />
+                  <Button id="guiAddFotoAbbrechen" fx:id="guiAddFotoAbbrechen" mnemonicParsing="false" onAction="#handleButtonAction" prefWidth="120.0" text="Abbrechen" AnchorPane.bottomAnchor="47.0" AnchorPane.rightAnchor="60.0" />
                </children>
             </AnchorPane>
             <AnchorPane GridPane.rowSpan="2">
@@ -28,7 +28,7 @@
                   <TreeView fx:id="treeView" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                </children>
             </AnchorPane>
-            <AnchorPane prefHeight="200.0" prefWidth="200.0" styleClass="paneBorder" GridPane.columnIndex="1">
+            <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1">
                <children>
                   <ScrollPane fx:id="guiAddFotoScrollPane" hbarPolicy="NEVER" prefHeight="200.0" prefWidth="200.0" styleClass="editPane" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                      <content>
