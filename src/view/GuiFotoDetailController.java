@@ -134,6 +134,7 @@ public class GuiFotoDetailController implements Initializable {
                         @Override
                         public void handle(MouseEvent event) {
                             guiAddFotoDetailTextArea.setId("text-area1");
+                            guiAddFotoDetailTextArea.setOpacity(0.9);
                         }
                     });
                     //Bei verlassen der Maus zurück
