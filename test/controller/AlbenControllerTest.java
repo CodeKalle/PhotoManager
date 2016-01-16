@@ -852,16 +852,16 @@ public class AlbenControllerTest {
         int resultSortierkennzeichen;
         
         for (int i = 0; i < 3; i++) {
-            sortError = AlbenController.createNewAlbum(title + i, beschreibung, sortierkennzeichen + i);
+            sortError = AlbenController.createNewAlbum(title + i, beschreibung, i);
             if (errorcode != 0) {
                 fail(ErrorController.changeErrorCode(errorcode)[1]);
             }
             resultSortierkennzeichen = AlbenController.getAlbum(title + i).getSortierkennzeichen();
-            assertThat(sortierkennzeichen + i, is(resultSortierkennzeichen));
+            assertThat(i, is(resultSortierkennzeichen));
         }
         
         // Sortierkennzeichen 5 existiert nicht (error 130)
-        sortError = AlbenController.createNewAlbum(newTitle, beschreibung, sortierkennzeichen + 5);
+        sortError = AlbenController.createNewAlbum(newTitle, beschreibung, 5);
         if (errorcode != 130) {
             fail(ErrorController.changeErrorCode(errorcode)[1]);
         }
