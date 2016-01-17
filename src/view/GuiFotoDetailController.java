@@ -21,10 +21,12 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ScrollBar;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextArea;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.TilePane;
@@ -129,29 +131,41 @@ public class GuiFotoDetailController implements Initializable {
                 @Override
                 public void handle(MouseEvent event) {
                     guiFotoDetailImageView.setImage(image);
+
                     // Bei Mouse Over Hintergrund der Textarea ändern
-                    guiAddFotoDetailTextArea.addEventHandler(MouseEvent.MOUSE_ENTERED, new EventHandler<MouseEvent>() {
+                    guiFotoDetailImageView.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
                         @Override
                         public void handle(MouseEvent event) {
-                            guiAddFotoDetailTextArea.setId("text-area1");
-                            guiAddFotoDetailTextArea.setOpacity(0.9);
+                            if (event.getButton() == MouseButton.SECONDARY) {
+                                guiAddFotoDetailTextArea.setId("text-area1");
+                                guiAddFotoDetailTextArea.setOpacity(0.8);
+                                ScrollBar scrollBarv = (ScrollBar) guiAddFotoDetailTextArea.lookup(".scroll-bar:vertical");
+                                scrollBarv.setDisable(true);
+                                guiAddFotoDetailTextArea.setVisible(true);
+                                try {
+                                    guiAddFotoDetailTextArea.setText(getExifData(FotoController.getFotosFromAlbum(Main.speicher).get(Integer.valueOf(imageView.getId()))));
+                                } catch (ImageProcessingException ex) {
+                                    Logger.getLogger(GuiFotoDetailController.class.getName()).log(Level.SEVERE, null, ex);
+                                } catch (IOException ex) {
+                                    Logger.getLogger(GuiFotoDetailController.class.getName()).log(Level.SEVERE, null, ex);
+                                }
+                            }
+
                         }
                     });
                     //Bei verlassen der Maus zurück
-                    guiAddFotoDetailTextArea.addEventHandler(MouseEvent.MOUSE_EXITED, new EventHandler<MouseEvent>() {
+                    guiAddFotoDetailTextArea.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
                         @Override
                         public void handle(MouseEvent event) {
-                            guiAddFotoDetailTextArea.setId("text-area");
+                            if (event.getButton().equals(MouseButton.PRIMARY)) {
+                                if (event.getClickCount() == 2) {
+                                    guiAddFotoDetailTextArea.setId("text-area");
+                                    guiAddFotoDetailTextArea.setVisible(false);
+                                }
+                            }
                         }
                     });
-                    guiAddFotoDetailTextArea.setVisible(true);
-                    try {
-                        guiAddFotoDetailTextArea.setText(getExifData(FotoController.getFotosFromAlbum(Main.speicher).get(Integer.valueOf(imageView.getId()))));
-                    } catch (ImageProcessingException ex) {
-                        Logger.getLogger(GuiFotoDetailController.class.getName()).log(Level.SEVERE, null, ex);
-                    } catch (IOException ex) {
-                        Logger.getLogger(GuiFotoDetailController.class.getName()).log(Level.SEVERE, null, ex);
-                    }
+
                 }
             });
 
