@@ -57,6 +57,7 @@ public class Main extends Application {
      *
      * @date ??.11.2015 by Tobias: Initialisierung
      * @date 10.12.2015 by Danilo: Kommentare ergänzt
+     * @date 17.01.2015 by Tobias: Icon angepasst
      */
     public void mainWindow() {
 
@@ -67,7 +68,7 @@ public class Main extends Application {
             primaryStage.setMinHeight(600.00);
             primaryStage.setMinWidth(800.00);
             primaryStage.setResizable(false);
-            primaryStage.getIcons().add(new Image(getClass().getResourceAsStream("../src/icon.png")));
+            primaryStage.getIcons().add(new Image("/src/icon.png"));
 
             //Verbindung zum Controller
             GuiMainController guiMainController = loader.getController();
