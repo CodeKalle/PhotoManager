@@ -27,7 +27,6 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.TilePane;
@@ -81,7 +80,8 @@ public class GuiFotoDetailController implements Initializable {
      * Version-History:
      * @date ??.11.2015 by Tobias: Initialisierung
      * @date 10.12.2015 by Danilo: Kommentare ergänzt
-     * @date 17.01.2016 by Tobias and Manuel: Eventhandler hinzugefügt für exif daten
+     * @date 17.01.2016 by Tobias and Manuel: Eventhandler hinzugefügt für exif
+     * daten
      */
     @FXML
     public void handleButtonAction(ActionEvent event) throws IOException {
@@ -129,7 +129,8 @@ public class GuiFotoDetailController implements Initializable {
      * @date ??.11.2015 by Tobias: Initialisierung
      * @date 10.12.2015 by Danilo: Kommentare ergänzt
      * @date 16.01.2015 by Manuel Eventhandler
-     * @date 17.01.2016 by Tobias and Manuel: Eventhandler in handleButton verlegt
+     * @date 17.01.2016 by Tobias and Manuel: Eventhandler in handleButton
+     * verlegt
      */
     @Override
     public void initialize(URL location, ResourceBundle resources) {

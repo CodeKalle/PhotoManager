@@ -43,11 +43,12 @@ import javafx.scene.layout.HBox;
 
 /**
  * Diese Klasse dient der Erstellung und dem Handling des Fotohinzufüge Fensters
- * 
+ *
  * @author Tobias
- * 
+ *
  * Version-History:
- * @date ??.??.2015 by Juliane & Manuel: Konzept der GUIs und programmtechnische Umsetzung
+ * @date ??.??.2015 by Juliane & Manuel: Konzept der GUIs und programmtechnische
+ * Umsetzung
  * @date 06.12.2015 by Tobias: Initialize erweitert
  * @date 10.12.2015 by Danilo: Kommentare ergänzt
  * @date 07.01.2016 by Danilo: Update
@@ -55,76 +56,76 @@ import javafx.scene.layout.HBox;
  * @date 15.01.2016 by Danilo: Thread Implementierung
  */
 public class GuiAddFotoController implements Initializable {
-    
+
     /**
-    * KLASSENVARIABLEN
-    * 
-    * Version-History:
-    * @date ??.11.2015 by Tobias: Initialisierung
-    * @date 10.12.2015 by Danilo: Kommentare ergänzt
-    * @date 08.01.2016 by Danilo: Verschieben der zu merkenden Position in SystemController
-    */
+     * KLASSENVARIABLEN
+     *
+     * Version-History:
+     *
+     * @date ??.11.2015 by Tobias: Initialisierung
+     * @date 10.12.2015 by Danilo: Kommentare ergänzt
+     * @date 08.01.2016 by Danilo: Verschieben der zu merkenden Position in
+     * SystemController
+     */
     @FXML
     HBox zoomBox;
-    
+
     @FXML
     ImageView zoomImageView;
-    
+
     @FXML
     ScrollPane guiAddFotoScrollPane;
-    
+
     // Alle Buttons des Fensters
     @FXML
     Button guiAddFotoAbbrechen, guiAddFotoBilderHinzufuegen;
-    
+
     // Die Baumstruktur des Filesystems
     @FXML
     TreeView<String> treeView;
-    
+
     // Der Fotobereich
     @FXML
     TilePane guiAddFotoTilePane;
-    
+
     // Markierung ob man sich im Root befindet
     boolean isRoot = true;
-    
+
     // Oberstes Treeitem
     TreeItem<String> rootNode;
-    
+
     // Fotoliste
     List<Path> aktuelleFotos = new LinkedList();
-    
+
     /**
-    * Methode handelt die Aktionen der Buttons
-    * 
-    * @throws java.io.IOException
-    * @param event Aktion des Buttons
-    * 
-    * Version-History:
-    * @date ??.11.2015 by Tobias: Initialisierung
-    * @date 10.12.2015 by Danilo: Kommentare ergänzt
-    */
+     * Methode handelt die Aktionen der Buttons
+     *
+     * @throws java.io.IOException
+     * @param event Aktion des Buttons
+     *
+     * Version-History:
+     * @date ??.11.2015 by Tobias: Initialisierung
+     * @date 10.12.2015 by Danilo: Kommentare ergänzt
+     */
     @FXML
-    public void handleButtonAction(ActionEvent event) throws IOException{
+    public void handleButtonAction(ActionEvent event) throws IOException {
         Stage stage;
-        Parent root;        
-        if(event.getSource()==guiAddFotoBilderHinzufuegen){
+        Parent root;
+        if (event.getSource() == guiAddFotoBilderHinzufuegen) {
             //Fotos zu Ablum hinzufügen, Methdenaufruf FotoController
             aktuelleFotos = this.getMarkierteFotos();
-            if(aktuelleFotos != null){
+            if (aktuelleFotos != null) {
                 FotoController.addListOfFotosToAlbum(Main.speicher, aktuelleFotos);
-            }
-            else{
+            } else {
                 return;
             }
-            
-            stage=(Stage) guiAddFotoBilderHinzufuegen.getScene().getWindow();
+
+            stage = (Stage) guiAddFotoBilderHinzufuegen.getScene().getWindow();
             root = FXMLLoader.load(getClass().getResource(Main.letztesFensterVorCreateAlbum));
-        }
-        else {
-            stage=(Stage) guiAddFotoAbbrechen.getScene().getWindow();
+        } else {
+            stage = (Stage) guiAddFotoAbbrechen.getScene().getWindow();
             root = FXMLLoader.load(getClass().getResource(Main.letztesFensterVorCreateAlbum));
-            
+
         }
         Scene scene = new Scene(root);
         stage.setScene(scene);
@@ -132,21 +133,21 @@ public class GuiAddFotoController implements Initializable {
     }
 
     /**
-    * Methode iteriert durch übergebennen Unterordner
-    * 
-    * @param parent Oberitem
-    * @param depth Tiefe
-    * 
-    * Version-History:
-    * @date 16.12.2015 by Danilo: Initialisierung
-    * @date 07.01.2016 by Danilo: Update
-    * @date 10.01.2016 by Danilo: Ordneraxpansion geändert
-    */
+     * Methode iteriert durch übergebennen Unterordner
+     *
+     * @param parent Oberitem
+     * @param depth Tiefe
+     *
+     * Version-History:
+     * @date 16.12.2015 by Danilo: Initialisierung
+     * @date 07.01.2016 by Danilo: Update
+     * @date 10.01.2016 by Danilo: Ordneraxpansion geändert
+     */
     private void searchInFolder(TreeItem<String> parent) {
         parent.getChildren().clear();
         File newFile = new File(getPath(parent).toString());
         String[] directorie = newFile.list();
-        for(String file:directorie){
+        for (String file : directorie) {
             Path fullPath = Paths.get(newFile + File.separator + file);
             if (Files.isReadable(fullPath) && Files.isDirectory(fullPath)) {
                 TreeItem<String> treeItem = new TreeItem<>();
@@ -156,19 +157,19 @@ public class GuiAddFotoController implements Initializable {
             }
         }
     }
-    
+
     /**
-    * Methode ändert Möglichkeit der Ordneraxpansion
-    * 
-    * @param treeItem Ordnername
-    * 
-    * Version-History:
-    * @date 10.01.2016 by Danilo: Initialisierung
-    */
+     * Methode ändert Möglichkeit der Ordneraxpansion
+     *
+     * @param treeItem Ordnername
+     *
+     * Version-History:
+     * @date 10.01.2016 by Danilo: Initialisierung
+     */
     private void checkThatFolderHasSubfolder(TreeItem<String> treeItem) {
         File newFile = new File(getPath(treeItem).toString());
         String[] directorie = newFile.list();
-        for(String file:directorie){
+        for (String file : directorie) {
             Path fullPath = Paths.get(newFile + File.separator + file);
             if (Files.isDirectory(fullPath)) {
                 treeItem.getChildren().add(null);
@@ -177,46 +178,47 @@ public class GuiAddFotoController implements Initializable {
             }
         }
     }
-    
+
     /**
-    * Methode die Liste der Bilder erstellt
-    * 
-    * @param currentfile Übergebenes TreeItem
-    * @return
-    * 
-    * Version-History:
-    * @date 07.01.2016 by Danilo: Initialisierung
-    */
+     * Methode die Liste der Bilder erstellt
+     *
+     * @param currentfile Übergebenes TreeItem
+     * @return
+     *
+     * Version-History:
+     * @date 07.01.2016 by Danilo: Initialisierung
+     */
     private List<Path> getPathList(Path path) {
         List<Path> pathlist = new LinkedList<>();
-        String[] fileExtensions = new String[] {"jpg", "jpeg", "JPG", "JPEG"};
+        String[] fileExtensions = new String[]{"jpg", "jpeg", "JPG", "JPEG"};
         for (String tmpExtension : fileExtensions) {
             File newFile = new File(path.toString());
             File[] directorie = newFile.listFiles();
             try {
-                for(File file:directorie){
-                    if(file.getName().endsWith(tmpExtension)) {
+                for (File file : directorie) {
+                    if (file.getName().endsWith(tmpExtension)) {
                         pathlist.add(file.toPath());
                     }
                 }
-            } catch (NullPointerException e) {}
+            } catch (NullPointerException e) {
+            }
         }
         return pathlist;
     }
 
     /**
-    * Methode die den Systempfad eines TreeItems zurück gibt
-    * 
-    * @param currentfile Übergebenes TreeItem
-    * @return Vollständiger Pfad des TreeItems
-    * 
-    * Version-History:
-    * @date 16.12.2015 by Danilo: Initialisierung
-    */
+     * Methode die den Systempfad eines TreeItems zurück gibt
+     *
+     * @param currentfile Übergebenes TreeItem
+     * @return Vollständiger Pfad des TreeItems
+     *
+     * Version-History:
+     * @date 16.12.2015 by Danilo: Initialisierung
+     */
     private Path getPath(TreeItem<String> currentfile) {
         String fullPath = "";
-        if (currentfile.getParent()==null) {
-        }else if(currentfile.getParent().getParent()==null) {
+        if (currentfile.getParent() == null) {
+        } else if (currentfile.getParent().getParent() == null) {
             fullPath = currentfile.getValue();
         } else {
             fullPath = getPath(currentfile.getParent()) + File.separator + currentfile.getValue();
@@ -225,78 +227,86 @@ public class GuiAddFotoController implements Initializable {
     }
 
     /**
-    * Methode fügt Handler hinzu
-    * 
-    * @param treeitem Oberitem
-    * 
-    * Version-History:
-    * @date 16.12.2015 by Danilo: Initialisierung
-    * @date 07.01.2016 by Danilo: Update
-    * @date 08.01.2016 by Danilo: Ordnerposition
-    */
+     * Methode fügt Handler hinzu
+     *
+     * @param treeitem Oberitem
+     *
+     * Version-History:
+     * @date 16.12.2015 by Danilo: Initialisierung
+     * @date 07.01.2016 by Danilo: Update
+     * @date 08.01.2016 by Danilo: Ordnerposition
+     */
     private void addHandler(TreeItem<String> treeitem) {
-        treeitem.addEventHandler(TreeItem.branchExpandedEvent(), new EventHandler(){
+        treeitem.addEventHandler(TreeItem.branchExpandedEvent(), new EventHandler() {
             @Override
-            public void handle(Event e){
-                if (!treeitem.getChildren().isEmpty() && treeitem.getChildren().get(0)==null) searchInFolder(treeitem);
+            public void handle(Event e) {
+                if (!treeitem.getChildren().isEmpty() && treeitem.getChildren().get(0) == null) {
+                    searchInFolder(treeitem);
+                }
                 callTreeitemForAction(treeitem);
             }
         });
-        treeitem.addEventHandler(TreeItem.branchCollapsedEvent(), new EventHandler(){
+        treeitem.addEventHandler(TreeItem.branchCollapsedEvent(), new EventHandler() {
             @Override
-            public void handle(Event e){
+            public void handle(Event e) {
                 callTreeitemForAction(treeitem);
             }
         });
     }
-    
+
     /**
-    * Methode ruft Action für TreeItem und verhidert die Rekursion in der Filehierarchy
-    * 
-    * @param treeitem TreeItem deren Action ausgelöst werden soll
-    * 
-    * Version-History:
-    * @date 08.01.2016 by Danilo: Initialisierung
-    * @date 10.01.2016 by Danilo: Fehlerkorrektur
-    */
+     * Methode ruft Action für TreeItem und verhidert die Rekursion in der
+     * Filehierarchy
+     *
+     * @param treeitem TreeItem deren Action ausgelöst werden soll
+     *
+     * Version-History:
+     * @date 08.01.2016 by Danilo: Initialisierung
+     * @date 10.01.2016 by Danilo: Fehlerkorrektur
+     */
     private void callTreeitemForAction(TreeItem<String> treeitem) {
-        if (isRoot==true) {
-            if (treeitem.getParent()!=rootNode) isRoot=false;
+        if (isRoot == true) {
+            if (treeitem.getParent() != rootNode) {
+                isRoot = false;
+            }
             treeView.getSelectionModel().select(treeitem);
-        } else {
-            if (treeitem.getParent()==rootNode) isRoot=true;
+        } else if (treeitem.getParent() == rootNode) {
+            isRoot = true;
         }
     }
-    
+
     /**
-    * Methode gibt Ebene im Filesystem zurück
-    * 
-    * @param path Übergebener Pfad
-    * 
-    * Version-History:
-    * @date 08.01.2016 by Danilo: Initialisierung
-    */
+     * Methode gibt Ebene im Filesystem zurück
+     *
+     * @param path Übergebener Pfad
+     *
+     * Version-History:
+     * @date 08.01.2016 by Danilo: Initialisierung
+     */
     private int getLevelOfFile(Path path) {
-        if (path==null) {
+        if (path == null) {
             return 0;
         } else {
             return (1 + getLevelOfFile(path.getParent()));
         }
     }
-    
+
     /**
-    * Öffnet Baummenü zur letzten gemerkten Position
-    * 
-    * Version-History:
-    * @date 08.01.2016 by Danilo: Initialisierung
-    */
+     * Öffnet Baummenü zur letzten gemerkten Position
+     *
+     * Version-History:
+     *
+     * @date 08.01.2016 by Danilo: Initialisierung
+     */
     private void expandToPosition() {
         // Prüfen ob Pfad schon gemerkt wurde und Pfad ein Ornder mit Berechtigungen zum lesen ist
         Path path = SystemController.getPosition();
-        if (path == null || !path.toFile().isDirectory() || !path.toFile().canRead()) return;      
-        
+        if (path == null || !path.toFile().isDirectory() || !path.toFile().canRead()) {
+            return;
+        }
+
         TreeItem<String> lastFolder = null;
-        
+
         // Rootverzeichnis öffnen
         ObservableList<TreeItem<String>> elementlist = rootNode.getChildren();
         for (TreeItem<String> tmp : elementlist) {
@@ -307,10 +317,10 @@ public class GuiAddFotoController implements Initializable {
                 lastFolder = tmp;
             }
         }
-        
+
         // Unterverzeichnisse öffnen
         int fileLevel = getLevelOfFile(path);
-        for (int i = 0; i<fileLevel-1; i++) {
+        for (int i = 0; i < fileLevel - 1; i++) {
             for (TreeItem<String> tmp : elementlist) {
                 //Ordner expandieren
                 if (tmp.getValue().equals(path.getName(i).toString())) {
@@ -321,41 +331,46 @@ public class GuiAddFotoController implements Initializable {
                 }
             }
         }
-        
+
         // Bilder anzeigen und TreeItem markieren
-        if (lastFolder!= null) bilderAnzeigen(getPathList(getPath(lastFolder)));
+        if (lastFolder != null) {
+            bilderAnzeigen(getPathList(getPath(lastFolder)));
+        }
         treeView.getSelectionModel().select(lastFolder);
     }
-    
+
     /**
-    * Initialisierung wird bei jedem Aufruf der GUI ausgeführt
-    * 
-    * @param location
-    * @param resources
-    * 
-    * Version-History:
-    * @date ??.11.2015 by Tobias: Initialisierung
-    * @date 10.12.2015 by Danilo: Kommentare ergänzt
-    * @date 16.12.2015 by Danilo: Pfadprüfung geändert
-    * @date 07.01.2016 by Danilo: Update
-    * @date 08.01.2016 by Danilo: Handler für Mausklick
-    */
+     * Initialisierung wird bei jedem Aufruf der GUI ausgeführt
+     *
+     * @param location
+     * @param resources
+     *
+     * Version-History:
+     * @date ??.11.2015 by Tobias: Initialisierung
+     * @date 10.12.2015 by Danilo: Kommentare ergänzt
+     * @date 16.12.2015 by Danilo: Pfadprüfung geändert
+     * @date 07.01.2016 by Danilo: Update
+     * @date 08.01.2016 by Danilo: Handler für Mausklick
+     */
     @Override
-    public void initialize(URL location, ResourceBundle resources) {       
+    public void initialize(URL location, ResourceBundle resources) {
         // Titel setzten
         Main.getPrimaryStage().setTitle("PhotoManager - Foto hinzufügen");
-        
+
         //Treeview füllen    
-        String hostName="computer";
-        try{hostName=InetAddress.getLocalHost().getHostName();}catch(UnknownHostException x){}
- 
+        String hostName = "computer";
+        try {
+            hostName = InetAddress.getLocalHost().getHostName();
+        } catch (UnknownHostException x) {
+        }
+
         //Root erstellen
-        rootNode=new TreeItem(hostName);
-        
-        Iterable<Path> rootDirectories=FileSystems.getDefault().getRootDirectories();
-        for(Path path:rootDirectories){
+        rootNode = new TreeItem(hostName);
+
+        Iterable<Path> rootDirectories = FileSystems.getDefault().getRootDirectories();
+        for (Path path : rootDirectories) {
             File rootFile = new File(path.toString());
-            if(rootFile.isDirectory()){
+            if (rootFile.isDirectory()) {
                 TreeItem<String> treeItem = new TreeItem<>();
                 treeItem.setValue(path.toString());
                 treeItem.getChildren().add(null);
@@ -363,17 +378,17 @@ public class GuiAddFotoController implements Initializable {
                 addHandler(treeItem);
             }
         }
-        
+
         // Computerroot ausklappen und markieren
         rootNode.setExpanded(true);
         treeView.getSelectionModel().select(rootNode);
-        
+
         // Gemerkte Position wieder herstellen
         expandToPosition();
 
         //Root in die TreeView setzten mit allen Unterknoten
         treeView.setRoot(rootNode);
-        
+
         // Handler für den Mausklick der TreeView
         treeView.getSelectionModel().selectedItemProperty().addListener(new ChangeListener() {
             @Override
@@ -385,12 +400,13 @@ public class GuiAddFotoController implements Initializable {
             }
         });
     }
-    
+
     /**
-     * Die Methode soll die Fotos im rechten TilePane der GuiAddFoto anzeigen, die sich im ausgewählten Ordner befinden.
-     * 
+     * Die Methode soll die Fotos im rechten TilePane der GuiAddFoto anzeigen,
+     * die sich im ausgewählten Ordner befinden.
+     *
      * @param fotos Liste mit Pfaden von Fotos, die sich im Ordner befinden.
-     * 
+     *
      * Version-History:
      * @date 06.12.2015 by Tobias: Initialisierung
      * @date 15.12.2015 by Manuel: Eventhandling
@@ -398,10 +414,10 @@ public class GuiAddFotoController implements Initializable {
      */
     public void bilderAnzeigen(List<Path> fotos) {
         guiAddFotoTilePane.getChildren().clear();
-        
+
         // Array als Bildspeicher vorbereiten
         Pane tpane[] = new Pane[fotos.size()];
-        
+
         for (int i = 0; i < fotos.size(); i++) {
             //Für jedes Bild Konstrukt zusammensetzen über Arrayliste
             tpane[i] = new Pane();
@@ -421,12 +437,14 @@ public class GuiAddFotoController implements Initializable {
 
         // Thread starten der die Bilder lädt
         new Thread(new Runnable() {
-            @Override public void run() {
+            @Override
+            public void run() {
                 guiAddFotoTilePane.setCursor(javafx.scene.Cursor.WAIT);
                 for (int i = 0; i < fotos.size(); i++) {
                     final int x = i;
                     Platform.runLater(new Runnable() {
-                        @Override public void run() {
+                        @Override
+                        public void run() {
                             Image image = new Image(fotos.get(x).toUri().toString());
                             ImageView imageview = createImageView(image);
                             CheckBox checkBox = createCheckbox();
@@ -447,10 +465,10 @@ public class GuiAddFotoController implements Initializable {
 
     /**
      * Die Methode erstellt das Element Pfad im Fotobereich
-     * 
+     *
      * @param path Pfad als Sting
      * @return Pfadelement
-     * 
+     *
      * Version-History:
      * @date 15.01.2016 by Danilo: Initialisierung
      */
@@ -460,13 +478,13 @@ public class GuiAddFotoController implements Initializable {
         pfad.setText(path);
         return pfad;
     }
-    
+
     /**
      * Die Methode erstellt das Element Label für den Namen im Fotobereich
-     * 
+     *
      * @param path Pfad als Sting
      * @return Labelelement
-     * 
+     *
      * Version-History:
      * @date 15.01.2016 by Danilo: Initialisierung
      */
@@ -479,31 +497,31 @@ public class GuiAddFotoController implements Initializable {
         name.setText(path);
         return name;
     }
-    
+
     /**
      * Die Methode erstellt das Element ImageView im Fotobereich
-     * 
+     *
      * @param image Bildelement
      * @return ImageViewelement
-     * 
+     *
      * Version-History:
      * @date 15.01.2016 by Danilo: Initialisierung
      */
     private ImageView createImageView(Image image) {
         ImageView imageView = new ImageView();
         imageView.setFitHeight(80);
-            imageView.setFitWidth(80);
-            imageView.setPickOnBounds(true);
-            imageView.setPreserveRatio(true);
-            imageView.setImage(image);
+        imageView.setFitWidth(80);
+        imageView.setPickOnBounds(true);
+        imageView.setPreserveRatio(true);
+        imageView.setImage(image);
         return imageView;
     }
-    
+
     /**
      * Die Methode erstellt das Element CheckBox im Fotobereich
-     * 
+     *
      * @return CheckBoxelement
-     * 
+     *
      * Version-History:
      * @date 15.01.2016 by Danilo: Initialisierung
      */
@@ -514,84 +532,85 @@ public class GuiAddFotoController implements Initializable {
         checkBox.setMnemonicParsing(false);
         return checkBox;
     }
-    
+
     /**
      * Die Methode fügt den Elementen die Aktionen hinzu
-     * 
+     *
      * @param imageView Bildelement
      * @param image Bild
      * @param checkBox Auswahlbox
-     * 
+     *
      * Version-History:
      * @date 15.01.2016 by Danilo: Initialisierung
      */
     private void addHandlerToImageView(ImageView imageView, Image image, CheckBox checkBox) {
         // EventHandler Zoom bei Rechter Maustatse
-            imageView.addEventHandler(MouseEvent.MOUSE_PRESSED, new EventHandler<MouseEvent>() {
-                @Override
-                public void handle(MouseEvent event) {
-                    if (event.getButton() == MouseButton.SECONDARY) {
-                        zoomBox.setDisable(false);
-                        zoomImageView.setDisable(false);
-                        zoomImageView.setImage(image);
-                        guiAddFotoTilePane.setOpacity(0.4);
-                        guiAddFotoScrollPane.setId("scroll-pane1");
-                    }
+        imageView.addEventHandler(MouseEvent.MOUSE_PRESSED, new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                if (event.getButton() == MouseButton.SECONDARY) {
+                    zoomBox.setDisable(false);
+                    zoomImageView.setDisable(false);
+                    zoomImageView.setImage(image);
+                    guiAddFotoTilePane.setOpacity(0.4);
+                    guiAddFotoScrollPane.setId("scroll-pane1");
                 }
-            });
+            }
+        });
 
-            imageView.addEventHandler(MouseEvent.MOUSE_RELEASED, new EventHandler<MouseEvent>() {
-                @Override
-                public void handle(MouseEvent event) {
-                    if (event.getButton() == MouseButton.SECONDARY) {
-                        zoomImageView.setImage(null);
-                        zoomImageView.setDisable(false);
-                        zoomBox.setDisable(false);
-                        guiAddFotoTilePane.setOpacity(1);
-                        guiAddFotoScrollPane.setId("scroll-pane2");
+        imageView.addEventHandler(MouseEvent.MOUSE_RELEASED, new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                if (event.getButton() == MouseButton.SECONDARY) {
+                    zoomImageView.setImage(null);
+                    zoomImageView.setDisable(false);
+                    zoomBox.setDisable(false);
+                    guiAddFotoTilePane.setOpacity(1);
+                    guiAddFotoScrollPane.setId("scroll-pane2");
+                }
+            }
+        });
+
+        // Eventhandler Checkbox
+        imageView.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                if (event.getButton() == MouseButton.PRIMARY) {
+                    if (checkBox.isSelected()) {
+                        checkBox.setSelected(false);
+                    } else {
+                        checkBox.setSelected(true);
                     }
                 }
-            });
-            
-            // Eventhandler Checkbox
-            imageView.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
-                @Override
-                public void handle(MouseEvent event) {
-                    if (event.getButton() == MouseButton.PRIMARY) {
-                        if (checkBox.isSelected()) {
-                            checkBox.setSelected(false);
-                        } else {
-                            checkBox.setSelected(true);
-                        }
-                    }
-                }
-            });
+            }
+        });
     }
-    
+
     /**
      * Gibt die markierten Fotos aus der TilePane zurück
+     *
      * @return Liste von Pfaden, der markierten Fotos
-     * 
+     *
      * Version-History:
      * @date 14.12.2015 by Tobias: Initialisirung
      */
     private List<Path> getMarkierteFotos() {
         List<Path> fotos = new LinkedList();
-        
-        for(int i = 0; i < guiAddFotoTilePane.getChildren().size(); i++){
+
+        for (int i = 0; i < guiAddFotoTilePane.getChildren().size(); i++) {
             Pane pane = (Pane) guiAddFotoTilePane.getChildren().get(i);
             CheckBox checkBox = (CheckBox) pane.getChildren().get(1);
             Label pfad = (Label) pane.getChildren().get(3);
-            
-            if(checkBox.isSelected())
+
+            if (checkBox.isSelected()) {
                 fotos.add(Paths.get(pfad.getText()));
+            }
         }
-        
+
         //keine Fotos markiert
-        if(fotos.isEmpty()) { 
+        if (fotos.isEmpty()) {
             return null;
-        }
-        else {
+        } else {
             return fotos;
         }
     }

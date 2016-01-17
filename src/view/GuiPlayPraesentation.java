@@ -3,11 +3,7 @@ package view;
 import controller.FotoController;
 import java.io.IOException;
 import java.net.URL;
-import java.nio.file.Path;
-import java.util.List;
 import java.util.ResourceBundle;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
@@ -69,6 +65,7 @@ public class GuiPlayPraesentation implements Initializable {
      * Spielt die Präsentation ab und gestaltet die Übergänge.
      *
      * Version-History:
+     *
      * @date 15.01.2015 by Manu & Tobias: Methode geschrieben
      */
     private void play() {
@@ -80,8 +77,9 @@ public class GuiPlayPraesentation implements Initializable {
         KeyFrame startFadeIn = new KeyFrame(Duration.ZERO, e -> {
             guiPlayPraesentationImageView.setImage(new Image(FotoController.getFotosFromAlbum(Main.speicher).get(i).toUri().toString()));
             i++;
-            if(i >=FotoController.getFotosFromAlbum(Main.speicher).size())
-                i=0;
+            if (i >= FotoController.getFotosFromAlbum(Main.speicher).size()) {
+                i = 0;
+            }
         }, transparent);
         KeyFrame endFadeIn = new KeyFrame(Duration.seconds(1), opaque);
         KeyFrame stay = new KeyFrame(Duration.seconds(6), opaque);
@@ -92,8 +90,8 @@ public class GuiPlayPraesentation implements Initializable {
         timeline.setCycleCount(Animation.INDEFINITE);
         timeline.play();
     }
-    
-    private void stop(){
+
+    private void stop() {
         timeline.stop();
     }
 }

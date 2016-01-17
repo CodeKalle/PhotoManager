@@ -4,30 +4,31 @@ import java.io.Serializable;
 
 /**
  * Ein Tag ist ein im Bild markierter Fotobereich dem eine kurze Information
- * hinzugefuegt wird.
- * Die Tags werden in den Metadaten eines Fotos gespeichert.
- * 
+ * hinzugefuegt wird. Die Tags werden in den Metadaten eines Fotos gespeichert.
+ *
  * Version-History:
+ *
  * @date 14.11.2015 by Tobias: Initialisierung + Anlegen von Grundmethoden
  */
 public class Tag implements Serializable {
+
     int xPos1;
     int yPos1;
-    
+
     int xPos2;
     int yPos2;
-    
+
     String information;
-    
+
     /**
      * Konstruktor
-     * 
+     *
      * @param xPos1 erste X-Position
      * @param yPos1 erste Y-Position
      * @param xPos2 zweite X-Position
      * @param yPos2 zweite Y-Position
      * @param information Kurzinformation zum markierten Bereich
-     * 
+     *
      * Version-History:
      * @date 14.11.2015 by Tobias: Initialisierung
      */
@@ -41,9 +42,9 @@ public class Tag implements Serializable {
 
     /**
      * Getter fuer xPos1
-     * 
+     *
      * @return Wert von xPos1
-     * 
+     *
      * Version-History:
      * @date 14.11.2015 by Tobias: Initialisierung
      */
@@ -53,9 +54,9 @@ public class Tag implements Serializable {
 
     /**
      * Setter fuer xPos1
-     * 
+     *
      * @param xPos1 neuer Wert fuer xPos1
-     * 
+     *
      * Version-History:
      * @date 14.11.2015 by Tobias: Initialisierung
      */
@@ -65,9 +66,9 @@ public class Tag implements Serializable {
 
     /**
      * Getter fuer yPos1
-     * 
+     *
      * @return Wert von yPos1
-     * 
+     *
      * Version-History:
      * @date 14.11.2015 by Tobias: Initialisierung
      */
@@ -77,9 +78,9 @@ public class Tag implements Serializable {
 
     /**
      * Setter fuer yPos1
-     * 
+     *
      * @param yPos1 neuer Wert fuer yPos1
-     * 
+     *
      * Version-History:
      * @date 14.11.2015 by Tobias: Initialisierung
      */
@@ -89,9 +90,9 @@ public class Tag implements Serializable {
 
     /**
      * Getter fuer xPos2
-     * 
+     *
      * @return Wert von xPos2
-     * 
+     *
      * Version-History:
      * @date 14.11.2015 by Tobias: Initialisierung
      */
@@ -101,9 +102,9 @@ public class Tag implements Serializable {
 
     /**
      * Setter fuer xPos2
-     * 
+     *
      * @param xPos2 neuer Wert fuer xPos2
-     * 
+     *
      * Version-History:
      * @date 14.11.2015 by Tobias: Initialisierung
      */
@@ -113,9 +114,9 @@ public class Tag implements Serializable {
 
     /**
      * Getter fuer yPos2
-     * 
+     *
      * @return Wert von yPos2
-     * 
+     *
      * Version-History:
      * @date 14.11.2015 by Tobias: Initialisierung
      */
@@ -125,9 +126,9 @@ public class Tag implements Serializable {
 
     /**
      * Setter fuer yPos2
-     * 
+     *
      * @param yPos2 neuer Wert fuer yPos2
-     * 
+     *
      * Version-History:
      * @date 14.11.2015 by Tobias: Initialisierung
      */
@@ -137,9 +138,9 @@ public class Tag implements Serializable {
 
     /**
      * Getter fuer information
-     * 
+     *
      * @return Inhalt von information
-     * 
+     *
      * Version-History:
      * @date 14.11.2015 by Tobias: Initialisierung
      */
@@ -149,9 +150,9 @@ public class Tag implements Serializable {
 
     /**
      * Setter fuer information
-     * 
+     *
      * @param information neuer Inhalt fuer Information
-     * 
+     *
      * Version-History:
      * @date 14.11.2015 by Tobias: Initialisierung
      */

@@ -154,7 +154,7 @@ public class GuiAlbumOverviewController implements Initializable {
                     if (event.getButton().equals(MouseButton.PRIMARY)) {
                         if (event.getClickCount() == 2) {
                             try {
-                                Main.speicher = imageView.getId();                                
+                                Main.speicher = imageView.getId();
                                 Main.letztesFenster = "GuiAlbumOverview.fxml";
                                 Stage stage = (Stage) guiAlbumOverviewAlbumBearbeiten.getScene().getWindow();
                                 Parent root = FXMLLoader.load(getClass().getResource("GuiSelectedAlbum.fxml"));
