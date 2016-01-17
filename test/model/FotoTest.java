@@ -16,13 +16,12 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-
 /**
  *
  * @author Benni
  */
 public class FotoTest {
-    
+
     private static String testName;
     private static String testPfad;
     private static int testGroesse;                        //in Byte
@@ -31,103 +30,102 @@ public class FotoTest {
     private static long testErstellungdatum;
     private static List<Foto> fotolist;
     private static TestDataController testData;
-    
+
     public FotoTest() {
     }
-    
+
     @BeforeClass
     public static void setUpClass() {
-        try{
-             testData = new TestDataController();
-            int i=0;
-            
+        try {
+            testData = new TestDataController();
+            int i = 0;
+
             fotolist = new ArrayList<>();
-            for (String cur : testData.getFotoList())
-            {
-                Foto tmpFoto = new Foto("Bild" + String.valueOf(i),cur);
+            for (String cur : testData.getFotoList()) {
+                Foto tmpFoto = new Foto("Bild" + String.valueOf(i), cur);
                 fotolist.add(tmpFoto);
                 i++;
             }
-            
+
             TestDocumizer.logging(0, "start jUnit Tests: Model - Foto", true, true);
             TestDocumizer.startTimer();
-        }catch (Exception e){
+        } catch (Exception e) {
             System.out.println("jUnit Test Foto - Fehler bei Setup: " + e.getMessage());
-        }  
+        }
     }
-    
+
     @AfterClass
     public static void tearDownClass() {
-        try{
+        try {
             TestDocumizer.logging(0, "beenden jUnit Tests: Model - Foto: Dauer: " + String.valueOf(TestDocumizer.stopTimer()), true, true);
-            
-        }catch (Exception e){
+
+        } catch (Exception e) {
             System.out.println("jUnit Test Foto - Fehler bei tearDown: " + e.getMessage());
         }
     }
-    
+
     @Before
     public void setUp() {
     }
-    
+
     @After
     public void tearDown() {
     }
-    
+
     @Test
-    public void testName(){
+    public void testName() {
         int i = 0;
-        for(Foto testBild : fotolist){
+        for (Foto testBild : fotolist) {
             testBild = fotolist.get(i);
-            assertEquals(testBild.getName(),"Bild" + String.valueOf(i));
+            assertEquals(testBild.getName(), "Bild" + String.valueOf(i));
             i++;
         }
     }
-    
+
     @Test
-      public void testPfad(){
+    public void testPfad() {
         int i = 0;
-        for(Foto testBild : fotolist){
+        for (Foto testBild : fotolist) {
             testBild = fotolist.get(i);
-            assertEquals(testBild.getPfad().toString(),testData.getFotoList().get(i));
+            assertEquals(testBild.getPfad().toString(), testData.getFotoList().get(i));
             i++;
-        } 
+        }
     }
-    
+
     @Test
-    public void testMetadaten(){
+    public void testMetadaten() {
         int i = 0;
-        for(Foto testBild : fotolist){
+        for (Foto testBild : fotolist) {
             testBild = fotolist.get(i);
-            
-            assertEquals(testBild.getPfad().toString(),testData.getFotoList().get(i));
+
+            assertEquals(testBild.getPfad().toString(), testData.getFotoList().get(i));
             i++;
-        } 
+        }
     }
-    
+
     @Test
-    public void testCounter(){
-        
+    public void testCounter() {
+
     }
-    
+
     @Test
-    public void testErstellungsdatum(){
-        
+    public void testErstellungsdatum() {
+
     }
-    
+
     @Test
-    public void testEquals(){
-        
+    public void testEquals() {
+
     }
-    
+
     @Test
-    public void testHashCode(){
-        
+    public void testHashCode() {
+
     }
-    
+
     @Test
-    public void testGenerateFotosize(){
-        
+    public void testGenerateFotosize() {
+
     }
 
 }

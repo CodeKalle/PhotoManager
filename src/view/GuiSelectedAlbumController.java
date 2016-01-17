@@ -146,8 +146,7 @@ public class GuiSelectedAlbumController implements Initializable {
                             } catch (IOException ex) {
                                 Logger.getLogger(GuiSelectPraesentationController.class.getName()).log(Level.SEVERE, null, ex);
                             }
-                        }
-                        else if (checkBox.isSelected()) {
+                        } else if (checkBox.isSelected()) {
                             checkBox.setSelected(false);
                         } else {
                             checkBox.setSelected(true);

@@ -25,7 +25,7 @@ import org.junit.Ignore;
  * @author Benni
  */
 public class AlbumTest {
-        
+
     //klassenvariablen
     private static Album testAlbum;
     private static String testTitel;
@@ -36,14 +36,14 @@ public class AlbumTest {
     private static String appPath;
     private static String testDataPath;
     private static String pathSeparator;
-    
+
     public AlbumTest() {
     }
-    
+
     @BeforeClass
     public static void setUpClass() {
         //Testdaten erstellen
-        try{
+        try {
             testTitel = "TestAlbumtitel";
             testBeschreibung = "TestBeschreibung";
             testSortierkennzeichen = 0;
@@ -54,84 +54,81 @@ public class AlbumTest {
             testPicturePath = Paths.get(testDataPath);
             DirectoryStream<Path> testPictureDirectory;
             fotolist = new ArrayList<Foto>();
-            int i=0;
-            
+            int i = 0;
+
             testPictureDirectory = Files.newDirectoryStream(testPicturePath, "*.{jpg,jpeg}");
-            
-            for (Path cur : testPictureDirectory)
-            {
-                Foto tmpFoto = new Foto("Bild" + String.valueOf(i),cur.toString());
+
+            for (Path cur : testPictureDirectory) {
+                Foto tmpFoto = new Foto("Bild" + String.valueOf(i), cur.toString());
                 fotolist.add(tmpFoto);
                 i++;
             }
-            
-            
+
             TestDocumizer.logging(0, "start jUnit Tests: Model - Album", true, true);
             TestDocumizer.startTimer();
-        }catch (Exception e){
+        } catch (Exception e) {
             System.out.println("jUnit Test Album - Fehler bei Setup: " + e.getMessage());
         }
     }
-    
+
     @AfterClass
     public static void tearDownClass() {
-        try{
+        try {
             TestDocumizer.logging(0, "beenden jUnit Tests: Model - Album: Dauer: " + String.valueOf(TestDocumizer.stopTimer()), true, true);
-            
-        }catch (Exception e){
+
+        } catch (Exception e) {
             System.out.println("jUnit Test Album - Fehler bei tearDown: " + e.getMessage());
         }
     }
-    
+
     @Before
     public void setUp() {
-        
+
     }
-    
+
     @After
     public void tearDown() {
 
     }
-    
+
     /**
      * Testet die Methoden getTitel und setTitel
-     * 
+     *
      * Version-History:
+     *
      * @date 10.01.2016 by Benni: Erstellung
-     * 
+     *
      */
     @Test
-    public void testTitel(){
+    public void testTitel() {
         String tmpTitel = testAlbum.getTitel();
         String neuerTitel = "xyz";
-        
+
         testAlbum.setTitel(neuerTitel);
-        assertEquals(testAlbum.getTitel(),neuerTitel);
+        assertEquals(testAlbum.getTitel(), neuerTitel);
     }
 
-    
     @Test
-    public void testBeschreibung(){
+    public void testBeschreibung() {
         testAlbum.setBeschreibung(testBeschreibung);
         assertEquals(testAlbum.getBeschreibung(), testBeschreibung);
     }
-   
+
     @Ignore
     @Test
-    public void testErstellungsdatum(){
-       //sinnvolle Prüfung überlegen
+    public void testErstellungsdatum() {
+        //sinnvolle Prüfung überlegen
     }
-    
+
     @Test
-    public void testSortierkennzeichen(){
+    public void testSortierkennzeichen() {
         testAlbum.setSortierkennzeichen(testSortierkennzeichen);
         assertEquals(testAlbum.getSortierkennzeichen(), testSortierkennzeichen);
     }
-    
-    
+
     @Test
-    public void testFotoListe(){
+    public void testFotoListe() {
         testAlbum.setFotoListe(fotolist);
-        assertEquals(testAlbum.getFotoListe(),fotolist);
+        assertEquals(testAlbum.getFotoListe(), fotolist);
     }
 }
