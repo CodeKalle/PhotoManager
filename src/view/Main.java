@@ -70,9 +70,6 @@ public class Main extends Application {
             primaryStage.setResizable(false);
             primaryStage.getIcons().add(new Image("/src/icon.png"));
 
-            //Verbindung zum Controller
-            GuiMainController guiMainController = loader.getController();
-
             Scene scene = new Scene(AnchorPaneGuiMain);
             primaryStage.setScene(scene);
             primaryStage.show();
