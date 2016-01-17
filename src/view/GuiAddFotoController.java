@@ -187,7 +187,7 @@ public class GuiAddFotoController implements Initializable {
     */
     private List<Path> getPathList(Path path) {
         List<Path> pathlist = new LinkedList<>();
-        String[] fileExtensions = new String[] {"jpg", "jpeg"};
+        String[] fileExtensions = new String[] {"jpg", "jpeg", "JPG", "JPEG"};
         for (String tmpExtension : fileExtensions) {
             File newFile = new File(path.toString());
             File[] directorie = newFile.listFiles();
