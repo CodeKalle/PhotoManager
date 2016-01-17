@@ -1,5 +1,5 @@
 
-.button {
+.button, .toggle-button {
     -fx-background-color: 
         #c3c4c4,
         linear-gradient(#d6d6d6 50%, white 100%),
@@ -102,6 +102,7 @@
 .text-area .scroll-pane .content{
     -fx-background-color: transparent;
 }
+/*Scrollbar ausblenden*/
 .text-area .scroll-bar:vertical:disabled {
     -fx-opacity: 0;
 }

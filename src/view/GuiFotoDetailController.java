@@ -24,6 +24,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ScrollBar;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextArea;
+import javafx.scene.control.ToggleButton;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
@@ -61,7 +62,9 @@ public class GuiFotoDetailController implements Initializable {
     @FXML
     TilePane guiFotoDetailTilePane;
     @FXML
-    Button guiFotoDetailAbbrechen, guiFotoDetailBearbeiten;
+    Button guiFotoDetailAbbrechen;
+    @FXML
+    ToggleButton guiFotoDetailExif;
     @FXML
     ImageView guiFotoDetailImageView;
     @FXML
@@ -78,14 +81,34 @@ public class GuiFotoDetailController implements Initializable {
      * Version-History:
      * @date ??.11.2015 by Tobias: Initialisierung
      * @date 10.12.2015 by Danilo: Kommentare ergänzt
+     * @date 17.01.2016 by Tobias and Manuel: Eventhandler hinzugefügt für exif daten
      */
     @FXML
     public void handleButtonAction(ActionEvent event) throws IOException {
         Stage stage;
         Parent root;
-        if (event.getSource() == guiFotoDetailBearbeiten) {
-            stage = (Stage) guiFotoDetailBearbeiten.getScene().getWindow();
-            root = FXMLLoader.load(getClass().getResource("GuiAlbumBearbeiten.fxml"));
+        if (event.getSource() == guiFotoDetailExif) {
+            ToggleButton src = (ToggleButton) event.getSource();
+            if (src.isSelected()) {
+                guiAddFotoDetailTextArea.setId("text-area1");
+                guiAddFotoDetailTextArea.setOpacity(0.75);
+                ScrollBar scrollBarv = (ScrollBar) guiAddFotoDetailTextArea.lookup(".scroll-bar:vertical");
+                scrollBarv.setDisable(true);
+                guiAddFotoDetailTextArea.setVisible(true);
+                try {
+                    guiAddFotoDetailTextArea.setText(getExifData(FotoController.getFotosFromAlbum(Main.speicher).get(Main.id)));
+                } catch (ImageProcessingException ex) {
+                    Logger.getLogger(GuiFotoDetailController.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (IOException ex) {
+                    Logger.getLogger(GuiFotoDetailController.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            } else {
+                guiAddFotoDetailTextArea.setId("text-area");
+                guiAddFotoDetailTextArea.setVisible(false);
+
+            }
+
+            return;
         } else {
             stage = (Stage) guiFotoDetailAbbrechen.getScene().getWindow();
             root = FXMLLoader.load(getClass().getResource("GuiSelectedAlbum.fxml"));
@@ -106,6 +129,7 @@ public class GuiFotoDetailController implements Initializable {
      * @date ??.11.2015 by Tobias: Initialisierung
      * @date 10.12.2015 by Danilo: Kommentare ergänzt
      * @date 16.01.2015 by Manuel Eventhandler
+     * @date 17.01.2016 by Tobias and Manuel: Eventhandler in handleButton verlegt
      */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -131,41 +155,15 @@ public class GuiFotoDetailController implements Initializable {
                 @Override
                 public void handle(MouseEvent event) {
                     guiFotoDetailImageView.setImage(image);
+                    Main.id = Integer.valueOf(imageView.getId());
+                    try {
+                        guiAddFotoDetailTextArea.setText(getExifData(FotoController.getFotosFromAlbum(Main.speicher).get(Main.id)));
+                    } catch (ImageProcessingException ex) {
+                        Logger.getLogger(GuiFotoDetailController.class.getName()).log(Level.SEVERE, null, ex);
+                    } catch (IOException ex) {
+                        Logger.getLogger(GuiFotoDetailController.class.getName()).log(Level.SEVERE, null, ex);
 
-                    // Bei Mouse Over Hintergrund der Textarea ändern
-                    guiFotoDetailImageView.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
-                        @Override
-                        public void handle(MouseEvent event) {
-                            if (event.getButton() == MouseButton.SECONDARY) {
-                                guiAddFotoDetailTextArea.setId("text-area1");
-                                guiAddFotoDetailTextArea.setOpacity(0.8);
-                                ScrollBar scrollBarv = (ScrollBar) guiAddFotoDetailTextArea.lookup(".scroll-bar:vertical");
-                                scrollBarv.setDisable(true);
-                                guiAddFotoDetailTextArea.setVisible(true);
-                                try {
-                                    guiAddFotoDetailTextArea.setText(getExifData(FotoController.getFotosFromAlbum(Main.speicher).get(Integer.valueOf(imageView.getId()))));
-                                } catch (ImageProcessingException ex) {
-                                    Logger.getLogger(GuiFotoDetailController.class.getName()).log(Level.SEVERE, null, ex);
-                                } catch (IOException ex) {
-                                    Logger.getLogger(GuiFotoDetailController.class.getName()).log(Level.SEVERE, null, ex);
-                                }
-                            }
-
-                        }
-                    });
-                    //Bei verlassen der Maus zurück
-                    guiAddFotoDetailTextArea.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
-                        @Override
-                        public void handle(MouseEvent event) {
-                            if (event.getButton().equals(MouseButton.PRIMARY)) {
-                                if (event.getClickCount() == 2) {
-                                    guiAddFotoDetailTextArea.setId("text-area");
-                                    guiAddFotoDetailTextArea.setVisible(false);
-                                }
-                            }
-                        }
-                    });
-
+                    }
                 }
             });
 
