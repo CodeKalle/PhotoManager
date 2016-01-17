@@ -14,6 +14,7 @@ import java.nio.file.Paths;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.ResourceBundle;
+import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.ObservableList;
@@ -51,6 +52,7 @@ import javafx.scene.layout.HBox;
  * @date 10.12.2015 by Danilo: Kommentare ergänzt
  * @date 07.01.2016 by Danilo: Update
  * @date 08.01.2016 by Danilo: Filesystem Speicherpunkt
+ * @date 15.01.2016 by Danilo: Thread Implementierung
  */
 public class GuiAddFotoController implements Initializable {
     
@@ -79,7 +81,7 @@ public class GuiAddFotoController implements Initializable {
     @FXML
     TreeView<String> treeView;
     
-    // Der Fotogereich
+    // Der Fotobereich
     @FXML
     TilePane guiAddFotoTilePane;
     
@@ -392,32 +394,139 @@ public class GuiAddFotoController implements Initializable {
      * Version-History:
      * @date 06.12.2015 by Tobias: Initialisierung
      * @date 15.12.2015 by Manuel: Eventhandling
+     * @date 15.01.2016 by Danilo: Thread Implementierung
      */
     public void bilderAnzeigen(List<Path> fotos) {
         guiAddFotoTilePane.getChildren().clear();
-
-        guiAddFotoTilePane.setCursor(javafx.scene.Cursor.WAIT);
-
-        //Fotos aus Album laden
+        
+        // Array als Bildspeicher vorbereiten
+        Pane tpane[] = new Pane[fotos.size()];
+        
         for (int i = 0; i < fotos.size(); i++) {
-            //Für jedes Bild Konstrukt zusammensetzen
-            Pane lpane = new Pane();
-            lpane.setPrefSize(80, 100);
+            //Für jedes Bild Konstrukt zusammensetzen über Arrayliste
+            tpane[i] = new Pane();
+            tpane[i].setPrefSize(80, 100);
 
-            Image image = new Image(fotos.get(i).toUri().toString());
+            // Standard Icon setzen
+            Image image = new Image("src/Button-Fotos.png");
 
-            ImageView imageView = new ImageView();
-            CheckBox checkBox = new CheckBox();
-            Label name = new Label();
-            Label pfad = new Label();
+            tpane[i].getChildren().add(createImageView(image));                             //ID 0
+            tpane[i].getChildren().add(createCheckbox());                                   //ID 1
+            tpane[i].getChildren().add(createName(fotos.get(i).getFileName().toString()));  //ID 2
+            tpane[i].getChildren().add(createPfad(fotos.get(i).toString()));                //ID 3
 
-            imageView.setFitHeight(80);
+            //Fertiges Konstrukt in Pane anzeigen
+            guiAddFotoTilePane.getChildren().add(i, tpane[i]);
+        }
+
+        // Thread starten der die Bilder lädt
+        new Thread(new Runnable() {
+            @Override public void run() {
+                guiAddFotoTilePane.setCursor(javafx.scene.Cursor.WAIT);
+                for (int i = 0; i < fotos.size(); i++) {
+                    final int x = i;
+                    Platform.runLater(new Runnable() {
+                        @Override public void run() {
+                            Image image = new Image(fotos.get(x).toUri().toString());
+                            ImageView imageview = createImageView(image);
+                            CheckBox checkBox = createCheckbox();
+                            addHandlerToImageView(imageview, image, checkBox);
+
+                            tpane[x].getChildren().clear();
+                            tpane[x].getChildren().add(imageview);                                          //ID 0
+                            tpane[x].getChildren().add(checkBox);                                           //ID 1
+                            tpane[x].getChildren().add(createName(fotos.get(x).getFileName().toString()));  //ID 2
+                            tpane[x].getChildren().add(createPfad(fotos.get(x).toString()));                //ID 3
+                        }
+                    });
+                }
+                guiAddFotoTilePane.setCursor(javafx.scene.Cursor.DEFAULT);
+            }
+        }).start();
+    }
+
+    /**
+     * Die Methode erstellt das Element Pfad im Fotobereich
+     * 
+     * @param path Pfad als Sting
+     * @return Pfadelement
+     * 
+     * Version-History:
+     * @date 15.01.2016 by Danilo: Initialisierung
+     */
+    private Label createPfad(String path) {
+        Label pfad = new Label();
+        pfad.setVisible(false);
+        pfad.setText(path);
+        return pfad;
+    }
+    
+    /**
+     * Die Methode erstellt das Element Label für den Namen im Fotobereich
+     * 
+     * @param path Pfad als Sting
+     * @return Labelelement
+     * 
+     * Version-History:
+     * @date 15.01.2016 by Danilo: Initialisierung
+     */
+    private Label createName(String path) {
+        Label name = new Label();
+        name.setLayoutX(20.0);
+        name.setLayoutY(80.0);
+        name.setPrefHeight(20);
+        name.setPrefWidth(80);
+        name.setText(path);
+        return name;
+    }
+    
+    /**
+     * Die Methode erstellt das Element ImageView im Fotobereich
+     * 
+     * @param image Bildelement
+     * @return ImageViewelement
+     * 
+     * Version-History:
+     * @date 15.01.2016 by Danilo: Initialisierung
+     */
+    private ImageView createImageView(Image image) {
+        ImageView imageView = new ImageView();
+        imageView.setFitHeight(80);
             imageView.setFitWidth(80);
             imageView.setPickOnBounds(true);
             imageView.setPreserveRatio(true);
             imageView.setImage(image);
-
-            // EventHandler Zoom bei Rechter Maustatse
+        return imageView;
+    }
+    
+    /**
+     * Die Methode erstellt das Element CheckBox im Fotobereich
+     * 
+     * @return CheckBoxelement
+     * 
+     * Version-History:
+     * @date 15.01.2016 by Danilo: Initialisierung
+     */
+    private CheckBox createCheckbox() {
+        CheckBox checkBox = new CheckBox();
+        checkBox.setLayoutX(56.0);
+        checkBox.setLayoutY(58.0);
+        checkBox.setMnemonicParsing(false);
+        return checkBox;
+    }
+    
+    /**
+     * Die Methode fügt den Elementen die Aktionen hinzu
+     * 
+     * @param imageView Bildelement
+     * @param image Bild
+     * @param checkBox Auswahlbox
+     * 
+     * Version-History:
+     * @date 15.01.2016 by Danilo: Initialisierung
+     */
+    private void addHandlerToImageView(ImageView imageView, Image image, CheckBox checkBox) {
+        // EventHandler Zoom bei Rechter Maustatse
             imageView.addEventHandler(MouseEvent.MOUSE_PRESSED, new EventHandler<MouseEvent>() {
                 @Override
                 public void handle(MouseEvent event) {
@@ -443,6 +552,7 @@ public class GuiAddFotoController implements Initializable {
                     }
                 }
             });
+            
             // Eventhandler Checkbox
             imageView.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
                 @Override
@@ -456,35 +566,8 @@ public class GuiAddFotoController implements Initializable {
                     }
                 }
             });
-
-
-            checkBox.setLayoutX(56.0);
-            checkBox.setLayoutY(58.0);
-            checkBox.setMnemonicParsing(false);
-
-
-            name.setLayoutX(20.0);
-            name.setLayoutY(80.0);
-            name.setPrefHeight(20);
-            name.setPrefWidth(80);
-            name.setText(fotos.get(i).getFileName().toString());
-
-
-            pfad.setVisible(false);
-            pfad.setText(fotos.get(i).toString());
-
-            lpane.getChildren().add(imageView); //ID 0
-            lpane.getChildren().add(checkBox);  //ID 1
-            lpane.getChildren().add(name);      //ID 2
-            lpane.getChildren().add(pfad);      //ID 3
-
-            //Fertiges Konstrukt in Pane anzeigen
-            guiAddFotoTilePane.getChildren().add(i, lpane);
-        }
-        
-        guiAddFotoTilePane.setCursor(javafx.scene.Cursor.DEFAULT);
     }
-
+    
     /**
      * Gibt die markierten Fotos aus der TilePane zurück
      * @return Liste von Pfaden, der markierten Fotos
