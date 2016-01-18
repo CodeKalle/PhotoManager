@@ -105,38 +105,16 @@ public class FotoTest {
             }
 
             //Test nicht vorhandenen Pfad
-            String testPfad = TestDataController.generateTestPath(0,0,0);
+            String testPfad = TestDataController.generateTestPath("",20,3,0);
             TestDocumizer.logging(0, "Pfad: " + testPfad + " | Zeichen: " + String.valueOf(testPfad.length()), true, false);
             
-            testPfad = TestDataController.generateTestPath(0,0,8);
-            TestDocumizer.logging(0, "Pfad: " + testPfad + " | Zeichen: " + String.valueOf(testPfad.length()), true, false);
+            for (int j=0; j<10; j++){
+               TestDocumizer.logging(0, "Pfad: " + TestDataController.generateTestPath(testPfad,0,0,5), true, false);
+            }
             
-            testPfad = TestDataController.generateTestPath(0,4,0);
-            TestDocumizer.logging(0, "Pfad: " + testPfad + " | Zeichen: " + String.valueOf(testPfad.length()), true, false);
+            //testPfad = TestDataController.generateTestPath(0,0,8);
+            //TestDocumizer.logging(0, "Pfad: " + testPfad + " | Zeichen: " + String.valueOf(testPfad.length()), true, false);
             
-            testPfad = TestDataController.generateTestPath(120,4,0);
-            TestDocumizer.logging(0, "Pfad: " + testPfad + " | Zeichen: " + String.valueOf(testPfad.length()), true, false);
-            
-            testPfad = TestDataController.generateTestPath(168,0, 12);
-            TestDocumizer.logging(0, "Pfad: " + testPfad + " | Zeichen: " + String.valueOf(testPfad.length()), true, false);
-            
-            testPfad = TestDataController.generateTestPath(200,7,5);
-            TestDocumizer.logging(0, "Pfad: " + testPfad + " | Zeichen: " + String.valueOf(testPfad.length()), true, false);
-            
-            testPfad = TestDataController.generateTestPath(256,3,10);
-            TestDocumizer.logging(0, "Pfad: " + testPfad + " | Zeichen: " + String.valueOf(testPfad.length()), true, false);
-            
-            testPfad = TestDataController.generateTestPath(10,2,5);
-            TestDocumizer.logging(0, "Pfad: " + testPfad + " | Zeichen: " + String.valueOf(testPfad.length()), true, false);
-            
-            testPfad = TestDataController.generateTestPath(20,3,0);
-            TestDocumizer.logging(0, "Pfad: " + testPfad + " | Zeichen: " + String.valueOf(testPfad.length()), true, false);
-            
-            testPfad = TestDataController.generateTestPath(20,0,5);
-            TestDocumizer.logging(0, "Pfad: " + testPfad + " | Zeichen: " + String.valueOf(testPfad.length()), true, false);
-            
-            testPfad = TestDataController.generateTestPath(20,0,0);
-            TestDocumizer.logging(0, "Pfad: " + testPfad + " | Zeichen: " + String.valueOf(testPfad.length()), true, false);
             
         }catch (Exception e){
             System.out.println(e.getMessage());

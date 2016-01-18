@@ -3,7 +3,12 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/Tobias/Documents/NetBeansProjects/PhotoManager/test/controller/IntegrationTests.java</file>
+            <file>file:/D:/05_Development/GIT/workspace/PhotoManager/test/model/PMSystemTest.java</file>
+            <file>file:/D:/05_Development/GIT/workspace/PhotoManager/test/model/MetadatenTest.java</file>
+            <file>file:/D:/05_Development/GIT/workspace/PhotoManager/test/model/AlbumTest.java</file>
+            <file>file:/D:/05_Development/GIT/workspace/PhotoManager/test/model/AbumContainerTest.java</file>
+            <file>file:/D:/05_Development/GIT/workspace/PhotoManager/test/model/FotoTest.java</file>
+            <file>file:/D:/05_Development/GIT/workspace/PhotoManager/test/model/TagTest.java</file>
         </group>
     </open-files>
 </project-private>

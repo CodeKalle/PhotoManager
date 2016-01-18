@@ -149,14 +149,20 @@ public class TestDataController {
     /**
      * Generiert einen Testpfad, welcher nicht existiert
      * Wenn alle Parameter <=0 Rückgabe des Testverzeichnis der Anwendung
+     * @param tmpPath
      * @param pathLength absolute Pfadlänge
      * @param subfoldersCount Anzahl der Unterordner
      * @param fileLength Länge des Dateinamen, wenn fileLength=0 wird Ordnerpfad erstellt, keine Datei 
      * @return Rückgabewert Pfad oder NULL wenn Pfadlänge ungültig
      * @date 17.01.2016 by Benni: Initialisierung
      */
-    public static String generateTestPath(int pathLength, int subfoldersCount, int fileLength){
-        String path = System.getProperty("user.dir") + "\\test\\testdaten";
+    public static String generateTestPath(String tmpPath, int pathLength, int subfoldersCount, int fileLength){
+        String path;
+        if (tmpPath.isEmpty() || tmpPath.equals("")){
+            path = testDataPath;
+        }else{
+            path = tmpPath;
+        }
         String fileType = ".jpg";
         int remainderPathLength = 0;
         int remainderFolderLength = 0;
