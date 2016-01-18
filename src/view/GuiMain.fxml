@@ -31,7 +31,7 @@
             <children>
                 <ImageView fitHeight="349.0" fitWidth="416.0" focusTraversable="true" layoutX="192.0" layoutY="123.0" nodeOrientation="INHERIT" pickOnBounds="true" preserveRatio="true" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS">
                     <image>
-                        <Image url="@../src/PhotoManagerLogo.png" />
+                        <Image url="@../src/logo.jpg" />
                     </image>
                 </ImageView>
             </children>

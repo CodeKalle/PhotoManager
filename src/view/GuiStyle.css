@@ -1,9 +1,9 @@
 
 .button, .toggle-button {
     -fx-background-color: 
-        #c3c4c4,
-        linear-gradient(#d6d6d6 50%, white 100%),
-        radial-gradient(center 50% -40%, radius 200%, #e6e6e6 45%, rgba(230,230,230,0) 50%);
+        #b01445,
+        linear-gradient(#f88fb0 50%, white 100%),
+        radial-gradient(center 50% -40%, radius 200%, #f88fb0 45%, rgba(230,230,230,0) 50%);
     -fx-background-radius: 30;
     -fx-background-insets: 0,1,1;
     -fx-text-fill: black;
@@ -11,10 +11,10 @@
     -fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.6) , 3, 0.0 , 0 , 1 );
 }
 .scroll-pane > .viewport {
-    -fx-background-color: #ffdd99;
+    -fx-background-color: #EA6292;
 }
 #scroll-pane1 > .viewport {
-    -fx-background-color: #a9a9a9;
+    -fx-background-color: #EA6292;
 }
 /* Pane in der GuiAddFoto !muss wie default sein! */
 #scroll-pane2 > .viewport {
@@ -33,11 +33,11 @@
 
 /*Allgemeiner Style der GUI*/
 .mainFxmlClass {
-    -fx-background-color: #ffd090;
+    -fx-background-color: white;
     -fx-font-family: "Comic Sans MS";
-    -fx-box-border: #ffb050;
-    -fx-inner-border: #ffdd99;
-    -fx-inner-border-horizontal: #ffdd99;
+    -fx-box-border: #f88fb0;
+    -fx-inner-border: #f88fb0;
+    -fx-inner-border-horizontal: #f88fb0;
 }
 
 /*Titel der MainGUI*/
@@ -67,7 +67,7 @@
 
 /*Dunklere Umrandung der Panels*/
 .paneBorder {
-    -fx-border-color: #ffb050;
+    -fx-border-color: white;
 }
 
 /*Hintergrundfarbe für die Textfelder*/
