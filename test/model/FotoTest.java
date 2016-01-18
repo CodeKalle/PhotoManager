@@ -11,18 +11,18 @@ import java.util.ArrayList;
 import java.util.List;
 import org.junit.After;
 import org.junit.AfterClass;
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.*;
+import static org.hamcrest.CoreMatchers.*;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-
 
 /**
  *
  * @author Benni
  */
 public class FotoTest {
-    
+
     private static String testName;
     private static String testPfad;
     private static int testGroesse;                        //in Byte
@@ -31,103 +31,159 @@ public class FotoTest {
     private static long testErstellungdatum;
     private static List<Foto> fotolist;
     private static TestDataController testData;
-    
+
     public FotoTest() {
     }
-    
+
     @BeforeClass
     public static void setUpClass() {
-        try{
-             testData = new TestDataController();
-            int i=0;
-            
+        try {
+            testData = new TestDataController();
+            int i = 0;
+
             fotolist = new ArrayList<>();
-            for (String cur : testData.getFotoList())
-            {
-                Foto tmpFoto = new Foto("Bild" + String.valueOf(i),cur);
+            for (String cur : testData.getFotoList()) {
+                Foto tmpFoto = new Foto("Bild" + String.valueOf(i), cur);
                 fotolist.add(tmpFoto);
                 i++;
             }
-            
+
             TestDocumizer.logging(0, "start jUnit Tests: Model - Foto", true, true);
             TestDocumizer.startTimer();
-        }catch (Exception e){
+        } catch (Exception e) {
             System.out.println("jUnit Test Foto - Fehler bei Setup: " + e.getMessage());
-        }  
+        }
     }
-    
+
     @AfterClass
     public static void tearDownClass() {
-        try{
+        try {
             TestDocumizer.logging(0, "beenden jUnit Tests: Model - Foto: Dauer: " + String.valueOf(TestDocumizer.stopTimer()), true, true);
-            
-        }catch (Exception e){
+
+        } catch (Exception e) {
             System.out.println("jUnit Test Foto - Fehler bei tearDown: " + e.getMessage());
         }
     }
-    
+
     @Before
     public void setUp() {
     }
-    
+
     @After
     public void tearDown() {
     }
-    
+
     @Test
-    public void testName(){
+    public void testName() {
         int i = 0;
-        for(Foto testBild : fotolist){
+        //Test setter und getter
+        for (Foto testBild : fotolist) {
             testBild = fotolist.get(i);
-            assertEquals(testBild.getName(),"Bild" + String.valueOf(i));
+            assertThat(testBild, is(notNullValue()));
+            assertEquals(testBild.getName(), "Bild" + String.valueOf(i));
+            i++;
+        }
+        
+        //Test Zeichenlänge
+        for (int j =0; j<60; j++){ //Integer.MAX_VALUE
+            String testName = TestDataController.generateTestString(j);
+            Foto testBild  = new Foto(testName, testData.getFotoList().get(0));
+            assertThat(testBild, is(notNullValue()));
+            assertEquals(testBild.getName(),testName);
+        }
+    }
+
+    @Test
+    public void testPfad() {
+        int i = 0;
+        try{
+            for (Foto testBild : fotolist) {
+                testBild = fotolist.get(i);
+                assertThat(testBild, is(notNullValue()));
+                assertEquals(testBild.getPfad().toString(), testData.getFotoList().get(i));
+                i++;
+            }
+
+            //Test nicht vorhandenen Pfad
+            String testPfad = TestDataController.generateTestPath(0,0,0);
+            TestDocumizer.logging(0, "Pfad: " + testPfad + " | Zeichen: " + String.valueOf(testPfad.length()), true, false);
+            
+            testPfad = TestDataController.generateTestPath(0,0,8);
+            TestDocumizer.logging(0, "Pfad: " + testPfad + " | Zeichen: " + String.valueOf(testPfad.length()), true, false);
+            
+            testPfad = TestDataController.generateTestPath(0,4,0);
+            TestDocumizer.logging(0, "Pfad: " + testPfad + " | Zeichen: " + String.valueOf(testPfad.length()), true, false);
+            
+            testPfad = TestDataController.generateTestPath(120,4,0);
+            TestDocumizer.logging(0, "Pfad: " + testPfad + " | Zeichen: " + String.valueOf(testPfad.length()), true, false);
+            
+            testPfad = TestDataController.generateTestPath(168,0, 12);
+            TestDocumizer.logging(0, "Pfad: " + testPfad + " | Zeichen: " + String.valueOf(testPfad.length()), true, false);
+            
+            testPfad = TestDataController.generateTestPath(200,7,5);
+            TestDocumizer.logging(0, "Pfad: " + testPfad + " | Zeichen: " + String.valueOf(testPfad.length()), true, false);
+            
+            testPfad = TestDataController.generateTestPath(256,3,10);
+            TestDocumizer.logging(0, "Pfad: " + testPfad + " | Zeichen: " + String.valueOf(testPfad.length()), true, false);
+            
+            testPfad = TestDataController.generateTestPath(10,2,5);
+            TestDocumizer.logging(0, "Pfad: " + testPfad + " | Zeichen: " + String.valueOf(testPfad.length()), true, false);
+            
+            testPfad = TestDataController.generateTestPath(20,3,0);
+            TestDocumizer.logging(0, "Pfad: " + testPfad + " | Zeichen: " + String.valueOf(testPfad.length()), true, false);
+            
+            testPfad = TestDataController.generateTestPath(20,0,5);
+            TestDocumizer.logging(0, "Pfad: " + testPfad + " | Zeichen: " + String.valueOf(testPfad.length()), true, false);
+            
+            testPfad = TestDataController.generateTestPath(20,0,0);
+            TestDocumizer.logging(0, "Pfad: " + testPfad + " | Zeichen: " + String.valueOf(testPfad.length()), true, false);
+            
+        }catch (Exception e){
+            System.out.println(e.getMessage());
+        }
+        
+        
+        //Foto testBild = new Foto("TestName",)
+        
+        //Test Pfad >256 Zeichen
+        //D:\05_Development\GIT\workspace\PhotoManager\test\testdaten\sdhabmhabfhdsabfkjhadbsfsfsdhbfjshdbfjsfjsfbsjfhdbüäiowqpejqwijeoqwiejoqwewiejoqiwejoijeqwpoejpoqwejpqwejpqowjep3popmdpjwsdipeh32jpajfdpiujepqwoejwsaejwpeoije\fdhjkldfhljkefnjenrfkjfdsfsj\Desert.jpg
+        
+    }
+
+    @Test
+    public void testMetadaten() {
+        int i = 0;
+        for (Foto testBild : fotolist) {
+            testBild = fotolist.get(i);
+
+            assertEquals(testBild.getPfad().toString(), testData.getFotoList().get(i));
             i++;
         }
     }
-    
+
     @Test
-      public void testPfad(){
-        int i = 0;
-        for(Foto testBild : fotolist){
-            testBild = fotolist.get(i);
-            assertEquals(testBild.getPfad().toString(),testData.getFotoList().get(i));
-            i++;
-        } 
+    public void testCounter() {
+
     }
-    
+
     @Test
-    public void testMetadaten(){
-        int i = 0;
-        for(Foto testBild : fotolist){
-            testBild = fotolist.get(i);
-            
-            assertEquals(testBild.getPfad().toString(),testData.getFotoList().get(i));
-            i++;
-        } 
+    public void testErstellungsdatum() {
+
     }
-    
+
     @Test
-    public void testCounter(){
-        
+    public void testEquals() {
+
     }
-    
+
     @Test
-    public void testErstellungsdatum(){
-        
+    public void testHashCode() {
+
     }
-    
+
     @Test
-    public void testEquals(){
-        
-    }
-    
-    @Test
-    public void testHashCode(){
-        
-    }
-    
-    @Test
-    public void testGenerateFotosize(){
-        
+    public void testGenerateFotosize() {
+
     }
 
 }
