@@ -1,5 +1,5 @@
 
-.button {
+.button, .toggle-button {
     -fx-background-color: 
         #c3c4c4,
         linear-gradient(#d6d6d6 50%, white 100%),
@@ -11,26 +11,19 @@
     -fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.6) , 3, 0.0 , 0 , 1 );
 }
 .scroll-pane > .viewport {
-   -fx-background-color: #ffdd99;
+    -fx-background-color: #ffdd99;
 }
 #scroll-pane1 > .viewport {
-   -fx-background-color: #a9a9a9;
+    -fx-background-color: #a9a9a9;
 }
 /* Pane in der GuiAddFoto !muss wie default sein! */
 #scroll-pane2 > .viewport {
-   -fx-background-color: #ffdd99; 
+    -fx-background-color: #ffdd99; 
 }
 .button:hover {
     -fx-background-color: #3d3d3d;
     -fx-text-fill: white;
 }
-/*.button:focused {
-    -fx-border-color: white, white;
-    -fx-border-width: 1, 1;
-    -fx-border-style: solid, segments(1, 1);
-    -fx-border-radius: 0, 0;
-    -fx-border-insets: 1 1 1 1, 0;
-}*/
 
 .button:disabled, .button:default:disabled {
     -fx-opacity: 0.4;
@@ -101,4 +94,8 @@
 
 .text-area .scroll-pane .content{
     -fx-background-color: transparent;
+}
+/*Scrollbar ausblenden*/
+.text-area .scroll-bar:vertical:disabled {
+    -fx-opacity: 0;
 }

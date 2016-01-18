@@ -6,10 +6,11 @@ import java.util.LinkedList;
 import java.util.List;
 
 /**
- * Der ErrorController realisiert die Fehlerbehandlung und Umsetzung zur Eindeutigen
- * Beschreibung für den Benutzer
- * 
+ * Der ErrorController realisiert die Fehlerbehandlung und Umsetzung zur
+ * Eindeutigen Beschreibung für den Benutzer
+ *
  * Version-History:
+ *
  * @date 20.11.2015 by Danilo: Initialisierung
  * @date 01.12.2015 by Danilo: Klasse dient nur zur Umsetzung Fehlercode zu
  * @date ??.12.2015 by Andrea: String
@@ -20,24 +21,26 @@ import java.util.List;
  * @date 08.12.2015 by Danilo: Einfügen eines Fehlerloggingsystemes
  */
 public class ErrorController {
+
     /**
      * Klassenvariablen
-     * 
+     *
      * Version-History:
+     *
      * @date 08.12.2015 by Danilo: Initialisierung
      */
     private static List<String> debugReport = new LinkedList<String>();
-    
+
     /**
      * Methode fügt der Debugliste einen Eintrag hinzu
-     * 
+     *
      * @param errorcode Fehlercode der mitgeloggt werden muss.
      * @return Weitergabe des Fehlercodes
-     * 
+     *
      * Version-History:
      * @date 08.12.2015 by Danilo: Initialisierung
      */
-    public static int addDebugReport(int errorcode){
+    public static int addDebugReport(int errorcode) {
         // Aktuelle Uhrzeit erstellen
         SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss");
         String uhrzeit = sdf.format(new Date());
@@ -45,45 +48,45 @@ public class ErrorController {
         // Aufbereitung des Stings
         String text = uhrzeit + "   " + String.valueOf(errorcode) + "   ";
         text = text + changeErrorCode(errorcode)[0] + "   " + changeErrorCode(errorcode)[1];
-        
+
         // Speichern der Fehlermeldung
         debugReport.add(text);
-        
+
         return errorcode;
     }
-    
+
     /**
      * Methode hollt einen Eintrag aus der Debugliste und löscht diesen
-     * 
-     * @return 
-     * 
+     *
+     * @return
+     *
      * Version-History:
      * @date 08.12.2015 by Danilo: Initialisierung
      */
-    public static String getDebugReport(){
+    public static String getDebugReport() {
         String output = debugReport.remove(0);
         return output;
     }
-    
+
     /**
      * Methode hollt Status der Debugliste
-     * 
+     *
      * @return Wahrheitswert über Status LEER?
-     * 
+     *
      * Version-History:
      * @date 08.12.2015 by Danilo: Initialisierung
      */
-    public static boolean isDebugReportEmpty(){
-	return debugReport.isEmpty();
+    public static boolean isDebugReportEmpty() {
+        return debugReport.isEmpty();
     }
-    
+
     /**
      * Methode wandelt Code in Text um und generiert zum Fehlercodes die
      * Nachrichtenbox. opt: 0=Error 1=Info 2=Warning 3=Question
      *
      * @param errorcode Eingabe des Fehlercodes
      * @return Rückgabe des gedrückten Buttons der Fehlermeldung als Integer
-     * 
+     *
      * Version-History:
      * @date 20.11.2015 by Danilo: Initialisierung
      * @date 24.11.2015 by Danilo: Änderung lokaler Variablen, Änderung der
@@ -146,7 +149,7 @@ public class ErrorController {
             case 210:
                 title = "Fotosortier-Fehler";
                 text = "Sortierung enthält fehlerhafte Parameter.";
-                break;    
+                break;
             case 300:
                 title = "Albumlösch-Fehler";
                 text = "Mehrere Alben konnten nicht gelöscht werden.";

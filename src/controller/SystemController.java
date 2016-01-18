@@ -14,8 +14,9 @@ import model.PmSystem;
 
 /**
  * Der SystemController realisiert das Laden, speichern sowie die Datenhaltung.
- * 
+ *
  * Version-History:
+ *
  * @date 20.11.2015 by Danilo: Initialisierung
  * @date 21.11.2015 by Danilo: Änderungen
  * @date 23.11.2015 by Danilo: Kommentare ergänzt
@@ -29,11 +30,12 @@ import model.PmSystem;
  * @date 08.01.2016 by Danilo: Ordnerposition im Filesystem
  */
 public class SystemController {
-    
+
     /**
      * Klassenvariablen
-     * 
+     *
      * Version-History:
+     *
      * @date 20.11.2015 by Danilo: Initialisierung
      * @date 06.12.2015 by Danilo: Änderung des fileattributes
      * @date 08.01.2016 by Danilo: Position im Ordnerpfad
@@ -42,45 +44,50 @@ public class SystemController {
     private static String filename = "pm.jdb";
     private static PmSystem pmSystem = new PmSystem();
     private static Path lastFilesystemPosition;
-    
+
     /**
      * Methode startet das System mit standard Dateiinformation
-     * 
+     *
      * @return Rückgabe zur Fehlerauswertung
-     * 
+     *
      * Version-History:
      * @date 06.12.2015 by Danilo: Initialisierung
      */
     public static int run() {
         return startSystem();
     }
-    
+
     /**
      * Methode startet das System mit Dateiinformation
-     * 
+     *
      * @param filename Dateiname zum Speichern
      * @return Rückgabe zur Fehlerauswertung
-     * 
+     *
      * Version-History:
      * @date 06.12.2015 by Danilo: Initialisierung
      * @date 08.12.2015 by Danilo: Einfügen eines Fehlerloggingsystemes
      */
     public static int run(String filename) {
-        if (filename == null || filename.length() < 3) return ErrorController.addDebugReport(850);
-        if (filename.length() > 20) filename = filename.substring(0,20);
+        if (filename == null || filename.length() < 3) {
+            return ErrorController.addDebugReport(850);
+        }
+        if (filename.length() > 20) {
+            filename = filename.substring(0, 20);
+        }
         setFilename(filename);
         return startSystem();
     }
-    
+
     /**
      * Methode realisiert die Generierung der benötigten Komponenten in Threads.
-     * 
+     *
      * @return Rückgabe zur Fehlerauswertung
-     * 
+     *
      * Version-History:
      * @date 20.11.2015 by Danilo: Initialisierung
      * @date 30.11.2015 by Danilo: Anpassung an GUI
-     * @date 06.12.2015 by Danilo: Umbennenung,Anpassung an Test und setzen auf private
+     * @date 06.12.2015 by Danilo: Umbennenung,Anpassung an Test und setzen auf
+     * private
      * @date 07.12.2015 by Danilo: Anpassung an Systemtests
      * @date 08.12.2015 by Danilo: Einfügen eines Fehlerloggingsystemes
      */
@@ -89,8 +96,10 @@ public class SystemController {
         if (file.exists()) {
             if (file.canRead() == true) {
                 int error = loadOrSave(true);
-                if (error == 0) {    
-                    if (file.canWrite() == false) return ErrorController.addDebugReport(800);
+                if (error == 0) {
+                    if (file.canWrite() == false) {
+                        return ErrorController.addDebugReport(800);
+                    }
                 } else {
                     return error;
                 }
@@ -99,21 +108,24 @@ public class SystemController {
                 return ErrorController.addDebugReport(801);
             }
         } else {
-                try {
-                    file.createNewFile();
-                    initializePmSystem();
-                    if (systemSave()!=0) return ErrorController.addDebugReport(806);
-                } catch (IOException e) { }
+            try {
+                file.createNewFile();
+                initializePmSystem();
+                if (systemSave() != 0) {
+                    return ErrorController.addDebugReport(806);
+                }
+            } catch (IOException e) {
+            }
         }
         return 0;
     }
-    
+
     /**
      * Prüft Zugriff auf Datei und lädt oder speichert das System.
-     * 
+     *
      * @param mode true = Zum Laden,<br> false = Zum Speichern
      * @return Rückgabe zur Fehlerauswertung
-     * 
+     *
      * Version-History:
      * @date 20.11.2015 by Danilo: Initialisierung
      * @date 23.11.2015 by Danilo: Kommentar angepasst
@@ -121,33 +133,33 @@ public class SystemController {
      * @date 07.12.2015 by Danilo: Anpassung an Systemtests und Umbenennung
      * @date 08.12.2015 by Danilo: Einfügen eines Fehlerloggingsystemes
      */
-    protected static int loadOrSave(boolean mode){
+    protected static int loadOrSave(boolean mode) {
         File file = new File(filename);
-        if(mode) {
+        if (mode) {
             if (file.canRead() == false) {
-                    return ErrorController.addDebugReport(801);
-                } else {
-                    if (systemLoad() != 0) {
-                        try {
-                            file.createNewFile();
-                            initializePmSystem();
-                        } catch (IOException e) {}
-                        return ErrorController.addDebugReport(806);
+                return ErrorController.addDebugReport(801);
+            } else {
+                if (systemLoad() != 0) {
+                    try {
+                        file.createNewFile();
+                        initializePmSystem();
+                    } catch (IOException e) {
                     }
-                    return 0;
+                    return ErrorController.addDebugReport(806);
                 }
+                return 0;
+            }
         } else {
             return systemSave();
         }
     }
-    
+
     /**
-     * Diese Methode initialisiert die Container des Systems.
-     * Diese Methode wird nur benötigt falls das System keine Datenbank zum
-     * laden findet.
-     * 
+     * Diese Methode initialisiert die Container des Systems. Diese Methode wird
+     * nur benötigt falls das System keine Datenbank zum laden findet.
+     *
      * @return Rückgabe zur Fehlerauswertung
-     * 
+     *
      * Version-History:
      * @date 20.11.2015 by Danilo: Initialisierung
      * @date 30.11.2015 by Danilo: Anpassung an GUI
@@ -157,15 +169,17 @@ public class SystemController {
      */
     public static int initializePmSystem() {
         pmSystem = new PmSystem();
-        if (pmSystem.getAlben().anzahlAlben()!=0 || pmSystem.getFotos().anzahlFotos()!=0) return ErrorController.addDebugReport(810);
+        if (pmSystem.getAlben().anzahlAlben() != 0 || pmSystem.getFotos().anzahlFotos() != 0) {
+            return ErrorController.addDebugReport(810);
+        }
         return 0;
     }
-    
+
     /**
      * Diese Methode speichert das gesamte System.
-     * 
+     *
      * @return Fehlercode zur Auswertung
-     * 
+     *
      * Version-History:
      * @date 20.11.2015 by Danilo: Initialisierung
      * @date 23.11.2015 by Tobias: Setzten der Methode auf private
@@ -183,26 +197,32 @@ public class SystemController {
             fos = new FileOutputStream(filePath);
             oos = new ObjectOutputStream(fos);
             oos.writeObject(pmSystem);
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
             errorcode = ErrorController.addDebugReport(820);
-        }
-        finally {
-            if (oos != null) try { oos.close(); } catch (IOException e) {
-                errorcode = ErrorController.addDebugReport(821);
+        } finally {
+            if (oos != null) {
+                try {
+                    oos.close();
+                } catch (IOException e) {
+                    errorcode = ErrorController.addDebugReport(821);
+                }
             }
-            if (fos != null) try { fos.close(); } catch (IOException e) {
-                errorcode = ErrorController.addDebugReport(822);
+            if (fos != null) {
+                try {
+                    fos.close();
+                } catch (IOException e) {
+                    errorcode = ErrorController.addDebugReport(822);
+                }
             }
         }
         return errorcode;
     }
-    
+
     /**
      * Diese Methode laed das System aus einer bestehenden Datei.
-     * 
+     *
      * @return Fehlercode zur Auswertung
-     * 
+     *
      * Version-History:
      * @date 20.11.2015 by Danilo: Initialisierung
      * @date 23.11.2015 by Danilo: Kommentar angepasst
@@ -228,32 +248,41 @@ public class SystemController {
                 }
             } catch (StreamCorruptedException e) {
                 errorcode = ErrorController.addDebugReport(831);
+            } finally {
+                if (ois != null) {
+                    try {
+                        ois.close();
+                    } catch (IOException e) {
+                        errorcode = ErrorController.addDebugReport(832);
+                    }
+                }
             }
-            finally {
-                if (ois != null) try { ois.close(); } catch (IOException e) {
-                    errorcode = ErrorController.addDebugReport(832);
+        } catch (IOException e) {
+            errorcode = ErrorController.addDebugReport(833);
+        } finally {
+            if (ois != null) {
+                try {
+                    ois.close();
+                } catch (IOException e) {
+                    errorcode = ErrorController.addDebugReport(834);
+                }
+            }
+            if (fis != null) {
+                try {
+                    fis.close();
+                } catch (IOException e) {
+                    errorcode = ErrorController.addDebugReport(835);
                 }
             }
         }
-        catch (IOException e) {
-                errorcode = ErrorController.addDebugReport(833);
-        }
-        finally {
-            if (ois != null) try { ois.close(); } catch (IOException e) {
-                errorcode = ErrorController.addDebugReport(834);
-            }
-            if (fis != null) try { fis.close(); } catch (IOException e) {
-                errorcode = ErrorController.addDebugReport(835); 
-            }
-        }
-	return errorcode;
+        return errorcode;
     }
-    
+
     /**
      * Dieser Setter setzt den Dateipfad.
-     * 
+     *
      * @param filename Dateipfad
-     * 
+     *
      * Version-History:
      * @date 06.12.2015 by Danilo: Initialisierung
      */
@@ -263,65 +292,65 @@ public class SystemController {
 
     /**
      * Dieser Getter holt den Dateipfad.
-     * 
+     *
      * @return Rückgabe des Dateipfades
-     * 
+     *
      * Version-History:
      * @date 06.12.2015 by Danilo: Initialisierung
      */
     public static String getFilename() {
         return filename;
     }
-    
+
     /**
      * Dieser Getter holt den Albencontainer.
-     * 
+     *
      * @return Rückgabe der gesamten Albenliste des Systems
-     * 
+     *
      * Version-History:
      * @date 21.11.2015 by Danilo: Initialisierung
      * @date 23.11.2015 by Danilo: Kommentar angepasst
      * @date 06.12.2015 by Danilo: Status auf protected
      */
-    protected static AlbenContainer getAlbumContainer(){
+    protected static AlbenContainer getAlbumContainer() {
         return pmSystem.getAlben();
     }
-    
+
     /**
      * Dieser Getter holt den Fotocontainer.
-     * 
+     *
      * @return Rückgabe der gesamten Fotoliste des Systems
-     * 
+     *
      * Version-History:
      * @date 21.11.2015 by Danilo: Initialisierung
      * @date 23.11.2015 by Danilo: Kommentar angepasst
      * @date 06.12.2015 by Danilo: Status auf protected
      */
-    protected static FotoContainer getFotoContainer(){
+    protected static FotoContainer getFotoContainer() {
         return pmSystem.getFotos();
     }
-    
+
     /**
      * Dieser Getter holt die Position im Ordnerpfad.
-     * 
+     *
      * @return Rückgabe der Ordnerposition
-     * 
+     *
      * Version-History:
      * @date 08.01.2016 by Danilo: Initialisierung
      */
-    public static Path getPosition(){
+    public static Path getPosition() {
         return lastFilesystemPosition;
     }
-    
+
     /**
      * Dieser Setter setzt die Position im Ordnerpfad.
-     * 
+     *
      * @param path Ordnerposition
-     * 
+     *
      * Version-History:
      * @date 08.01.2016 by Danilo: Initialisierung
      */
-    public static void setPosition(Path path){
+    public static void setPosition(Path path) {
         lastFilesystemPosition = path;
     }
 }

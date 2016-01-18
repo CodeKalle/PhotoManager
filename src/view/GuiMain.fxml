@@ -14,39 +14,39 @@
     <stylesheets>
         <URL value="@GuiStyle.css" />
     </stylesheets>
-   <children>
-      <Pane prefHeight="395.0" prefWidth="481.0" styleClass="paneBorder" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
-      <Label id="LabelWilkommen" alignment="CENTER" layoutX="157.0" layoutY="116.0" styleClass="mainTitle" stylesheets="@GuiStyle.css" text="Willkommen zum PhotoManager" textAlignment="CENTER" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="50.0">
-         <font>
-            <Font size="34.0" />
-         </font>
-      </Label>
-      <GridPane layoutX="192.0" layoutY="123.0" AnchorPane.bottomAnchor="165.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="123.0">
-         <columnConstraints>
-            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
-         </columnConstraints>
-         <rowConstraints>
-            <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
-         </rowConstraints>
-         <children>
-            <ImageView fitHeight="349.0" fitWidth="416.0" focusTraversable="true" layoutX="192.0" layoutY="123.0" nodeOrientation="INHERIT" pickOnBounds="true" preserveRatio="true" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS">
-               <image>
-                  <Image url="@../src/PhotoManagerLogo.png" />
-               </image>
-            </ImageView>
-         </children>
-      </GridPane>
-      <VBox id="VBoxStart" alignment="CENTER" spacing="20.0" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="220.0">
-         <children>
-            <Button id="guiMainButtonPraesentation" fx:id="guiMainButtonPraesentation" layoutX="166.0" layoutY="370.0" mnemonicParsing="false" onAction="#handleButtonActionMain" prefHeight="50.0" prefWidth="50.0" styleClass="buttonDia" stylesheets="@GuiStyle.css" textAlignment="CENTER" />
-            <Label id="LabelStart" layoutX="129.0" layoutY="458.0" text="Bildschirmpräsentation &#10;starten" textAlignment="CENTER" />
-         </children>
-      </VBox>
-      <VBox id="VboxAnlege" alignment="CENTER" spacing="20.0" AnchorPane.bottomAnchor="20.0" AnchorPane.rightAnchor="250.0">
-         <children>
-            <Button id="guiMainButtonAlbum" fx:id="guiMainButtonAlbum" layoutX="375.0" layoutY="370.0" mnemonicParsing="false" onAction="#handleButtonActionMain" prefHeight="50.0" prefWidth="50.0" styleClass="buttonAlben" stylesheets="@GuiStyle.css" textAlignment="CENTER" />
-            <Label id="LabelAnlegen" layoutX="360.0" layoutY="458.0" text="Alben anlegen&#10;und pflegen" textAlignment="CENTER" />
-         </children>
-      </VBox>
-   </children>
+    <children>
+        <Pane prefHeight="395.0" prefWidth="481.0" styleClass="paneBorder" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+        <Label id="LabelWilkommen" alignment="CENTER" layoutX="157.0" layoutY="116.0" styleClass="mainTitle" stylesheets="@GuiStyle.css" text="Willkommen zum PhotoManager" textAlignment="CENTER" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="50.0">
+            <font>
+                <Font size="34.0" />
+            </font>
+        </Label>
+        <GridPane layoutX="192.0" layoutY="123.0" AnchorPane.bottomAnchor="165.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="123.0">
+            <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
+            </columnConstraints>
+            <rowConstraints>
+                <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+            </rowConstraints>
+            <children>
+                <ImageView fitHeight="349.0" fitWidth="416.0" focusTraversable="true" layoutX="192.0" layoutY="123.0" nodeOrientation="INHERIT" pickOnBounds="true" preserveRatio="true" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS">
+                    <image>
+                        <Image url="@../src/PhotoManagerLogo.png" />
+                    </image>
+                </ImageView>
+            </children>
+        </GridPane>
+        <VBox id="VBoxStart" alignment="CENTER" spacing="20.0" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="220.0">
+            <children>
+                <Button id="guiMainButtonPraesentation" fx:id="guiMainButtonPraesentation" layoutX="166.0" layoutY="370.0" mnemonicParsing="false" onAction="#handleButtonActionMain" prefHeight="50.0" prefWidth="50.0" styleClass="buttonDia" stylesheets="@GuiStyle.css" textAlignment="CENTER" />
+                <Label id="LabelStart" layoutX="129.0" layoutY="458.0" text="Bildschirmpräsentation &#10;starten" textAlignment="CENTER" />
+            </children>
+        </VBox>
+        <VBox id="VboxAnlege" alignment="CENTER" spacing="20.0" AnchorPane.bottomAnchor="20.0" AnchorPane.rightAnchor="250.0">
+            <children>
+                <Button id="guiMainButtonAlbum" fx:id="guiMainButtonAlbum" layoutX="375.0" layoutY="370.0" mnemonicParsing="false" onAction="#handleButtonActionMain" prefHeight="50.0" prefWidth="50.0" styleClass="buttonAlben" stylesheets="@GuiStyle.css" textAlignment="CENTER" />
+                <Label id="LabelAnlegen" layoutX="360.0" layoutY="458.0" text="Alben anlegen&#10;und pflegen" textAlignment="CENTER" />
+            </children>
+        </VBox>
+    </children>
 </AnchorPane>
